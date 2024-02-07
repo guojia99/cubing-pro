@@ -1,0 +1,20 @@
+syntax = "v1"
+
+type (
+    PlayersReq{
+    }
+    PlayersResp{
+    }
+)
+
+@server(
+    jwt: Auth
+    group: public
+    prefix:     /v3/public_result
+    middleware: TokenInterceptor
+)
+service Api {
+    @handler Players
+    get /players (PlayersReq) returns (PlayersResp)
+}
+

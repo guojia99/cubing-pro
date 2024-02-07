@@ -1,0 +1,15 @@
+syntax = "v1"
+
+info (
+	title:   "My Cubing API"
+	desc:    "My Cubing API"
+	author:  "2018GUOZ01"
+	email:   "guojia09900@gmail.com"
+	version: "0.1.0"
+)
+
+import (
+	"./user.api"
+	"./public_result.api"
+)
+

@@ -34,8 +34,8 @@ type Competition struct {
 	FreeParticipate bool  `gorm:"free_p"`                            // 自由参赛, 支持非正式赛
 
 	// 主办
-	Sponsors       []user.User // 主办
-	SponsorGroupID uint        `gorm:"column:sponsor_group_id"` // 主办团队
+	Sponsors       []*user.User `gorm:"many2many:comp_sponsors_users"` // 主办
+	SponsorGroupID uint         `gorm:"column:sponsor_group_id"`       // 主办团队
 
 	// 时间相关
 	CompStartTime                  time.Time `gorm:"column:comp_start_time"`    // 比赛开始时间
@@ -46,8 +46,8 @@ type Competition struct {
 	RegistrationRestartTime        time.Time `gorm:"column:reg_restart_time"`   // 报名重开时间
 
 	// WCA相关
-	WCAUrl     string      `gorm:"column:wca_url"` // WCA 认证地址
-	Represents []user.User // 代表
+	WCAUrl     string       `gorm:"column:wca_url"`            // WCA 认证地址
+	Represents []*user.User `gorm:"many2many:comp_represents"` // 代表
 }
 
 func (c *Competition) AfterFind(tx *gorm.DB) (err error) {

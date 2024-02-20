@@ -4,8 +4,18 @@ package handler
 import (
 	"net/http"
 
-	public "github.com/guojia99/cubing-pro/backend/api/internal/handler/public"
-	user "github.com/guojia99/cubing-pro/backend/api/internal/handler/user"
+	auth "github.com/guojia99/cubing-pro/backend/api/internal/handler/auth"
+	comp_result "github.com/guojia99/cubing-pro/backend/api/internal/handler/comp_result"
+	organizers "github.com/guojia99/cubing-pro/backend/api/internal/handler/organizers"
+	post_result "github.com/guojia99/cubing-pro/backend/api/internal/handler/post_result"
+	public_comp "github.com/guojia99/cubing-pro/backend/api/internal/handler/public_comp"
+	public_player "github.com/guojia99/cubing-pro/backend/api/internal/handler/public_player"
+	public_result "github.com/guojia99/cubing-pro/backend/api/internal/handler/public_result"
+	public_statistics "github.com/guojia99/cubing-pro/backend/api/internal/handler/public_statistics"
+	sys_result "github.com/guojia99/cubing-pro/backend/api/internal/handler/sys_result"
+	user_detail "github.com/guojia99/cubing-pro/backend/api/internal/handler/user_detail"
+	user_result "github.com/guojia99/cubing-pro/backend/api/internal/handler/user_result"
+	user_role "github.com/guojia99/cubing-pro/backend/api/internal/handler/user_role"
 	"github.com/guojia99/cubing-pro/backend/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -13,13 +23,310 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/code",
+				Handler: auth.AuthCodeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: auth.LoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: auth.RegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/refresh",
+				Handler: auth.RefreshToeknHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth"),
+	)
+
+	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.TokenInterceptor},
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
-					Path:    "/players",
-					Handler: public.PlayersHandler(serverCtx),
+					Path:    "/user_role",
+					Handler: user_role.RoleListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user_role",
+					Handler: user_role.CreateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/user_role",
+					Handler: user_role.DeleteRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user_role",
+					Handler: user_role.UpdateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user_role/bind",
+					Handler: user_role.BindRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user_role/unbind",
+					Handler: user_role.UnbindRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user_role/rules",
+					Handler: user_role.RoleRulesHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user_role/rules",
+					Handler: user_role.AddRulesHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/user_role/rules",
+					Handler: user_role.DeleteRulesHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user_role/rules",
+					Handler: user_role.UpdateRulesHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/:userId",
+					Handler: user_detail.UserDetailHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/:userId/auth_list",
+					Handler: user_detail.UserAuthListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/detail",
+					Handler: user_detail.UpdateUserDetailHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/:userId/retrieve/password",
+					Handler: user_detail.UserRetrievePasswordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/password",
+					Handler: user_detail.UpdateUserPasswordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/avatar",
+					Handler: user_detail.UpdateUserAvatarHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth/user_detail"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/:userId/pre_result",
+					Handler: user_result.PreResultHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/pre_result",
+					Handler: user_result.AddPreResultHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/:userId/pre_result",
+					Handler: user_result.RemovePreResultHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/:userId/comps",
+					Handler: user_result.UserCompsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/:userId/comp/:compId",
+					Handler: user_result.UserCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/comp/:compId/register",
+					Handler: user_result.RegisterCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/:userId/comp/:compId/register/events",
+					Handler: user_result.RegisterCompAddEventHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/comp/:compId/register/callback",
+					Handler: user_result.RegisterCompCallbackHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/:userId/comp/:compId/retire",
+					Handler: user_result.RetireCompHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/user/result"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/organizers",
+					Handler: organizers.CreateOrganizersHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/organizers/:id",
+					Handler: organizers.GetOrganizerHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/organizers/add_person",
+					Handler: organizers.AddOrganizersPersonHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/organizers/delete_person",
+					Handler: organizers.RemoveOrganizersPersonHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/organizers/exit",
+					Handler: organizers.ExitOrganizersHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/organizers",
+					Handler: organizers.GetOrganizersHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/organizers",
+					Handler: organizers.DeleteOrganizersHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/comp_result",
+					Handler: comp_result.GetCompsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result",
+					Handler: comp_result.CreateCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/comp_result/:compID",
+					Handler: comp_result.ApplyCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/comp_result/:compID",
+					Handler: comp_result.DeleteCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result/:compID",
+					Handler: comp_result.UpdateCompHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result/:compID/add_results",
+					Handler: comp_result.AddCompResultsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/comp_result/:compID/pre_results",
+					Handler: comp_result.GetPreResultsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result/:compID/approval/pre_results",
+					Handler: comp_result.ApprovalPreResultsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result/:compID/add_player",
+					Handler: comp_result.AddCompPlayerHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/comp_result/approval/comps",
+					Handler: comp_result.ApprovalCompsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/comp_result/:compID/approval",
+					Handler: comp_result.ApprovalCompHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/events",
+					Handler: public_result.EventsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/notifys",
+					Handler: public_result.NotifyHandler(serverCtx),
 				},
 			}...,
 		),
@@ -28,34 +335,262 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/login",
-				Handler: user.LoginHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/register",
-				Handler: user.RegisterHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/v3/user"),
-	)
-
-	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.UserAuthMiddleware, serverCtx.UserLevelMiddleware},
+			[]rest.Middleware{serverCtx.JwtInterceptor},
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
-					Path:    "/id/:userId",
-					Handler: user.UserDetailHandler(serverCtx),
+					Path:    "/player",
+					Handler: public_player.PlayersHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id",
+					Handler: public_player.PlayerHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/m_report",
+					Handler: public_player.PlayerMonthlyReportHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/y_report",
+					Handler: public_player.PlayerYearReportHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/result",
+					Handler: public_player.PlayerResultHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/nemesis",
+					Handler: public_player.PlayerNemesisHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/records",
+					Handler: public_player.PlayerRecordsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/player/:id/sor",
+					Handler: public_player.PlayerSorHandler(serverCtx),
 				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/v3/user"),
+		rest.WithPrefix("/v3/public_result"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/competition",
+					Handler: public_comp.CompetitionsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/competition/:id",
+					Handler: public_comp.CompetitionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/competition/:id/registers",
+					Handler: public_comp.CompetitionRegistersHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/competition/:id/result",
+					Handler: public_comp.CompetitionResultsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/competition/:id/records",
+					Handler: public_comp.CompetitionRecordHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/public_result"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/best_result",
+					Handler: public_statistics.BestResultHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/records",
+					Handler: public_statistics.RecordsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/sor",
+					Handler: public_statistics.SorHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/sum-of-ranks",
+					Handler: public_statistics.SumOfRanksHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/medal-collection",
+					Handler: public_statistics.MedalCollectionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/top-n",
+					Handler: public_statistics.TopNHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/record-num",
+					Handler: public_statistics.RecordNumHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/comp-record-num",
+					Handler: public_statistics.CompRecordNumHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/record-time",
+					Handler: public_statistics.RecordWithTimeHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/public_result/statistics"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/events",
+					Handler: sys_result.CreateEventHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/events",
+					Handler: sys_result.RemoveEventHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/events",
+					Handler: sys_result.UpdateEventHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/name",
+					Handler: sys_result.UpdateNameHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/footer",
+					Handler: sys_result.UpdateFooterHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/logo",
+					Handler: sys_result.UpdateLogoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/notify",
+					Handler: sys_result.CreateNotifyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/notify",
+					Handler: sys_result.RemoveNotifyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/notify",
+					Handler: sys_result.UpdateNotifyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/notify/:id/top",
+					Handler: sys_result.TopNotifyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/notify/:id/fixed",
+					Handler: sys_result.FixedNotifyHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth/sys_result"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtInterceptor, serverCtx.TokenInterceptor, serverCtx.UserAuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/post",
+					Handler: post_result.PostsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/post/:id",
+					Handler: post_result.PostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post",
+					Handler: post_result.CreatePostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/post",
+					Handler: post_result.UpdatePostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/post/:id",
+					Handler: post_result.DeletePostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/post/:id/comments",
+					Handler: post_result.CommentsHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/:id/comments",
+					Handler: post_result.CreateCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/post/:id/comments",
+					Handler: post_result.DeleteCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/post/:id/comments",
+					Handler: post_result.ReplyCommentHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v3/auth"),
 	)
 }

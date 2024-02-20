@@ -11,7 +11,7 @@ type DBModel interface {
 }
 
 type Model struct {
-	ID        uint `gorm:"column:id,primaryKey"`
+	ID        uint `gorm:"column:id;primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -20,7 +20,7 @@ type Model struct {
 func (m Model) dbModel() {}
 
 type StringIDModel struct {
-	ID        string `gorm:"column:id,primaryKey"`
+	ID        string `gorm:"column:id;primaryKey;type:varchar(64)"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

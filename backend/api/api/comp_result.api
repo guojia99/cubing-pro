@@ -1,0 +1,141 @@
+syntax = "v1"
+
+type (
+	CreateOrganizersReq        struct{}
+	CreateOrganizersResp       struct{}
+	GetOrganizerReq            struct{}
+	GetOrganizerResp           struct{}
+	AddOrganizersPersonReq     struct{}
+	AddOrganizersPersonResp    struct{}
+	RemoveOrganizersPersonReq  struct{}
+	RemoveOrganizersPersonResp struct{}
+	ExitOrganizersReq          struct{}
+	ExitOrganizersResp         struct{}
+	GetOrganizersReq           struct{}
+	GetOrganizersResp          struct{}
+	DeleteOrganizersReq        struct{}
+	DeleteOrganizersResp       struct{}
+)
+
+@server (
+	jwt:    Auth
+	group:  organizers
+	prefix: /v3/auth
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	// 主办权限
+	@doc "创建主办团队"
+	@handler CreateOrganizers
+	post /organizers (CreateOrganizersReq) returns (CreateOrganizersResp)
+
+	@doc "获取主办团队信息"
+	@handler GetOrganizer
+	get /organizers/:id (GetOrganizerReq) returns (GetOrganizerResp)
+
+	@doc "增加主办团队成员"
+	@handler AddOrganizersPerson
+	get /organizers/add_person (AddOrganizersPersonReq) returns (AddOrganizersPersonResp)
+
+	@doc "删除主办团队成员"
+	@handler RemoveOrganizersPerson
+	delete /organizers/delete_person (RemoveOrganizersPersonReq) returns (RemoveOrganizersPersonResp)
+
+	@doc "退出主办团队"
+	@handler ExitOrganizers
+	delete /organizers/exit (ExitOrganizersReq) returns (ExitOrganizersResp)
+
+	@doc "主办团队列表"
+	@handler GetOrganizers
+	get /organizers (GetOrganizersReq) returns (GetOrganizersResp)
+
+	// 管理权限
+	@doc "删除主办团队"
+	@handler DeleteOrganizers
+	delete /organizers (DeleteOrganizersReq) returns (DeleteOrganizersResp)
+}
+
+type (
+	GetCompsReq            struct{}
+	GetCompsResp           struct{}
+	CreateCompReq          struct{}
+	CreateCompResp         struct{}
+	ApplyCompReq           struct{}
+	ApplyCompResp          struct{}
+	DeleteCompReq          struct{}
+	DeleteCompResp         struct{}
+	UpdateCompReq          struct{}
+	UpdateCompResp         struct{}
+	AddCompResultsReq      struct{}
+	AddCompResultsResp     struct{}
+	GetPreResultsReq       struct{}
+	GetPreResultsResp      struct{}
+	ApprovalPreResultsReq  struct{}
+	ApprovalPreResultsResp struct{}
+	AddCompPlayerReq       struct{}
+	AddCompPlayerResp      struct{}
+	ApprovalCompsReq       struct{}
+	ApprovalCompsResp      struct{}
+	ApprovalCompReq        struct{}
+	ApprovalCompResp       struct{}
+)
+
+@server (
+	jwt:    Auth
+	group:  comp_result
+	prefix: /v3/auth
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	// 主办权限
+	@doc "获取比赛列表"
+	@handler GetComps
+	get /comp_result (GetCompsReq) returns (GetCompsResp)
+
+	@doc "创建比赛"
+	@handler CreateComp
+	post /comp_result (CreateCompReq) returns (CreateCompResp)
+
+	@doc "申请比赛"
+	@handler ApplyComp
+	put /comp_result/:compID (ApplyCompReq) returns (ApplyCompResp)
+
+	@doc "删除比赛"
+	@handler DeleteComp
+	delete /comp_result/:compID (DeleteCompReq) returns (DeleteCompResp)
+
+	@doc "更新比赛"
+	@handler UpdateComp
+	post /comp_result/:compID (UpdateCompReq) returns (UpdateCompResp)
+
+	@doc "录入比赛成绩"
+	@handler AddCompResults
+	post /comp_result/:compID/add_results (AddCompResultsReq) returns (AddCompResultsResp)
+
+	@doc "获取预录入成绩列表"
+	@handler GetPreResults
+	get /comp_result/:compID/pre_results (GetPreResultsReq) returns (GetPreResultsResp)
+
+	@doc "审批预录入成绩"
+	@handler ApprovalPreResults
+	post /comp_result/:compID/approval/pre_results (ApprovalPreResultsReq) returns (ApprovalPreResultsResp)
+
+	@doc "添加比赛选手"
+	@handler AddCompPlayer
+	post /comp_result/:compID/add_player (AddCompPlayerReq) returns (AddCompPlayerResp)
+
+	// 管理员
+	@doc "比赛审批列表"
+	@handler ApprovalComps
+	get /comp_result/approval/comps (ApprovalCompsReq) returns (ApprovalCompsResp)
+
+	@doc "比赛审批"
+	@handler ApprovalComp
+	post /comp_result/:compID/approval (ApprovalCompReq) returns (ApprovalCompResp)
+}

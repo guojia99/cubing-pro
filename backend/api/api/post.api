@@ -1,0 +1,69 @@
+syntax = "v1"
+
+type (
+	PostsReq          struct{}
+	PostsResp         struct{}
+	PostReq           struct{}
+	PostResp          struct{}
+	CreatePostReq     struct{}
+	CreatePostResp    struct{}
+	UpdatePostReq     struct{}
+	UpdatePostResp    struct{}
+	DeletePostReq     struct{}
+	DeletePostResp    struct{}
+	CommentsReq       struct{}
+	CommentsResp      struct{}
+	CreateCommentReq  struct{}
+	CreateCommentResp struct{}
+	DeleteCommentReq  struct{}
+	DeleteCommentResp struct{}
+	ReplyCommentReq   struct{}
+	ReplyCommentResp  struct{}
+)
+
+@server (
+	jwt:    Auth
+	group:  post_result
+	prefix: /v3/auth
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	@doc "帖子列表"
+	@handler Posts
+	get /post (PostsReq) returns (PostsResp)
+
+	@doc "帖子详情"
+	@handler Post
+	get /post/:id (PostReq) returns (PostResp)
+
+	@doc "发布帖子"
+	@handler CreatePost
+	post /post (CreatePostReq) returns (CreatePostResp)
+
+	@doc "修改帖子"
+	@handler UpdatePost
+	put /post (UpdatePostReq) returns (UpdatePostResp)
+
+	@doc "删除帖子"
+	@handler DeletePost
+	delete /post/:id (DeletePostReq) returns (DeletePostResp)
+
+	@doc "获取评论列表"
+	@handler Comments
+	get /post/:id/comments (CommentsReq) returns (CommentsResp)
+
+	@doc "发表评论"
+	@handler CreateComment
+	post /post/:id/comments (CreateCommentReq) returns (CreateCommentResp)
+
+	@doc "删除评论"
+	@handler DeleteComment
+	delete /post/:id/comments (DeleteCommentReq) returns (DeleteCommentResp)
+
+	@doc "回复评论"
+	@handler ReplyComment
+	put /post/:id/comments (ReplyCommentReq) returns (ReplyCommentResp)
+}

@@ -7,27 +7,18 @@ import (
 	basemodel "github.com/guojia99/cubing-pro/backend/pkg/model/base"
 )
 
-type auth = int
-
-const (
-	AuthPlayer     auth = 1 << iota // 选手
-	AuthOrganizers                  // 主办
-	AuthDelegates                   // 代表
-	AuthAdmin                       // 管理员
-	AuthSuperAdmin                  // 超级管理员
-)
-
 // User 用户信息表
 type User struct {
 	basemodel.StringIDModel
 
 	// 账号信息
-	Name         string `gorm:"unique;not null;column:name"` // 名称
-	LoginID      string `gorm:"column:login_id;unique;"`     // 登录账号
-	Password     string `gorm:"column:pw"`                   // 密码
-	InitPassword string `gorm:"column:init_pw"`              // 初始密码
-	Auth         auth   `gorm:"column:auth"`                 // 身份权限
-	Hash         string `gorm:"column:hash"`                 // 授权码
+	Name            string `gorm:"unique;not null;column:name"` // 名称
+	LoginID         string `gorm:"column:login_id;unique;"`     // 登录账号
+	MyID            string `gorm:"column:my_id"`                // 魔缘ID
+	Password        string `gorm:"column:pw"`                   // 密码
+	InitPassword    string `gorm:"column:init_pw"`              // 初始密码
+	HistoryPassword string `gorm:"column:history_pw"`           // 历史密码
+	Hash            string `gorm:"column:hash"`                 // 授权码
 
 	// 状态信息
 	Token              string    `gorm:"column:token"`                 // token
@@ -69,8 +60,6 @@ type User struct {
 
 	// 代表信息
 	DelegateName string `gorm:"column:represent_name"` // 代表称呼: 高级代表\代表\实习代表...
-}
 
-func (u *User) CheckAuth(auth auth) bool { return u.Auth&auth != 0 }
-func (u *User) SetAuth(auth auth)        { u.Auth |= auth }
-func (u *User) UnSetAuth(auth auth)      { u.Auth &= ^auth }
+	Roles []*Role `gorm:"many2many:user_roles"`
+}

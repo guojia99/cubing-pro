@@ -1,23 +1,32 @@
 package model
 
-import "github.com/guojia99/cubing-pro/backend/pkg/model/base"
+import (
+	"github.com/guojia99/cubing-pro/backend/pkg/model/base"
+	"github.com/guojia99/cubing-pro/backend/pkg/model/compertion"
+	"github.com/guojia99/cubing-pro/backend/pkg/model/result"
+	"github.com/guojia99/cubing-pro/backend/pkg/model/user"
+)
 
 var _modelList = []basemodel.DBModel{
-	//&user.User{},               // 用户表
-	//&UserMidea{},               // 用户媒体
-	//&Organizers{},              // 主办团队表
-	//&Event{},                   // 项目表
-	//&Competition{},             // 比赛详情表
-	//&CompetitionRegistration{}, // 比赛报名表
-	//&CompetitionDiscussion{},   // 比赛直播讨论
-	//&Results{},                 // 成绩表
-	//&Record{},                  // 记录
-	//&Notification{},            // 通知表
-	//&PreResults{},              // 预录入成绩
-	//&PostForm{},                // 交流文章表
-	//&PostFormSub{},             // 交流消息
+	// 用户表
+	&user.AuthRule{},
+	&user.User{},
+	&user.Role{},
+	&user.Organizers{},
+	//资源表
+	&result.Event{},
+	&result.Results{},
+	&result.PreResults{},
+	&result.Record{},
+	//比赛表
+	&compertion.Competition{},
+	&compertion.CompetitionRegistration{},
 }
 
-func Models() []basemodel.DBModel {
-	return _modelList
+func Models() []interface{} {
+	var out []interface{}
+	for _, val := range _modelList {
+		out = append(out, val)
+	}
+	return out
 }

@@ -1,0 +1,23 @@
+syntax = "v1"
+
+type (
+	GenerallyStrIdReq {
+		ID string `path:"id"`
+	}
+	GenerallyResp {
+		Message string `json:"message"`
+		Status  string `json:"status"`
+		Code    int64  `json:"code"`
+	}
+)
+
+type (
+	GenerallyListReq {
+		Page int64 `form:"page"`
+		Size int64 `form:"size"`
+	}
+	GenerallyListResp {
+		GenerallyResp
+		Total int64 `json:"total"`
+	}
+)

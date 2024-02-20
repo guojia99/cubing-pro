@@ -1,0 +1,86 @@
+syntax = "v1"
+
+import "generally.api"
+
+type (
+	CreateEventReq   struct{}
+	CreateEventResp  struct{}
+	RemoveEventReq   struct{}
+	RemoveEventResp  struct{}
+	UpdateEventReq   struct{}
+	UpdateEventResp  struct{}
+	UpdateNameReq    struct{}
+	UpdateNameResp   struct{}
+	UpdateFooterReq  struct{}
+	UpdateFooterResp struct{}
+	UpdateLogoReq    struct{}
+	UpdateLogoResp   struct{}
+	CreateNotifyReq  struct{}
+	CreateNotifyResp struct{}
+	RemoveNotifyReq  struct{}
+	RemoveNotifyResp struct{}
+	UpdateNotifyReq  struct{}
+	UpdateNotifyResp struct{}
+	TopNotifyReq     struct{}
+	TopNotifyResp    struct{}
+	FixedNotifyReq   {
+		GenerallyStrIdReq
+	}
+	FixedNotifyResp struct{}
+)
+
+// 系统资源管理
+@server (
+	jwt:    Auth
+	group:  sys_result
+	prefix: /v3/auth/sys_result
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	@doc "新增项目"
+	@handler CreateEvent
+	post /events (CreateEventReq) returns (CreateEventResp)
+
+	@doc "移除项目"
+	@handler RemoveEvent
+	delete /events (RemoveEventReq) returns (RemoveEventResp)
+
+	@doc "修改项目"
+	@handler UpdateEvent
+	put /events (UpdateEventReq) returns (UpdateEventResp)
+
+	@doc "修改网站标题"
+	@handler UpdateName
+	put /name (UpdateNameReq) returns (UpdateNameResp)
+
+	@doc "修改网站脚注"
+	@handler UpdateFooter
+	put /footer (UpdateFooterReq) returns (UpdateFooterResp)
+
+	@doc "修改网站logo"
+	@handler UpdateLogo
+	put /logo (UpdateLogoReq) returns (UpdateLogoResp)
+
+	@doc "发布网站通知"
+	@handler CreateNotify
+	post /notify (CreateNotifyReq) returns (CreateNotifyResp)
+
+	@doc "删除网站通知"
+	@handler RemoveNotify
+	delete /notify (RemoveNotifyReq) returns (RemoveNotifyResp)
+
+	@doc "修改网站通知"
+	@handler UpdateNotify
+	put /notify (UpdateNotifyReq) returns (UpdateNotifyResp)
+
+	@doc "置顶网站通知"
+	@handler TopNotify
+	put /notify/:id/top (TopNotifyReq) returns (TopNotifyResp)
+
+	@doc "将通知设置到标题栏"
+	@handler FixedNotify
+	put /notify/:id/fixed (FixedNotifyReq) returns (FixedNotifyResp)
+}

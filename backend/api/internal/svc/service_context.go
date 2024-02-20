@@ -7,17 +7,17 @@ import (
 )
 
 type ServiceContext struct {
-	Config              config.Config
-	TokenInterceptor    rest.Middleware
-	UserAuthMiddleware  rest.Middleware
-	UserLevelMiddleware rest.Middleware
+	Config             config.Config
+	JwtInterceptor     rest.Middleware
+	TokenInterceptor   rest.Middleware
+	UserAuthMiddleware rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:              c,
-		TokenInterceptor:    middleware.NewTokenInterceptorMiddleware().Handle,
-		UserAuthMiddleware:  middleware.NewUserAuthMiddleware().Handle,
-		UserLevelMiddleware: middleware.NewUserLevelMiddleware().Handle,
+		Config:             c,
+		JwtInterceptor:     middleware.NewJwtInterceptorMiddleware().Handle,
+		TokenInterceptor:   middleware.NewTokenInterceptorMiddleware().Handle,
+		UserAuthMiddleware: middleware.NewUserAuthMiddleware().Handle,
 	}
 }

@@ -1,20 +1,193 @@
 syntax = "v1"
 
 type (
-    PlayersReq{
-    }
-    PlayersResp{
-    }
+	EventsReq  struct{}
+	EventsResp struct{}
+	NotifyReq  struct{}
+	NotifyResp struct{}
 )
 
-@server(
-    jwt: Auth
-    group: public
-    prefix:     /v3/public_result
-    middleware: TokenInterceptor
+// 基础信息
+@server (
+	jwt:        Auth
+	group:      public_result
+	prefix:     /v3/public_result
+	middleware: JwtInterceptor
 )
 service Api {
-    @handler Players
-    get /players (PlayersReq) returns (PlayersResp)
+	@doc "项目列表"
+	@handler Events
+	get /events (EventsReq) returns (EventsResp)
+
+	@doc "通知列表"
+	@handler Notify
+	get /notifys (NotifyReq) returns (NotifyResp)
 }
 
+type (
+	PlayersReq              struct{}
+	PlayersResp             struct{}
+	PlayerReq               struct{}
+	PlayerResp              struct{}
+	PlayerMonthlyReportReq  struct{}
+	PlayerMonthlyReportResp struct{}
+	PlayerYearReportReq     struct{}
+	PlayerYearReportResp    struct{}
+	PlayerResultReq         struct{}
+	PlayerResultResp        struct{}
+	PlayerNemesisReq        struct{}
+	PlayerNemesisResp       struct{}
+	PlayerRecordsReq        struct{}
+	PlayerRecordsResp       struct{}
+	PlayerSorReq            struct{}
+	PlayerSorResp           struct{}
+)
+
+// 玩家信息
+@server (
+	jwt:        Auth
+	group:      public_player
+	prefix:     /v3/public_result
+	middleware: JwtInterceptor
+)
+service Api {
+	@doc "获取玩家列表"
+	@handler Players
+	get /player (PlayersReq) returns (PlayersResp)
+
+	@doc "获取玩家基础信息"
+	@handler Player
+	get /player/:id (PlayerReq) returns (PlayerResp)
+
+	@doc "获取玩家月度报表"
+	@handler PlayerMonthlyReport
+	get /player/:id/m_report (PlayerMonthlyReportReq) returns (PlayerMonthlyReportResp)
+
+	@doc "获取玩家月度报表"
+	@handler PlayerYearReport
+	get /player/:id/y_report (PlayerYearReportReq) returns (PlayerYearReportResp)
+
+	@doc "玩家成绩列表"
+	@handler PlayerResult
+	get /player/:id/result (PlayerResultReq) returns (PlayerResultResp)
+
+	@doc "宿敌列表"
+	@handler PlayerNemesis
+	get /player/:id/nemesis (PlayerNemesisReq) returns (PlayerNemesisResp)
+
+	@doc "玩家记录列表"
+	@handler PlayerRecords
+	get /player/:id/records (PlayerRecordsReq) returns (PlayerRecordsResp)
+
+	@doc "玩家Sor成绩"
+	@handler PlayerSor
+	get /player/:id/sor (PlayerSorReq) returns (PlayerSorResp)
+}
+
+type (
+	CompetitionReq           struct{}
+	CompetitionResp          struct{}
+	CompetitionsReq          struct{}
+	CompetitionsResp         struct{}
+	CompetitionRegistersReq  struct{}
+	CompetitionRegistersResp struct{}
+	CompetitionResultsReq    struct{}
+	CompetitionResultsResp   struct{}
+	CompetitionRecordReq     struct{}
+	CompetitionRecordResp    struct{}
+)
+
+// 比赛信息
+@server (
+	jwt:        Auth
+	group:      public_comp
+	prefix:     /v3/public_result
+	middleware: JwtInterceptor
+)
+service Api {
+	@doc "获取比赛列表"
+	@handler Competitions
+	get /competition (CompetitionsReq) returns (CompetitionsResp)
+
+	@doc "获取比赛详情"
+	@handler Competition
+	get /competition/:id (CompetitionReq) returns (CompetitionResp)
+
+	@doc "比赛报名列表"
+	@handler CompetitionRegisters
+	get /competition/:id/registers (CompetitionRegistersReq) returns (CompetitionRegistersResp)
+
+	@doc "比赛当前成绩列表"
+	@handler CompetitionResults
+	get /competition/:id/result (CompetitionResultsReq) returns (CompetitionResultsResp)
+
+	@doc "比赛记录列表"
+	@handler CompetitionRecord
+	get /competition/:id/records (CompetitionRecordReq) returns (CompetitionRecordResp)
+}
+
+type (
+	SumOfRanksReq       struct{}
+	SumOfRanksResp      struct{}
+	MedalCollectionReq  struct{}
+	MedalCollectionResp struct{}
+	TopNReq             struct{}
+	TopNResp            struct{}
+	RecordNumReq        struct{}
+	RecordNumResp       struct{}
+	CompRecordNumReq    struct{}
+	CompRecordNumResp   struct{}
+	RecordWithTimeReq   struct{}
+	RecordWithTimeResp  struct{}
+	RecordsReq          struct{}
+	RecordsResp         struct{}
+	SorReq              struct{}
+	SorResp             struct{}
+	BestResultReq       struct{}
+	BestResultResp      struct{}
+)
+
+// 统计信息
+@server (
+	jwt:        Auth
+	group:      public_statistics
+	prefix:     /v3/public_result/statistics
+	middleware: JwtInterceptor
+)
+service Api {
+	@doc "最佳成绩"
+	@handler BestResult
+	get /best_result (BestResultReq) returns (BestResultResp)
+
+	@doc "记录列表"
+	@handler Records
+	get /records (RecordsReq) returns (RecordsResp)
+
+	@doc "Sor统计"
+	@handler Sor
+	get /sor (SorReq) returns (SorResp)
+
+	@doc "排名总和榜单"
+	@handler SumOfRanks
+	get /sum-of-ranks (SumOfRanksReq) returns (SumOfRanksResp)
+
+	@doc "奖牌榜单"
+	@handler MedalCollection
+	get /medal-collection (MedalCollectionReq) returns (MedalCollectionResp)
+
+	@doc "前N榜单"
+	@handler TopN
+	get /top-n (TopNReq) returns (TopNResp)
+
+	@doc "记录数"
+	@handler RecordNum
+	get /record-num (RecordNumReq) returns (RecordNumResp)
+
+	@doc "比赛记录数"
+	@handler CompRecordNum
+	get /comp-record-num (CompRecordNumReq) returns (CompRecordNumResp)
+
+	@doc "记录保持时间"
+	@handler RecordWithTime
+	get /record-time (RecordWithTimeReq) returns (RecordWithTimeResp)
+}

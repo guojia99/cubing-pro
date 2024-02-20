@@ -1,0 +1,123 @@
+syntax = "v1"
+
+type (
+	UserDetailReq            struct{}
+	UserDetailResp           struct{}
+	UserAuthListReq          struct{}
+	UserAuthListResp         struct{}
+	UpdateUserDetailReq      struct{}
+	UpdateUserDetailResp     struct{}
+	UpdateUserPasswordReq    struct{}
+	UpdateUserPasswordResp   struct{}
+	UpdateUserAvatarReq      struct{}
+	UpdateUserAvatarResp     struct{}
+	UserRetrievePasswordReq  struct{}
+	UserRetrievePasswordResp struct{}
+)
+
+// 用户基础信息
+@server (
+	jwt:    Auth
+	group:  user_detail
+	prefix: /v3/auth/user_detail
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	@doc "用户详细信息"
+	@handler UserDetail
+	get /:userId (UserDetailReq) returns (UserDetailResp)
+
+	@doc "获取用户权限列表"
+	@handler UserAuthList
+	get /:userId/auth_list (UserAuthListReq) returns (UserAuthListResp)
+
+	@doc "修改用户信息"
+	@handler UpdateUserDetail
+	post /:userId/detail (UpdateUserDetailReq) returns (UpdateUserDetailResp)
+
+	@doc "用户找回密码"
+	@handler UserRetrievePassword
+	put /:userId/retrieve/password (UserRetrievePasswordReq) returns (UserRetrievePasswordResp)
+
+	@doc "修改用户密码"
+	@handler UpdateUserPassword
+	post /:userId/password (UpdateUserPasswordReq) returns (UpdateUserPasswordResp)
+
+	@doc "修改用户头像"
+	@handler UpdateUserAvatar
+	post /:userId/avatar (UpdateUserAvatarReq) returns (UpdateUserAvatarResp)
+}
+
+type (
+	PreResultReq             struct{}
+	PreResultResp            struct{}
+	AddPreResultReq          struct{}
+	AddPreResultResp         struct{}
+	RemovePreResultReq       struct{}
+	RemovePreResultResp      struct{}
+	UserCompsReq             struct{}
+	UserCompsResp            struct{}
+	RegisterCompReq          struct{}
+	RegisterCompResp         struct{}
+	RegisterCompAddEventReq  struct{}
+	RegisterCompAddEventResp struct{}
+	RegisterCompCallbackReq  struct{}
+	RegisterCompCallbackResp struct{}
+	RetireCompReq            struct{}
+	RetireCompResp           struct{}
+	UserCompReq              struct{}
+	UserCompResp             struct{}
+)
+
+// 用户比赛信息
+@server (
+	jwt:    Auth
+	group:  user_result
+	prefix: /v3/user/result
+	// JwtInterceptor Jwt验证
+	// TokenInterceptor 验证密码
+	// UserAuthMiddleware 用户权限拦截
+	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+)
+service Api {
+	// 预录入
+	@doc "预录入成绩列表"
+	@handler PreResult
+	get /:userId/pre_result (PreResultReq) returns (PreResultResp)
+
+	@doc "录入预录入成绩"
+	@handler AddPreResult
+	post /:userId/pre_result (AddPreResultReq) returns (AddPreResultResp)
+
+	@doc "删除预录入成绩"
+	@handler RemovePreResult
+	delete /:userId/pre_result (RemovePreResultReq) returns (RemovePreResultResp)
+
+	// 比赛报名
+	@doc "获取报名比赛列表"
+	@handler UserComps
+	get /:userId/comps (UserCompsReq) returns (UserCompsResp)
+
+	@doc "获取报名比赛详情"
+	@handler UserComp
+	get /:userId/comp/:compId (UserCompReq) returns (UserCompResp)
+
+	@doc "报名比赛"
+	@handler RegisterComp
+	post /:userId/comp/:compId/register (RegisterCompReq) returns (RegisterCompResp)
+
+	@doc "新增比赛项目"
+	@handler RegisterCompAddEvent
+	put /:userId/comp/:compId/register/events (RegisterCompAddEventReq) returns (RegisterCompAddEventResp)
+
+	@doc "比赛支付回调"
+	@handler RegisterCompCallback
+	post /:userId/comp/:compId/register/callback (RegisterCompCallbackReq) returns (RegisterCompCallbackResp)
+
+	@doc "退赛"
+	@handler RetireComp
+	post /:userId/comp/:compId/retire (RetireCompReq) returns (RetireCompResp)
+}

@@ -9,7 +9,10 @@ info (
 )
 
 import (
-	"./user.api"
-	"./public_result.api"
+	"auth.api" // 权限api
+	"user_result.api" // 单个用户相关的api
+	"comp_result.api" // 比赛主办相关的api
+	"public_result.api" // 公共资源的api
+	"admin_result.api" // 后台高级权限的api
+	"post.api" // 论坛相关的api
 )
-

@@ -23,10 +23,8 @@ type (
 	UpdateNotifyResp struct{}
 	TopNotifyReq     struct{}
 	TopNotifyResp    struct{}
-	FixedNotifyReq   {
-		GenerallyStrIdReq
-	}
-	FixedNotifyResp struct{}
+	FixedNotifyReq   struct{}
+	FixedNotifyResp  struct{}
 )
 
 // 系统资源管理

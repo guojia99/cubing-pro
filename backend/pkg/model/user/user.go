@@ -41,11 +41,11 @@ type User struct {
 	Experience uint `gorm:"exp"`          // 经验
 
 	// 第三方登录信息
-	QQ          string `gorm:"column:qq"`            // qq号
-	QQUniID     string `gorm:"column:qq_uni_id"`     // QQ唯一认证ID
-	Wechat      string `gorm:"column:wechat"`        // 微信号
-	WechatUniID string `gorm:"column:wechat_uni_id"` // 微信唯一认证ID
-	WcaID       string `gorm:"column:wca_id"`        // WCA ID
+	QQ           string `gorm:"column:qq"`            // qq号
+	QQUniID      string `gorm:"column:qq_uni_id"`     // QQ唯一认证ID
+	Wechat       string `gorm:"column:wechat"`        // 微信号
+	WechatUnitID string `gorm:"column:wechat_uni_id"` // 微信唯一认证ID
+	WcaID        string `gorm:"column:wca_id"`        // WCA ID
 
 	// 隐私信息
 	ActualName  string    `gorm:"column:actual_name"` // 真实姓名

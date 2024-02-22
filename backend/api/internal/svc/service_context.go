@@ -1,12 +1,16 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-zero/rest"
+	"gorm.io/gorm"
+
 	"github.com/guojia99/cubing-pro/backend/api/internal/config"
 	"github.com/guojia99/cubing-pro/backend/api/internal/middleware"
-	"github.com/zeromicro/go-zero/rest"
 )
 
 type ServiceContext struct {
+	DB *gorm.DB
+
 	Config             config.Config
 	JwtInterceptor     rest.Middleware
 	TokenInterceptor   rest.Middleware

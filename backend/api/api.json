@@ -16,6 +16,36 @@
     "application/json"
   ],
   "paths": {
+    "/v3/auth/code": {
+      "get": {
+        "summary": "校验码",
+        "operationId": "AuthCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AuthCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/v3/auth/comp_result": {
       "get": {
         "summary": "获取比赛列表",
@@ -28,9 +58,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -54,9 +88,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -72,9 +110,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -106,9 +148,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -138,9 +184,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -170,9 +220,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -204,9 +258,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -238,9 +296,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -272,9 +334,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -306,9 +372,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -332,9 +402,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "comp_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -360,9 +434,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -378,9 +456,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "delete": {
@@ -404,9 +486,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -430,9 +516,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -448,9 +538,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -476,9 +570,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -504,9 +602,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -530,9 +632,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "organizers"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -548,9 +654,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -574,9 +684,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -600,9 +714,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -626,9 +744,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "delete": {
@@ -658,9 +780,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -684,9 +810,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "delete": {
@@ -716,9 +846,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -748,9 +882,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -780,9 +918,45 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "post_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v3/auth/refresh": {
+      "post": {
+        "summary": "刷新秘钥",
+        "operationId": "RefreshToekn",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RefreshToeknResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshToeknReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -808,37 +982,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "auth"
-        ]
-      }
-    },
-    "/v3/auth/register/with_admin": {
-      "post": {
-        "summary": "管理员代注册",
-        "operationId": "RegisterByAdmin",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/RegisterResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterReq"
-            }
-          }
         ],
-        "requestBody": {},
-        "tags": [
-          "auth"
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -864,9 +1014,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -890,9 +1044,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -916,9 +1074,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -944,9 +1106,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -972,9 +1138,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1000,9 +1170,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1028,9 +1202,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -1054,9 +1232,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -1080,9 +1262,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1114,9 +1300,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1148,9 +1338,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "sys_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1174,9 +1368,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1200,9 +1398,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1234,9 +1436,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1268,9 +1474,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1302,9 +1512,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1336,9 +1550,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_detail"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1354,35 +1572,43 @@
             }
           }
         },
-        "requestBody": {},
-        "tags": [
-          "user_role"
-        ]
-      },
-      "delete": {
-        "summary": "删除角色",
-        "operationId": "DeleteRole",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/DeleteRoleResp"
-            }
-          }
-        },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "page",
+            "in": "query",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/DeleteRoleReq"
-            }
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "search",
+            "description": " 搜索内容",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "searchMap",
+            "description": " 搜索字典json",
+            "in": "query",
+            "required": true,
+            "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -1406,9 +1632,51 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v3/auth/user_role/{roleId}": {
+      "delete": {
+        "summary": "删除角色",
+        "operationId": "DeleteRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteRoleResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteRoleReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -1424,6 +1692,12 @@
         },
         "parameters": [
           {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1432,13 +1706,17 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
-    "/v3/auth/user_role/bind": {
+    "/v3/auth/user_role/{roleId}/bind": {
       "put": {
         "summary": "用户绑定角色",
         "operationId": "BindRole",
@@ -1452,6 +1730,12 @@
         },
         "parameters": [
           {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1460,13 +1744,17 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
-    "/v3/auth/user_role/rules": {
+    "/v3/auth/user_role/{roleId}/rules": {
       "get": {
         "summary": "角色权限列表",
         "operationId": "RoleRules",
@@ -1478,35 +1766,49 @@
             }
           }
         },
-        "requestBody": {},
-        "tags": [
-          "user_role"
-        ]
-      },
-      "delete": {
-        "summary": "删除角色权限",
-        "operationId": "DeleteRules",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/DeleteRulesResp"
-            }
-          }
-        },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "roleId",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/DeleteRulesReq"
-            }
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "search",
+            "description": " 搜索内容",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "searchMap",
+            "description": " 搜索字典json",
+            "in": "query",
+            "required": true,
+            "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -1522,6 +1824,12 @@
         },
         "parameters": [
           {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1530,9 +1838,57 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v3/auth/user_role/{roleId}/rules/{ruleId}": {
+      "delete": {
+        "summary": "删除角色权限",
+        "operationId": "DeleteRules",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteRulesResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ruleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteRulesReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "put": {
@@ -1548,6 +1904,18 @@
         },
         "parameters": [
           {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ruleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1556,13 +1924,17 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
-    "/v3/auth/user_role/unbind": {
+    "/v3/auth/user_role/{roleId}/unbind": {
       "put": {
         "summary": "用户解绑角色",
         "operationId": "UnbindRole",
@@ -1576,6 +1948,12 @@
         },
         "parameters": [
           {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1584,9 +1962,43 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v3/auth/user_role/{roleId}/users": {
+      "get": {
+        "summary": "角色对应用户列表",
+        "operationId": "RoleBindUsers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RoleBindUsersResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "user_role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1602,9 +2014,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_comp"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1628,9 +2044,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_comp"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1654,9 +2074,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_comp"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1680,9 +2104,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_comp"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1706,9 +2134,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_comp"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1724,9 +2156,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1742,9 +2178,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1760,9 +2200,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1786,9 +2230,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1812,9 +2260,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1838,9 +2290,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1864,9 +2320,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1890,9 +2350,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1916,9 +2380,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1942,9 +2410,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "public_player"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1960,9 +2432,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1978,9 +2454,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -1996,9 +2476,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2014,9 +2498,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2032,9 +2520,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2050,9 +2542,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2068,9 +2564,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2086,9 +2586,13 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2104,9 +2608,35 @@
             }
           }
         },
-        "requestBody": {},
         "tags": [
           "public_statistics"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v3/public_result/swagger": {
+      "get": {
+        "summary": "api文档",
+        "operationId": "Swagger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SwaggerResp"
+            }
+          }
+        },
+        "tags": [
+          "public_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2136,9 +2666,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2176,9 +2710,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2216,9 +2754,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2256,9 +2798,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2296,9 +2842,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2322,9 +2872,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -2348,9 +2902,13 @@
             "type": "string"
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "delete": {
@@ -2380,9 +2938,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       },
       "post": {
@@ -2412,9 +2974,13 @@
             }
           }
         ],
-        "requestBody": {},
         "tags": [
           "user_result"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     }
@@ -2458,6 +3024,18 @@
     },
     "AddRulesResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "AddRulesResp"
     },
     "ApplyCompReq": {
@@ -2492,6 +3070,185 @@
       "type": "object",
       "title": "ApprovalPreResultsResp"
     },
+    "AuthCodeReq": {
+      "type": "object",
+      "properties": {
+        "ip": {
+          "type": "string"
+        }
+      },
+      "title": "AuthCodeReq",
+      "required": [
+        "ip"
+      ]
+    },
+    "AuthCodeResp": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mdCode": {
+          "type": "string"
+        },
+        "codeImage": {
+          "type": "string",
+          "description": " base64"
+        }
+      },
+      "title": "AuthCodeResp",
+      "required": [
+        "timeout",
+        "mdCode",
+        "codeImage"
+      ]
+    },
+    "AuthUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "myId": {
+          "type": "string"
+        },
+        "wcaId": {
+          "type": "string"
+        },
+        "online": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sign": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "uint32"
+        },
+        "delegateName": {
+          "type": "string"
+        },
+        "loginId": {
+          "type": "string"
+        },
+        "hasInitPassword": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "loginTime": {
+          "type": "string"
+        },
+        "loginIp": {
+          "type": "string"
+        },
+        "activationTime": {
+          "type": "string"
+        },
+        "banReason": {
+          "type": "string"
+        },
+        "sumPasswordWrong": {
+          "type": "string"
+        },
+        "passWordLockTime": {
+          "type": "string"
+        },
+        "lastUpdateNameTime": {
+          "type": "string"
+        },
+        "experience": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "qq": {
+          "type": "string"
+        },
+        "qQunitId": {
+          "type": "string"
+        },
+        "wechat": {
+          "type": "string"
+        },
+        "wechatUnitId": {
+          "type": "string"
+        },
+        "actualName": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "brithdate": {
+          "type": "string"
+        },
+        "idCard": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      },
+      "title": "AuthUser",
+      "required": [
+        "loginId",
+        "hasInitPassword",
+        "loginTime",
+        "loginIp",
+        "activationTime",
+        "banReason",
+        "sumPasswordWrong",
+        "passWordLockTime",
+        "lastUpdateNameTime",
+        "experience",
+        "qq",
+        "qQunitId",
+        "wechat",
+        "wechatUnitId",
+        "actualName",
+        "sex",
+        "phone",
+        "email",
+        "nationality",
+        "province",
+        "brithdate",
+        "idCard",
+        "address"
+      ]
+    },
     "BestResultReq": {
       "type": "object",
       "title": "BestResultReq"
@@ -2502,10 +3259,30 @@
     },
     "BindRoleReq": {
       "type": "object",
-      "title": "BindRoleReq"
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "title": "BindRoleReq",
+      "required": [
+        "userId"
+      ]
     },
     "BindRoleResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "BindRoleResp"
     },
     "CommentsReq": {
@@ -2614,10 +3391,30 @@
     },
     "CreateRoleReq": {
       "type": "object",
-      "title": "CreateRoleReq"
+      "properties": {
+        "role": {
+          "$ref": "#/definitions/Role"
+        }
+      },
+      "title": "CreateRoleReq",
+      "required": [
+        "role"
+      ]
     },
     "CreateRoleResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "CreateRoleResp"
     },
     "DeleteCommentReq": {
@@ -2658,6 +3455,18 @@
     },
     "DeleteRoleResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "DeleteRoleResp"
     },
     "DeleteRulesReq": {
@@ -2666,6 +3475,18 @@
     },
     "DeleteRulesResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "DeleteRulesResp"
     },
     "EventsReq": {
@@ -2691,6 +3512,78 @@
     "FixedNotifyResp": {
       "type": "object",
       "title": "FixedNotifyResp"
+    },
+    "GenerallyListReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "search": {
+          "type": "string",
+          "description": " 搜索内容"
+        },
+        "searchMap": {
+          "type": "string",
+          "description": " 搜索字典json"
+        }
+      },
+      "title": "GenerallyListReq",
+      "required": [
+        "page",
+        "size",
+        "search",
+        "searchMap"
+      ]
+    },
+    "GenerallyListResp": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GenerallyListResp",
+      "required": [
+        "total"
+      ]
+    },
+    "GenerallyResp": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GenerallyResp",
+      "required": [
+        "message",
+        "status",
+        "code"
+      ]
     },
     "GetCompsReq": {
       "type": "object",
@@ -2726,11 +3619,73 @@
     },
     "LoginReq": {
       "type": "object",
-      "title": "LoginReq"
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": " 用户名"
+        },
+        "password": {
+          "type": "string",
+          "description": " 密码"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 客户端时间戳"
+        },
+        "ip": {
+          "type": "string",
+          "description": " Ip地址"
+        },
+        "mdCode": {
+          "type": "string",
+          "description": " 获取校验码的数据"
+        },
+        "authCode": {
+          "type": "string",
+          "description": " 验证码"
+        }
+      },
+      "title": "LoginReq",
+      "required": [
+        "userName",
+        "password",
+        "timestamp",
+        "ip",
+        "mdCode",
+        "authCode"
+      ]
     },
     "LoginResp": {
       "type": "object",
-      "title": "LoginResp"
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refresh": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LoginResp",
+      "required": [
+        "refresh",
+        "token",
+        "timeout"
+      ]
     },
     "MedalCollectionReq": {
       "type": "object",
@@ -2836,6 +3791,56 @@
       "type": "object",
       "title": "PreResultResp"
     },
+    "PublicUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "myId": {
+          "type": "string"
+        },
+        "wcaId": {
+          "type": "string"
+        },
+        "online": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sign": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "uint32"
+        },
+        "delegateName": {
+          "type": "string"
+        }
+      },
+      "title": "PublicUser",
+      "required": [
+        "id",
+        "name",
+        "myId",
+        "wcaId",
+        "online",
+        "sign",
+        "avatar",
+        "coverPhoto",
+        "level",
+        "delegateName"
+      ]
+    },
     "RecordNumReq": {
       "type": "object",
       "title": "RecordNumReq"
@@ -2859,6 +3864,35 @@
     "RecordsResp": {
       "type": "object",
       "title": "RecordsResp"
+    },
+    "RefreshToeknReq": {
+      "type": "object",
+      "properties": {
+        "refresh": {
+          "type": "string"
+        }
+      },
+      "title": "RefreshToeknReq",
+      "required": [
+        "refresh"
+      ]
+    },
+    "RefreshToeknResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "RefreshToeknResp",
+      "required": [
+        "token",
+        "timeout"
+      ]
     },
     "RegisterCompAddEventReq": {
       "type": "object",
@@ -2886,11 +3920,80 @@
     },
     "RegisterReq": {
       "type": "object",
-      "title": "RegisterReq"
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": " 用户名"
+        },
+        "password": {
+          "type": "string",
+          "description": " 密码"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 客户端时间戳"
+        },
+        "ip": {
+          "type": "string",
+          "description": " Ip地址"
+        },
+        "mdCode": {
+          "type": "string",
+          "description": " 获取校验码的数据"
+        },
+        "authCode": {
+          "type": "string",
+          "description": " 验证码"
+        },
+        "myId": {
+          "type": "string"
+        },
+        "loginId": {
+          "type": "string"
+        },
+        "qq": {
+          "type": "string"
+        }
+      },
+      "title": "RegisterReq",
+      "required": [
+        "myId",
+        "loginId",
+        "qq"
+      ]
     },
     "RegisterResp": {
       "type": "object",
-      "title": "RegisterResp"
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refresh": {
+          "type": "string",
+          "description": " 长期刷新秘钥"
+        },
+        "token": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "RegisterResp",
+      "required": [
+        "refresh",
+        "token",
+        "timeout"
+      ]
     },
     "RemoveEventReq": {
       "type": "object",
@@ -2940,21 +4043,178 @@
       "type": "object",
       "title": "RetireCompResp"
     },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "string"
+        }
+      },
+      "title": "Role",
+      "required": [
+        "id",
+        "name",
+        "modifierId"
+      ]
+    },
+    "RoleBindUsersReq": {
+      "type": "object",
+      "title": "RoleBindUsersReq"
+    },
+    "RoleBindUsersResp": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/GenerallyResp"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuthUser"
+          }
+        }
+      },
+      "title": "RoleBindUsersResp",
+      "required": [
+        "users"
+      ]
+    },
     "RoleListReq": {
       "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "search": {
+          "type": "string",
+          "description": " 搜索内容"
+        },
+        "searchMap": {
+          "type": "string",
+          "description": " 搜索字典json"
+        }
+      },
       "title": "RoleListReq"
     },
     "RoleListResp": {
       "type": "object",
-      "title": "RoleListResp"
+      "properties": {
+        "": {
+          "$ref": "#/definitions/GenerallyResp"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Role"
+          }
+        }
+      },
+      "title": "RoleListResp",
+      "required": [
+        "roles"
+      ]
     },
     "RoleRulesReq": {
       "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "search": {
+          "type": "string",
+          "description": " 搜索内容"
+        },
+        "searchMap": {
+          "type": "string",
+          "description": " 搜索字典json"
+        }
+      },
       "title": "RoleRulesReq"
     },
     "RoleRulesResp": {
       "type": "object",
-      "title": "RoleRulesResp"
+      "properties": {
+        "": {
+          "$ref": "#/definitions/GenerallyResp"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rule"
+          }
+        }
+      },
+      "title": "RoleRulesResp",
+      "required": [
+        "rules"
+      ]
+    },
+    "Rule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "code": {
+          "type": "integer",
+          "format": "uint32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createId": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "option": {
+          "type": "string"
+        }
+      },
+      "title": "Rule",
+      "required": [
+        "id",
+        "code",
+        "name",
+        "createId",
+        "modifierId",
+        "url",
+        "option"
+      ]
     },
     "SorReq": {
       "type": "object",
@@ -2971,6 +4231,14 @@
     "SumOfRanksResp": {
       "type": "object",
       "title": "SumOfRanksResp"
+    },
+    "SwaggerReq": {
+      "type": "object",
+      "title": "SwaggerReq"
+    },
+    "SwaggerResp": {
+      "type": "object",
+      "title": "SwaggerResp"
     },
     "TopNReq": {
       "type": "object",
@@ -2990,10 +4258,30 @@
     },
     "UnbindRoleReq": {
       "type": "object",
-      "title": "UnbindRoleReq"
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "title": "UnbindRoleReq",
+      "required": [
+        "userId"
+      ]
     },
     "UnbindRoleResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "UnbindRoleResp"
     },
     "UpdateCompReq": {
@@ -3054,18 +4342,58 @@
     },
     "UpdateRoleReq": {
       "type": "object",
-      "title": "UpdateRoleReq"
+      "properties": {
+        "role": {
+          "$ref": "#/definitions/Role"
+        }
+      },
+      "title": "UpdateRoleReq",
+      "required": [
+        "role"
+      ]
     },
     "UpdateRoleResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "UpdateRoleResp"
     },
     "UpdateRulesReq": {
       "type": "object",
-      "title": "UpdateRulesReq"
+      "properties": {
+        "rule": {
+          "$ref": "#/definitions/Rule"
+        }
+      },
+      "title": "UpdateRulesReq",
+      "required": [
+        "rule"
+      ]
     },
     "UpdateRulesResp": {
       "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "UpdateRulesResp"
     },
     "UpdateUserAvatarReq": {
@@ -3140,10 +4468,5 @@
       "name": "Authorization",
       "in": "header"
     }
-  },
-  "security": [
-    {
-      "apiKey": []
-    }
-  ]
+  }
 }

@@ -65,42 +65,47 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodDelete,
-					Path:    "/user_role",
+					Path:    "/user_role/:roleId",
 					Handler: user_role.DeleteRoleHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPut,
-					Path:    "/user_role",
+					Path:    "/user_role/:roleId",
 					Handler: user_role.UpdateRoleHandler(serverCtx),
 				},
 				{
+					Method:  http.MethodGet,
+					Path:    "/user_role/:roleId/users",
+					Handler: user_role.RoleBindUsersHandler(serverCtx),
+				},
+				{
 					Method:  http.MethodPut,
-					Path:    "/user_role/bind",
+					Path:    "/user_role/:roleId/bind",
 					Handler: user_role.BindRoleHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPut,
-					Path:    "/user_role/unbind",
+					Path:    "/user_role/:roleId/unbind",
 					Handler: user_role.UnbindRoleHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/user_role/rules",
+					Path:    "/user_role/:roleId/rules",
 					Handler: user_role.RoleRulesHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/user_role/rules",
+					Path:    "/user_role/:roleId/rules",
 					Handler: user_role.AddRulesHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodDelete,
-					Path:    "/user_role/rules",
+					Path:    "/user_role/:roleId/rules/:ruleId",
 					Handler: user_role.DeleteRulesHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPut,
-					Path:    "/user_role/rules",
+					Path:    "/user_role/:roleId/rules/:ruleId",
 					Handler: user_role.UpdateRulesHandler(serverCtx),
 				},
 			}...,
@@ -318,6 +323,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtInterceptor},
 			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/swagger",
+					Handler: public_result.SwaggerHandler(serverCtx),
+				},
 				{
 					Method:  http.MethodGet,
 					Path:    "/events",

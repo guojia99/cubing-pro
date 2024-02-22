@@ -1,20 +1,31 @@
 syntax = "v1"
 
 type (
-	EventsReq  struct{}
-	EventsResp struct{}
-	NotifyReq  struct{}
-	NotifyResp struct{}
+	EventsReq {
+	}
+	EventsResp {
+	}
+	NotifyReq {
+	}
+	NotifyResp {
+	}
+	SwaggerReq {
+	}
+	SwaggerResp struct{}
 )
 
 // 基础信息
-@server (
-	jwt:        Auth
-	group:      public_result
+@server(
+	jwt: Auth
+	group: public_result
 	prefix:     /v3/public_result
 	middleware: JwtInterceptor
 )
 service Api {
+	@doc "api文档"
+	@handler Swagger
+	get /swagger (SwaggerReq) returns (SwaggerResp)
+
 	@doc "项目列表"
 	@handler Events
 	get /events (EventsReq) returns (EventsResp)
@@ -25,28 +36,44 @@ service Api {
 }
 
 type (
-	PlayersReq              struct{}
-	PlayersResp             struct{}
-	PlayerReq               struct{}
-	PlayerResp              struct{}
-	PlayerMonthlyReportReq  struct{}
-	PlayerMonthlyReportResp struct{}
-	PlayerYearReportReq     struct{}
-	PlayerYearReportResp    struct{}
-	PlayerResultReq         struct{}
-	PlayerResultResp        struct{}
-	PlayerNemesisReq        struct{}
-	PlayerNemesisResp       struct{}
-	PlayerRecordsReq        struct{}
-	PlayerRecordsResp       struct{}
-	PlayerSorReq            struct{}
-	PlayerSorResp           struct{}
+	PlayersReq {
+	}
+	PlayersResp {
+	}
+	PlayerReq {
+	}
+	PlayerResp {
+	}
+	PlayerMonthlyReportReq {
+	}
+	PlayerMonthlyReportResp {
+	}
+	PlayerYearReportReq {
+	}
+	PlayerYearReportResp {
+	}
+	PlayerResultReq {
+	}
+	PlayerResultResp {
+	}
+	PlayerNemesisReq {
+	}
+	PlayerNemesisResp {
+	}
+	PlayerRecordsReq {
+	}
+	PlayerRecordsResp {
+	}
+	PlayerSorReq {
+	}
+	PlayerSorResp {
+	}
 )
 
 // 玩家信息
-@server (
-	jwt:        Auth
-	group:      public_player
+@server(
+	jwt: Auth
+	group: public_player
 	prefix:     /v3/public_result
 	middleware: JwtInterceptor
 )
@@ -85,22 +112,32 @@ service Api {
 }
 
 type (
-	CompetitionReq           struct{}
-	CompetitionResp          struct{}
-	CompetitionsReq          struct{}
-	CompetitionsResp         struct{}
-	CompetitionRegistersReq  struct{}
-	CompetitionRegistersResp struct{}
-	CompetitionResultsReq    struct{}
-	CompetitionResultsResp   struct{}
-	CompetitionRecordReq     struct{}
-	CompetitionRecordResp    struct{}
+	CompetitionReq {
+	}
+	CompetitionResp {
+	}
+	CompetitionsReq {
+	}
+	CompetitionsResp {
+	}
+	CompetitionRegistersReq {
+	}
+	CompetitionRegistersResp {
+	}
+	CompetitionResultsReq {
+	}
+	CompetitionResultsResp {
+	}
+	CompetitionRecordReq {
+	}
+	CompetitionRecordResp {
+	}
 )
 
 // 比赛信息
-@server (
-	jwt:        Auth
-	group:      public_comp
+@server(
+	jwt: Auth
+	group: public_comp
 	prefix:     /v3/public_result
 	middleware: JwtInterceptor
 )
@@ -127,30 +164,48 @@ service Api {
 }
 
 type (
-	SumOfRanksReq       struct{}
-	SumOfRanksResp      struct{}
-	MedalCollectionReq  struct{}
-	MedalCollectionResp struct{}
-	TopNReq             struct{}
-	TopNResp            struct{}
-	RecordNumReq        struct{}
-	RecordNumResp       struct{}
-	CompRecordNumReq    struct{}
-	CompRecordNumResp   struct{}
-	RecordWithTimeReq   struct{}
-	RecordWithTimeResp  struct{}
-	RecordsReq          struct{}
-	RecordsResp         struct{}
-	SorReq              struct{}
-	SorResp             struct{}
-	BestResultReq       struct{}
-	BestResultResp      struct{}
+	SumOfRanksReq {
+	}
+	SumOfRanksResp {
+	}
+	MedalCollectionReq {
+	}
+	MedalCollectionResp {
+	}
+	TopNReq {
+	}
+	TopNResp {
+	}
+	RecordNumReq {
+	}
+	RecordNumResp {
+	}
+	CompRecordNumReq {
+	}
+	CompRecordNumResp {
+	}
+	RecordWithTimeReq {
+	}
+	RecordWithTimeResp {
+	}
+	RecordsReq {
+	}
+	RecordsResp {
+	}
+	SorReq {
+	}
+	SorResp {
+	}
+	BestResultReq {
+	}
+	BestResultResp {
+	}
 )
 
 // 统计信息
-@server (
-	jwt:        Auth
-	group:      public_statistics
+@server(
+	jwt: Auth
+	group: public_statistics
 	prefix:     /v3/public_result/statistics
 	middleware: JwtInterceptor
 )

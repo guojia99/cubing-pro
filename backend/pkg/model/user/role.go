@@ -9,11 +9,15 @@ type Role struct {
 	basemodel.Model
 
 	Name       string `gorm:"column:name"`        // 角色名
-	CreateId   string `gorm:"column:create_id"`   // 创建角色人ID
-	ModifierId string `gorm:"column:modifier_id"` // 变更人ID
+	CreateId   uint   `gorm:"column:create_id"`   // 创建角色人ID
+	ModifierId uint   `gorm:"column:modifier_id"` // 变更人ID
+}
 
-	Users []*User     `gorm:"many2many:user_roles"` // 多对多权限控制
-	Auths []*AuthRule `gorm:"many2many:role_auths"` // 多对多的权限控制
+type AssUsersRoles struct {
+	basemodel.Model
+
+	UserId uint `gorm:"index:,unique,composite:AssUsersRoles"`
+	RoleId uint `gorm:"index:,unique,composite:AssUsersRoles"`
 }
 
 // AuthRule 权限表
@@ -22,9 +26,16 @@ type AuthRule struct {
 
 	Code       uint   `gorm:"column:code"`        // 权限码
 	Name       string `gorm:"column:name"`        // 权限名
-	CreateId   string `gorm:"column:create_id"`   // 创建角色人ID
-	ModifierId string `gorm:"column:modifier_id"` // 变更人ID
+	CreateId   uint   `gorm:"column:create_id"`   // 创建角色人ID
+	ModifierId uint   `gorm:"column:modifier_id"` // 变更人ID
 
 	Url    string `gorm:"column:url"`    // 权限生效路由 * 代表所有
 	Option string `gorm:"column:option"` // 权限可用的操作 * 代表所有
+}
+
+type AssRoleAuthRule struct {
+	basemodel.Model
+
+	RoleId     uint `gorm:"index:,unique,composite:AssRoleAuthRule"`
+	AuthRuleId uint `gorm:"index:,unique,composite:AssRoleAuthRule"`
 }

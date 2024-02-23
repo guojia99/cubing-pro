@@ -1,283 +1,221 @@
 syntax = "v1"
 
-import "generally.api"
-
-type (
-	PublicUser {
-		ID     string `json:"id"`
-		Name   string `json:"name"`
-		MyId   string `json:"myId"`
-		WcaId  string `json:"wcaId"`
-		Online int    `json:"online"`
-
-		Sign         string `json:"sign"`
-		Avatar       string `json:"avatar"`
-		CoverPhoto   string `json:"coverPhoto"`
-		Level        uint   `json:"level"`
-		DelegateName string `json:"delegateName"`
-	}
-
-	// 详细的user信息
-	AuthUser {
-		PublicUser
-
-		LoginId            string `json:"loginId"`
-		HasInitPassword    bool   `json:"hasInitPassword"`
-		LoginTime          string `json:"loginTime"`
-		LoginIp            string `json:"loginIp"`
-		ActivationTime     string `json:"activationTime"`
-		BanReason          string `json:"banReason"`
-		SumPasswordWrong   string `json:"sumPasswordWrong"`
-		PassWordLockTime   string `json:"passWordLockTime"`
-		LastUpdateNameTime string `json:"lastUpdateNameTime"`
-		Experience         int    `json:"experience"`
-
-		QQ           string `json:"qq"`
-		QQunitID     string `json:"qQunitId"`
-		Wechat       string `json:"wechat"`
-		WechatUnitID string `json:"wechatUnitId"`
-
-		ActualName  string `json:"actualName"`
-		Sex         int    `json:"sex"`
-		Phone       string `json:"phone"`
-		Email       string `json:"email"`
-		Nationality string `json:"nationality"`
-		Province    string `json:"province"`
-		Brithdate   string `json:"brithdate"`
-		IDCard      string `json:"idCard"`
-		Address     string `json:"address"`
-	}
+import (
+    "generally.api"
+    "models.api"
 )
 
 type (
-	AuthCodeReq {
-		Ip string `json:"ip"`
-	}
-	AuthCodeResp {
-		GenerallyResp
-		Timeout   int64  `json:"timeout"`
-		MdCode    string `json:"mdCode"`
-		CodeImage string `json:"codeImage"` // base64
-	}
-	LoginReq {
-		UserName  string `json:"userName"`  // 用户名
-		Password  string `json:"password"`  // 密码
-		Timestamp int64  `json:"timestamp"` // 客户端时间戳
-		Ip        string `json:"ip"`        // Ip地址
-		MdCode    string `json:"mdCode"`    // 获取校验码的数据
-		AuthCode  string `json:"authCode"`  // 验证码
-	}
-	LoginResp {
-		GenerallyResp
-		Refresh string `json:"refresh"`
-		Token   string `json:"token"`
-		Timeout int64  `json:"timeout"`
-	}
-	RegisterReq {
-		LoginReq
-		MyID    string `json:"myId"`
-		LoginID string `json:"loginId"`
-		QQ      string `json:"qq"`
-	}
-	RegisterResp {
-		GenerallyResp
-		Refresh string `json:"refresh"` // 长期刷新秘钥
-		Token   string `json:"token"`
-		Timeout int64  `json:"timeout"`
-	}
-	RefreshToeknReq {
-		Refresh string `json:"refresh"`
-	}
-	RefreshToeknResp {
-		Token   string `json:"token"`
-		Timeout int64  `json:"timeout"`
-	}
+    AuthCodeReq {
+        Ip string `json:"ip"`
+    }
+    AuthCodeResp {
+        GenerallyResp
+        Timeout int64 `json:"timeout"`
+        MdCode string `json:"mdCode"`
+        CodeImage string `json:"codeImage"` // base64
+    }
+    LoginReq {
+        UserName string `json:"userName"`  // 用户名
+        Password string `json:"password"`  // 密码
+        Timestamp int64 `json:"timestamp"` // 客户端时间戳
+        Ip string `json:"ip"`              // Ip地址
+        MdCode string `json:"mdCode"`      // 获取校验码的数据
+        AuthCode string `json:"authCode"`  // 验证码
+    }
+    LoginResp {
+        GenerallyResp
+        Refresh string `json:"refresh"`
+        Token string `json:"token"`
+        Timeout int64 `json:"timeout"`
+    }
+    RegisterReq {
+        LoginReq
+        MyID string `json:"myId"`
+        LoginID string `json:"loginId"`
+        QQ string `json:"qq"`
+    }
+    RegisterResp {
+        GenerallyResp
+        Refresh string `json:"refresh"` // 长期刷新秘钥
+        Token string `json:"token"`
+        Timeout int64 `json:"timeout"`
+    }
+    RefreshToeknReq {
+        Refresh string `json:"refresh"`
+    }
+    RefreshToeknResp {
+        Token string `json:"token"`
+        Timeout int64 `json:"timeout"`
+    }
 )
 
 // 用户注册登录相关接口
 @server(
-	jwt: Auth
-	group: auth
-	prefix: /v3/auth
+    jwt: Auth
+    group: auth
+    prefix: /v3/auth
 )
 service Api {
-	@doc "校验码"
-	@handler AuthCode
-	get /code (AuthCodeReq) returns (AuthCodeResp)
+    @doc "校验码"
+    @handler AuthCode
+    get /code (AuthCodeReq) returns (AuthCodeResp)
 
-	@doc "用户登录 / 获取权限token"
-	@handler Login
-	post /login (LoginReq) returns (LoginResp)
+    @doc "用户登录 / 获取权限token"
+    @handler Login
+    post /login (LoginReq) returns (LoginResp)
 
-	@doc "用户注册"
-	@handler Register
-	post /register (RegisterReq) returns (RegisterResp)
+    @doc "用户注册"
+    @handler Register
+    post /register (RegisterReq) returns (RegisterResp)
 
-	@doc "刷新秘钥"
-	@handler RefreshToekn
-	post /refresh (RefreshToeknReq) returns (RefreshToeknResp)
+    @doc "刷新秘钥"
+    @handler RefreshToekn
+    post /refresh (RefreshToeknReq) returns (RefreshToeknResp)
 }
 
-type (
-	Role {
-		ID         int64  `json:"id"`
-		Name       string `json:"name"`
-		ModifierId string `json:"modifierId"`
-	}
-
-	Rule {
-		Id         int64  `json:"id"`
-		Code       uint   `json:"code"`
-		Name       string `json:"name"`
-		CreateId   string `json:"createId"`
-		ModifierId string `json:"modifierId"`
-
-		Url    string `json:"url"`
-		Option string `json:"option"`
-	}
-)
 
 type (
-	RoleListReq {
-		GenerallyListReq
-	}
-	RoleListResp {
-		GenerallyListResp
-		Roles []Role `json:"roles"`
-	}
+    RoleListReq {
+        GenerallyListReq
+    }
+    RoleListResp {
+        GenerallyListResp
+        Roles []Role `json:"roles"`
+    }
 
-	CreateRoleReq {
-		Role Role `json:"role"`
-	}
-	CreateRoleResp {
-		GenerallyResp
-	}
+    CreateRoleReq {
+        Role Role `json:"role"`
+    }
+    CreateRoleResp {
+        GenerallyResp
+    }
 
-	DeleteRoleReq {
-		RoleId int64 `path:"roleId"`
-	}
-	DeleteRoleResp {
-		GenerallyResp
-	}
+    DeleteRoleReq {
+        RoleId int64 `path:"roleId"`
+    }
+    DeleteRoleResp {
+        GenerallyResp
+    }
 
-	UpdateRoleReq {
-		RoleId int64 `path:"roleId"`
-		Role   Role  `json:"role"`
-	}
-	UpdateRoleResp {
-		GenerallyResp
-	}
+    UpdateRoleReq {
+        RoleId int64 `path:"roleId"`
+        Role Role `json:"role"`
+    }
+    UpdateRoleResp {
+        GenerallyResp
+    }
 
-	RoleBindUsersReq {
-		RoleId int64 `path:"roleId"`
-	}
-	RoleBindUsersResp {
-		GenerallyListResp
-		Users []AuthUser `json:"users"`
-	}
+    RoleBindUsersReq {
+        RoleId int64 `path:"roleId"`
+    }
+    RoleBindUsersResp {
+        GenerallyListResp
+        Users []AuthUser `json:"users"`
+    }
 
-	BindRoleReq {
-		RoleId int64  `path:"roleId"`
-		UserID string `json:"userId"`
-	}
-	BindRoleResp {
-		GenerallyResp
-	}
+    BindRoleReq {
+        RoleId int64 `path:"roleId"`
+        UserID string `json:"userId"`
+    }
+    BindRoleResp {
+        GenerallyResp
+    }
 
-	UnbindRoleReq {
-		RoleId int64  `path:"roleId"`
-		UserID string `json:"userId"`
-	}
-	UnbindRoleResp {
-		GenerallyResp
-	}
+    UnbindRoleReq {
+        RoleId int64 `path:"roleId"`
+        UserID string `json:"userId"`
+    }
+    UnbindRoleResp {
+        GenerallyResp
+    }
 
-	RoleRulesReq {
-		GenerallyListReq
-		RoleId int64 `path:"roleId"`
-	}
-	RoleRulesResp {
-		GenerallyListResp
-		Rules []Rule `json:"rules"`
-	}
+    RoleRulesReq {
+        GenerallyListReq
+        RoleId int64 `path:"roleId"`
+    }
+    RoleRulesResp {
+        GenerallyListResp
+        Rules []Rule `json:"rules"`
+    }
 
-	AddRulesReq {
-		RoleId int64 `path:"roleId"`
-	}
-	AddRulesResp {
-		GenerallyResp
-	}
+    AddRulesReq {
+        RoleId int64 `path:"roleId"`
+    }
+    AddRulesResp {
+        GenerallyResp
+    }
 
-	DeleteRulesReq {
-		RoleId int64 `path:"roleId"`
-		RuleId int64 `path:"ruleId"`
-	}
-	DeleteRulesResp {
-		GenerallyResp
-	}
+    DeleteRulesReq {
+        RoleId int64 `path:"roleId"`
+        RuleId int64 `path:"ruleId"`
+    }
+    DeleteRulesResp {
+        GenerallyResp
+    }
 
-	UpdateRulesReq {
-		RoleId int64 `path:"roleId"`
-		RuleId int64 `path:"ruleId"`
-		Rule   Rule  `json:"rule"`
-	}
-	UpdateRulesResp {
-		GenerallyResp
-	}
+    UpdateRulesReq {
+        RoleId int64 `path:"roleId"`
+        RuleId int64 `path:"ruleId"`
+        Rule Rule `json:"rule"`
+    }
+    UpdateRulesResp {
+        GenerallyResp
+    }
 )
 
 // 用户角色管理
 @server(
-	jwt: Auth
-	group: user_role
-	prefix: /v3/auth
-	// JwtInterceptor Jwt验证
-	// TokenInterceptor 验证密码
-	// UserAuthMiddleware 用户权限拦截
-	middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
+    jwt: Auth
+    group: user_role
+    prefix: /v3/auth
+    // JwtInterceptor Jwt验证
+    // TokenInterceptor 验证密码
+    // UserAuthMiddleware 用户权限拦截
+    middleware: JwtInterceptor,TokenInterceptor,UserAuthMiddleware
 )
 service Api {
-	@doc "角色列表"
-	@handler RoleList
-	get /user_role (RoleListReq) returns (RoleListResp)
+    @doc "角色列表"
+    @handler RoleList
+    get /user_role (RoleListReq) returns (RoleListResp)
 
-	@doc "添加角色"
-	@handler CreateRole
-	post /user_role (CreateRoleReq) returns (CreateRoleResp)
+    @doc "添加角色"
+    @handler CreateRole
+    post /user_role (CreateRoleReq) returns (CreateRoleResp)
 
-	@doc "删除角色"
-	@handler DeleteRole
-	delete /user_role/:roleId (DeleteRoleReq) returns (DeleteRoleResp)
+    @doc "删除角色"
+    @handler DeleteRole
+    delete /user_role/:roleId (DeleteRoleReq) returns (DeleteRoleResp)
 
-	@doc "修改角色"
-	@handler UpdateRole
-	put /user_role/:roleId (UpdateRoleReq) returns (UpdateRoleResp)
+    @doc "修改角色"
+    @handler UpdateRole
+    put /user_role/:roleId (UpdateRoleReq) returns (UpdateRoleResp)
 
-	@doc "角色对应用户列表"
-	@handler RoleBindUsers
-	get /user_role/:roleId/users (RoleBindUsersReq) returns (RoleBindUsersResp)
+    @doc "角色对应用户列表"
+    @handler RoleBindUsers
+    get /user_role/:roleId/users (RoleBindUsersReq) returns (RoleBindUsersResp)
 
-	@doc "用户绑定角色"
-	@handler BindRole
-	put /user_role/:roleId/bind (BindRoleReq) returns (BindRoleResp)
+    @doc "用户绑定角色"
+    @handler BindRole
+    put /user_role/:roleId/bind (BindRoleReq) returns (BindRoleResp)
 
-	@doc "用户解绑角色"
-	@handler UnbindRole
-	put /user_role/:roleId/unbind (UnbindRoleReq) returns (UnbindRoleResp)
+    @doc "用户解绑角色"
+    @handler UnbindRole
+    put /user_role/:roleId/unbind (UnbindRoleReq) returns (UnbindRoleResp)
 
-	@doc "角色权限列表"
-	@handler RoleRules
-	get /user_role/:roleId/rules (RoleRulesReq) returns (RoleRulesResp)
+    @doc "角色权限列表"
+    @handler RoleRules
+    get /user_role/:roleId/rules (RoleRulesReq) returns (RoleRulesResp)
 
-	@doc "新增角色权限"
-	@handler AddRules
-	post /user_role/:roleId/rules (AddRulesReq) returns (AddRulesResp)
+    @doc "新增角色权限"
+    @handler AddRules
+    post /user_role/:roleId/rules (AddRulesReq) returns (AddRulesResp)
 
-	@doc "删除角色权限"
-	@handler DeleteRules
-	delete /user_role/:roleId/rules/:ruleId (DeleteRulesReq) returns (DeleteRulesResp)
+    @doc "删除角色权限"
+    @handler DeleteRules
+    delete /user_role/:roleId/rules/:ruleId (DeleteRulesReq) returns (DeleteRulesResp)
 
-	@doc "修改角色权限"
-	@handler UpdateRules
-	put /user_role/:roleId/rules/:ruleId (UpdateRulesReq) returns (UpdateRulesResp)
+    @doc "修改角色权限"
+    @handler UpdateRules
+    put /user_role/:roleId/rules/:ruleId (UpdateRulesReq) returns (UpdateRulesResp)
 }

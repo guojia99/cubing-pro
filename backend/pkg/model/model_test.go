@@ -1,16 +1,17 @@
 package model
 
 import (
-	"reflect"
 	"testing"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+
+	"github.com/guojia99/cubing-pro/backend/pkg/model/user"
 )
 
-func _testDb() *gorm.DB {
-	db, _ := gorm.Open(
+func _testDb(t *testing.T) *gorm.DB {
+	db, err := gorm.Open(
 		mysql.New(
 			mysql.Config{
 				DSN: "root:my123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local",
@@ -19,17 +20,26 @@ func _testDb() *gorm.DB {
 			Logger: logger.Discard,
 		},
 	)
+	if err != nil {
+		t.Fatal(err)
+	}
 	return db
 }
 
 func TestModels(t *testing.T) {
-	db := _testDb()
+	db := _testDb(t)
+	//
+	//for _, val := range Models() {
+	//	t.Log(reflect.TypeOf(val).Elem().Name())
+	//	err := db.AutoMigrate(&val)
+	//	if err != nil {
+	//		t.Fatal(err)
+	//	}
+	//}
 
-	for _, val := range Models() {
-		err := db.AutoMigrate(val)
-		if err != nil {
-			t.Log(reflect.TypeOf(val).Elem().Name())
-			t.Fatal(err)
-		}
+	a := &user.AssUsersRoles{}
+	if err := db.AutoMigrate(&a); err != nil {
+		t.Fatal(err)
 	}
+
 }

@@ -24,7 +24,7 @@ type Results struct {
 	Route         uint      `gorm:"column:route"`      // 轮次
 
 	PersonName string `gorm:"column:person_name"` // 玩家名
-	PersonId   string `gorm:"column:person_id"`   // ID
+	UserID     uint   `gorm:"column:user_id"`     // ID
 
 	Best               float64 `gorm:"column:best"`                 // 最佳成绩
 	BestRepeatedlyTime float64 `gorm:"column:best_repeatedly_time"` // 多次尝试的成绩

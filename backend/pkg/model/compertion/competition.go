@@ -7,7 +7,6 @@ import (
 	"gorm.io/gorm"
 
 	basemodel "github.com/guojia99/cubing-pro/backend/pkg/model/base"
-	"github.com/guojia99/cubing-pro/backend/pkg/model/user"
 )
 
 type genre uint
@@ -21,7 +20,9 @@ const (
 )
 
 type Competition struct {
-	basemodel.StringIDModel // 这里的ID需要符合条件
+	basemodel.Model // 这里的ID需要符合条件
+
+	StrId string `gorm:"column:str_id,uniqueIndex"`
 
 	// 详情
 	InformationJSON string                   `gorm:"column:info,type:string"` // 说明 []CompetitionInformation JSON
@@ -33,10 +34,6 @@ type Competition struct {
 	Count           uint  `gorm:"column:count"`                      // 人数
 	FreeParticipate bool  `gorm:"free_p"`                            // 自由参赛, 支持非正式赛
 
-	// 主办
-	Sponsors       []*user.User `gorm:"many2many:comp_sponsors_users"` // 主办
-	SponsorGroupID uint         `gorm:"column:sponsor_group_id"`       // 主办团队
-
 	// 时间相关
 	CompStartTime                  time.Time `gorm:"column:comp_start_time"`    // 比赛开始时间
 	CompEndTime                    time.Time `gorm:"column:comp_end_time"`      // 比赛结束时间
@@ -45,9 +42,18 @@ type Competition struct {
 	RegistrationCancelDeadlineTime time.Time `gorm:"column:reg_cancel_dl_time"` // 退赛截止时间
 	RegistrationRestartTime        time.Time `gorm:"column:reg_restart_time"`   // 报名重开时间
 
+	// 主办
+	SponsorGroupID uint `gorm:"column:sponsor_group_id"` // 主办团队
 	// WCA相关
-	WCAUrl     string       `gorm:"column:wca_url"`            // WCA 认证地址
-	Represents []*user.User `gorm:"many2many:comp_represents"` // 代表
+	WCAUrl string `gorm:"column:wca_url"` // WCA 认证地址
+}
+
+type AssCompetitionUsers struct {
+	basemodel.Model
+
+	CompId       uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
+	SponsorsId   uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
+	RepresentsId uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
 }
 
 func (c *Competition) AfterFind(tx *gorm.DB) (err error) {

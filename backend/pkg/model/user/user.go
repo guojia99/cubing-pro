@@ -9,7 +9,7 @@ import (
 
 // User 用户信息表
 type User struct {
-	basemodel.StringIDModel
+	basemodel.Model
 
 	// 账号信息
 	Name            string `gorm:"unique;not null;column:name"` // 名称
@@ -60,6 +60,4 @@ type User struct {
 
 	// 代表信息
 	DelegateName string `gorm:"column:represent_name"` // 代表称呼: 高级代表\代表\实习代表...
-
-	Roles []*Role `gorm:"many2many:user_roles"`
 }

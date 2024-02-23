@@ -1,18 +1,39 @@
 syntax = "v1"
-
+import (
+	"generally.api"
+	"models.api"
+)
 type (
-	UserDetailReq            struct{}
-	UserDetailResp           struct{}
-	UserAuthListReq          struct{}
-	UserAuthListResp         struct{}
-	UpdateUserDetailReq      struct{}
-	UpdateUserDetailResp     struct{}
-	UpdateUserPasswordReq    struct{}
-	UpdateUserPasswordResp   struct{}
-	UpdateUserAvatarReq      struct{}
-	UpdateUserAvatarResp     struct{}
-	UserRetrievePasswordReq  struct{}
-	UserRetrievePasswordResp struct{}
+	UserDetailReq            {
+		UserId uint `path:"userId"`
+	}
+	UserDetailResp           {
+		PublicUser
+		GenerallyResp
+	}
+	UserAuthListReq          {
+		UserId uint `path:"userId"`
+		GenerallyListReq
+	}
+	UserAuthListResp         {
+
+	}
+	UpdateUserDetailReq      {
+		UserId uint `path:"userId"`
+	}
+	UpdateUserDetailResp     {}
+	UpdateUserPasswordReq    {
+		UserId uint `path:"userId"`
+	}
+	UpdateUserPasswordResp   {}
+	UpdateUserAvatarReq      {
+		UserId uint `path:"userId"`
+	}
+	UpdateUserAvatarResp     {}
+	UserRetrievePasswordReq  {
+		UserId uint `path:"userId"`
+	}
+	UserRetrievePasswordResp {}
 )
 
 // 用户基础信息
@@ -52,24 +73,24 @@ service Api {
 }
 
 type (
-	PreResultReq             struct{}
-	PreResultResp            struct{}
-	AddPreResultReq          struct{}
-	AddPreResultResp         struct{}
-	RemovePreResultReq       struct{}
-	RemovePreResultResp      struct{}
-	UserCompsReq             struct{}
-	UserCompsResp            struct{}
-	RegisterCompReq          struct{}
-	RegisterCompResp         struct{}
-	RegisterCompAddEventReq  struct{}
-	RegisterCompAddEventResp struct{}
-	RegisterCompCallbackReq  struct{}
-	RegisterCompCallbackResp struct{}
-	RetireCompReq            struct{}
-	RetireCompResp           struct{}
-	UserCompReq              struct{}
-	UserCompResp             struct{}
+	PreResultReq             {}
+	PreResultResp            {}
+	AddPreResultReq          {}
+	AddPreResultResp         {}
+	RemovePreResultReq       {}
+	RemovePreResultResp      {}
+	UserCompsReq             {}
+	UserCompsResp            {}
+	RegisterCompReq          {}
+	RegisterCompResp         {}
+	RegisterCompAddEventReq  {}
+	RegisterCompAddEventResp {}
+	RegisterCompCallbackReq  {}
+	RegisterCompCallbackResp {}
+	RetireCompReq            {}
+	RetireCompResp           {}
+	UserCompReq              {}
+	UserCompResp             {}
 )
 
 // 用户比赛信息

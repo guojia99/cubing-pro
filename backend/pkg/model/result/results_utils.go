@@ -12,7 +12,7 @@ func (c *Results) updateBestAndAvg() error {
 	cache := make([]float64, len(c.Result))
 	copy(cache, c.Result)
 
-	c.Best, c.Average, c.BestRepeatedlyTime = DNF, DNF, DNF
+	c.Best, c.Average, c.BestRepeatedly = DNF, DNF, DNF
 
 	// 2. 计次项目
 	switch c.EventRoute {
@@ -20,7 +20,7 @@ func (c *Results) updateBestAndAvg() error {
 		list := sortRepeatedly(getRepeatedlyList(cache))
 		if !list[0].D() {
 			c.Best = list[0].N()
-			c.BestRepeatedlyTime = list[0].Time
+			c.BestRepeatedly = list[0].Time
 		}
 		c.Average = 0
 		for _, val := range list {
@@ -32,6 +32,7 @@ func (c *Results) updateBestAndAvg() error {
 		}
 		c.Average /= 3
 		return nil
+	default:
 	}
 
 	// 3. 计时项目
@@ -163,7 +164,7 @@ func (c *Results) isBest(other Results) bool {
 		}
 		if c.Best == other.Best {
 			// 成绩3
-			return c.BestRepeatedlyTime < other.BestRepeatedlyTime
+			return c.BestRepeatedly < other.BestRepeatedly
 		}
 		return c.Best > other.Best
 	default:

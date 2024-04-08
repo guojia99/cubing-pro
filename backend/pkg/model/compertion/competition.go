@@ -9,10 +9,10 @@ import (
 	basemodel "github.com/guojia99/cubing-pro/backend/pkg/model/base"
 )
 
-type genre uint
+type Genre uint
 
 const (
-	WCA            genre = iota + 1 // WCA认证比赛
+	WCA            Genre = iota + 1 // WCA认证比赛
 	Official                        // 线下正式比赛
 	OnlineOfficial                  // 线上正式比赛
 	Informal                        // 线下非正式比赛
@@ -29,7 +29,7 @@ type Competition struct {
 	Information     []CompetitionInformation `gorm:"-"`                       // I18N
 
 	// 基础限制
-	Genre           genre `gorm:"column:genre,type:string,not null"` // 比赛形式
+	Genre           Genre `gorm:"column:genre,type:string,not null"` // 比赛形式
 	MinCount        uint  `gorm:"column:min_count"`                  // 最低开赛限制
 	Count           uint  `gorm:"column:count"`                      // 人数
 	FreeParticipate bool  `gorm:"free_p"`                            // 自由参赛, 支持非正式赛

@@ -8,8 +8,15 @@ type Organizers struct {
 
 	Name         string `gorm:"unique;not null;column:name"`
 	Introduction string `gorm:"column:introduction"`
-	Email        string `gorm:"column:email"` // 邮箱
+	Email        string `gorm:"column:email"`    // 邮箱
+	QQGroup      string `gorm:"column:qq_group"` // QQ群
 
-	LeaderID   string  // 组长
-	Organizers []*User `gorm:"many2many:user_organizers"`
+	LeaderID string // 组长
+}
+
+type AssOrganizerUsers struct {
+	basemodel.Model
+
+	OrganizersId uint `gorm:"index:,unique,composite:AssOrganizerUsers"`
+	UserId       uint `gorm:"index:,unique,composite:AssOrganizerUsers"`
 }

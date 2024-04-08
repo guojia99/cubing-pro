@@ -27,8 +27,9 @@ func (r RouteType) WithBest() bool {
 	switch r {
 	case RouteType1rounds, RouteType3roundsBest, RouteType5roundsBest, RouteTypeRepeatedly, RouteType3RepeatedlyBest:
 		return true
+	default:
+		return false
 	}
-	return false
 }
 
 // N 该项目需要的成绩数
@@ -42,8 +43,9 @@ func (r RouteType) N() int {
 		return 5
 	case RouteType3RepeatedlyBest:
 		return 9
+	default:
+		return 0
 	}
-	return 0
 }
 
 type Event struct {

@@ -37,8 +37,9 @@ type User struct {
 	CoverPhoto string `gorm:"column:cover_photo"` // 封面相册
 
 	// 等级信息
-	Level      uint `gorm:"column:level"` // 等级
-	Experience uint `gorm:"exp"`          // 经验
+	Level         uint `gorm:"column:level"`   // 等级
+	Experience    uint `gorm:"column:exp"`     // 经验
+	UseExperience uint `gorm:"column:use_exp"` // 已消费经验值
 
 	// 第三方登录信息
 	QQ           string `gorm:"column:qq"`            // qq号

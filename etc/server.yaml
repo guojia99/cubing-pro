@@ -1,0 +1,30 @@
+global:
+  debug: false
+  xStaticPath: "/x-static" # 后端资源文件
+  xFilePath: "/x-file" # 其他资源文件
+  db:
+    driver: "mysql" # 数据库类型
+    dsn: "root:cube123456@tcp(127.0.0.1:3306)/cubing-pro?charset=utf8&parseTime=True&loc=Local"
+  scramble:
+    endpoint: "http://127.0.0.1:20009" #
+
+apiGateway:
+  pem: "/https/cube-cert.pem"
+  privateKey: "/https/cube-privatekey.key"
+  host: "localhost"
+  port: 80
+  apiPort: 20000
+  httpsPort: 443
+  indexPath: "/build/index.html" # 前端启动文件
+  staticPath: "/build/static" # 前端资源文件
+
+robot:
+  QQBot:
+    - group: true
+      enable: true
+      appID: 101986244
+      token: "1sou4Anz0TyJ7kGLa1k2fKAl57B3tBxH"
+      groupList:
+        - "F98A8BE874C743A626695F4124E42BBE"
+  WeChatBot:
+    - enable: false

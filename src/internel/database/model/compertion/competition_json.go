@@ -4,19 +4,6 @@ import (
 	"time"
 )
 
-type CompetitionInformation struct {
-	Language     string             // 语言
-	Name         string             // 名称
-	Illustrate   string             // 详细说明
-	Location     string             // 地址
-	LocationAddr []float64          // 经纬坐标
-	Country      string             // 地区
-	City         string             // 城市
-	RuleMD       string             // 规则
-	Events       []CompetitionEvent // 项目列表
-	Series       []string           // 系列赛
-}
-
 type CompetitionEvent struct {
 	EventName     string                // 项目名称
 	SingleQualify float64               // 单次资格线

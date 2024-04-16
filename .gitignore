@@ -20,5 +20,4 @@ vendor/
 # Go workspace file
 go.work
 
-scramble/
 back.sql

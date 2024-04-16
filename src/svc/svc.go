@@ -16,7 +16,6 @@ import (
 	"gorm.io/gorm/logger"
 
 	"github.com/guojia99/cubing-pro/src/internel/database"
-	"github.com/guojia99/cubing-pro/src/internel/database/model"
 )
 
 type Svc struct {
@@ -56,10 +55,6 @@ func newDB(cfg DBConfig) (*gorm.DB, error) {
 				Logger: logger.Discard,
 			},
 		)
-	}
-
-	if err = db.AutoMigrate(model.Models()...); err != nil {
-		return nil, err
 	}
 	return db, err
 }

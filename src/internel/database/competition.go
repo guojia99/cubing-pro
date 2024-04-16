@@ -2,24 +2,39 @@ package database
 
 import (
 	"context"
-
-	"gorm.io/gorm/clause"
+	"fmt"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/compertion"
 )
 
 type competitionI interface {
-	GetCompetitionByName(ctx context.Context, name string) (compertion.Competition, error)
+	SearchCompetition(ctx context.Context, searchValue string, genre compertion.Genre, startTime, endTime time.Time) ([]compertion.Competition, error)
 }
 
-func (c *convenient) GetCompetitionByName(ctx context.Context, name string) (compertion.Competition, error) {
-	var comp compertion.Competition
+// SearchCompetition 查询id、name 符合要求的查询
+func (c *convenient) SearchCompetition(ctx context.Context, searchValue string, genre compertion.Genre, startTime, endTime time.Time) ([]compertion.Competition, error) {
+	var out []compertion.Competition
 
-	err := c.db.WithContext(ctx).
-		Model(&compertion.Competition{}).
-		Preload(clause.Associations).
-		Where("id = ?", name).
-		First(&comp).Error
+	like := fmt.Sprintf("%%%s%%", searchValue)
+	sql := c.db.WithContext(ctx).Model(&compertion.Competition{}).Limit(100)
+	if !startTime.IsZero() {
+		sql = sql.Where("comp_start_time > ?", startTime)
+	}
+	if !endTime.IsZero() {
+		sql = sql.Where("comp_start_time < ?", endTime)
+	}
 
-	return comp, err
+	if searchValue != "" {
+		sql = sql.Or("id like ?", like).
+			Or("str_id like ?", like).
+			Or("name like ?", like)
+	}
+
+	if genre != 0 {
+		sql = sql.Where("genre = ?", genre)
+	}
+
+	err := sql.Find(&out).Error
+	return out, err
 }

@@ -1,10 +1,12 @@
 global:
-  debug: false
+  debug: true
   xStaticPath: "/x-static" # 后端资源文件
   xFilePath: "/x-file" # 其他资源文件
   db:
-    driver: "mysql" # 数据库类型
-    dsn: "root:cube123456@tcp(127.0.0.1:3306)/cubing-pro?charset=utf8&parseTime=True&loc=Local"
+    driver: "sqlite"
+    dsn: "./cubingPro.db"
+#    driver: "mysql" # 数据库类型
+#    dsn: "root:cube123456@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
   scramble:
     endpoint: "http://127.0.0.1:20009" #
 

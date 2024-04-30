@@ -1,15 +1,29 @@
 package user
 
 import (
+	"fmt"
 	"net"
 	"time"
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 )
 
+type Auth = int
+
+const (
+	AuthPlayer     Auth = 1 << iota // 选手
+	AuthOrganizers                  // 主办
+	AuthDelegates                   // 代表
+	AuthAdmin                       // 管理员
+	AuthSuperAdmin                  // 超级管理员
+)
+
 // User 用户信息表
 type User struct {
 	basemodel.Model
+
+	// Auth
+	Auth Auth `gorm:"column:auth"` // 权限等级
 
 	// 账号信息
 	Name            string `gorm:"unique;not null;column:name"` // 名称
@@ -63,3 +77,32 @@ type User struct {
 	// 代表信息
 	DelegateName string `gorm:"column:represent_name"` // 代表称呼: 高级代表\代表\实习代表...
 }
+
+func (u *User) CheckPassword(password string) error {
+	// 封禁时间
+	if u.PassWordLockTime != nil {
+		if time.Now().Sub(*u.PassWordLockTime) < 0 {
+			return fmt.Errorf("用户尝试密码过多，禁止登录到 %+v", u.PassWordLockTime)
+		}
+		u.PassWordLockTime = nil
+	}
+
+	if password == u.Password {
+		u.SumPasswordWrong = 0
+		u.PassWordLockTime = nil
+		return nil
+	}
+
+	// 封禁次数, 每五次封禁一次
+	u.SumPasswordWrong += 1
+	if u.SumPasswordWrong%5 == 0 {
+		t := time.Now().Add(time.Minute * time.Duration(u.SumPasswordWrong))
+		u.PassWordLockTime = &t
+		return fmt.Errorf("尝试次数过多，已封禁到 %+v", u.PassWordLockTime)
+	}
+	return fmt.Errorf("密码错误")
+}
+
+func (u *User) CheckAuth(auth Auth) bool { return u.Auth&auth != 0 }
+func (u *User) SetAuth(auth Auth)        { u.Auth |= auth }
+func (u *User) UnSetAuth(auth Auth)      { u.Auth &= ^auth }

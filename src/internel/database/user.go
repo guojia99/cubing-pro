@@ -15,8 +15,7 @@ func (c *convenient) GetCubeID(name string) string {
 	baseName := utils.GetIDButNotNumber(name)
 
 	var find []user.User
-	c.db.Model(&user.User{}).Find(&find, "%s", fmt.Sprintf("%%%s%%", baseName))
-
+	c.db.Model(&user.User{}).Where("like ?", fmt.Sprintf("%%%s%%", baseName)).Find(&find)
 	num := len(find) + 1
 	return fmt.Sprintf("%s%02d", baseName, num)
 }

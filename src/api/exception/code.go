@@ -22,7 +22,6 @@ var (
 	ErrJwtField           = NewErrorMsg(H401, 10003, "Jwt解析错误", "", "")
 	ErrAuthField          = NewErrorMsg(H401, 10004, "无权限", "", "")
 	ErrGetData            = NewErrorMsg(H404, 10005, "数据不存在", "", "")
-	ErrUserNotFound       = NewErrorMsg(H401, 10006, "用户不存在", "", "")
 	ErrPasswordField      = NewErrorMsg(H401, 10007, "密码错误", "", "")
 	ErrInvalidInput       = NewErrorMsg(H400, 10008, "无效输入", "", "")
 	ErrDatabase           = NewErrorMsg(H500, 10009, "数据库错误", "", "")
@@ -48,6 +47,7 @@ var (
 // auth errors 10500 ~ 10999
 var (
 	ErrRegisterField = NewErrorMsg(H401, 10500, "注册错误", "", "")
+	ErrUserNotFound  = NewErrorMsg(H404, 10501, "用户不存在", "", "")
 )
 
 // system errors 11000 ~ 12000
@@ -56,4 +56,6 @@ var (
 
 var (
 	ErrResultScoreFormatField = NewErrorMsg(H400, 13001, "成绩格式错误", "", "")
+	ErrResultBeUse            = NewErrorMsg(H400, 13002, "资源被占用", "", "")
+	ErrResultDelete           = NewErrorMsg(H400, 13003, "资源删除失败", "", "")
 )

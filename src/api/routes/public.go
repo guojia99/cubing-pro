@@ -2,8 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-
-	"github.com/guojia99/cubing-pro/src/svc"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
 func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {

@@ -37,6 +37,11 @@ func Encrypt(plaintext string, key []byte) (string, error) {
 	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
+func EncryptToByte(plaintext string, key []byte) ([]byte, error) {
+	out, err := Encrypt(plaintext, key)
+	return []byte(out), err
+}
+
 // Decrypt 解密函数
 func Decrypt(ciphertext string, key []byte) (string, error) {
 	// 先将密文解码

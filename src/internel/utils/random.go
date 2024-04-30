@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"image/color"
 	"math/rand"
 	"time"
@@ -9,16 +10,11 @@ import (
 )
 
 func GenerateRandomKey(timestamp int64) []byte {
-	source := rand.NewSource(timestamp)
-	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	b := make([]byte, 32)
-
-	randGen := rand.New(source)
-
-	for i := range b {
-		b[i] = charset[randGen.Intn(len(charset))]
+	var data = []byte(fmt.Sprintf("%dcubing-pro-key", timestamp))
+	for len(data) < 32 {
+		data = append(data, '=')
 	}
-	return b
+	return data[:32]
 }
 
 func RandomString(length int) string {
@@ -35,8 +31,8 @@ func RandomString(length int) string {
 // MathRandomConfig 生成图形化算术验证码配置
 func MathRandomConfig() *base64Captcha.DriverMath {
 	mathType := &base64Captcha.DriverMath{
-		Height:          50,
-		Width:           100,
+		Height:          200,
+		Width:           300,
 		NoiseCount:      0,
 		ShowLineOptions: base64Captcha.OptionShowHollowLine,
 		BgColor: &color.RGBA{

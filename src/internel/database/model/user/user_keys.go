@@ -14,7 +14,7 @@ const (
 
 // UserKV 用户kv数据
 type UserKV struct {
-	basemodel.DBModel
+	basemodel.Model
 
 	UserId uint   `gorm:"index:,unique,composite:AssUserKV"`
 	Key    string `gorm:"index:,unique,composite:AssUserKV"`

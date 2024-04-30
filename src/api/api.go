@@ -4,9 +4,10 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
 
+	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/api/routes"
-	"github.com/guojia99/cubing-pro/src/svc"
 )
 
 type API struct {
@@ -20,6 +21,12 @@ func NewAPI(svc *svc.Svc) *API {
 		Svc:    svc,
 		engine: gin.Default(),
 	}
+
+	// init middleware
+	middleware.InitJWT(svc)
+	middleware.InitCheckAuth(svc)
+
+	// init routers
 	group := a.engine.Group("/v3/cube-api")
 	routes.AuthRouters(group, svc)
 	routes.AdminRouters(group, svc)

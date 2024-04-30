@@ -8,7 +8,7 @@ import (
 
 func (c *Results) updateBestAndAvg() error {
 	// 1. 拷贝基础数据并做
-	for n := c.EventRoute.N(); len(c.Result) < n; {
+	for n := c.EventRoute.RouteMap().Rounds; len(c.Result) < n; {
 		c.Result = append(c.Result, DNS)
 	}
 	cache := make([]float64, len(c.Result))
@@ -17,33 +17,20 @@ func (c *Results) updateBestAndAvg() error {
 	c.Best, c.Average, c.BestRepeatedly = DNF, DNF, DNF
 
 	// 2. 计次项目
-	switch c.EventRoute {
-	case event.RouteTypeRepeatedly, event.RouteType3RepeatedlyBest:
+	if c.EventRoute.RouteMap().Repeatedly {
 		list := sortRepeatedly(getRepeatedlyList(cache))
 		if !list[0].D() {
 			c.Best = list[0].N()
 			c.BestRepeatedly = list[0].Time
 		}
 		c.Average = 0
-		for _, val := range list {
-			if val.D() {
-				c.Average = DNF
-				return nil
-			}
-			c.Average += val.N()
-		}
-		c.Average /= 3
 		return nil
-	default:
 	}
 
 	// 3. 计时项目
-	best, avg, htAvg := getBestAndAvg(cache)
+	best, avg := getBestAndAvg(cache, c.EventRoute.RouteMap())
 	c.Best = best
 	c.Average = avg
-	if c.EventRoute == event.RouteType5RoundsAvgHT {
-		c.Average = htAvg
-	}
 	return nil
 }
 
@@ -96,8 +83,8 @@ func sortRepeatedly(in []repeatedly) []repeatedly {
 	return in
 }
 
-func getBestAndAvg(results []float64) (best, avg float64, htAvg float64) {
-	best, avg, htAvg = DNF, DNF, DNF
+func getBestAndAvg(results []float64, routeMap event.RouteMap) (best, avg float64) {
+	best, avg = DNF, DNF
 
 	// DNF
 	d := 0
@@ -126,34 +113,21 @@ func getBestAndAvg(results []float64) (best, avg float64, htAvg float64) {
 		return
 	}
 
-	if d >= 2 || d == len(results) {
+	// 去头尾平均
+	if d == len(results) || (len(results)-routeMap.HeadToTailNum*2) < 1 {
 		return
 	}
-
-	// 去头尾平均
-	if len(results) >= 3 {
-		for idx, val := range results {
-			if idx == 0 || idx == len(results)-1 {
-				continue
-			}
-			htAvg += val
+	for idx, val := range results {
+		if idx < routeMap.HeadToTailNum || idx > len(results)-routeMap.HeadToTailNum {
+			continue
 		}
-		htAvg /= float64(len(results) - 2)
-	}
-
-	// 平均
-	if d == 0 {
-		for _, val := range results {
-			avg += val
-		}
-		avg /= float64(len(results))
+		avg += val
 	}
 	return
 }
 
 func (c *Results) isBest(other Results) bool {
-	switch c.EventRoute {
-	case event.RouteTypeRepeatedly, event.RouteType3RepeatedlyBest:
+	if c.EventRoute.RouteMap().Repeatedly {
 		// blind cube special rules:
 		// - the result1 is number of successful recovery.
 		// - the result2 is number of attempts to recover.
@@ -169,30 +143,29 @@ func (c *Results) isBest(other Results) bool {
 			return c.BestRepeatedly < other.BestRepeatedly
 		}
 		return c.Best > other.Best
-	default:
-		if c.DBest() || other.DBest() {
-			return !c.DBest()
-		}
-		if c.Best == other.Best {
-			return c.Average < other.Average
-		}
-		return c.Best < other.Best
 	}
 
-}
-func (c *Results) isBestAvg(other Results) bool {
-	switch c.EventRoute {
-	case event.RouteTypeRepeatedly, event.RouteType3RepeatedlyBest:
-		return true
-	default:
-		if c.DAvg() || other.DAvg() {
-			return !c.DAvg()
-		}
-		if c.DAvg() && other.DAvg() {
-			return c.IsBest(other)
-		}
+	if c.DBest() || other.DBest() {
+		return !c.DBest()
+	}
+	if c.Best == other.Best {
 		return c.Average < other.Average
 	}
+	return c.Best < other.Best
+}
+
+func (c *Results) isBestAvg(other Results) bool {
+	if c.EventRoute.RouteMap().Repeatedly {
+		return true
+	}
+
+	if c.DAvg() || other.DAvg() {
+		return !c.DAvg()
+	}
+	if c.DAvg() && other.DAvg() {
+		return c.IsBest(other)
+	}
+	return c.Average < other.Average
 }
 
 // SortResultsByBest 先看best 再看平均
@@ -219,16 +192,16 @@ func SortResultsByAvg(in []Results) {
 }
 
 func SortResultsAndUpdateRank(rt event.RouteType, in []Results) {
-	if len(in) == 0 {
+	if len(in) <= 1 {
 		return
 	}
 
-	if rt.WithBest() {
-		SortResultsByBest(in)
-	}
-	if !rt.WithBest() {
-
-	}
+	//if rt.WithBest() {
+	//	SortResultsByBest(in)
+	//}
+	//if !rt.WithBest() {
+	//
+	//}
 
 	// 1. 进行排序
 	// 2. 给rank值

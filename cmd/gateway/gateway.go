@@ -4,15 +4,13 @@
  *  * Author: guojia(https://github.com/guojia99)
  */
 
-package main
+package gateway
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -138,25 +136,26 @@ func GetNumbers(in string) []float64 {
 	return out
 }
 
-func copyFile(dstName, srcName string) (written int64, err error) {
-	src, err := os.Open(srcName)
-	if err != nil {
-		return
-	}
-	defer src.Close()
+//
+//func copyFile(dstName, srcName string) (written int64, err error) {
+//	src, err := os.Open(srcName)
+//	if err != nil {
+//		return
+//	}
+//	defer src.Close()
+//
+//	dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
+//	if err != nil {
+//		return
+//	}
+//	defer dst.Close()
+//
+//	return io.Copy(dst, src)
+//}
 
-	dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
-	if err != nil {
-		return
-	}
-	defer dst.Close()
-
-	return io.Copy(dst, src)
-}
-
-func main() {
-	cmd := NewCmd()
-	if err := cmd.Execute(); err != nil {
-		panic(err)
-	}
-}
+//func main() {
+//	cmd := NewCmd()
+//	if err := cmd.Execute(); err != nil {
+//		panic(err)
+//	}
+//}

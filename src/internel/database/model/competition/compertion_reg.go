@@ -1,4 +1,4 @@
-package compertion
+package competition
 
 import (
 	"time"

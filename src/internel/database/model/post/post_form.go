@@ -26,7 +26,10 @@ type Topic struct {
 	Fid            uint   `gorm:"column:fid"`               // 板块id
 	CreateBy       string `gorm:"column:create_by"`         // 创建人
 	CreateByUserID uint   `gorm:"column:create_by_user_id"` // 创建人ID
+	CreateIp       string `gorm:"column:create_ip"`         // ip地址
+	UpdateIp       string `gorm:"column:update_ip"`         // 更新的ip地址
 
+	ForumID    uint        `gorm:"column:forum_id"`          // 板块ID
 	Status     TopicStatus `gorm:"column:status"`            // 发布状态
 	Title      string      `gorm:"column:title"`             // 标题
 	Short      string      `gorm:"column:short"`             // 简短说明
@@ -37,14 +40,8 @@ type Topic struct {
 	IsOriginal bool        `gorm:"column:is_original"`       // 是否原创
 	Original   string      `gorm:"column:original"`          // 原创
 	KeyWords   string      `gorm:"column:key_words;index:,"` // 关键词
-	Ip         string      `gorm:"column:ip"`                // ip地址
-}
 
-type AssTopicLike struct {
-	basemodel.Model
-
-	Uid uint `gorm:"index:,unique,composite:AssTopicLike"`
-	Tid uint `gorm:"index:,unique,composite:AssTopicLike"`
+	Ban bool `gorm:"column:ban"` // 是否封禁
 }
 
 // Posts 回复内容
@@ -58,6 +55,13 @@ type Posts struct {
 	UserName string `gorm:"column:user_name"` // 用户名
 	Content  string `gorm:"column:content"`   // 回复内容
 	IP       string `gorm:"column:ip"`        // ip地址
+}
+
+type AssTopicLike struct {
+	basemodel.Model
+
+	Uid uint `gorm:"index:,unique,composite:AssTopicLike"`
+	Tid uint `gorm:"index:,unique,composite:AssTopicLike"`
 }
 
 type AssPostsLike struct {

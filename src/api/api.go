@@ -27,11 +27,15 @@ func NewAPI(svc *svc.Svc) *API {
 	middleware.InitCheckAuth(svc)
 
 	// init routers
-	group := a.engine.Group("/v3/cube-api")
+	group := a.engine.Group(
+		"/v3/cube-api",
+		//middleware.CheckHeaderMiddleware,
+	)
 	routes.AuthRouters(group, svc)
 	routes.AdminRouters(group, svc)
 	routes.UserRouters(group, svc)
-	routes.CompRouters(group, svc)
+	routes.CompWithOrgRouters(group, svc)
+	routes.CompWithUserRouters(group, svc)
 	routes.PostRouters(group, svc)
 	routes.PublicRouters(group, svc)
 	return a

@@ -29,6 +29,7 @@ func NewCmd() *cobra.Command {
 				LoginID:  name,
 			}
 
+			user.SetAuth(user2.AuthPlayer)
 			user.SetAuth(user2.AuthAdmin)
 			user.SetAuth(user2.AuthSuperAdmin)
 			user.SetAuth(user2.AuthDelegates)

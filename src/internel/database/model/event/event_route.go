@@ -15,16 +15,12 @@ const (
 	RouteType3RepeatedlyBest                  // "3ry"      // 三轮尝试多次还原项目 成绩1:还原数; 成绩2:尝试数; 成绩3:时间; 循环3次
 )
 
-func Routes() []RouteType {
-	return []RouteType{
-		RouteType1rounds, RouteType3roundsBest, RouteType3roundsAvg,
-		RouteType5roundsBest, RouteType5roundsAvg, RouteType5RoundsAvgHT,
-		RouteTypeRepeatedly, RouteType2RepeatedlyBest, RouteType3RepeatedlyBest,
-	}
-}
-
 func (r RouteType) RouteMap() RouteMap {
 	return routeMaps[r]
+}
+
+func (r RouteType) String() string {
+	return r.RouteMap().Name
 }
 
 type RouteMap struct {
@@ -34,9 +30,14 @@ type RouteMap struct {
 	Rounds        int    `json:"rounds"`        // 成绩数
 	WithBest      bool   `json:"withBest"`      // 取最佳
 	HeadToTailNum int    `json:"headToTailNum"` // 去头尾的数量
+	NotComp       bool   `json:"notComp"`       // 是否非比赛项目
 }
 
 var routeMaps = map[RouteType]RouteMap{
+	RouteTypeNot: RouteMap{
+		Name:    "非比赛项目",
+		NotComp: true,
+	},
 	RouteType1rounds: RouteMap{
 		Name:     "一把取最佳",
 		Rounds:   1,

@@ -7,10 +7,12 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug       bool     `yaml:"debug"`
-	XStaticPath string   `yaml:"xStaticPath"`
-	XFilePath   string   `yaml:"xFilePath"`
-	DB          DBConfig `yaml:"db"`
+	Debug       bool        `yaml:"debug"`
+	BaseHost    string      `yaml:"baseHost"`
+	XStaticPath string      `yaml:"xStaticPath"`
+	XFilePath   string      `yaml:"xFilePath"`
+	DB          DBConfig    `yaml:"db"`
+	EmailConfig EmailConfig `yaml:"emailConfig"`
 }
 
 type DBConfig struct {
@@ -44,6 +46,14 @@ type WeChatBotConfig struct {
 type RobotConfig struct {
 	QQBot     []QQBotConfig     `yaml:"QQBot"`
 	WeChatBot []WeChatBotConfig `yaml:"WeChatBot"`
+}
+
+type EmailConfig struct {
+	SmtpHost string `yaml:"smtpHost"`
+	SmtpPort int    `yaml:"smtpPort"`
+	From     string `yaml:"from"`
+	FromName string `yaml:"fromName"`
+	Password string `yaml:"password"`
 }
 
 type Config struct {

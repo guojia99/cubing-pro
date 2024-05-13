@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/database/model/compertion"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 )
 
 type competitionI interface {
-	SearchCompetition(ctx context.Context, searchValue string, genre compertion.Genre, startTime, endTime time.Time) ([]compertion.Competition, error)
+	SearchCompetition(ctx context.Context, searchValue string, genre competition.Genre, startTime, endTime time.Time) ([]competition.Competition, error)
 }
 
 // SearchCompetition 查询id、name 符合要求的查询
-func (c *convenient) SearchCompetition(ctx context.Context, searchValue string, genre compertion.Genre, startTime, endTime time.Time) ([]compertion.Competition, error) {
-	var out []compertion.Competition
+func (c *convenient) SearchCompetition(ctx context.Context, searchValue string, genre competition.Genre, startTime, endTime time.Time) ([]competition.Competition, error) {
+	var out []competition.Competition
 
 	like := fmt.Sprintf("%%%s%%", searchValue)
-	sql := c.db.WithContext(ctx).Model(&compertion.Competition{}).Limit(100)
+	sql := c.db.WithContext(ctx).Model(&competition.Competition{}).Limit(100)
 	if !startTime.IsZero() {
 		sql = sql.Where("comp_start_time > ?", startTime)
 	}

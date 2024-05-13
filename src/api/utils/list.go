@@ -14,6 +14,7 @@ type (
 		Size   int               `form:"size"`
 		Like   map[string]string `json:"like"`
 		Search map[string]string `json:"search"`
+		Order  []string          `json:"order"`
 	}
 	GenerallyListResp struct {
 		Items interface{} `json:"items"`
@@ -22,22 +23,37 @@ type (
 	}
 )
 
-func GenerallyList(ctx *gin.Context, db *gorm.DB, model, dest interface{}, maxSize int, conds ...interface{}) {
+type ListSearchParam struct {
+	Model       interface{}
+	MaxSize     int
+	Query       string
+	QueryCons   []interface{}
+	OrderBy     []string
+	Omit        []string // 不需要字段
+	Select      []string // 所需字段
+	HasDeleted  bool     // 包含删除的行
+	NotAutoResp bool     //  自动封装消息
+}
+
+func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSearchParam) {
 	var req GenerallyListReq
 	if err := ctx.Bind(&req); err != nil {
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
 		return
 	}
 
-	if req.Size > maxSize || req.Size <= 0 {
-		req.Size = maxSize
+	if req.Size > param.MaxSize || req.Size <= 0 {
+		req.Size = param.MaxSize
 	}
 	if req.Page <= 0 {
 		req.Page = 1
 	}
 
 	// search with db
-	searchDB := db.WithContext(ctx).Model(&model)
+	searchDB := db.WithContext(ctx).Model(&param.Model)
+	if param.HasDeleted {
+		searchDB = searchDB.Unscoped()
+	}
 	if len(req.Like) > 0 {
 		for key, val := range req.Like {
 			searchDB = searchDB.Where(fmt.Sprintf("%s like ?", key), fmt.Sprintf("%%%s%%", val))
@@ -48,6 +64,21 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, model, dest interface{}, maxSi
 			searchDB = searchDB.Where(fmt.Sprintf("%s = ?", key), val)
 		}
 	}
+	if len(param.Query) != 0 {
+		searchDB = searchDB.Where(param.Query, param.QueryCons...)
+	}
+
+	// order by 默认倒序
+	if len(param.OrderBy) > 0 {
+		for _, o := range param.OrderBy {
+			searchDB = searchDB.Order(o)
+		}
+	}
+	if len(req.Order) > 0 {
+		for _, o := range req.Order {
+			searchDB = searchDB.Order(o)
+		}
+	}
 
 	// total
 	var total int64
@@ -56,17 +87,28 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, model, dest interface{}, maxSi
 		return
 	}
 
+	// omit
+	if len(param.Omit) > 0 {
+		searchDB = searchDB.Omit(param.Omit...)
+	}
+	if len(param.Select) > 0 {
+		param.Select = append(param.Select, "id", "created_at", "updated_at", "deleted_at")
+		searchDB = searchDB.Select(param.Select)
+	}
+
 	// page
 	offset := (req.Page - 1) * req.Size
-	if err := searchDB.Offset(offset).Limit(req.Size).Find(&dest, conds...).Error; err != nil {
+	if err := searchDB.Offset(offset).Limit(req.Size).Find(&dest).Error; err != nil {
 		exception.ErrDatabase.ResponseWithError(ctx, err)
 		return
 	}
 
-	exception.ResponseOK(
-		ctx, GenerallyListResp{
-			Items: dest,
-			Total: total,
-		},
-	)
+	if !param.NotAutoResp {
+		exception.ResponseOK(
+			ctx, GenerallyListResp{
+				Items: dest,
+				Total: total,
+			},
+		)
+	}
 }

@@ -31,16 +31,19 @@ type User struct {
 	LoginID         string `gorm:"column:login_id;unique;"`     // 登录账号
 	CubeID          string `gorm:"column:cube_id;unique"`       // CubeID
 	Password        string `gorm:"column:pw"`                   // 密码
-	InitPassword    string `gorm:"column:init_pw"`              // 初始密码
 	HistoryPassword string `gorm:"column:history_pw"`           // 历史密码
-	Hash            string `gorm:"column:hash"`                 // 授权码
+	Hash            string `gorm:"column:hash"`                 // 授权码 todo 预留
+
+	// v2用户
+	InitPassword   string    `gorm:"column:init_pw"` // 初始密码 v2预留的坑
+	ActivationTime time.Time `gorm:"column:a_time"`  // 启用时间
 
 	// 状态信息
 	Token              string     `gorm:"column:token"`                 // token
 	LoginTime          time.Time  `gorm:"column:login_time"`            // 登录时间
 	LoginIp            net.IP     `gorm:"column:login_ip"`              // 登录的IP
 	Online             int        `gorm:"column:online"`                // 0 离线 1 在线 2 隐身
-	ActivationTime     time.Time  `gorm:"column:a_time"`                // 启用时间
+	Ban                bool       `gorm:"column:ban"`                   // 封禁
 	BanReason          string     `gorm:"column:ban_reason"`            // 封禁原因
 	SumPasswordWrong   int        `gorm:"column:sum_pw_wrong"`          // 累计尝试密码错误次数
 	PassWordLockTime   *time.Time `gorm:"column:pw_lock_time"`          // 密码锁定时间

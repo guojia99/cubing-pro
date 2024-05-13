@@ -22,11 +22,11 @@ func UpdateNotify(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req UpdateNotifyReq
 
-		if err := ctx.BindUri(&req); err != nil {
+		if err := ctx.ShouldBind(&req); err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
-		if err := ctx.Bind(&req); err != nil {
+		if err := ctx.BindUri(&req); err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}

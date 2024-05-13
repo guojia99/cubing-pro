@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/guojia99/cubing-pro/cmd/admin"
+	"github.com/guojia99/cubing-pro/cmd/initer"
 	"github.com/spf13/cobra"
 
 	"github.com/guojia99/cubing-pro/cmd/api"
@@ -16,6 +17,7 @@ func NewRootCmd() *cobra.Command {
 	cmd.AddCommand(
 		api.NewCmd(),
 		admin.NewCmd(),
+		initer.NewCmd(),
 	)
 	return cmd
 }

@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/compertion"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -28,8 +28,8 @@ func Models() []interface{} {
 func NewConvenient(db *gorm.DB) ConvenientI {
 	_ = db.AutoMigrate()
 	_ = db.AutoMigrate(&user.User{})
+	_ = db.AutoMigrate(&user.CheckCode{})
 	_ = db.AutoMigrate(&user.Organizers{})
-	_ = db.AutoMigrate(&user.AssOrganizerUsers{})
 	_ = db.AutoMigrate(&user.UserKV{})
 
 	// 讨论表和通知表
@@ -47,9 +47,9 @@ func NewConvenient(db *gorm.DB) ConvenientI {
 	_ = db.AutoMigrate(&result.Record{})
 
 	//比赛表
-	_ = db.AutoMigrate(&compertion.Competition{})
-	_ = db.AutoMigrate(&compertion.CompetitionRegistration{})
-	_ = db.AutoMigrate(&compertion.AssCompetitionUsers{}) // 比赛相关主办代表关联表
+	_ = db.AutoMigrate(&competition.Competition{})
+	_ = db.AutoMigrate(&competition.CompetitionRegistration{})
+	_ = db.AutoMigrate(&competition.AssCompetitionUsers{}) // 比赛相关主办代表关联表
 
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{})

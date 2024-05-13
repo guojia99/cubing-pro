@@ -8,6 +8,7 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/patrickmn/go-cache"
 
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
@@ -17,20 +18,26 @@ import (
 const IdentityKey = "UserDetail"
 
 var jwtOnce = sync.Once{}
-var jwtMiddleware *jwt.GinJWTMiddleware
+var jwtMiddleware = &Jwt{}
 
-func JWT() *jwt.GinJWTMiddleware { return jwtMiddleware }
+type Jwt struct {
+	*jwt.GinJWTMiddleware
+	cache *cache.Cache
+}
 
-func InitJWT(svc *svc.Svc) *jwt.GinJWTMiddleware {
+func JWT() *Jwt { return jwtMiddleware }
+
+func InitJWT(svc *svc.Svc) *Jwt {
 	jwtOnce.Do(
 		func() {
-			jwtMiddleware, _ = jwt.New(
+			jwtMiddleware.GinJWTMiddleware, _ = jwt.New(
 				&jwt.GinJWTMiddleware{
 					Realm:           "cubing-pro",
 					Key:             []byte("cubing-pro"),
-					Timeout:         time.Hour * 31,
-					MaxRefresh:      time.Hour * 31,
+					Timeout:         time.Hour * 3 * 24,
+					MaxRefresh:      time.Hour * 3 * 24,
 					IdentityKey:     IdentityKey,
+					SendCookie:      true,
 					PayloadFunc:     payloadFunc(svc),
 					IdentityHandler: identityHandler(svc),
 					Authorizator:    authorization(svc),
@@ -41,6 +48,7 @@ func InitJWT(svc *svc.Svc) *jwt.GinJWTMiddleware {
 				},
 			)
 			_ = jwtMiddleware.MiddlewareInit()
+			jwtMiddleware.cache = cache.New(time.Minute, time.Minute)
 		},
 	)
 	return jwtMiddleware
@@ -56,12 +64,19 @@ func payloadFunc(svc *svc.Svc) func(data interface{}) jwt.MapClaims {
 
 func identityHandler(svc *svc.Svc) func(c *gin.Context) interface{} {
 	return func(ctx *gin.Context) interface{} {
+		//fmt.Println("-----------==================")
+		//fmt.Println(GetJwtUser(ctx))
+		//fmt.Println(jwt.GetToken(ctx))
+
 		return jwt.ExtractClaims(ctx)[IdentityKey]
 	}
 }
 
 func authorization(svc *svc.Svc) func(data interface{}, c *gin.Context) bool {
 	return func(data interface{}, ctx *gin.Context) bool {
+		// todo token拦截
+		//fmt.Println("==================")
+		//fmt.Println(GetJwtUser(ctx))
 		return true
 	}
 }

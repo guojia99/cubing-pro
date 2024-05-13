@@ -19,7 +19,10 @@ func CreateEvents(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		svc.DB.Create(req.Event)
+		if err := svc.DB.Create(&req.Event).Error; err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
 		exception.ResponseOK(ctx, nil)
 	}
 }

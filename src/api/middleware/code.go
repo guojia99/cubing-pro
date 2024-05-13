@@ -30,6 +30,10 @@ func Code() *code {
 	return codeMiddleware
 }
 
+func (c *code) VerifyCaptcha(id, verifyValue string) bool {
+	return c.result.Verify(id, verifyValue, true)
+}
+
 type code struct {
 	result base64Captcha.Store
 }
@@ -40,7 +44,7 @@ type CodeResp struct {
 	Ext   time.Time `json:"ext"`
 }
 
-func (c *code) CodeRouter(svc *svc.Svc) gin.HandlerFunc {
+func (c *code) CodeRouter() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		res := base64Captcha.NewCaptcha(utils.MathRandomConfig(), c.result)
 
@@ -61,6 +65,30 @@ func (c *code) CodeRouter(svc *svc.Svc) gin.HandlerFunc {
 	}
 }
 
-func (c *code) VerifyCaptcha(id, verifyValue string) bool {
-	return c.result.Verify(id, verifyValue, true)
+type VerifyCodeReq struct {
+	// 验证码
+	VerifyId    string `query:"verifyId"`
+	VerifyValue string `query:"verifyValue"`
+}
+
+func (c *code) VerifyCodeMiddlewareFn(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		if !svc.Cfg.GlobalConfig.Debug {
+			ctx.Next()
+			return
+		}
+
+		var req VerifyCodeReq
+		if err := ctx.ShouldBindQuery(&req); err != nil {
+			exception.ErrVerifyCodeField.ResponseWithError(ctx, err)
+			return
+		}
+
+		if ok := Code().VerifyCaptcha(req.VerifyId, req.VerifyValue); !ok {
+			exception.ErrVerifyCodeField.ResponseWithError(ctx, "验证码错误")
+			return
+		}
+	}
+	// 验证验证码
+
 }

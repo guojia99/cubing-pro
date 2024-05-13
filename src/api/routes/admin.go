@@ -4,13 +4,20 @@ import (
 	"github.com/gin-gonic/gin"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
+	posts "github.com/guojia99/cubing-pro/src/api/app/post"
+	systemResults "github.com/guojia99/cubing-pro/src/api/app/systemResult"
+	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
 func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
-	admin := router.Group("/admin")
+	admin := router.Group(
+		"/admin",
+		middleware.JWT().MiddlewareFunc(),
+		middleware.CheckAuthMiddlewareFunc(user2.AuthSuperAdmin),
+	)
 
 	//// 角色管理
 	//userRole := admin.Group("/user_role").Use(middleware.JWT().MiddlewareFunc()) // todo 权限控制
@@ -29,10 +36,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	//}
 
 	// 项目管理
-	event := admin.Group("/events").Use(
-		middleware.JWT().MiddlewareFunc(),
-		middleware.CheckAuthMiddlewareFunc(user2.AuthAdmin),
-	)
+	event := admin.Group("/events")
 	{
 		event.GET("/", events2.Events(svc))         // 项目列表
 		event.POST("/", events2.CreateEvents(svc))  // 新增项目
@@ -40,37 +44,57 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 通知管理
-	notify := admin.Group("/notify").Use(middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user2.AuthAdmin)) // todo 权限控制
+	notify := admin.Group("/notify")
 	{
-		notify.GET("/", notify3.List(svc))                  // 通知列表
-		notify.GET("/:notifyId", notify3.NotifyDetail(svc)) // 通知详情
-		notify.POST("/", notify3.CreateNotify(svc))         // 添加通知
-		notify.PUT("/:notifyId", notify3.UpdateNotify(svc)) // 修改通知
-		notify.DELETE("/", notify3.DeleteNotify(svc))       // 删除通知
+		notify.GET("/", notify3.List(svc))                     // 通知列表
+		notify.GET("/:notifyId", notify3.NotifyDetail(svc))    // 通知详情
+		notify.POST("/", notify3.CreateNotify(svc))            // 添加通知
+		notify.PUT("/:notifyId", notify3.UpdateNotify(svc))    // 修改通知
+		notify.DELETE("/:notifyId", notify3.DeleteNotify(svc)) // 删除通知
 	}
 
 	// 系统配置
-	systemResult := admin.Group("/system_result").Use(middleware.JWT().MiddlewareFunc()) // todo 权限控制
+	systemResult := admin.Group("/system_result")
 	{
-		systemResult.GET("/")        // 获取系统相关配置
-		systemResult.PUT("/")        // 设置系统配置 key value
-		systemResult.PUT("/title")   // 设置网站标题
-		systemResult.PUT("/welcome") // 设置欢迎词
-		systemResult.PUT("/footer")  // 设置网站脚注
-		systemResult.PUT("/logo")    // 设置网站logo
+		systemResult.GET("/", systemResults.GetSystemResult(svc))         // 获取系统相关配置
+		systemResult.PUT("/title", systemResults.SetSystemTitle(svc))     // 设置网站标题
+		systemResult.PUT("/welcome", systemResults.SetSystemWelcome(svc)) // 设置欢迎词
+		systemResult.PUT("/footer", systemResults.SetSystemFooter(svc))   // 设置网站脚注
+		systemResult.PUT("/logo", systemResults.SetSystemLogo(svc))       // 设置网站logo
+		systemResult.PUT("/:key", systemResults.SetSystemKeyValue(svc))   // 设置系统配置 key value
 	}
 
 	// 帖子管理
-	post := admin.Group("/post").Use(middleware.JWT().MiddlewareFunc()) // todo 权限控制
+	post := admin.Group("/post")
 	{
-		post.POST("/forum")            // 添加板块
-		post.DELETE("/forum/:forumId") // 删除板块
-		post.DELETE("/:postId")        // 删除帖子
+		post.GET("/forums", posts.GetForums(svc))              // 板块列表
+		post.POST("/forum", posts.CreateForum(svc))            // 添加板块
+		post.DELETE("/forum/:forumId", posts.DeleteForum(svc)) // 删除板块
+
+		post.GET("/topics", posts.GetAllTopics(svc))            // 获取所有帖子(包括被删的 \ 禁用的)
+		post.GET("/topics/:topicId", posts.GetTopic(svc, true)) // 帖子详情
+		post.DELETE("/topics/:topicId", posts.DeleteTopic(svc)) // 删除帖子
+		post.PUT("/topics/ban/:postId", posts.BanTopic(svc))    // 禁用帖子
+
+		post.GET("/topics/:topicId/posts", posts.GetPosts(svc, true))        // 获取帖子评论列表
+		post.DELETE("/topics/:topicId/posts/:postId", posts.DeletePost(svc)) // 删除帖子的评论
 	}
 
 	// 用户管理
-	user := admin.Group("/user").Use(middleware.JWT().MiddlewareFunc()) // todo 权限控制
+	user := admin.Group("/user")
 	{
-		user.PUT("/ban") // 禁用用户
+		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
+		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码
+	}
+
+	// 主办团队
+	comp := admin.Group("/competition")
+	{
+		// 管理员
+		comp.GET("/organizers")     //主办团队列表
+		comp.POST("/:organizersId") // 处理主办团队， 禁用等
+
+		comp.GET("/approvals/comps")             // 比赛审批列表
+		comp.POST("/approvals/:compId/approval") // 比赛审批
 	}
 }

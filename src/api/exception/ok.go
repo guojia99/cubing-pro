@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type OkMsg struct {
+type okMsg struct {
 	Code string      `json:"code"`
 	Data interface{} `json:"data"`
 	Msg  string      `json:"msg"`
@@ -14,7 +14,7 @@ type OkMsg struct {
 
 func ResponseOK(ctx *gin.Context, data interface{}) {
 	ctx.JSON(
-		http.StatusOK, OkMsg{
+		http.StatusOK, okMsg{
 			Code: "200",
 			Data: data,
 			Msg:  "ok",

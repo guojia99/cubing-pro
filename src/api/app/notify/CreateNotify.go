@@ -14,7 +14,7 @@ type CreateNotifyReq struct {
 	Type    string `json:"type"`                             // 通知类型
 	Top     bool   `json:"top"`                              // 是否置顶
 	Fixed   bool   `json:"fixed"`                            // 是否侧边
-	Content string `json:"content" binding:"required"`       // markdown
+	Content string `json:"content"`                          // markdown
 	Remark  string `json:"remark"`                           // 备注
 }
 
@@ -27,7 +27,7 @@ func CreateNotify(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var req CreateNotifyReq
-		if err = ctx.Bind(&req); err != nil {
+		if err = ctx.ShouldBind(&req); err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}

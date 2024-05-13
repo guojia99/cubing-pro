@@ -1,4 +1,6 @@
 global:
+  baseHost: "http://127.0.0.1"
+#  baseHost: https://cubing.pro
   debug: true
   xStaticPath: "/x-static" # 后端资源文件
   xFilePath: "/x-file" # 其他资源文件
@@ -8,7 +10,14 @@ global:
 #    driver: "mysql" # 数据库类型
 #    dsn: "root:cube123456@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
   scramble:
-    endpoint: "http://127.0.0.1:20009" #
+    endpoint: "http://127.0.0.1:20009" # 打乱服务器
+  emailConfig:
+    smtpHost: "smtp.qq.com"
+    smtpPort: 587
+    from: "xxx@qq.com"
+    fromName: cubingPro
+    password: ""
+
 
 apiGateway:
   pem: "/https/cube-cert.pem"
@@ -24,9 +33,9 @@ robot:
   QQBot:
     - group: true
       enable: true
-      appID: 101986244
-      token: "1sou4Anz0TyJ7kGLa1k2fKAl57B3tBxH"
+      appID: 123
+      token: "xxx"
       groupList:
-        - "F98A8BE874C743A626695F4124E42BBE"
+        - "xxxx"
   WeChatBot:
     - enable: false

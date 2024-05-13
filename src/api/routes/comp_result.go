@@ -2,41 +2,71 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	organizers2 "github.com/guojia99/cubing-pro/src/api/app/organizers"
+	"github.com/guojia99/cubing-pro/src/api/middleware"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
-func CompRouters(router *gin.RouterGroup, svc *svc.Svc) {
-	organizers := router.Group("/organizers")
-	{
-		organizers.GET("/:organizersId")              //获取主办团队信息
-		organizers.POST("/")                          //创建主办团队
-		organizers.POST("/add_person/:personId")      //增加主办团队成员
-		organizers.DELETE("/delete_person/:personId") //删除主办团队成员
-		organizers.DELETE("/exit")                    //退出主办团队
-		organizers.GET("/me")                         //我的主办团队列表
+// 比赛和主办相关路由
 
-		// 管理员
-		organizers.GET("/")                 //主办团队列表
-		organizers.DELETE("/:organizersId") //删除主办团队
+func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
+	organizers := router.Group(
+		"/organizers",
+		middleware.JWT().MiddlewareFunc(),
+		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), // 起码是一个玩家才能使用
+	)
+	{
+		organizers.POST("/register", organizers2.RegisterOrganizers(svc))                         // 申请主办团队, 创建主办团队, 如果是管理员自动审核完成
+		organizers.GET("/me", organizers2.MeOrganizers(svc))                                      // 我的主办团队列表, 包含申请中的
+		organizers.GET("/:orgId", organizers2.OrgAuthMiddleware(svc), organizers2.Organizer(svc)) // 获取主办团队信息
 	}
 
-	comp := router.Group("/competition")
+	person := organizers.Group(
+		"/:orgId/person",
+		middleware.CheckAuthMiddlewareFunc(user.AuthOrganizers),
+		organizers2.OrgAuthMiddleware(svc),
+	)
 	{
-		comp.GET("/")                    // 获取比赛列表
-		comp.POST("/")                   // 创建比赛
-		comp.GET("/:compId")             // 比赛详情
-		comp.GET("/me")                  // 获取我管理的比赛
-		comp.POST("/:compId/apply")      // 申请比赛
-		comp.DELETE("/:compId")          // 删除比赛
-		comp.POST("/:compId")            // 更新比赛
-		comp.POST("/:compId/add_player") // 添加比赛选手
-
-		// 管理员
-		comp.GET("/approvals/comps")             // 比赛审批列表
-		comp.POST("/approvals/:compId/approval") // 比赛审批
+		person.GET("/", organizers2.CheckOrgCanUse(), organizers2.Persons(svc))                   // 获取主办团队成员详细清单
+		person.POST("/", organizers2.CheckOrgCanUse(), organizers2.CreatePersons(svc))            // 增加主办团队成员
+		person.DELETE("/:personId", organizers2.CheckOrgCanUse(), organizers2.DeletePersons(svc)) // 删除主办团队成员
+		person.DELETE("/exit", organizers2.Exit(svc))                                             // 退出主办团队
 	}
 
-	results := router.Group("/result")
+	comp := organizers.Group(
+		"/:orgId/comp",
+		middleware.CheckAuthMiddlewareFunc(user.AuthOrganizers),
+		organizers2.OrgAuthMiddleware(svc),
+		organizers2.CheckOrgCanUse(),
+	)
+	{
+		comp.GET("/", organizers2.OrgCompList(svc))             // 获取比赛列表
+		comp.POST("/", organizers2.CreateComp(svc))             // 创建比赛 [需要提交审批]
+		comp.GET("/:compId", organizers2.Comp(svc))             // 比赛详情
+		comp.POST("/:compId/apply", organizers2.ApplyComp(svc)) // 申请比赛
+		comp.DELETE("/:compId", organizers2.DeleteComp(svc))    // 删除比赛
+		comp.POST("/:compId", organizers2.UpdateComp(svc))      // 更新比赛
+
+		comp.GET("/:compId/players", organizers2.CompPlayers(svc))                  // 比赛选手列表 包含需审核
+		comp.POST("/:compId/players/approval", organizers2.CompPlayerApproval(svc)) // 审核报名选手
+		comp.POST("/:compId/players", organizers2.AddCompPlayer(svc))               // 添加比赛选手
+		comp.DELETE("/:compId/players", organizers2.DeleteCompPlayer(svc))          // 移除比赛选手
+
+		comp.POST("/:compId/result", organizers2.AddCompResult(svc))                           // 录入比赛成绩
+		comp.DELETE("/:compId/result", organizers2.DeleteCompResult(svc))                      // 删除比赛成绩
+		comp.GET("/:compId/pre_results", organizers2.GetCompPlayerPreResult(svc))              // 获取预录入成绩
+		comp.POST("/:compId/pre_results/approval", organizers2.DeleteCompPlayerPreResult(svc)) // 审批预录入成绩
+	}
+}
+
+func CompWithUserRouters(router *gin.RouterGroup, svc *svc.Svc) {
+	userComp := router.Group(
+		"/player_comp",
+		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer),
+	)
+
+	results := userComp.Group("/result")
 	{
 		results.POST("/:compId")   // 录入比赛成绩
 		results.DELETE("/:compId") // 删除比赛成绩
@@ -49,7 +79,7 @@ func CompRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		results.DELETE("/delete/:pre_id")             // 删除预录入成绩
 	}
 
-	registers := router.Group("/register")
+	registers := userComp.Group("/register")
 	{
 		registers.GET("/comps")                  // 报名比赛列表
 		registers.GET("/comps/:compId/detail")   // 报名详情

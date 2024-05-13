@@ -46,16 +46,16 @@ var (
 
 // auth errors 10500 ~ 10999
 var (
-	ErrRegisterField = NewErrorMsg(H401, 10500, "注册错误", "", "")
-	ErrUserNotFound  = NewErrorMsg(H404, 10501, "用户不存在", "", "")
+	ErrRegisterField   = NewErrorMsg(H401, 10500, "注册错误", "", "")
+	ErrUserNotFound    = NewErrorMsg(H404, 10501, "用户不存在", "", "")
+	ErrUserResultField = NewErrorMsg(H401, 10502, "用户资源不足", "", "")
 )
-
-// system errors 11000 ~ 12000
-// comps errors 12001 ~ 13000
-// result errors 13001 ~ 14000
 
 var (
 	ErrResultScoreFormatField = NewErrorMsg(H400, 13001, "成绩格式错误", "", "")
 	ErrResultBeUse            = NewErrorMsg(H400, 13002, "资源被占用", "", "")
 	ErrResultDelete           = NewErrorMsg(H400, 13003, "资源删除失败", "", "")
+	ErrResultCreate           = NewErrorMsg(H400, 13004, "资源创建失败", "", "")
+	ErrResultCanNotUse        = NewErrorMsg(H400, 13005, "资源不可用", "", "")
+	ErrResultUpdate           = NewErrorMsg(H400, 13006, "资源不可更改", "", "")
 )

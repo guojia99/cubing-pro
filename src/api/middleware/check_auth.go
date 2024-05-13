@@ -68,6 +68,13 @@ func CheckAuthMiddlewareFunc(auth user2.Auth) gin.HandlerFunc {
 			return
 		}
 
+		// todo 对比token
+		//token := jwt.GetToken(ctx)
+		//if token != dbUser.Token {
+		//	exception.ErrAuthField.ResponseWithError(ctx, "token无效")
+		//	return
+		//}
+
 		ctx.Set(authUserKey, dbUser)
 		ctx.Next()
 	}

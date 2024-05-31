@@ -3,6 +3,7 @@ package users
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -16,11 +17,9 @@ type BanUserReq struct {
 func BanUser(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req BanUserReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-
 		var user user2.User
 		if err := svc.DB.First(&user, "id = ?", req.UserId).Error; err != nil {
 			exception.ErrUserNotFound.ResponseWithError(ctx, err)

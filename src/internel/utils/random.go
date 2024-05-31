@@ -45,3 +45,15 @@ func MathRandomConfig() *base64Captcha.DriverMath {
 	}
 	return mathType
 }
+
+func DigitRandomConfig() *base64Captcha.DriverDigit {
+	//digitType := &base64Captcha.DriverDigit{
+	//	Height:   200,
+	//	Width:    300,
+	//	Length:   5,
+	//	MaxSkew:  0,
+	//	DotCount: 0,
+	//}
+	//return digitType
+	return base64Captcha.DefaultDriverDigit
+}

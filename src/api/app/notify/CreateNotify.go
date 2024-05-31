@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -27,8 +28,7 @@ func CreateNotify(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var req CreateNotifyReq
-		if err = ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
 

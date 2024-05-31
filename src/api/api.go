@@ -19,8 +19,14 @@ type API struct {
 func NewAPI(svc *svc.Svc) *API {
 	a := &API{
 		Svc:    svc,
-		engine: gin.Default(),
+		engine: gin.New(),
 	}
+
+	a.engine.Use(
+		gin.Logger(),
+		gin.Recovery(),
+		middleware.CorsMiddleware(),
+	)
 
 	// init middleware
 	middleware.InitJWT(svc)
@@ -30,6 +36,7 @@ func NewAPI(svc *svc.Svc) *API {
 	group := a.engine.Group(
 		"/v3/cube-api",
 		//middleware.CheckHeaderMiddleware,
+
 	)
 	routes.AuthRouters(group, svc)
 	routes.AdminRouters(group, svc)

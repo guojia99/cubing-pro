@@ -1,4 +1,4 @@
-package organizers
+package org_mid
 
 import (
 	"fmt"
@@ -6,11 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
 const OrgAuthMiddlewareKey = "organizerID"
+const CompMiddlewareKey = "compID"
 
 type OrgAuthMiddlewareReq struct {
 	OrgId uint `uri:"orgId"`
@@ -19,8 +22,7 @@ type OrgAuthMiddlewareReq struct {
 func OrgAuthMiddleware(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req OrgAuthMiddlewareReq
-		if err := ctx.ShouldBindUri(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
 		user, err := middleware.GetAuthUser(ctx)
@@ -55,5 +57,31 @@ func CheckOrgCanUse() gin.HandlerFunc {
 		}
 
 		exception.ErrResultCanNotUse.ResponseWithError(ctx, "不可操作状态")
+	}
+}
+
+type CheckCompMiddlewareReq struct {
+	CompId uint `uri:"compId" json:"compId"`
+}
+
+func CheckCompMiddleware(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req CheckCompMiddlewareReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+			return
+		}
+		var comp competition.Competition
+		if err := svc.DB.First(&comp, "id = ?", req.CompId).Error; err != nil {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+			return
+		}
+		org := ctx.Value(OrgAuthMiddlewareKey).(user2.Organizers)
+		if comp.OrganizersID != org.ID {
+			exception.ErrAuthField.ResponseWithError(ctx, "无权限")
+			return
+		}
+		ctx.Set(CompMiddlewareKey, comp)
+		ctx.Next()
 	}
 }

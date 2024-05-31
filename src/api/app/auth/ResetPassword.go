@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
@@ -22,14 +23,11 @@ func ResetPassword(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var req ResetPasswordReq
-		if err = ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err = app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-
 		// 验证密码是否有效
-		key := utils.GenerateRandomKey(req.TimeStamp)
-		password, err := utils.Decrypt(req.Password, key)
+		password, err := utils.DePwdCode(req.Password, req.TimeStamp)
 		if err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return

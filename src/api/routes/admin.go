@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	systemResults "github.com/guojia99/cubing-pro/src/api/app/systemResult"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
@@ -91,10 +92,9 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	comp := admin.Group("/competition")
 	{
 		// 管理员
-		comp.GET("/organizers")     //主办团队列表
-		comp.POST("/:organizersId") // 处理主办团队， 禁用等
-
-		comp.GET("/approvals/comps")             // 比赛审批列表
-		comp.POST("/approvals/:compId/approval") // 比赛审批
+		comp.GET("/organizers", organizers.AllOrganizers(svc))                 //主办团队列表
+		comp.POST("/:orgId", organizers.DoWithOrganizers(svc))                 // 处理主办团队， 禁用等
+		comp.GET("/approvals/comps", organizers.Comps(svc))                    // 比赛审批列表
+		comp.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc)) // 比赛审批
 	}
 }

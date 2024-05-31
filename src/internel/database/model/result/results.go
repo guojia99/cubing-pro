@@ -19,8 +19,8 @@ type Penalty [][]float64
 type Results struct {
 	basemodel.Model
 
-	CompetitionID  string    `gorm:"column:comp_id"`         // 比赛ID
-	Route          uint      `gorm:"column:route"`           // 轮次
+	CompetitionID  uint      `gorm:"column:comp_id"`         // 比赛ID
+	Round          string    `gorm:"column:round"`           // 轮次
 	PersonName     string    `gorm:"column:person_name"`     // 玩家名
 	UserID         uint      `gorm:"column:user_id"`         // ID
 	Best           float64   `gorm:"column:best"`            // 最佳成绩

@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/email"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -32,8 +33,7 @@ type RetrievePasswordResp struct {
 func RetrievePasswordSendCode(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req RetrievePasswordSendCodeReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
 
@@ -145,8 +145,7 @@ func RetrievePassword(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 验证密码是否有效
-		key := utils.GenerateRandomKey(req.TimeStamp)
-		password, err := utils.Decrypt(req.Password, key)
+		password, err := utils.DePwdCode(req.Password, req.TimeStamp)
 		if err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return

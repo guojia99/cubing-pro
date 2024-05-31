@@ -2,6 +2,7 @@ package organizers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
@@ -21,7 +22,7 @@ func Comp(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var comp competition.Competition
-		org := ctx.Value(OrgAuthMiddlewareKey).(user.Organizers)
+		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 		if err := svc.DB.First(&comp, "id = ? and orgId = ?", req.CompId, org.ID).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

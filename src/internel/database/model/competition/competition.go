@@ -36,24 +36,26 @@ type Competition struct {
 	RejectMsg string            `gorm:"column:reject_msg" json:"RejectMsg,omitempty"`
 
 	// 详情
-	Name         string             `gorm:"column:name" json:"Name,omitempty"`                  // 名称
-	Illustrate   string             `gorm:"column:illustrate" json:"Illustrate,omitempty"`      // 详细说明 MD
-	Location     string             `gorm:"column:location" json:"Location,omitempty"`          // 地址
-	LocationAddr string             `gorm:"column:location_addr" json:"LocationAddr,omitempty"` // 经纬坐标
-	Country      string             `gorm:"column:country" json:"Country,omitempty"`            // 地区
-	City         string             `gorm:"column:city" json:"City,omitempty"`                  // 城市
-	RuleMD       string             `gorm:"column:rule_md" json:"RuleMD,omitempty"`             // 规则
-	EventsJSON   string             `gorm:"column:events_json" json:"-"`                        // 项目列表JSON
-	Events       []CompetitionEvent `gorm:"-" json:"Events,omitempty"`                          // 项目列表
-	EventMin     string             `gorm:"column:event_min" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
-	Series       string             `gorm:"series" json:"Series,omitempty"`                     // 系列赛
+	Name         string          `gorm:"column:name" json:"Name,omitempty"`                  // 名称
+	Illustrate   string          `gorm:"column:illustrate" json:"Illustrate,omitempty"`      // 详细说明 MD
+	Location     string          `gorm:"column:location" json:"Location,omitempty"`          // 地址
+	LocationAddr string          `gorm:"column:location_addr" json:"LocationAddr,omitempty"` // 经纬坐标
+	Country      string          `gorm:"column:country" json:"Country,omitempty"`            // 地区
+	City         string          `gorm:"column:city" json:"City,omitempty"`                  // 城市
+	RuleMD       string          `gorm:"column:rule_md" json:"RuleMD,omitempty"`             // 规则
+	CompJSONStr  string          `gorm:"column:comp_json" json:"-"`                          // 项目列表JSON
+	CompJSON     CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                       // 项目列表
+	EventMin     string          `gorm:"column:event_min" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
+	Series       string          `gorm:"series" json:"Series,omitempty"`                     // 系列赛
 
 	// 基础限制
-	Genre           Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`        // 比赛形式
-	MinCount        uint  `gorm:"column:min_count" json:"MinCount,omitempty"`          // 最低开赛限制
-	Count           uint  `gorm:"column:count" json:"Count,omitempty"`                 // 最大人数
-	FreeParticipate bool  `gorm:"column:free_p" json:"FreeParticipate,omitempty"`      // 自由参赛, 仅支持非正式赛
-	AutomaticReview bool  `gorm:"column:auto_review" json:"AutomaticReview,omitempty"` // 自动审核
+	Genre              Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`                     // 比赛形式
+	MinCount           int64 `gorm:"column:min_count" json:"MinCount,omitempty"`                       // 最低开赛限制
+	Count              int64 `gorm:"column:count" json:"Count,omitempty"`                              // 最大人数
+	FreeParticipate    bool  `gorm:"column:free_p" json:"FreeParticipate,omitempty"`                   // 自由参赛, 仅支持非正式赛
+	AutomaticReview    bool  `gorm:"column:auto_review" json:"AutomaticReview,omitempty"`              // 自动审核
+	CanPreResult       bool  `gorm:"column:can_pre_result" json:"CanPreResult,omitempty"`              // 允许提交预录入成绩
+	CanStartedAddEvent bool  `gorm:"column:can_started_add_event" json:"CanStartedAddEvent,omitempty"` // 开赛后是否可追加项目（第一轮结束后不可追加）
 
 	// 时间相关
 	CompStartTime                  time.Time `gorm:"column:comp_start_time" json:"CompStartTime,omitempty"`                     // 比赛开始时间
@@ -61,7 +63,8 @@ type Competition struct {
 	RegistrationStartTime          time.Time `gorm:"column:reg_start_time" json:"RegistrationStartTime,omitempty"`              // 报名开始时间
 	RegistrationEndTime            time.Time `gorm:"column:reg_end_time" json:"RegistrationEndTime,omitempty"`                  // 报名结束时间
 	RegistrationCancelDeadlineTime time.Time `gorm:"column:reg_cancel_dl_time" json:"RegistrationCancelDeadlineTime,omitempty"` // 退赛截止时间
-	RegistrationRestartTime        time.Time `gorm:"column:reg_restart_time" json:"RegistrationRestartTime,omitempty"`          // 报名重开时间
+	IsRegisterRestart              bool      `gorm:"column:is_register_restart" json:"IsRegisterRestart,omitempty"`
+	RegistrationRestartTime        time.Time `gorm:"column:reg_restart_time" json:"RegistrationRestartTime,omitempty"` // 报名重开时间
 
 	// 主办
 	OrganizersID uint `gorm:"column:orgId" json:"OrganizersID,omitempty"` // 主办团队
@@ -70,20 +73,17 @@ type Competition struct {
 	WCAUrl string `gorm:"column:wca_url;index" json:"WCAUrl,omitempty"` // WCA 认证地址
 }
 
-type AssCompetitionUsers struct {
+type AssCompetitionSponsorsUsers struct {
 	basemodel.Model
 
-	CompId       uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
-	SponsorsId   uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
-	RepresentsId uint `gorm:"index:,unique,composite:AssCompetitionUsers"`
+	CompId       uint `gorm:"index:,unique,composite:AssCompetitionSponsorsUsers"`
+	SponsorsId   uint `gorm:"index:,unique,composite:AssCompetitionSponsorsUsers"`
+	RepresentsId uint `gorm:"index:,unique,composite:AssCompetitionSponsorsUsers"`
 }
 
 func (c *Competition) AfterFind(tx *gorm.DB) (err error) {
 
-	if c.Events == nil {
-		c.Events = make([]CompetitionEvent, 0)
-	}
-	_ = jsoniter.UnmarshalFromString(c.EventsJSON, &c.Events)
+	_ = jsoniter.UnmarshalFromString(c.CompJSONStr, &c.CompJSON)
 	return nil
 }
 
@@ -91,12 +91,35 @@ func (c *Competition) BeforeCreate(*gorm.DB) error { return c.update() }
 func (c *Competition) BeforeUpdate(*gorm.DB) error { return c.update() }
 func (c *Competition) BeforeSave(*gorm.DB) error   { return c.update() }
 func (c *Competition) update() error {
-	c.EventsJSON, _ = jsoniter.MarshalToString(c.Events)
+	c.CompJSONStr, _ = jsoniter.MarshalToString(c.CompJSON)
 
 	c.EventMin = ""
-	for _, e := range c.Events {
+	for _, e := range c.CompJSON.Events {
 		c.EventMin += e.EventName + ";"
 	}
 
 	return nil
+}
+
+func (c *Competition) EventMap() map[string]CompetitionEvent {
+	var out = make(map[string]CompetitionEvent)
+	for _, val := range c.CompJSON.Events {
+		out[val.EventID] = val
+	}
+	return out
+}
+
+// IsRunningTime 是否在比赛时间段内
+func (c *Competition) IsRunningTime() bool {
+	if c.Status != Running {
+		return false
+	}
+	if time.Since(c.CompStartTime) < 0 {
+		return false
+	}
+
+	if time.Since(c.CompEndTime) > 0 {
+		return false
+	}
+	return true
 }

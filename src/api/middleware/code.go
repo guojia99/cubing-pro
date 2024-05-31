@@ -46,7 +46,7 @@ type CodeResp struct {
 
 func (c *code) CodeRouter() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		res := base64Captcha.NewCaptcha(utils.MathRandomConfig(), c.result)
+		res := base64Captcha.NewCaptcha(utils.DigitRandomConfig(), c.result)
 
 		id, base64, value, err := res.Generate()
 		if err != nil {
@@ -73,21 +73,22 @@ type VerifyCodeReq struct {
 
 func (c *code) VerifyCodeMiddlewareFn(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		if !svc.Cfg.GlobalConfig.Debug {
-			ctx.Next()
-			return
-		}
-
-		var req VerifyCodeReq
-		if err := ctx.ShouldBindQuery(&req); err != nil {
-			exception.ErrVerifyCodeField.ResponseWithError(ctx, err)
-			return
-		}
-
-		if ok := Code().VerifyCaptcha(req.VerifyId, req.VerifyValue); !ok {
-			exception.ErrVerifyCodeField.ResponseWithError(ctx, "验证码错误")
-			return
-		}
+		// todo 这里需要做成如果连续很多次访问而且状态码有问题的话，才验证
+		//if !svc.Cfg.GlobalConfig.Debug {
+		//	ctx.Next()
+		//	return
+		//}
+		//
+		//var req VerifyCodeReq
+		//if err := ctx.ShouldBindQuery(&req); err != nil {
+		//	exception.ErrVerifyCodeField.ResponseWithError(ctx, err)
+		//	return
+		//}
+		//
+		//if ok := Code().VerifyCaptcha(req.VerifyId, req.VerifyValue); !ok {
+		//	exception.ErrVerifyCodeField.ResponseWithError(ctx, "验证码错误")
+		//	return
+		//}
 	}
 	// 验证验证码
 

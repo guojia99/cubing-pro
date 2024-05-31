@@ -1,4 +1,4 @@
-package utils
+package app_utils
 
 import (
 	"fmt"
@@ -98,7 +98,13 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 
 	// page
 	offset := (req.Page - 1) * req.Size
-	if err := searchDB.Offset(offset).Limit(req.Size).Find(&dest).Error; err != nil {
+	var err error
+	if param.MaxSize == 0 {
+		err = searchDB.Find(&dest).Error
+	} else {
+		err = searchDB.Offset(offset).Limit(req.Size).Find(&dest).Error
+	}
+	if err != nil {
 		exception.ErrDatabase.ResponseWithError(ctx, err)
 		return
 	}

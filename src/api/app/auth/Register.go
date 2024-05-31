@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/email"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 
@@ -21,13 +22,10 @@ type PasswordCheckRequest struct {
 func PasswordCheck(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req PasswordCheckRequest
-		if err := ctx.Bind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-
-		key := utils.GenerateRandomKey(req.TimeStamp)
-		password, err := utils.Encrypt(req.Password, key)
+		password, err := utils.EnPwdCode(req.Password, req.TimeStamp)
 		if err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
@@ -71,8 +69,7 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 			name = req.EnName
 		}
 		// 验证密码是否有效
-		key := utils.GenerateRandomKey(req.TimeStamp)
-		password, err := utils.Decrypt(req.Password, key)
+		password, err := utils.DePwdCode(req.Password, req.TimeStamp)
 		if err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
@@ -156,6 +153,7 @@ func SendRegisterEmailCode(svc *svc.Svc, typ string) gin.HandlerFunc {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
+		fmt.Println(req, "--------")
 
 		var checker user.CheckCode
 		if err := svc.DB.Where("email = ?", req.Email).Where("use = ?", false).Where("typ = ?", typ).Order("created_at desc").First(&checker); err == nil {

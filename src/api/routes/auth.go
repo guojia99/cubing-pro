@@ -25,8 +25,12 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		authG.POST("/refresh", middleware.JWT().RefreshHandler) // 刷新秘钥
 
 		// 用户注册
-		authG.POST("/register/email_code", middleware.Code().VerifyCodeMiddlewareFn(svc), auth.SendRegisterEmailCode(svc, user.RegisterWithEmail)) // email 验证
-		authG.POST("/register", auth.Register(svc))                                                                                                // 用户注册
+		authG.POST(
+			"/register/email_code",
+			//middleware.Code().VerifyCodeMiddlewareFn(svc),
+			auth.SendRegisterEmailCode(svc, user.RegisterWithEmail),
+		) // email 验证 todo 限流
+		authG.POST("/register", auth.Register(svc)) // 用户注册
 
 		// 找回密码
 		authG.POST("/retrieve/password/email_code", middleware.Code().VerifyCodeMiddlewareFn(svc), auth.RetrievePasswordSendCode(svc)) // email验证码 todo限流
@@ -35,6 +39,7 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 		// 用户操作
 		authG.PUT("/reset/password", middleware.JWT().MiddlewareFunc(), middleware.Code().VerifyCodeMiddlewareFn(svc), auth.ResetPassword(svc)) // 用户重置密码
+		authG.GET("/current", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), auth.Current(svc))
 	}
 
 }

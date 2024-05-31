@@ -7,6 +7,7 @@ import (
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/patrickmn/go-cache"
 
@@ -94,10 +95,9 @@ type LoginRequest struct {
 func authenticator(svc *svc.Svc) func(ctx *gin.Context) (interface{}, error) {
 	return func(ctx *gin.Context) (interface{}, error) {
 		var req LoginRequest
-		if err := ctx.Bind(&req); err != nil {
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return nil, err
 		}
-
 		// 验证验证码
 		if !svc.Cfg.GlobalConfig.Debug {
 			if ok := Code().VerifyCaptcha(req.VerifyId, req.VerifyValue); !ok {
@@ -106,8 +106,7 @@ func authenticator(svc *svc.Svc) func(ctx *gin.Context) (interface{}, error) {
 		}
 
 		// 解析密码
-		key := utils.GenerateRandomKey(req.TimeStamp)
-		password, err := utils.Decrypt(req.Password, key)
+		password, err := utils.DePwdCode(req.Password, req.TimeStamp)
 		if err != nil {
 			return nil, exception.ErrRequestBinding
 		}

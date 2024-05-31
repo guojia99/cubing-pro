@@ -58,4 +58,5 @@ var (
 	ErrResultCreate           = NewErrorMsg(H400, 13004, "资源创建失败", "", "")
 	ErrResultCanNotUse        = NewErrorMsg(H400, 13005, "资源不可用", "", "")
 	ErrResultUpdate           = NewErrorMsg(H400, 13006, "资源不可更改", "", "")
+	ErrCompNotRegister        = NewErrorMsg(H400, 13007, "比赛不可注册", "", "")
 )

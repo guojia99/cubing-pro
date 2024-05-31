@@ -69,16 +69,29 @@ type User struct {
 	Email        string `gorm:"column:email"`         // 邮箱
 
 	// 隐私信息
-	ActualName  string    `gorm:"column:actual_name"` // 真实姓名
-	Sex         int       `gorm:"column:sex"`         // 性别 0 无 1 男 2 女
-	Nationality string    `gorm:"column:nationality"` // 国籍
-	Province    string    `gorm:"column:province"`    // 省份、州
-	Birthdate   time.Time `gorm:"column:birthdate"`   // 出生日期
-	IDCard      string    `gorm:"column:id_card"`     // 身份证
-	Address     string    `gorm:"column:address"`     // 地址
+	ActualName  string    `gorm:"column:actual_name"`      // 真实姓名
+	Sex         int       `gorm:"column:sex"`              // 性别 0 无 1 男 2 女
+	Nationality string    `gorm:"column:nationality"`      // 国籍
+	Province    string    `gorm:"column:province"`         // 省份、州
+	Birthdate   time.Time `gorm:"column:birthdate"`        // 出生日期
+	IDCard      string    `gorm:"column:id_card" json:"-"` // 身份证
+	Address     string    `gorm:"column:address"`          // 地址
 
 	// 代表信息
 	DelegateName string `gorm:"column:represent_name"` // 代表称呼: 高级代表\代表\实习代表...
+}
+
+// AuthOmits 不允许用户得知的字段
+func (u *User) AuthOmits() []string {
+	return []string{
+		"pw",
+		"history_pw",
+		"hash",
+		"init_pw",
+		"a_time",
+		"token",
+		"id_card",
+	}
 }
 
 func (u *User) CheckPassword(password string) error {

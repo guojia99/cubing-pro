@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/email"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -18,13 +20,11 @@ type CreatePersonsReq struct {
 func CreatePersons(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req CreatePersonsReq
-		if err := ctx.Bind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-
 		// 对比
-		org := ctx.Value(OrgAuthMiddlewareKey).(user.Organizers)
+		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 		if len(utils.Has(org.Users(), req.Users)) > 0 {
 			exception.ErrResultCreate.ResponseWithError(ctx, "存在已加入的玩家")
 			return

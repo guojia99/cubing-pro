@@ -10,8 +10,8 @@ import (
 func List(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var find []post.Notification
-		utils.GenerallyList(
-			ctx, svc.DB, find, utils.ListSearchParam{
+		app_utils.GenerallyList(
+			ctx, svc.DB, find, app_utils.ListSearchParam{
 				Model:   &post.Notification{},
 				MaxSize: 20,
 				Omit: []string{

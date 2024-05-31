@@ -2,6 +2,8 @@ package organizers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
+	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
@@ -10,10 +12,10 @@ import (
 
 func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		org := ctx.Value(OrgAuthMiddlewareKey).(user.Organizers)
+		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 		var list []competition.Competition
-		utils.GenerallyList(
-			ctx, svc.DB, list, utils.ListSearchParam{
+		app_utils.GenerallyList(
+			ctx, svc.DB, list, app_utils.ListSearchParam{
 				Model:   &competition.Competition{},
 				MaxSize: 100,
 				Query:   "orgId = ?",
@@ -35,13 +37,31 @@ func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 	}
 }
 
-//E B Z
-//EK	R:[R D' R',U]	KE	R:[U,R D' R']
-//EG	R:[R D R',U]	GE	R:[U,R D R']
-//EW	R:[R D2 R',U]	WE	R:[U,R D2 R']
-//BK	R:[R D' R',U2]	KB	R:[U2,R D' R']
-//BG	R:[R D R',U2]	GB	R:[U2,R D R']
-//BW	R:[R D2 R',U2]	WB	R:[U2,R D2 R']
-//ZK	R:[R D' R',U']	KZ	R:[U',R D' R']
-//ZW	R:[R D2 R',U']	WZ	R:[U',R D2 R']
-//ZG	R:[R D R',U']	GZ	R:[U',R D R']
+type CompsReq struct {
+	Status competition.CompetitionStatus `json:"Status"`
+}
+
+func Comps(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req CompsReq
+		if err := ctx.ShouldBindQuery(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+			return
+		}
+		if req.Status == "" {
+			req.Status = competition.Running
+		}
+
+		var list []competition.Competition
+		app_utils.GenerallyList(
+			ctx, svc.DB, list, app_utils.ListSearchParam{
+				Model:   &competition.Competition{},
+				MaxSize: 100,
+				Query:   "status = ?",
+				QueryCons: []interface{}{
+					req.Status,
+				},
+			},
+		)
+	}
+}

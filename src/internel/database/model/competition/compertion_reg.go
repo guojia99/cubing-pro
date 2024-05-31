@@ -5,6 +5,17 @@ import (
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
+	jsoniter "github.com/json-iterator/go"
+)
+
+type RegisterStatus = string
+
+const (
+	RegisterStatusPass        RegisterStatus = "pass"
+	RegisterStatusQueue       RegisterStatus = "queue"
+	RegisterStatusWaitPayment RegisterStatus = "wait_payment"
+	RegisterStatusWaitApply   RegisterStatus = "wait_apply"
+	RegisterStatusNotApply    RegisterStatus = "not_apply"
 )
 
 type CompetitionRegistration struct {
@@ -15,12 +26,22 @@ type CompetitionRegistration struct {
 	UserID   uint   `gorm:"column:user_id"` // 选手ID
 	UserName string `gorm:"column:user_name"`
 
+	Status RegisterStatus `gorm:"column:status"` // 注册状态
+
 	RegistrationTime time.Time  `gorm:"column:reg_time"`    // 报名时间
 	AcceptationTime  *time.Time `gorm:"column:acc_time"`    // 通过时间
 	RetireTime       *time.Time `gorm:"column:retire_time"` // 退赛时间
 
-	Payments     []Payment `gorm:"-"`               // 报名费 + 追加的项目报名费
-	PaymentsJSON string    `gorm:"column:payments"` // []Event JSON
+	Events string `gorm:"column:events"` // 选择的项目ID列表
+
+	Payments     []Payment `gorm:"-"`                        // 报名费 + 追加的项目报名费
+	PaymentsJSON string    `gorm:"column:payments" json:"-"` // []Event JSON
+}
+
+func (c CompetitionRegistration) EventsList() []string {
+	var out []string
+	_ = jsoniter.UnmarshalFromString(c.Events, &out)
+	return out
 }
 
 type PayType = uint

@@ -2,6 +2,7 @@ package organizers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/public"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
@@ -10,7 +11,7 @@ import (
 
 func Persons(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		org := ctx.Value(OrgAuthMiddlewareKey).(user.Organizers)
+		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 
 		var users []user.User
 		var out []public.User

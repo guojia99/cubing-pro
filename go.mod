@@ -5,6 +5,7 @@ go 1.21.0
 require (
 	github.com/appleboy/gin-jwt/v2 v2.9.2
 	github.com/gin-gonic/gin v1.9.1
+	github.com/google/uuid v1.6.0
 	github.com/guojia99/go-tables v0.1.2
 	github.com/json-iterator/go v1.1.12
 	github.com/mojocn/base64Captcha v1.3.6

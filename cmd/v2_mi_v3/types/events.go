@@ -1,4 +1,4 @@
-package main
+package types
 
 import (
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
@@ -186,7 +186,7 @@ var wcaEvents = []event.Event{
 		Icon:          "",
 		IconBase64:    "",
 		IsWCA:         true,
-		BaseRouteType: event.RouteType5RoundsAvgHT,
+		BaseRouteType: event.RouteType3roundsBest,
 	},
 	{
 		StringIDModel: basemodel.StringIDModel{
@@ -224,7 +224,7 @@ var wcaEvents = []event.Event{
 		Icon:          "",
 		IconBase64:    "",
 		IsWCA:         true,
-		BaseRouteType: event.RouteType3roundsAvg,
+		BaseRouteType: event.RouteType3RoundsAvgWithInteger,
 	},
 
 	// 已被取消的项目
@@ -341,3 +341,7 @@ var notCubes = []event.Event{
 		BaseRouteType: 0,
 	},
 }
+
+var AllEvents = append(
+	wcaEvents, append(otherEvents, notCubes...)...,
+)

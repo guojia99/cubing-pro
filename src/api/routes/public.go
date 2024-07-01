@@ -2,29 +2,31 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/notify"
+	posts "github.com/guojia99/cubing-pro/src/api/app/post"
+	"github.com/guojia99/cubing-pro/src/api/app/result"
+	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
 func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	public := router.Group("/public")
 	{
-		public.GET("/swagger/json") // api文档
-		public.GET("/events")       // 项目列表
-		public.GET("/notify")       // 通知列表
-		public.GET("/forum")        // 板块列表
+		public.GET("/swagger/json", func(context *gin.Context) { context.JSON(404, "not data") }) // api文档
+		public.GET("/events", result.Events(svc))                                                 // 项目列表 TODO 加缓存
+		public.GET("/notify", notify.GetNotifyList(svc))                                          // 通知列表
+		public.GET("/forum", posts.GetForums(svc))                                                // 板块列表
 	}
 
 	player := public.Group("/player")
 	{
-		player.GET("/")                                     // 玩家列表
-		player.GET("/search")                               // 搜索
-		player.GET("/player/:playerId")                     // 玩家基础信息
-		player.GET("/player/:playerId/month_report/:month") // 月度报表
-		player.GET("/player/:playerId/year_report/:year")   // 年度报表
-		player.GET("/player/:playerId/results")             // 玩家成绩汇总
-		player.GET("/player/:playerId/nemesis")             // 宿敌列表
-		player.GET("/player/:playerId/records")             // 玩家记录
-		player.GET("/player/:playerId/sor")                 // 玩家统计成绩
+		player.GET("/", users.Users(svc))                          // 玩家列表
+		player.GET("/player/:playerId", users.UserBaseResult(svc)) // 玩家基础信息
+		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表
+		player.GET("/player/:playerId/results", result.PlayerResults(svc)) // 玩家成绩汇总
+		player.GET("/player/:playerId/nemesis")                            // 宿敌列表
+		player.GET("/player/:playerId/records")                            // 玩家记录
+		player.GET("/player/:playerId/sor")                                // 玩家统计成绩
 	}
 
 	comps := public.GET("/comps")

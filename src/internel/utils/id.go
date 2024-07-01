@@ -52,7 +52,7 @@ func TranslateEn(input string) string {
 }
 
 // GetIDButNotNumber 生成Cube ID前缀， 2024JIAY 需要自行补充数字
-func GetIDButNotNumber(baseName string) string {
+func GetIDButNotNumber(baseName string, y int) string {
 	en := TranslateEn(RemoveSpacesAndTranslate(baseName))
 
 	if len(en) >= 4 {
@@ -63,7 +63,11 @@ func GetIDButNotNumber(baseName string) string {
 		en += strings.Repeat("0", 4-len(en))
 	}
 
-	id := fmt.Sprintf("%d%s", time.Now().Year(), strings.ToUpper(en))
+	if y == 0 {
+		y = time.Now().Year()
+	}
+
+	id := fmt.Sprintf("%d%s", y, strings.ToUpper(en))
 
 	return id
 }

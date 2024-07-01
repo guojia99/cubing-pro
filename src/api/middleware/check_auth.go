@@ -68,6 +68,11 @@ func CheckAuthMiddlewareFunc(auth user2.Auth) gin.HandlerFunc {
 			return
 		}
 
+		if dbUser.Ban {
+			exception.ErrAuthField.ResponseWithError(ctx, fmt.Errorf("用户已被禁用 %s", dbUser.BanReason))
+			return
+		}
+
 		// todo 对比token
 		//token := jwt.GetToken(ctx)
 		//if token != dbUser.Token {

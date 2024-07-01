@@ -60,16 +60,26 @@ type CompetitionEvent struct {
 	Done     bool       `json:"Done,omitempty"`     // 是否已结束
 }
 
-func (c *CompetitionEvent) CurRunningSchedule(round string) (Schedule, error) {
+func (c *CompetitionEvent) CurRunningSchedule(round interface{}, run *bool) (Schedule, error) {
 	for _, schedule := range c.Schedule {
-		if !schedule.IsRunning {
+		if run != nil && schedule.IsRunning != *run {
 			continue
 		}
-		if round == "" || round == schedule.Round {
+
+		if round == "" || round == schedule.Round || round == schedule.RoundNum {
 			return schedule, nil
 		}
 	}
 	return Schedule{}, errors.New("no running schedule found")
+}
+
+func (c *CompetitionEvent) UpdateSchedule(round interface{}, schedule Schedule) {
+	for n := range c.Schedule {
+		if c.Schedule[n].Round == round || c.Schedule[n].RoundNum == round {
+			c.Schedule[n] = schedule
+			break
+		}
+	}
 }
 
 type Schedule struct {
@@ -86,9 +96,11 @@ type Schedule struct {
 	ActualStartTime time.Time `json:"ActualStartTime"` // 实际开始时间
 	ActualEndTime   time.Time `json:"ActualEndTime"`   // 实际结束时间
 
-	Cutoff         float64 `json:"Cutoff,omitempty"`         // 及格线
-	TimeLimit      float64 `json:"TimeLimit,omitempty"`      // 还原时限
-	MinCompetitors int     `json:"MinCompetitors,omitempty"` // 最低限制人数
+	NoRestrictions bool    `json:"NoRestrictions"`         // 无限制
+	Cutoff         float64 `json:"Cutoff,omitempty"`       // 及格线
+	CutoffNumber   int     `json:"CutoffNumber,omitempty"` // 及格线把数
+	TimeLimit      float64 `json:"TimeLimit,omitempty"`    // 还原时限
+	//MinCompetitors int     `json:"MinCompetitors,omitempty"` // 最低限制人数
 
 	RoundNum            int    `json:"RoundNum"`            // 轮次数字排序
 	IsRunning           bool   `json:"IsRunning"`           // 是否正在执行的轮次

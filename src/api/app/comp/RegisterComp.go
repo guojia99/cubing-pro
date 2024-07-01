@@ -25,7 +25,6 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 
@@ -63,16 +62,8 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 时间相关的过滤
-		if time.Since(comp.RegistrationStartTime) < 0 {
-			exception.ErrCompNotRegister.ResponseWithError(ctx, "未到比赛报名开放时间")
-			return
-		}
-		if time.Since(comp.RegistrationEndTime) > 0 {
-			exception.ErrCompNotRegister.ResponseWithError(ctx, "已过比赛注册报名时间")
-			return
-		}
-		if comp.IsRegisterRestart && time.Since(comp.RegistrationRestartTime) < 0 {
-			exception.ErrCompNotRegister.ResponseWithError(ctx, "未到比赛重开报名时间")
+		if err = comp.CheckRegisterTime(); err != nil {
+			exception.ErrCompNotRegister.ResponseWithError(ctx, err)
 			return
 		}
 		// todo 比赛怎么重开后再次满了做限制？
@@ -95,6 +86,7 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 获取当前人数
+		// todo 这里要不要上锁？
 		if comp.Count > 0 {
 			var count int64
 			svc.DB.Model(&competition.CompetitionRegistration{}).Where("comp_id = ?", comp.ID).Count(&count)
@@ -123,10 +115,9 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 				exception.ErrCompNotRegister.ResponseWithError(ctx, err)
 				return
 			}
-			exception.ResponseOK(ctx, nil)
-			return
 		}
 
+		exception.ResponseOK(ctx, nil)
 		// 付费相关
 		// todo 暂不开发
 	}

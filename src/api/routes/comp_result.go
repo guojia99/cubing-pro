@@ -37,17 +37,17 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		person.DELETE("/exit", organizers2.ExitOrganizer(svc))                                // 退出主办团队
 	}
 
-	comp := organizers.Group(
+	compR := organizers.Group(
 		"/:orgId/comp",
 		middleware.CheckAuthMiddlewareFunc(user.AuthOrganizers),
 		org_mid.OrgAuthMiddleware(svc),
 		org_mid.CheckOrgCanUse(),
 	)
 	{
-		comp.GET("/", organizers2.OrgCompList(svc)) // 获取比赛列表
-		comp.POST("/", organizers2.CreateComp(svc)) // 创建比赛 [需要提交审批]
+		compR.GET("/", organizers2.OrgCompList(svc)) // 获取比赛列表
+		compR.POST("/", organizers2.CreateComp(svc)) // 创建比赛 [需要提交审批]
 
-		compId := comp.Group(
+		compId := compR.Group(
 			"/:compId",
 			org_mid.CheckCompMiddleware(svc),
 		)
@@ -62,12 +62,12 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 			//compId.POST("/players", organizers2.AddCompPlayer(svc))                       // 添加比赛选手
 			//compId.DELETE("/players", organizers2.DeleteCompPlayer(svc))                  // 移除比赛选手
 
-			compId.POST("/result", organizers2.AddCompResult(svc))                           // 录入比赛成绩
-			compId.DELETE("/result", organizers2.DeleteCompResult(svc))                      // 删除比赛成绩
-			compId.GET("/pre_results", organizers2.GetCompPlayerPreResult(svc))              // 获取预录入成绩
-			compId.POST("/pre_results/approval", organizers2.DeleteCompPlayerPreResult(svc)) // 审批预录入成绩
+			compId.POST("/:reg_id/result", organizers2.AddCompResult(svc))                                // 录入比赛成绩
+			compId.DELETE("/result/:result_id", organizers2.DeleteCompResult(svc))                        // 删除比赛成绩
+			compId.GET("/pre_results", organizers2.GetCompPlayerPreResult(svc))                           // 获取预录入成绩
+			compId.POST("/pre_results/:result_id/approval", organizers2.ApprovalCompPlayerPreResult(svc)) // 审批预录入成绩
 
-			compId.PUT("/:compId/refresh_event", organizers2.RefreshEvent(svc)) // 刷新项目的轮次信息
+			compId.PUT("/:reg_id/:compId/refresh_event", organizers2.RefreshEvent(svc)) // 刷新项目的轮次信息
 		}
 
 	}
@@ -87,12 +87,14 @@ func CompWithUserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	router.GET("/player_comp/register/comps/:compId/callback/:registerId", comp.RegisterCompCallback(svc)) // 报名比赛支付回调
-	registers := userComp.Group("/register")
+	registers := userComp.Group(
+		"/register",
+	)
 	{
-		registers.GET("/comps", comp.RegisterComps(svc))                       // 报名比赛列表
-		registers.POST("/comps/:compId/", comp.RegisterComp(svc))              // 报名比赛
-		registers.GET("/comps/:compId/detail", comp.RegisterCompDetail(svc))   // 报名详情
-		registers.GET("/comps/:compId/progress", comp.RegisterProgress(svc))   // 报名比赛支付进度查询
+		registers.GET("/comps", comp.RegisterComps(svc))                     // 报名比赛列表
+		registers.POST("/comps/:compId/", comp.RegisterComp(svc))            // 报名比赛
+		registers.GET("/comps/:compId/detail", comp.RegisterCompDetail(svc)) // 报名详情
+		//registers.GET("/comps/:compId/progress", comp.RegisterProgress(svc))   // 报名比赛支付进度查询
 		registers.PUT("/comps/:compId/add_events", comp.RegisterAddEvent(svc)) // 添加比赛项目
 		registers.POST("/comps/:compId/retire", comp.RegisterRetire(svc))      // 退赛
 	}

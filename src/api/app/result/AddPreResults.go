@@ -37,7 +37,6 @@ func AddPreResults(svc *svc.Svc) gin.HandlerFunc {
 		// 3. 添加到数据库。
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 
@@ -77,7 +76,7 @@ func AddPreResults(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 确认比赛是否晋级的资格
-		schedule, err := ev.CurRunningSchedule(req.Round)
+		schedule, err := ev.CurRunningSchedule(req.Round, nil)
 		if err != nil {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return

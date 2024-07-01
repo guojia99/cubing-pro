@@ -36,7 +36,7 @@ func Test_convenient_getCubeID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(
 			tt.baseName, func(t *testing.T) {
-				got := c.getCubeID(tt.baseName)
+				got := c.GetCubeID(tt.baseName)
 				t.Logf("%s \t %s", tt.baseName, got)
 			},
 		)

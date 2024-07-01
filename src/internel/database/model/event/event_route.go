@@ -3,16 +3,17 @@ package event
 type RouteType int
 
 const (
-	RouteTypeNot             RouteType = iota // 非比赛项目
-	RouteType1rounds                          // "1_r"      // 单轮项目
-	RouteType3roundsBest                      // "3_r_b"    // 三轮取最佳
-	RouteType3roundsAvg                       // "3_r_a"    // 三轮取平均
-	RouteType5roundsBest                      // "5_r_b"    // 五轮取最佳
-	RouteType5roundsAvg                       // "5_r_a"    // 五轮取平均
-	RouteType5RoundsAvgHT                     // "5_r_a_ht" // 五轮去头尾取平均
-	RouteTypeRepeatedly                       // "ry"       // 单轮多次还原项目, 成绩1:还原数; 成绩2:尝试数; 成绩3:时间;
-	RouteType2RepeatedlyBest                  // “2ry” 两轮多次尝试取最佳
-	RouteType3RepeatedlyBest                  // "3ry"      // 三轮尝试多次还原项目 成绩1:还原数; 成绩2:尝试数; 成绩3:时间; 循环3次
+	RouteTypeNot                   RouteType = iota // 非比赛项目
+	RouteType1rounds                                // "1_r"      // 单轮项目
+	RouteType3roundsBest                            // "3_r_b"    // 三轮取最佳
+	RouteType3RoundsAvgWithInteger                  // “3_r_a_i” // 三轮取平均 单次取整
+	RouteType3roundsAvg                             // "3_r_a"    // 三轮取平均
+	RouteType5roundsBest                            // "5_r_b"    // 五轮取最佳
+	RouteType5roundsAvg                             // "5_r_a"    // 五轮取平均
+	RouteType5RoundsAvgHT                           // "5_r_a_ht" // 五轮去头尾取平均
+	RouteTypeRepeatedly                             // "ry"       // 单轮多次还原项目, 成绩1:还原数; 成绩2:尝试数; 成绩3:时间;
+	RouteType2RepeatedlyBest                        // “2ry” 两轮多次尝试取最佳
+	RouteType3RepeatedlyBest                        // "3ry"      // 三轮尝试多次还原项目 成绩1:还原数; 成绩2:尝试数; 成绩3:时间; 循环3次
 )
 
 func (r RouteType) RouteMap() RouteMap {
@@ -25,6 +26,7 @@ func (r RouteType) String() string {
 
 type RouteMap struct {
 	Name          string `json:"name"`          // 名称
+	Integer       bool   `json:"bestInteger"`   // 成绩取整数 fmc项目
 	Repeatedly    bool   `json:"repeatedly"`    // 是否多轮还原项目
 	RepeatedlyNum int    `json:"repeatedlyNum"` // 多轮还原项目的轮次
 	Rounds        int    `json:"rounds"`        // 成绩数
@@ -47,6 +49,11 @@ var routeMaps = map[RouteType]RouteMap{
 		Name:     "三把取最佳",
 		Rounds:   3,
 		WithBest: true,
+	},
+	RouteType3RoundsAvgWithInteger: {
+		Name:    "三把取平均(最少步)",
+		Integer: true,
+		Rounds:  3,
 	},
 	RouteType3roundsAvg: RouteMap{
 		Name:   "三把取平均",

@@ -17,6 +17,7 @@ const (
 	TopicStatusUnpublished                          //未发布
 	TopicStatusBan                                  //封禁
 	TopicStatusPendingReview                        //待审核
+	TopicStatusReviewField
 )
 
 // Topic 主题帖
@@ -29,7 +30,6 @@ type Topic struct {
 	CreateIp       string `gorm:"column:create_ip"`         // ip地址
 	UpdateIp       string `gorm:"column:update_ip"`         // 更新的ip地址
 
-	ForumID    uint        `gorm:"column:forum_id"`          // 板块ID
 	Status     TopicStatus `gorm:"column:status"`            // 发布状态
 	Title      string      `gorm:"column:title"`             // 标题
 	Short      string      `gorm:"column:short"`             // 简短说明
@@ -48,13 +48,16 @@ type Topic struct {
 type Posts struct {
 	basemodel.Model
 
-	Tid      uint `gorm:"column:tid"` // 帖子id
-	Uid      uint `gorm:"column:uid"` // 用户id
-	ReplyPid uint `gorm:"reply_pid"`  // 回复的pid
-
+	Tid      uint   `gorm:"column:tid"`       // 帖子id
+	Uid      uint   `gorm:"column:uid"`       // 用户id
 	UserName string `gorm:"column:user_name"` // 用户名
-	Content  string `gorm:"column:content"`   // 回复内容
-	IP       string `gorm:"column:ip"`        // ip地址
+	ReplyPid uint   `gorm:"column:reply_pid"` // 回复的pid
+
+	ToName string `gorm:"column:to_name"` // 回复名
+	ToId   uint   `gorm:"column:to_id"`   // 回复的id
+
+	Content string `gorm:"column:content"` // 回复内容
+	IP      string `gorm:"column:ip"`      // ip地址
 }
 
 type AssTopicLike struct {

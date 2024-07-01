@@ -27,7 +27,6 @@ func OrgAuthMiddleware(svc *svc.Svc) gin.HandlerFunc {
 		}
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
 

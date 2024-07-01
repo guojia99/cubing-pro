@@ -2,17 +2,22 @@ package database
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
 type userI interface {
-	GetCubeID(name string) string
+	GetCubeID(name string, createYear ...int) string
 }
 
-func (c *convenient) GetCubeID(name string) string {
-	baseName := utils.GetIDButNotNumber(name)
+func (c *convenient) GetCubeID(name string, createYear ...int) string {
+	y := time.Now().Year()
+	if len(createYear) > 0 {
+		y = createYear[0]
+	}
+	baseName := utils.GetIDButNotNumber(name, y)
 
 	var find []user.User
 	c.db.Model(&user.User{}).Where("like ?", fmt.Sprintf("%%%s%%", baseName)).Find(&find)

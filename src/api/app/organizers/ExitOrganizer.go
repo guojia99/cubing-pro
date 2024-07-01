@@ -15,7 +15,6 @@ func ExitOrganizer(svc *svc.Svc) gin.HandlerFunc {
 
 		userD, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 

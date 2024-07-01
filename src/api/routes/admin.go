@@ -72,13 +72,13 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		post.POST("/forum", posts.CreateForum(svc))            // 添加板块
 		post.DELETE("/forum/:forumId", posts.DeleteForum(svc)) // 删除板块
 
-		post.GET("/topics", posts.GetAllTopics(svc))            // 获取所有帖子(包括被删的 \ 禁用的)
-		post.GET("/topics/:topicId", posts.GetTopic(svc, true)) // 帖子详情
-		post.DELETE("/topics/:topicId", posts.DeleteTopic(svc)) // 删除帖子
-		post.PUT("/topics/ban/:postId", posts.BanTopic(svc))    // 禁用帖子
+		post.GET("/topics", posts.GetAllTopics(svc))                   // 获取所有帖子(包括被删的 \ 禁用的)
+		post.GET("/topics/:topicId", posts.GetTopic(svc, true))        // 帖子详情
+		post.DELETE("/topics/:topicId", posts.DeleteTopic(svc, false)) // 删除帖子
+		post.PUT("/topics/ban/:postId", posts.BanTopic(svc))           // 禁用帖子
 
-		post.GET("/topics/:topicId/posts", posts.GetPosts(svc, true))        // 获取帖子评论列表
-		post.DELETE("/topics/:topicId/posts/:postId", posts.DeletePost(svc)) // 删除帖子的评论
+		post.GET("/topics/:topicId/posts", posts.GetPosts(svc, true, false))        // 获取帖子评论列表
+		post.DELETE("/topics/:topicId/posts/:postId", posts.DeletePost(svc, false)) // 删除帖子的评论
 	}
 
 	// 用户管理

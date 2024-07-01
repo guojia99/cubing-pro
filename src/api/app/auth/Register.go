@@ -85,7 +85,7 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 			Email:           req.Email,
 			Hash:            string(utils.GenerateRandomKey(time.Now().UnixNano())),
 			CubeID:          svc.Cov.GetCubeID(name),
-			ActivationTime:  time.Now(),
+			ActivationTime:  utils.PtrNow(),
 		}
 		newUser.SetAuth(user.AuthPlayer)
 
@@ -98,7 +98,7 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 				exception.ErrRegisterField.ResponseWithError(ctx, "依据原有用户进行注册初始化密码错误")
 				return
 			}
-			newUser.ActivationTime = time.Now()
+			newUser.ActivationTime = utils.PtrNow()
 			newUser.Email = req.Email
 			newUser.LoginID = req.LoginID
 		}

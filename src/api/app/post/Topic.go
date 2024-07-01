@@ -9,7 +9,7 @@ import (
 )
 
 type GetTopicReq struct {
-	TopicId string `uri:"topicId"`
+	TopicId uint `uri:"topicId"`
 }
 
 func GetTopic(svc *svc.Svc, ignoreBan bool) gin.HandlerFunc {

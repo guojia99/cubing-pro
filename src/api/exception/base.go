@@ -23,13 +23,16 @@ func (e ErrorMsg) Error() string {
 }
 
 type ErrorMsg struct {
-	Code     int         `json:"code"`      // 业务错误码
-	HttpCode int         `json:"http_code"` // http 错误码
-	Msg      string      `json:"message"`   // 错误叠加
-	Data     interface{} `json:"data"`      // 补充数据
-	Level    string      `json:"level"`     // 错误级别
-	Line     string      `json:"line"`
-	Ref      string      `json:"ref"` // 参考链接
+	Code     int `json:"code"`      // 业务错误码
+	HttpCode int `json:"http_code"` // http 错误码
+
+	Msg      string      `json:"message"` // 错误叠加
+	ErrorMsg interface{} `json:"error"`   // 错误原始
+	Data     interface{} `json:"data"`    // 补充数据
+
+	Level string `json:"level"` // 错误级别
+	Line  string `json:"line"`  // 错误行
+	Ref   string `json:"ref"`   // 参考链接
 }
 
 func (e ErrorMsg) ResponseWithError(ctx *gin.Context, err interface{}) {
@@ -37,7 +40,7 @@ func (e ErrorMsg) ResponseWithError(ctx *gin.Context, err interface{}) {
 		e.HttpCode = http.StatusBadRequest
 	}
 	if err != nil {
-		e.Msg = fmt.Sprintf("%s: %s", e.Msg, err)
+		e.ErrorMsg = err
 		_, file, line, _ := runtime.Caller(1)
 		e.Line = fmt.Sprintf("err at %s:%d", file, line)
 	}

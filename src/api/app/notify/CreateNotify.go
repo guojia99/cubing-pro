@@ -23,12 +23,11 @@ func CreateNotify(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 
 		var req CreateNotifyReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		if err = app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
 

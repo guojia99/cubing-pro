@@ -2,6 +2,7 @@ package app_utils
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -24,15 +25,16 @@ type (
 )
 
 type ListSearchParam struct {
-	Model       interface{}
-	MaxSize     int
-	Query       string
-	QueryCons   []interface{}
-	OrderBy     []string
-	Omit        []string // 不需要字段
-	Select      []string // 所需字段
-	HasDeleted  bool     // 包含删除的行
-	NotAutoResp bool     //  自动封装消息
+	Model            interface{}
+	MaxSize          int
+	Query            string
+	QueryCons        []interface{}
+	CanSearchAndLike []string // 允许查询的字段
+	OrderBy          []string
+	Omit             []string // 不需要字段
+	Select           []string // 所需字段
+	HasDeleted       bool     // 包含删除的行
+	NotAutoResp      bool     //  自动封装消息
 }
 
 func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSearchParam) {
@@ -56,12 +58,16 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 	}
 	if len(req.Like) > 0 {
 		for key, val := range req.Like {
-			searchDB = searchDB.Where(fmt.Sprintf("%s like ?", key), fmt.Sprintf("%%%s%%", val))
+			if slices.Contains(param.CanSearchAndLike, key) {
+				searchDB = searchDB.Where(fmt.Sprintf("%s like ?", key), fmt.Sprintf("%%%s%%", val))
+			}
 		}
 	}
 	if len(req.Search) > 0 {
 		for key, val := range req.Search {
-			searchDB = searchDB.Where(fmt.Sprintf("%s = ?", key), val)
+			if slices.Contains(param.CanSearchAndLike, key) {
+				searchDB = searchDB.Where(fmt.Sprintf("%s = ?", key), val)
+			}
 		}
 	}
 	if len(param.Query) != 0 {

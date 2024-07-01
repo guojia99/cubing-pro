@@ -1,6 +1,7 @@
 package competition
 
 import (
+	"errors"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -31,46 +32,46 @@ const (
 type Competition struct {
 	basemodel.Model // 这里的ID需要符合条件
 
-	StrId     string            `gorm:"column:str_id;uniqueIndex" json:"StrId,omitempty"`
+	StrId     string            `gorm:"column:str_id;null" json:"StrId,omitempty"`
 	Status    CompetitionStatus `gorm:"column:status" json:"Status,omitempty"`
-	RejectMsg string            `gorm:"column:reject_msg" json:"RejectMsg,omitempty"`
+	RejectMsg string            `gorm:"column:reject_msg;null" json:"RejectMsg,omitempty"`
 
 	// 详情
-	Name         string          `gorm:"column:name" json:"Name,omitempty"`                  // 名称
-	Illustrate   string          `gorm:"column:illustrate" json:"Illustrate,omitempty"`      // 详细说明 MD
-	Location     string          `gorm:"column:location" json:"Location,omitempty"`          // 地址
-	LocationAddr string          `gorm:"column:location_addr" json:"LocationAddr,omitempty"` // 经纬坐标
-	Country      string          `gorm:"column:country" json:"Country,omitempty"`            // 地区
-	City         string          `gorm:"column:city" json:"City,omitempty"`                  // 城市
-	RuleMD       string          `gorm:"column:rule_md" json:"RuleMD,omitempty"`             // 规则
-	CompJSONStr  string          `gorm:"column:comp_json" json:"-"`                          // 项目列表JSON
-	CompJSON     CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                       // 项目列表
-	EventMin     string          `gorm:"column:event_min" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
-	Series       string          `gorm:"series" json:"Series,omitempty"`                     // 系列赛
+	Name         string          `gorm:"column:name" json:"Name,omitempty"`                       // 名称
+	Illustrate   string          `gorm:"column:illustrate;null" json:"Illustrate,omitempty"`      // 详细说明 MD
+	Location     string          `gorm:"column:location;null" json:"Location,omitempty"`          // 地址
+	LocationAddr string          `gorm:"column:location_addr;null" json:"LocationAddr,omitempty"` // 经纬坐标
+	Country      string          `gorm:"column:country;null" json:"Country,omitempty"`            // 地区
+	City         string          `gorm:"column:city;null" json:"City,omitempty"`                  // 城市
+	RuleMD       string          `gorm:"column:rule_md;null" json:"RuleMD,omitempty"`             // 规则
+	CompJSONStr  string          `gorm:"column:comp_json;null" json:"-"`                          // 项目列表JSON
+	CompJSON     CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                            // 项目列表
+	EventMin     string          `gorm:"column:event_min;null" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
+	Series       string          `gorm:"series;null" json:"Series,omitempty"`                     // 系列赛
 
 	// 基础限制
-	Genre              Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`                     // 比赛形式
-	MinCount           int64 `gorm:"column:min_count" json:"MinCount,omitempty"`                       // 最低开赛限制
-	Count              int64 `gorm:"column:count" json:"Count,omitempty"`                              // 最大人数
-	FreeParticipate    bool  `gorm:"column:free_p" json:"FreeParticipate,omitempty"`                   // 自由参赛, 仅支持非正式赛
-	AutomaticReview    bool  `gorm:"column:auto_review" json:"AutomaticReview,omitempty"`              // 自动审核
-	CanPreResult       bool  `gorm:"column:can_pre_result" json:"CanPreResult,omitempty"`              // 允许提交预录入成绩
-	CanStartedAddEvent bool  `gorm:"column:can_started_add_event" json:"CanStartedAddEvent,omitempty"` // 开赛后是否可追加项目（第一轮结束后不可追加）
+	Genre              Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`                          // 比赛形式
+	MinCount           int64 `gorm:"column:min_count;null" json:"MinCount,omitempty"`                       // 最低开赛限制
+	Count              int64 `gorm:"column:count;null" json:"Count,omitempty"`                              // 最大人数
+	FreeParticipate    bool  `gorm:"column:free_p;null" json:"FreeParticipate,omitempty"`                   // 自由参赛, 仅支持非正式赛
+	AutomaticReview    bool  `gorm:"column:auto_review;null" json:"AutomaticReview,omitempty"`              // 自动审核
+	CanPreResult       bool  `gorm:"column:can_pre_result;null" json:"CanPreResult,omitempty"`              // 允许提交预录入成绩
+	CanStartedAddEvent bool  `gorm:"column:can_started_add_event;null" json:"CanStartedAddEvent,omitempty"` // 开赛后是否可追加项目（第一轮结束后不可追加）
 
 	// 时间相关
-	CompStartTime                  time.Time `gorm:"column:comp_start_time" json:"CompStartTime,omitempty"`                     // 比赛开始时间
-	CompEndTime                    time.Time `gorm:"column:comp_end_time" json:"CompEndTime,omitempty"`                         // 比赛结束时间
-	RegistrationStartTime          time.Time `gorm:"column:reg_start_time" json:"RegistrationStartTime,omitempty"`              // 报名开始时间
-	RegistrationEndTime            time.Time `gorm:"column:reg_end_time" json:"RegistrationEndTime,omitempty"`                  // 报名结束时间
-	RegistrationCancelDeadlineTime time.Time `gorm:"column:reg_cancel_dl_time" json:"RegistrationCancelDeadlineTime,omitempty"` // 退赛截止时间
-	IsRegisterRestart              bool      `gorm:"column:is_register_restart" json:"IsRegisterRestart,omitempty"`
-	RegistrationRestartTime        time.Time `gorm:"column:reg_restart_time" json:"RegistrationRestartTime,omitempty"` // 报名重开时间
+	CompStartTime                  time.Time  `gorm:"column:comp_start_time" json:"CompStartTime,omitempty"`                          // 比赛开始时间
+	CompEndTime                    time.Time  `gorm:"column:comp_end_time" json:"CompEndTime,omitempty"`                              // 比赛结束时间
+	RegistrationStartTime          *time.Time `gorm:"column:reg_start_time;null" json:"RegistrationStartTime,omitempty"`              // 报名开始时间
+	RegistrationEndTime            *time.Time `gorm:"column:reg_end_time;null" json:"RegistrationEndTime,omitempty"`                  // 报名结束时间
+	RegistrationCancelDeadlineTime *time.Time `gorm:"column:reg_cancel_dl_time;null" json:"RegistrationCancelDeadlineTime,omitempty"` // 退赛截止时间
+	IsRegisterRestart              bool       `gorm:"column:is_register_restart;null" json:"IsRegisterRestart,omitempty"`
+	RegistrationRestartTime        *time.Time `gorm:"column:reg_restart_time;null" json:"RegistrationRestartTime,omitempty"` // 报名重开时间
 
 	// 主办
-	OrganizersID uint `gorm:"column:orgId" json:"OrganizersID,omitempty"` // 主办团队
+	OrganizersID uint `gorm:"column:orgId;null" json:"OrganizersID,omitempty"` // 主办团队
 
 	// WCA相关
-	WCAUrl string `gorm:"column:wca_url;index" json:"WCAUrl,omitempty"` // WCA 认证地址
+	WCAUrl string `gorm:"column:wca_url;null" json:"WCAUrl,omitempty"` // WCA 认证地址
 }
 
 type AssCompetitionSponsorsUsers struct {
@@ -109,6 +110,15 @@ func (c *Competition) EventMap() map[string]CompetitionEvent {
 	return out
 }
 
+func (c *Competition) UpdateEvent(ev CompetitionEvent) {
+	for n := range c.CompJSON.Events {
+		if c.CompJSON.Events[n].EventID == ev.EventID {
+			c.CompJSON.Events[n] = ev
+			break
+		}
+	}
+}
+
 // IsRunningTime 是否在比赛时间段内
 func (c *Competition) IsRunningTime() bool {
 	if c.Status != Running {
@@ -122,4 +132,17 @@ func (c *Competition) IsRunningTime() bool {
 		return false
 	}
 	return true
+}
+
+func (c *Competition) CheckRegisterTime() error {
+	if c.RegistrationStartTime != nil && time.Since(*c.RegistrationRestartTime) < 0 {
+		return errors.New("未到比赛报名开放时间")
+	}
+	if c.RegistrationEndTime != nil && time.Since(*c.RegistrationEndTime) > 0 {
+		return errors.New("已过比赛注册报名时间")
+	}
+	if c.IsRegisterRestart && c.RegistrationRestartTime != nil && time.Since(*c.RegistrationRestartTime) < 0 {
+		return errors.New("未到比赛重开报名时间")
+	}
+	return nil
 }

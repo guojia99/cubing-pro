@@ -37,7 +37,6 @@ func RegisterOrganizers(svc *svc.Svc) gin.HandlerFunc {
 		// 确认用户信息合法性
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 		if user.Email == "" {

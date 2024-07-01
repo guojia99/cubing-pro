@@ -11,6 +11,7 @@ type User struct {
 	CubeID       string `json:"cubeID"`       // CubeID
 	DelegateName string `json:"delegateName"` // 代表称呼: 高级代表\代表\实习代表...
 	Avatar       string `json:"avatar"`       // 头像
+	Level        uint   `json:"level"`        // 等级
 }
 
 func UserToUser(u user.User) User {
@@ -21,5 +22,6 @@ func UserToUser(u user.User) User {
 		CubeID:       u.CubeID,
 		DelegateName: u.DelegateName,
 		Avatar:       u.Avatar,
+		Level:        u.Level,
 	}
 }

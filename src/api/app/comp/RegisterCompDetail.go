@@ -13,7 +13,6 @@ func RegisterCompDetail(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user, err := middleware.GetAuthUser(ctx)
 		if err != nil {
-			exception.ErrAuthField.ResponseWithError(ctx, err)
 			return
 		}
 

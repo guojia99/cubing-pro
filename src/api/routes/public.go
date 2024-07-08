@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/comp"
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
@@ -20,21 +21,21 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	player := public.Group("/player")
 	{
+		// todo 加缓存
 		player.GET("/", users.Users(svc))                          // 玩家列表
 		player.GET("/player/:playerId", users.UserBaseResult(svc)) // 玩家基础信息
 		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表
 		player.GET("/player/:playerId/results", result.PlayerResults(svc)) // 玩家成绩汇总
-		player.GET("/player/:playerId/nemesis")                            // 宿敌列表
-		player.GET("/player/:playerId/records")                            // 玩家记录
-		player.GET("/player/:playerId/sor")                                // 玩家统计成绩
+		player.GET("/player/:playerId/nemesis", result.PlayerNemesis(svc)) // 宿敌列表
+		player.GET("/player/:playerId/records", result.PlayerRecords(svc)) // 玩家记录
+		player.GET("/player/:playerId/sor", result.PlayerSor(svc))         // 玩家统计成绩
 	}
 
-	comps := public.GET("/comps")
+	comps := public.Group("/comps")
 	{
-		comps.GET("/")                  // 比赛列表
-		comps.GET("/search")            // 搜索
-		comps.GET("/:compId/registers") // 比赛报名列表
-		comps.GET("/:compId/result")    // 比赛成绩列表
+		comps.GET("/", comp.List(svc))                       // 比赛列表
+		comps.GET("/:compId/registers", comp.Registers(svc)) // 比赛报名列表
+		comps.GET("/:compId/result", comp.Results(svc))      // 比赛成绩列表
 	}
 
 	statistics := public.Group("/statistics")

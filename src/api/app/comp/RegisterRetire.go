@@ -40,7 +40,7 @@ func RegisterRetire(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		var reg competition.CompetitionRegistration
+		var reg competition.Registration
 		if err = svc.DB.First(&reg, "comp_id = ? and user_id = ?", req.CompId, user.ID).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

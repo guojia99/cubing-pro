@@ -20,7 +20,7 @@ func CompPlayers(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		var regs []competition.CompetitionRegistration
+		var regs []competition.Registration
 		if err := svc.DB.Find(&regs, "comp_id = ?", req.CompId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

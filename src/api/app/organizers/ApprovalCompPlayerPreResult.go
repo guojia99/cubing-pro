@@ -46,7 +46,7 @@ func ApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResultCreate.ResponseWithError(ctx, "成绩已被处理，请不要反复处理")
 			return
 		}
-		var reg competition.CompetitionRegistration
+		var reg competition.Registration
 		if err = svc.DB.First(&reg, "id = ?", req.RegId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

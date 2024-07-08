@@ -15,10 +15,10 @@ func RegisterComps(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		var out []competition.CompetitionRegistration
+		var out []competition.Registration
 		app_utils.GenerallyList(
 			ctx, svc.DB, out, app_utils.ListSearchParam{
-				Model:     &competition.CompetitionRegistration{},
+				Model:     &competition.Registration{},
 				MaxSize:   100,
 				Query:     "user_id = ?",
 				QueryCons: []interface{}{user.ID},

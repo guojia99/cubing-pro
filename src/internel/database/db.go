@@ -51,7 +51,7 @@ func NewConvenient(db *gorm.DB) ConvenientI {
 
 	//比赛表
 	_ = db.AutoMigrate(&competition.Competition{})                 // 比赛表
-	_ = db.AutoMigrate(&competition.CompetitionRegistration{})     // 比赛注册表
+	_ = db.AutoMigrate(&competition.Registration{})                // 比赛注册表
 	_ = db.AutoMigrate(&competition.AssCompetitionSponsorsUsers{}) // 比赛相关主办代表关联表
 
 	// 系统

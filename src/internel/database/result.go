@@ -11,8 +11,11 @@ import (
 
 type resultI interface {
 	AllPlayerBestResult(results []result.Results, players []user.User) (best PlayerBestResult, all []PlayerBestResult) // 获取所有成绩列表中，对应玩家的所有最佳成绩汇总
+	PlayerBestResult(playerId uint, events []string) (PlayerBestResult, error)                                         // 获取玩家最佳成绩
+	PlayerNemesisWithID(playerId uint, events []string) (out []Nemesis)
 	PlayerNemesis(player PlayerBestResult, all []PlayerBestResult, events map[string]event.Event, com bool) []Nemesis
 	KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult
+	KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error)
 }
 
 func (c *convenient) AllPlayerBestResult(results []result.Results, players []user.User) (best PlayerBestResult, all []PlayerBestResult) {
@@ -65,6 +68,18 @@ func (c *convenient) AllPlayerBestResult(results []result.Results, players []use
 		}
 	}
 	return
+}
+
+func (c *convenient) PlayerBestResult(playerId uint, events []string) (PlayerBestResult, error) {
+	var player user.User
+	if err := c.db.Where("id = ?", playerId).First(&player).Error; err != nil {
+		return PlayerBestResult{}, err
+	}
+
+	var results []result.Results
+	c.db.Where("user_id = ?", playerId).Where("event_id in ?", events).Find(&results)
+	b, _ := c.AllPlayerBestResult(results, []user.User{player})
+	return b, nil
 }
 
 // PlayerNemesis onlyCom 仅比较都有成绩的项目
@@ -134,6 +149,34 @@ func (c *convenient) PlayerNemesis(player PlayerBestResult, all []PlayerBestResu
 	return
 }
 
+func (c *convenient) PlayerNemesisWithID(playerId uint, events []string) (out []Nemesis) {
+
+	playerBest, err := c.PlayerBestResult(playerId, events)
+	if err != nil {
+		return
+	}
+
+	var results []result.Results
+	var userIds []uint
+	c.db.Where("event_id in ?", events).Find(&results)
+	c.db.Model(&result.Results{}).Distinct("user_id").Where("event_id in ?", events).Find(&userIds)
+
+	var evs []event.Event
+	c.db.Where("id in ?", events).Find(&evs)
+	var eventMap = make(map[string]event.Event)
+	for _, e := range evs {
+		eventMap[e.ID] = e
+	}
+
+	var players []user.User
+	c.db.Where("id in ?", userIds).Find(&players)
+
+	_, all := c.AllPlayerBestResult(results, players)
+
+	out = c.PlayerNemesis(playerBest, all, eventMap, false)
+	return
+}
+
 func (c *convenient) KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult {
 	var out = make([]KinChSorResult, 0)
 
@@ -199,4 +242,27 @@ func (c *convenient) KinChSor(best PlayerBestResult, events []event.Event, playe
 		},
 	)
 	return out
+}
+
+func (c *convenient) KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error) {
+	var results []result.Results
+	var userIds []uint
+
+	c.db.Where("event_id in ?", events).Find(&results)
+	c.db.Model(&result.Results{}).Distinct("user_id").Where("event_id in ?", events).Find(&userIds)
+	var evs []event.Event
+	c.db.Where("id in ?", events).Find(&evs)
+	var players []user.User
+	c.db.Where("id in ?", userIds).Find(&players)
+
+	best, all := c.AllPlayerBestResult(results, players)
+
+	sor := c.KinChSor(best, evs, all)
+
+	for _, s := range sor {
+		if s.PlayerId == playerId {
+			return s, nil
+		}
+	}
+	return KinChSorResult{}, fmt.Errorf("not found sor")
 }

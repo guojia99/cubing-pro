@@ -26,7 +26,7 @@ type (
 
 type ListSearchParam struct {
 	Model            interface{}
-	MaxSize          int
+	MaxSize          int // 为0则代表全部
 	Query            string
 	QueryCons        []interface{}
 	CanSearchAndLike []string // 允许查询的字段
@@ -84,6 +84,8 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 		for _, o := range req.Order {
 			searchDB = searchDB.Order(o)
 		}
+	} else {
+		searchDB = searchDB.Order("created_at")
 	}
 
 	// total

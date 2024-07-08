@@ -101,7 +101,7 @@ func Test_convenient_KinChSor(t *testing.T) {
 		}
 		tb.AddBody(body...)
 		if idx > 50 {
-			break
+			//break
 		}
 	}
 
@@ -116,7 +116,7 @@ func Test_convenient_KinChSor(t *testing.T) {
 			return in
 		},
 	)
-	os.WriteFile("test.txt", []byte(tb.String()), 0644)
+	os.WriteFile("Test_convenient_KinChSor.txt", []byte(tb.String()), 0644)
 }
 
 func Test_convenient_PlayerNemesis(t *testing.T) {
@@ -193,6 +193,32 @@ func Test_convenient_PlayerNemesis(t *testing.T) {
 	os.WriteFile("test.txt", []byte(tb.String()), 0644)
 }
 
+func _printBestResults(val PlayerBestResult) {
+	tb := table.NewTable(table.DefaultOption)
+	tb.SetHeaders("项目", "单次", "平均")
+	for _, ev := range wca {
+		s, ok1 := val.Single[ev]
+		a, ok2 := val.Avgs[ev]
+
+		if !ok1 {
+			continue
+		}
+
+		var body []interface{}
+		body = append(body, ev)
+		body = append(body, s.BestString())
+
+		if ok2 {
+			body = append(body, a.BestAvgString())
+		} else {
+			body = append(body, " ")
+		}
+		tb.AddBody(body...)
+	}
+	fmt.Printf("---------- %s ----------\n", val.PlayerName)
+	fmt.Println(tb)
+}
+
 func Test_convenient_AllPlayerBestResult(t *testing.T) {
 	var v3Db = "root:my123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local"
 	Db, err := gorm.Open(mysql.New(mysql.Config{DSN: v3Db}), &gorm.Config{Logger: logger.Discard})
@@ -212,31 +238,24 @@ func Test_convenient_AllPlayerBestResult(t *testing.T) {
 	names := []string{"冰渊", "小丫鬟"}
 	for _, val := range all {
 		if slices.Contains(names, val.PlayerName) {
-			tb := table.NewTable(table.DefaultOption)
-			tb.SetHeaders("项目", "单次", "平均")
-			for _, ev := range wca {
-				s, ok1 := val.Single[ev]
-				a, ok2 := val.Avgs[ev]
-
-				if !ok1 {
-					continue
-				}
-
-				var body []interface{}
-				body = append(body, ev)
-				body = append(body, s.BestString())
-
-				if ok2 {
-					body = append(body, a.BestAvgString())
-				} else {
-					body = append(body, " ")
-				}
-				tb.AddBody(body...)
-			}
-			fmt.Printf("---------- %s ----------\n", val.PlayerName)
-			fmt.Println(tb)
-			continue
+			_printBestResults(val)
 		}
 	}
+}
 
+func Test_convenient_PlayerBestResult(t *testing.T) {
+	var v3Db = "root:my123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local"
+	Db, err := gorm.Open(mysql.New(mysql.Config{DSN: v3Db}), &gorm.Config{Logger: logger.Discard})
+	if err != nil {
+		t.Fatal(err)
+	}
+	c := NewConvenient(Db)
+
+	playerId := uint(6)
+	out, err := c.PlayerBestResult(playerId, wca)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(out)
+	_printBestResults(out)
 }

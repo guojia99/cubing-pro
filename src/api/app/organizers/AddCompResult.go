@@ -31,7 +31,7 @@ func checkAndAddPlayerResult(ctx *gin.Context, svc *svc.Svc, req AddCompResultRe
 ) {
 	// 注册审核
 
-	var reg competition.CompetitionRegistration
+	var reg competition.Registration
 	if err = svc.DB.First(&reg, "id = ?", req.RegId).Error; err != nil {
 		return
 	}

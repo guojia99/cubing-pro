@@ -115,7 +115,7 @@ func r3ClearV3Datas(ctx *Context) (err error) {
 		&event.Event{},
 		&result.Results{},
 		&competition.Competition{},
-		&competition.CompetitionRegistration{},
+		&competition.Registration{},
 	}
 
 	for _, t := range tables {
@@ -377,7 +377,7 @@ func _getResultEv(ctx *Context, project string) (event.Event, int, error) {
 
 func r7SaveV3Results(ctx *Context) (err error) {
 	// 循环所有成绩， 如果查看该用户是否注册， 是否已经添加到map
-	var regs = make(map[string]competition.CompetitionRegistration)
+	var regs = make(map[string]competition.Registration)
 	var results []result.Results
 
 	for _, score := range ctx.scoresList {
@@ -392,7 +392,7 @@ func r7SaveV3Results(ctx *Context) (err error) {
 		key := fmt.Sprintf("%d-%d", score.PlayerID, score.ContestID)
 		reg, ok := regs[key]
 		if !ok {
-			reg = competition.CompetitionRegistration{
+			reg = competition.Registration{
 				CompID:           ctx.V3Comps[score.ContestID].ID,
 				CompName:         ctx.V3Comps[score.ContestID].Name,
 				UserID:           ctx.V3Users[score.PlayerID].ID,
@@ -446,7 +446,7 @@ func r7SaveV3Results(ctx *Context) (err error) {
 		}
 	}
 
-	var regList []competition.CompetitionRegistration
+	var regList []competition.Registration
 	for _, reg := range regs {
 		s := strings.Split(reg.Events, ",")
 		s = slices.DeleteFunc(s, func(s string) bool { return !(s != " " && s != "") })

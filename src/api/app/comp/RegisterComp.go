@@ -78,7 +78,7 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 			}
 		}
 		allCost := comp.CompJSON.Cost.AllCost(time.Now(), req.Events)
-		var reg competition.CompetitionRegistration
+		var reg competition.Registration
 		// 如果已经存在订单，且等待支付， 则可能需要重新发起支付连接刷新
 		if err = svc.DB.First(&reg, "comp_id = ? and user_id = ?", comp.ID, user.ID).Error; err == nil && reg.Status != competition.RegisterStatusWaitPayment {
 			exception.ResponseOK(ctx, "已成功报名比赛，无需重新报名")
@@ -89,7 +89,7 @@ func RegisterComp(svc *svc.Svc) gin.HandlerFunc {
 		// todo 这里要不要上锁？
 		if comp.Count > 0 {
 			var count int64
-			svc.DB.Model(&competition.CompetitionRegistration{}).Where("comp_id = ?", comp.ID).Count(&count)
+			svc.DB.Model(&competition.Registration{}).Where("comp_id = ?", comp.ID).Count(&count)
 			if count >= comp.Count {
 				exception.ErrCompNotRegister.ResponseWithError(ctx, "报名人数已达上限")
 				comp.IsRegisterRestart = true

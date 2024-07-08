@@ -18,7 +18,7 @@ const (
 	RegisterStatusNotApply    RegisterStatus = "not_apply"
 )
 
-type CompetitionRegistration struct {
+type Registration struct {
 	basemodel.Model
 
 	CompID   uint   `gorm:"column:comp_id"` // 比赛ID
@@ -38,7 +38,7 @@ type CompetitionRegistration struct {
 	PaymentsJSON string    `gorm:"column:payments" json:"-"` // []Event JSON
 }
 
-func (c CompetitionRegistration) EventsList() []string {
+func (c Registration) EventsList() []string {
 	var out []string
 	_ = jsoniter.UnmarshalFromString(c.Events, &out)
 	return out

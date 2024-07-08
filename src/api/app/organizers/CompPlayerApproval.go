@@ -23,7 +23,7 @@ func CompPlayerApproval(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		var reg competition.CompetitionRegistration
+		var reg competition.Registration
 		if err := svc.DB.First(&reg, "id = ?", req.RegId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

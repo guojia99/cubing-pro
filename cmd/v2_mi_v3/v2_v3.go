@@ -127,7 +127,14 @@ func r3ClearV3Datas(ctx *Context) (err error) {
 }
 
 func r4InitV3BaseData(ctx *Context) (err error) {
-	ctx.v3Db.Save(&types.AllEvents)
+
+	var newEvents []event.Event
+	for idx, e := range types.AllEvents {
+		e.Idx = int64(idx)
+		newEvents = append(newEvents, e)
+	}
+
+	ctx.v3Db.Save(&newEvents)
 	ctx.V3events = make(map[string]event.Event)
 
 	ctx.evSort = make(map[string]int)
@@ -245,6 +252,12 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			key = "中国盲拧战队"
 		}
 
+		var count int64
+		ctx.v2Db.Model(&types.Score{}).Where("contest_id = ?", c.ID).Count(&count)
+		if count == 0 {
+			continue
+		}
+
 		newComp := competition.Competition{
 			Model: basemodel.Model{
 				ID:        c.ID,
@@ -256,8 +269,8 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			RejectMsg:  "",
 			Name:       c.Name,
 			Illustrate: fmt.Sprintf("## %s(v2版本)", c.Name),
-			City:       "guangzhou",
-			RuleMD:     "群赛",
+			City:       "广州",
+			RuleMD:     "群赛(V2)",
 			Series:     "",
 			Genre: func() competition.Genre {
 				if c.Type == "offline" {
@@ -274,6 +287,7 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			CompStartTime:      c.StartTime,
 			CompEndTime:        c.EndTime,
 			OrganizersID:       ctx.v3Org[key].ID,
+			IsDone:             c.IsEnd,
 		}
 		var roundNums []uint
 		_ = jsoniter.UnmarshalFromString(c.RoundIds, &roundNums)
@@ -387,6 +401,9 @@ func r7SaveV3Results(ctx *Context) (err error) {
 		}
 
 		round := ctx.rounds[score.RouteID]
+		if number != -1 {
+			round.Number = number
+		}
 
 		// 确认是否已经加过比赛
 		key := fmt.Sprintf("%d-%d", score.PlayerID, score.ContestID)
@@ -412,9 +429,9 @@ func r7SaveV3Results(ctx *Context) (err error) {
 				CreatedAt: score.CreatedAt,
 				UpdatedAt: score.CreatedAt,
 			},
-			CompetitionID: ctx.V3Comps[score.ContestID].ID,
+			CompetitionID: score.ContestID,
 			Round:         round.Name,
-			RoundNumber:   number,
+			RoundNumber:   round.Number,
 			PersonName:    ctx.V3Users[score.PlayerID].Name,
 			UserID:        ctx.V3Users[score.PlayerID].ID,
 			Result: []float64{

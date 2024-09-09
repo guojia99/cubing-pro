@@ -2,6 +2,7 @@ package result
 
 import (
 	"time"
+	"sort"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -22,6 +23,13 @@ func Events(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return
 		}
+
+
+		sort.Slice(
+                        out, func(i, j int) bool {
+                                return out[i].Idx < out[j].Idx
+                        },
+                )
 
 		exception.ResponseOK(
 			ctx, EventsResp{

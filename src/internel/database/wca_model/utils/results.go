@@ -2,7 +2,9 @@ package utils
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -66,4 +68,31 @@ func ResultsTimeFormat(in int, event string) string {
 		return fmt.Sprintf("%d/%d %s", solved, attempted, formattedTime)
 	}
 	return SecondTimeFormat(float64(in)/100.0, false)
+}
+
+func ParserTimeToSeconds(t string) float64 {
+	// 解析纯秒数格式
+	if regexp.MustCompile(`^\d+(\.\d+)?$`).MatchString(t) {
+		seconds, _ := strconv.ParseFloat(t, 64)
+		return seconds
+	}
+
+	// 解析分+秒格式
+	if regexp.MustCompile(`^\d{1,3}:\d{1,3}(\.\d+)?$`).MatchString(t) {
+		parts := strings.Split(t, ":")
+		minutes, _ := strconv.ParseFloat(parts[0], 64)
+		seconds, _ := strconv.ParseFloat(parts[1], 64)
+		return minutes*60 + seconds
+	}
+
+	// 解析时+分+秒格式
+	if regexp.MustCompile(`^\d{1,3}:\d{1,3}:\d{1,3}(\.\d+)?$`).MatchString(t) {
+		parts := strings.Split(t, ":")
+		hours, _ := strconv.ParseFloat(parts[0], 64)
+		minutes, _ := strconv.ParseFloat(parts[1], 64)
+		seconds, _ := strconv.ParseFloat(parts[2], 64)
+		return hours*3600 + minutes*60 + seconds
+	}
+
+	return -1
 }

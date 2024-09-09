@@ -30,7 +30,9 @@ func List(svc *svc.Svc) gin.HandlerFunc {
 					"comp_end_time",
 				},
 				Select: []string{
-					"str_id", "name", "country", "city", "genre", "comp_start_time", "comp_end_time",
+					"str_id", "name", "country", "city", "genre",
+					"status", "count", "logo",
+					"comp_start_time", "comp_end_time",
 					"event_min", "series", "wca_url",
 				},
 			},

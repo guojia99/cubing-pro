@@ -3,6 +3,7 @@ package app_utils
 import (
 	"fmt"
 	"slices"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -11,11 +12,13 @@ import (
 
 type (
 	GenerallyListReq struct {
-		Page   int               `form:"page"`
-		Size   int               `form:"size"`
-		Like   map[string]string `json:"like"`
-		Search map[string]string `json:"search"`
-		Order  []string          `json:"order"`
+		Page      int               `form:"page"`
+		Size      int               `form:"size"`
+		Like      map[string]string `json:"like" query:"like"`
+		Search    map[string]string `json:"search" query:"search"`
+		StartTime int64             `form:"start_time" query:"start_time"`
+		EndTime   int64             `form:"end_time" query:"end_time"`
+		Order     []string          `json:"order"`
 	}
 	GenerallyListResp struct {
 		Items interface{} `json:"items"`
@@ -43,6 +46,7 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
 		return
 	}
+	fmt.Printf("%+v\n", req)
 
 	if req.Size > param.MaxSize || req.Size <= 0 {
 		req.Size = param.MaxSize
@@ -70,6 +74,13 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 			}
 		}
 	}
+	if req.StartTime != 0 {
+		searchDB = searchDB.Where("created_at >= ?", time.Unix(req.StartTime, 0))
+	}
+	if req.EndTime != 0 {
+		searchDB = searchDB.Where("created_at <= ?", time.Unix(req.EndTime, 0))
+	}
+
 	if len(param.Query) != 0 {
 		searchDB = searchDB.Where(param.Query, param.QueryCons...)
 	}
@@ -85,7 +96,7 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 			searchDB = searchDB.Order(o)
 		}
 	} else {
-		searchDB = searchDB.Order("created_at")
+		searchDB = searchDB.Order("created_at DESC")
 	}
 
 	// total

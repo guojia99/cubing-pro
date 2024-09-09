@@ -47,7 +47,9 @@ type Competition struct {
 	CompJSONStr  string          `gorm:"column:comp_json;null" json:"-"`                          // 项目列表JSON
 	CompJSON     CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                            // 项目列表
 	EventMin     string          `gorm:"column:event_min;null" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
-	Series       string          `gorm:"series;null" json:"Series,omitempty"`                     // 系列赛
+	Series       string          `gorm:"column:series;null" json:"Series,omitempty"`              // 系列赛
+	Logo         string          `gorm:"column:logo;null" json:"logo,omitempty"`                  // logo
+	IsDone       bool            `gorm:"column:is_done"`                                          // 是否已经结束比赛
 
 	// 基础限制
 	Genre              Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`                          // 比赛形式

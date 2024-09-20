@@ -27,8 +27,8 @@ import (
 )
 
 var (
-	v2Db = "root:my123456@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
-	v3Db = "root:my123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local"
+	v2Db = "root:123456@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
+	v3Db = "root:123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local"
 )
 
 // 1. 将所有的数据拉到内存

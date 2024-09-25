@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"log"
 	"reflect"
 	"slices"
@@ -13,7 +14,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/cmd/v2_mi_v3/types"
-	"github.com/guojia99/cubing-pro/src/internel/database"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -27,8 +27,8 @@ import (
 )
 
 var (
-	v2Db = "root:123456@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
-	v3Db = "root:123456@tcp(127.0.0.1:3306)/mycube3?charset=utf8&parseTime=True&loc=Local"
+	v2Db = "root@tcp(127.0.0.1:33306)/mycube2?charset=utf8&parseTime=True&loc=Local"
+	v3Db = "root@tcp(127.0.0.1:33306)/mycube3?charset=utf8&parseTime=True&loc=Local"
 )
 
 // 1. 将所有的数据拉到内存
@@ -60,11 +60,12 @@ type Context struct {
 	playerUsers    map[uint]types.PlayerUser
 
 	// v3 datas
-	it       database.ConvenientI
+	it       convenient.ConvenientI
 	V3events map[string]event.Event
 	V3Users  map[uint]user.User               // 这里用的是v2的Id作为key
 	V3Comps  map[uint]competition.Competition // 原本的比赛ID
 	v3Org    map[string]user.Organizers       // 魔缘 or 盲拧
+	v3Groups map[string]competition.CompertionGroup
 }
 
 func r1LoadDb(ctx *Context) (err error) {
@@ -107,7 +108,7 @@ func r2InitV2Datas(ctx *Context) (err error) {
 }
 
 func r3ClearV3Datas(ctx *Context) (err error) {
-	ctx.it = database.NewConvenient(ctx.v3Db)
+	ctx.it = convenient.NewConvenient(ctx.v3Db, false)
 
 	tables := []interface{}{
 		&user.User{},
@@ -116,6 +117,7 @@ func r3ClearV3Datas(ctx *Context) (err error) {
 		&result.Results{},
 		&competition.Competition{},
 		&competition.Registration{},
+		&competition.CompertionGroup{},
 	}
 
 	for _, t := range tables {
@@ -153,6 +155,7 @@ func r4InitV3BaseData(ctx *Context) (err error) {
 func r5SaveUser(ctx *Context) (err error) {
 	ctx.V3Users = make(map[uint]user.User)
 	ctx.v3Org = make(map[string]user.Organizers)
+	ctx.v3Groups = make(map[string]competition.CompertionGroup)
 	for _, val := range ctx.PlayerList {
 		u := ctx.players[val.ID]
 		usr, _ := ctx.playerUsers[val.ID]
@@ -180,21 +183,39 @@ func r5SaveUser(ctx *Context) (err error) {
 		if newUser.Name == "嘉吖" {
 			newUser.SetAuth(user.AuthOrganizers, user.AuthAdmin, user.AuthSuperAdmin)
 		}
-		if newUser.Name == "模仿者Wing" || newUser.Name == "小丫鬟" {
+		if newUser.Name == "模仿者Wing" || newUser.Name == "小丫鬟" || newUser.Name == "ltc" {
 			newUser.SetAuth(user.AuthOrganizers)
 
 			// 创建主办团队
 			var org user.Organizers
+			var groups competition.CompertionGroup
 			switch newUser.Name {
 			case "模仿者Wing":
 				org = user.Organizers{
 					Name:         "中国盲拧战队",
 					Introduction: "中国盲拧战队群赛",
 					Email:        "chinabf@gmail.com",
-					QQGroup:      "941777598,942909225",
-					QQGroupUid:   "BF9E9681703B83E5A5626831756E5977,A46A01E1E5F7D3B8980BCDB6FF868717",
 					LeaderID:     newUser.CubeID,
 					Status:       user.Using,
+				}
+				groups = competition.CompertionGroup{
+					Name:         "中国盲拧战队群",
+					QQGroups:     "941777598,942909225",
+					QQGroupUid:   "BF9E9681703B83E5A5626831756E5977,A46A01E1E5F7D3B8980BCDB6FF868717",
+					WechatGroups: "",
+				}
+			case "ltc":
+				org = user.Organizers{
+					Name:         "魔方联盟LGS",
+					Introduction: "魔方联盟LGS群赛",
+					Email:        "lgs@gmail.com",
+					LeaderID:     newUser.CubeID,
+					Status:       user.Using,
+				}
+				groups = competition.CompertionGroup{
+					Name:       "魔方联盟LGS群",
+					QQGroups:   "726509985",
+					QQGroupUid: "8FA08FD9FE7C32ECA924232DD1AFE82A",
 				}
 			case "小丫鬟":
 				org = user.Organizers{
@@ -202,16 +223,23 @@ func r5SaveUser(ctx *Context) (err error) {
 					Name:         "魔缘群",
 					Introduction: "磨圆群",
 					Email:        "moyuan@gmail.com",
-					QQGroup:      "563250032",
-					QQGroupUid:   "B613DB043FBAF68F73BB915F98E61BF3",
 					LeaderID:     newUser.CubeID,
 					Status:       user.Using,
+				}
+				groups = competition.CompertionGroup{
+					Name:       "魔缘群",
+					QQGroups:   "563250032",
+					QQGroupUid: "EF82424EFCF061E0BB923CE58D828442",
 				}
 			}
 			if err = ctx.v3Db.Create(&org).Error; err != nil {
 				return err
 			}
+			if err = ctx.v3Db.Create(&groups).Error; err != nil {
+				return err
+			}
 			ctx.v3Org[org.Name] = org
+			ctx.v3Groups[org.Name] = groups
 		}
 
 		ctx.V3Users[val.ID] = newUser
@@ -243,13 +271,16 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 	// 盲拧战队群的比赛有多轮的，需要结合成一轮
 	var comps []competition.Competition
 	for _, c := range ctx.contestList {
-		if !strings.Contains(c.Name, "魔缘") && !strings.Contains(c.Name, "盲拧战队") {
+
+		if !strings.Contains(c.Name, "魔缘") && !strings.Contains(c.Name, "盲拧战队") && !strings.Contains(c.Name, "lgs open") {
 			continue
 		}
 
 		key := "魔缘群"
 		if strings.Contains(c.Name, "盲拧战队") {
 			key = "中国盲拧战队"
+		} else if strings.Contains(c.Name, "lgs open") {
+			key = "魔方联盟LGS"
 		}
 
 		var count int64
@@ -286,6 +317,7 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			CanStartedAddEvent: false,
 			CompStartTime:      c.StartTime,
 			CompEndTime:        c.EndTime,
+			GroupID:            ctx.v3Groups[key].ID,
 			OrganizersID:       ctx.v3Org[key].ID,
 			IsDone:             c.IsEnd,
 		}

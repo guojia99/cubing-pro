@@ -28,8 +28,6 @@ type Organizers struct {
 	Name         string `gorm:"unique;not null;column:name"` // 名
 	Introduction string `gorm:"column:introduction"`         // 介绍 md
 	Email        string `gorm:"column:email"`                // 邮箱
-	QQGroup      string `gorm:"column:qq_group"`             // QQ群，用, 分割
-	QQGroupUid   string `gorm:"column:qq_group_uid"`         // QQ群的UID 用 , 分割
 
 	LeaderID          string           `gorm:"column:leaderId"`      // 组长 cubeID
 	AssOrganizerUsers string           `gorm:"column:ass_org_users"` // 成员列表

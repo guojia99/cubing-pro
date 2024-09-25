@@ -27,6 +27,7 @@ func NewAPI(svc *svc.Svc) *API {
 		gin.Recovery(),
 		middleware.CorsMiddleware(),
 	)
+	gin.SetMode(gin.ReleaseMode)
 
 	// init middleware
 	middleware.InitJWT(svc)

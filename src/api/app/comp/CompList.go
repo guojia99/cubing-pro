@@ -10,7 +10,6 @@ import (
 func List(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var comps []competition.Competition
-
 		app_utils.GenerallyList(
 			ctx, svc.DB, comps, app_utils.ListSearchParam{
 				Model:   &competition.Competition{},
@@ -37,5 +36,6 @@ func List(svc *svc.Svc) gin.HandlerFunc {
 				},
 			},
 		)
+
 	}
 }

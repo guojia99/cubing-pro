@@ -10,7 +10,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/email"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
 type RegisterOrganizersReq struct {
@@ -56,8 +55,8 @@ func RegisterOrganizers(svc *svc.Svc) gin.HandlerFunc {
 			Name:         req.Name,
 			Introduction: req.Introduction,
 			Email:        req.Email,
-			QQGroup:      utils.ToJSON(req.QQGroup),
-			QQGroupUid:   utils.ToJSON(req.QQGroupUid),
+			//QQGroup:      utils.ToJSON(req.QQGroup),
+			//QQGroupUid:   utils.ToJSON(req.QQGroupUid),
 			LeaderID:     user.CubeID,
 			Status:       user2.Applying,
 			LeaderRemark: req.LeaderRemark,

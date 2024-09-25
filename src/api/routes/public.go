@@ -38,6 +38,7 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		comps.GET("/:compId", comp.Comp(svc))                // 比赛详情
 		comps.GET("/:compId/registers", comp.Registers(svc)) // 比赛报名列表
 		comps.GET("/:compId/result", comp.Results(svc))      // 比赛成绩列表
+		comps.GET("/:compId/record", comp.Record(svc))       // 比赛产生的记录
 	}
 
 	statistics := public.Group("/statistics")

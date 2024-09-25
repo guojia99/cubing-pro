@@ -7,22 +7,21 @@
 package svc
 
 import (
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
+	"gorm.io/gorm/logger"
 	"time"
 
 	"github.com/patrickmn/go-cache"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-
-	"github.com/guojia99/cubing-pro/src/internel/database"
 )
 
 type Svc struct {
 	DB    *gorm.DB
 	Cache *cache.Cache
 	Cfg   Config
-	Cov   database.ConvenientI
+	Cov   convenient.ConvenientI
 }
 
 func NewAPISvc(file string) (*Svc, error) {
@@ -39,20 +38,23 @@ func NewAPISvc(file string) (*Svc, error) {
 	if c.DB, err = newDB(cfg.GlobalConfig.DB); err != nil {
 		return nil, err
 	}
-	c.Cov = database.NewConvenient(c.DB)
+	c.Cov = convenient.NewConvenient(c.DB, true)
 	return c, nil
 }
 
 func newDB(cfg DBConfig) (*gorm.DB, error) {
 	var err error
 	var db *gorm.DB
+	//var dbLog = logger.Default.LogMode(logger.Info) // 将日志模式设置为 Info
+	var dbLog = logger.Discard
+
 	switch cfg.Driver {
 	case "sqlite":
-		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{})
+		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{Logger: dbLog})
 	case "mysql":
 		db, err = gorm.Open(
 			mysql.New(mysql.Config{DSN: cfg.DSN}), &gorm.Config{
-				Logger: logger.Discard,
+				Logger: dbLog,
 			},
 		)
 	}

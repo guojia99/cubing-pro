@@ -71,6 +71,7 @@ type Competition struct {
 
 	// 主办
 	OrganizersID uint `gorm:"column:orgId;null" json:"OrganizersID,omitempty"` // 主办团队
+	GroupID      uint `gorm:"column:group_id;null" json:"GroupId,omitempty"`   // 群ID
 
 	// WCA相关
 	WCAUrl string `gorm:"column:wca_url;null" json:"WCAUrl,omitempty"` // WCA 认证地址

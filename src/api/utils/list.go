@@ -46,7 +46,6 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
 		return
 	}
-	fmt.Printf("%+v\n", req)
 
 	if req.Size > param.MaxSize || req.Size <= 0 {
 		req.Size = param.MaxSize
@@ -56,7 +55,9 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 	}
 
 	// search with db
-	searchDB := db.WithContext(ctx).Model(&param.Model)
+	//searchDB := db.WithContext(ctx).Model(&param.Model)
+	searchDB := db.Model(&param.Model)
+
 	if param.HasDeleted {
 		searchDB = searchDB.Unscoped()
 	}

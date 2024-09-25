@@ -304,7 +304,6 @@ func printWithEventTable(evId string, datas map[string]PersonBestResults, max in
 			Contour: table.DefaultContour,
 		},
 	)
-	fmt.Println(tb)
 }
 
 func ParserTimeToSeconds(t string) float64 {
@@ -338,7 +337,6 @@ func getAllPersonBestResultsMap() map[string]PersonBestResults {
 	var allP []*PersonResult
 	f, _ := os.ReadFile("./cache.json")
 	_ = json.Unmarshal(f, &allP)
-	fmt.Println(len(allP))
 
 	var out = make(map[string]PersonBestResults)
 

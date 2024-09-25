@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	svc2 "github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/spf13/cobra"
 
@@ -19,6 +20,7 @@ func NewCmd() *cobra.Command {
 				return err
 			}
 			api := api2.NewAPI(svc)
+			fmt.Println("开始启动API")
 			return api.Run(svc.Cfg.APIGatewayConfig.Host, svc.Cfg.APIGatewayConfig.APIPort)
 		},
 	}

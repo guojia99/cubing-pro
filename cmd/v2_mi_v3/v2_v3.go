@@ -178,7 +178,7 @@ func r5SaveUser(ctx *Context) (err error) {
 			WcaID:        u.WcaID,
 			Phone:        usr.Phone,
 			ActualName:   u.ActualName,
-			CubeID:       ctx.it.GetCubeID(u.Name),
+			CubeID:       ctx.it.GetCubeID(u.Name, u.CreatedAt.Year()),
 		}
 		if newUser.Name == "嘉吖" {
 			newUser.SetAuth(user.AuthOrganizers, user.AuthAdmin, user.AuthSuperAdmin)
@@ -466,6 +466,7 @@ func r7SaveV3Results(ctx *Context) (err error) {
 			RoundNumber:   round.Number,
 			PersonName:    ctx.V3Users[score.PlayerID].Name,
 			UserID:        ctx.V3Users[score.PlayerID].ID,
+			CubeID:        ctx.V3Users[score.PlayerID].CubeID,
 			Result: []float64{
 				score.Result1, score.Result2, score.Result3, score.Result4, score.Result5,
 			},

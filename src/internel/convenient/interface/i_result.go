@@ -2,8 +2,10 @@ package _interface
 
 import (
 	"fmt"
+	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 	"sort"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -17,17 +19,21 @@ type ResultI interface {
 	PlayerNemesis(player PlayerBestResult, all []PlayerBestResult, events map[string]event.Event, com bool) []Nemesis
 	KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult
 	KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error)
+
+	// 以下都是带缓存的
+	SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult)
 }
 
 type ResultIter struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	Cache *cache.Cache
 }
 
 func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []user.User) (best PlayerBestResult, all []PlayerBestResult) {
-	cache := make(map[uint]PlayerBestResult)
+	cacheResult := make(map[uint]PlayerBestResult)
 
 	for _, player := range players {
-		cache[player.ID] = PlayerBestResult{
+		cacheResult[player.ID] = PlayerBestResult{
 			Player: Player{
 				PlayerId:   player.ID,
 				CubeId:     player.CubeID,
@@ -42,15 +48,15 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 		if res.DBest() {
 			continue
 		}
-		if single, ok := cache[res.UserID].Single[res.EventID]; !ok || res.IsBest(single) {
-			cache[res.UserID].Single[res.EventID] = res
+		if single, ok := cacheResult[res.UserID].Single[res.EventID]; !ok || res.IsBest(single) {
+			cacheResult[res.UserID].Single[res.EventID] = res
 		}
 
 		if res.DAvg() {
 			continue
 		}
-		if avg, ok := cache[res.UserID].Avgs[res.EventID]; !ok || res.IsBestAvg(avg) {
-			cache[res.UserID].Avgs[res.EventID] = res
+		if avg, ok := cacheResult[res.UserID].Avgs[res.EventID]; !ok || res.IsBestAvg(avg) {
+			cacheResult[res.UserID].Avgs[res.EventID] = res
 		}
 	}
 
@@ -59,14 +65,14 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 		Avgs:   make(map[EventID]result.Results),
 	}
 	for _, player := range players {
-		all = append(all, cache[player.ID])
+		all = append(all, cacheResult[player.ID])
 
-		for e, single := range cache[player.ID].Single {
+		for e, single := range cacheResult[player.ID].Single {
 			if s, ok := best.Single[e]; !ok || single.IsBest(s) {
 				best.Single[e] = single
 			}
 		}
-		for e, avg := range cache[player.ID].Avgs {
+		for e, avg := range cacheResult[player.ID].Avgs {
 			if a, ok := best.Avgs[e]; !ok || avg.IsBestAvg(a) {
 				best.Avgs[e] = avg
 			}
@@ -87,7 +93,6 @@ func (c *ResultIter) PlayerBestResult(playerId uint, events []string) (PlayerBes
 	return b, nil
 }
 
-// PlayerNemesis onlyCom 仅比较都有成绩的项目
 func (c *ResultIter) PlayerNemesis(player PlayerBestResult, all []PlayerBestResult, events map[string]event.Event, com bool) (out []Nemesis) {
 	for _, pr := range all {
 		if player.PlayerId == pr.PlayerId {
@@ -270,4 +275,22 @@ func (c *ResultIter) KinChSorWithPlayer(playerId uint, events []string) (KinChSo
 		}
 	}
 	return KinChSorResult{}, fmt.Errorf("not found sor")
+}
+
+func (c *ResultIter) SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult) {
+	value, ok := c.Cache.Get("SelectAllPlayerBestResult")
+	if ok {
+		data := value.([2]interface{})
+		return data[0].(PlayerBestResult), data[1].([]PlayerBestResult)
+	}
+
+	var players []user.User
+	var results []result.Results
+
+	c.DB.Where("ban = ?", false).Find(&results)
+	c.DB.Find(&players)
+
+	best, all = c.AllPlayerBestResult(results, players)
+	c.Cache.Set("SelectAllPlayerBestResult", [2]interface{}{best, all}, time.Minute*30)
+	return best, all
 }

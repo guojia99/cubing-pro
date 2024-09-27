@@ -22,7 +22,8 @@ func Users(svc *svc.Svc) gin.HandlerFunc {
 				Query:     "ban = ?",
 				QueryCons: []interface{}{false},
 				Select: []string{
-					"id", "name", "en_name", "cube_id", "represent_name",
+					"id", "name", "en_name", "cube_id", "wca_id", "represent_name",
+					"avatar",
 				},
 			},
 		)

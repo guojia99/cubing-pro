@@ -175,6 +175,14 @@ func (c *RecordUpdateJob) getRecords(where string, typ string) []result.Record {
 }
 
 func (c *RecordUpdateJob) Run() error {
+
+	//// 以免反复刷
+	//var first result.Record
+	//c.DB.First(&first)
+	//if time.Since(first.UpdatedAt) < time.Minute*30 {
+	//	return nil
+	//}
+
 	// base records
 	records := c.getRecords("", result.RecordTypeWithCubingPro)
 	var baseRecordsMap = make(map[string]result.Record)

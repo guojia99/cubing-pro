@@ -12,9 +12,9 @@ import (
 func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	authG := router.Group("/auth") // 限流
 	{
-		if svc.Cfg.GlobalConfig.Debug {
-			authG.POST("/password_check", auth.PasswordCheck(svc)) // 调试用，密码生成工具
-		}
+		//if svc.Cfg.GlobalConfig.Debug {
+		//	authG.POST("/password_check", auth.PasswordCheck(svc)) // 调试用，密码生成工具
+		//}
 
 		// 验证码
 		authG.GET("/code", middleware.Code().CodeRouter()) // 校验码 todo 限流

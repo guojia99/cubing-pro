@@ -27,7 +27,7 @@ func NewAPI(svc *svc.Svc) *API {
 		gin.Recovery(),
 		middleware.CorsMiddleware(),
 	)
-	gin.SetMode(gin.ReleaseMode)
+	//gin.SetMode(gin.ReleaseMode)
 
 	// init middleware
 	middleware.InitJWT(svc)
@@ -46,6 +46,8 @@ func NewAPI(svc *svc.Svc) *API {
 	routes.CompWithUserRouters(group, svc)
 	routes.PostRouters(group, svc)
 	routes.PublicRouters(group, svc)
+
+	group.Static("/assets", svc.Cfg.APIGatewayConfig.StaticPath)
 	return a
 }
 

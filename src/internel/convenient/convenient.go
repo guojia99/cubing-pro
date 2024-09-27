@@ -11,6 +11,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 	"time"
 )
@@ -55,11 +56,12 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表
 	_ = db.AutoMigrate(&system.Image{})    // 系统图片表
+	cache := cache2.New(time.Minute*5, time.Minute*5)
 
 	out := &convenient{
 		CompetitionIter: _interface.CompetitionIter{DB: db},
 		UserIter:        _interface.UserIter{DB: db},
-		ResultIter:      _interface.ResultIter{DB: db},
+		ResultIter:      _interface.ResultIter{DB: db, Cache: cache},
 		Jobs: []job.Job{
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
 		},

@@ -26,8 +26,8 @@ apiGateway:
   port: 80
   apiPort: 20000
   httpsPort: 443
+  staticPath: "./static" # 资源文件
   indexPath: "/build/index.html" # 前端启动文件
-  staticPath: "/build/static" # 前端资源文件
 
 robot:
   QQBot:

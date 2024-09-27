@@ -26,6 +26,7 @@ type Results struct {
 	RoundNumber   int     `gorm:"column:round_number"` // 轮次号
 	PersonName    string  `gorm:"column:person_name"`  // 玩家名
 	UserID        uint    `gorm:"column:user_id"`      // ID
+	CubeID        string  `gorm:"column:cube_id"`      // CubeID
 	Best          float64 `gorm:"column:best"`         // 最佳成绩
 	Average       float64 `gorm:"column:average"`      // 平均成绩
 

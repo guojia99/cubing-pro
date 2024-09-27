@@ -159,7 +159,6 @@ package utils
 //}
 
 func EnPwdCode(pwdStr string, ts int64) (string, error) {
-	//e := cryptor.AesSimpleEncrypt("Hello World!", key)
 	return pwdStr, nil
 }
 func DePwdCode(pwd string, ts int64) (string, error) {

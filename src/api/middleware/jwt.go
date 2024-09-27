@@ -113,13 +113,14 @@ func authenticator(svc *svc.Svc) func(ctx *gin.Context) (interface{}, error) {
 
 		// 查询用户
 		var user user2.User
-		sql := svc.DB.Where("login_id = ?", req.LoginID)
+		sql := svc.DB.Where("login_id = ? or cube_id = ?", req.LoginID, req.LoginID)
 		if utils.IsEmailValid(req.LoginID) {
 			sql = svc.DB.Where("email = ?", req.LoginID)
 		}
 		if utils.IsPhoneNumberValid(req.LoginID) {
 			sql = svc.DB.Where("phone = ?", req.LoginID)
 		}
+
 		if err = sql.First(&user).Error; err != nil {
 			return nil, exception.ErrUserNotFound
 		}

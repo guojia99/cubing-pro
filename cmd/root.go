@@ -1,4 +1,4 @@
-package main
+package root
 
 import (
 	"github.com/guojia99/cubing-pro/cmd/admin"
@@ -20,12 +20,4 @@ func NewRootCmd() *cobra.Command {
 		initer.NewCmd(),
 	)
 	return cmd
-}
-
-func main() {
-	cmd := NewRootCmd()
-	err := cmd.Execute()
-	if err != nil {
-		panic(err)
-	}
 }

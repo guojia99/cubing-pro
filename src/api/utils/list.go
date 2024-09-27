@@ -12,8 +12,8 @@ import (
 
 type (
 	GenerallyListReq struct {
-		Page      int               `form:"page"`
-		Size      int               `form:"size"`
+		Page      int               `form:"page" json:"page" query:"page"`
+		Size      int               `form:"size" json:"size" query:"size"`
 		Like      map[string]string `json:"like" query:"like"`
 		Search    map[string]string `json:"search" query:"search"`
 		StartTime int64             `form:"start_time" query:"start_time"`
@@ -42,10 +42,11 @@ type ListSearchParam struct {
 
 func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSearchParam) {
 	var req GenerallyListReq
-	if err := ctx.Bind(&req); err != nil {
+	if err := BindAll(ctx, &req); err != nil {
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
 		return
 	}
+	//fmt.Printf("%+v\n", req)
 
 	if req.Size > param.MaxSize || req.Size <= 0 {
 		req.Size = param.MaxSize

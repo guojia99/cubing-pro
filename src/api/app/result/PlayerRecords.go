@@ -3,23 +3,28 @@ package result
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
-	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"sort"
 )
 
 type PlayerRecordsReq struct {
-	PlayerID uint `uri:"playerId"`
+	CubeId string `uri:"cubeId"`
 }
 
 func PlayerRecords(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req PlayerRecordsReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		if err := ctx.BindUri(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
 		var records []result.Record
-		svc.DB.Where("user_id = ?", req.PlayerID).Find(&records)
+		svc.DB.Where("cube_id = ?", req.CubeId).Find(&records)
+
+		sort.Slice(records, func(i, j int) bool {
+			return records[i].CompsId > records[j].CompsId
+		})
 		exception.ResponseOK(ctx, records)
 	}
 }

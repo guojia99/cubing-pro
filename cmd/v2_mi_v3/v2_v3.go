@@ -267,6 +267,22 @@ func _cutBfGroupRound(ctx *Context, in string) (ev event.Event, groupNum int) {
 	return
 }
 
+func _resetRoundName(roundName string) string {
+	if strings.Contains(roundName, "决赛") {
+		return "决赛"
+	}
+	if strings.Contains(roundName, "复赛") {
+		return "复赛"
+	}
+	if strings.Contains(roundName, "初赛") {
+		return "初赛"
+	}
+	if strings.Contains(roundName, "单轮赛") {
+		return "决赛"
+	}
+	return roundName
+}
+
 func r6SaveV3CompetitionData(ctx *Context) (err error) {
 	// 盲拧战队群的比赛有多轮的，需要结合成一轮
 	var comps []competition.Competition
@@ -359,7 +375,7 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			cEvent.Schedule = append(
 				cEvent.Schedule,
 				competition.Schedule{
-					Round:           round.Name,
+					Round:           _resetRoundName(round.Name),
 					Event:           ev.Name,
 					IsComp:          ev.IsComp,
 					StartTime:       newComp.CompStartTime,
@@ -461,12 +477,13 @@ func r7SaveV3Results(ctx *Context) (err error) {
 				CreatedAt: score.CreatedAt,
 				UpdatedAt: score.CreatedAt,
 			},
-			CompetitionID: score.ContestID,
-			Round:         round.Name,
-			RoundNumber:   round.Number,
-			PersonName:    ctx.V3Users[score.PlayerID].Name,
-			UserID:        ctx.V3Users[score.PlayerID].ID,
-			CubeID:        ctx.V3Users[score.PlayerID].CubeID,
+			CompetitionID:   score.ContestID,
+			CompetitionName: ctx.V3Comps[score.ContestID].Name,
+			Round:           _resetRoundName(round.Name),
+			RoundNumber:     round.Number,
+			PersonName:      ctx.V3Users[score.PlayerID].Name,
+			UserID:          ctx.V3Users[score.PlayerID].ID,
+			CubeID:          ctx.V3Users[score.PlayerID].CubeID,
 			Result: []float64{
 				score.Result1, score.Result2, score.Result3, score.Result4, score.Result5,
 			},

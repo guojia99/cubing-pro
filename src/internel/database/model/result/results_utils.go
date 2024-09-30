@@ -231,6 +231,53 @@ func (c *Results) isBestAvg(other Results) bool {
 	return c.Average <= other.Average
 }
 
+func SortResultWithBest(in []Results) {
+	if len(in) == 0 {
+		return
+	}
+
+	sort.Slice(in, func(i, j int) bool {
+		return in[i].IsBest(in[j])
+	})
+
+	rom := in[0].EventRoute.RouteMap()
+
+	in[0].Rank = 1
+	prev := in[0]
+	for i := 1; i < len(in); i++ {
+
+		if (rom.Repeatedly && in[i].EqualRepeatedly(prev)) || (!rom.Repeatedly && in[i].Best == prev.Best) {
+			in[i].Rank = prev.Rank
+		} else {
+			in[i].Rank = prev.Rank + 1
+		}
+		prev = in[i]
+	}
+	return
+}
+
+func SortResultWithAvg(in []Results) {
+	if len(in) == 0 {
+		return
+	}
+
+	sort.Slice(in, func(i, j int) bool {
+		return in[i].IsBestAvg(in[j])
+	})
+
+	in[0].Rank = 1
+	prev := in[0]
+	for i := 1; i < len(in); i++ {
+		if in[i].Average == prev.Average {
+			in[i].Rank = prev.Rank
+		} else {
+			in[i].Rank = prev.Rank + 1
+		}
+		prev = in[i]
+	}
+	return
+}
+
 func SortResult(in []Results) {
 	if len(in) <= 1 {
 		return

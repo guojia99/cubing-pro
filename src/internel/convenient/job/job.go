@@ -24,7 +24,7 @@ func (jobs Jobs) RunLoop(ctx context.Context) {
 		go func(job Job) {
 			ticker := time.NewTicker(job.Time)
 			defer ticker.Stop()
-
+			//
 			//if err := job.Run(); err != nil {
 			//	fmt.Printf("[JOB] run job %s error %s\n", job.Name(), err)
 			//}

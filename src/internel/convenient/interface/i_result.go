@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
+	"math"
 	"sort"
 	"time"
 
@@ -21,7 +22,11 @@ type ResultI interface {
 	KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error)
 
 	// 以下都是带缓存的
+	SelectKinChSor(page int, size int, events []event.Event) ([]KinChSorResult, int)
 	SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult)
+	SelectBestResultsWithEventSort() (best map[EventID][]result.Results, avg map[EventID][]result.Results)
+	SelectBestResultsWithEventSortWithPlayer(cubeId string) PlayerBestResult
+	SelectUserResultDetail(cubeId string) UserResultDetail
 }
 
 type ResultIter struct {
@@ -45,14 +50,14 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 	}
 
 	for _, res := range results {
-		if res.DBest() {
+		if res.DBest() || res.Best == 0 {
 			continue
 		}
 		if single, ok := cacheResult[res.UserID].Single[res.EventID]; !ok || res.IsBest(single) {
 			cacheResult[res.UserID].Single[res.EventID] = res
 		}
 
-		if res.DAvg() {
+		if res.DAvg() || res.EventRoute.RouteMap().Repeatedly || res.Average == 0 {
 			continue
 		}
 		if avg, ok := cacheResult[res.UserID].Avgs[res.EventID]; !ok || res.IsBestAvg(avg) {
@@ -78,6 +83,7 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 			}
 		}
 	}
+
 	return
 }
 
@@ -188,7 +194,7 @@ func (c *ResultIter) PlayerNemesisWithID(playerId uint, events []string) (out []
 }
 
 func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult {
-	var out = make([]KinChSorResult, 0)
+	var out []KinChSorResult
 
 	// 过滤有有效成绩的成绩
 	var hasResultEvents []event.Event
@@ -205,7 +211,6 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 			hasResultEvents = append(hasResultEvents, e)
 			continue
 		}
-		fmt.Printf("not %s\n", e.ID)
 	}
 
 	for _, player := range players {
@@ -230,8 +235,7 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 				} else if mp.WithBest {
 					kr.Result = (best.Single[e.ID].Best / s.Best) * 100
 				} else {
-					a, ok := player.Avgs[e.ID]
-					if ok {
+					if a, ok2 := player.Avgs[e.ID]; ok2 {
 						kr.Result = (best.Avgs[e.ID].Average / a.Average) * 100
 					}
 				}
@@ -251,6 +255,10 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 			return out[i].Result > out[j].Result
 		},
 	)
+
+	for i := 0; i < len(out); i++ {
+		out[i].Rank = i + 1
+	}
 	return out
 }
 
@@ -268,13 +276,57 @@ func (c *ResultIter) KinChSorWithPlayer(playerId uint, events []string) (KinChSo
 	best, all := c.AllPlayerBestResult(results, players)
 
 	sor := c.KinChSor(best, evs, all)
-
 	for _, s := range sor {
 		if s.PlayerId == playerId {
 			return s, nil
 		}
 	}
 	return KinChSorResult{}, fmt.Errorf("not found sor")
+}
+
+func (c *ResultIter) SelectKinChSor(page int, size int, events []event.Event) ([]KinChSorResult, int) {
+	if len(events) == 0 {
+		return nil, 0
+	}
+	var keys = "SelectKinChSor"
+	var eventIds []string
+	for _, ev := range events {
+		keys += fmt.Sprintf("_%s", ev.ID)
+		eventIds = append(eventIds, ev.ID)
+	}
+
+	start := (page - 1) * size
+
+	value, ok := c.Cache.Get(keys)
+	if ok {
+		data := value.([]KinChSorResult)
+		if start > len(data) {
+			return nil, len(data)
+		}
+		end := int(math.Min(float64(start+size), float64(len(data))))
+		return data[start:end], len(data)
+	}
+
+	var results []result.Results
+	var userIds []uint
+
+	c.DB.Where("event_id in ?", eventIds).Find(&results)
+	c.DB.Model(&result.Results{}).Distinct("user_id").Where("event_id in ?", eventIds).Find(&userIds)
+	var evs []event.Event
+	c.DB.Where("id in ?", eventIds).Find(&evs)
+	var players []user.User
+	c.DB.Where("id in ?", userIds).Find(&players)
+
+	best, all := c.AllPlayerBestResult(results, players)
+
+	data := c.KinChSor(best, evs, all)
+	if start > len(data) {
+		return nil, len(data)
+	}
+	end := int(math.Min(float64(start+size), float64(len(data))))
+
+	c.Cache.Set(keys, data, time.Minute*60)
+	return data[start:end], len(data)
 }
 
 func (c *ResultIter) SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult) {
@@ -293,4 +345,116 @@ func (c *ResultIter) SelectAllPlayerBestResult() (best PlayerBestResult, all []P
 	best, all = c.AllPlayerBestResult(results, players)
 	c.Cache.Set("SelectAllPlayerBestResult", [2]interface{}{best, all}, time.Minute*30)
 	return best, all
+}
+
+func (c *ResultIter) SelectBestResultsWithEventSort() (best map[EventID][]result.Results, avg map[EventID][]result.Results) {
+	value, ok := c.Cache.Get("SelectBestResultsWithEventSort")
+	if ok {
+		data := value.([2]interface{})
+		return data[0].(map[EventID][]result.Results), data[1].(map[EventID][]result.Results)
+	}
+	best, avg = make(map[EventID][]result.Results), make(map[EventID][]result.Results)
+
+	_, all := c.SelectAllPlayerBestResult()
+
+	for _, pResult := range all {
+		for _, s := range pResult.Single {
+			best[s.EventID] = append(best[s.EventID], s)
+		}
+		for _, a := range pResult.Avgs {
+			avg[a.EventID] = append(avg[a.EventID], a)
+		}
+	}
+
+	for key := range best {
+		var b = best[key]
+		result.SortResultWithBest(b)
+		best[key] = b
+	}
+
+	for key := range avg {
+		var a = avg[key]
+		result.SortResultWithAvg(a)
+		avg[key] = a
+	}
+
+	c.Cache.Set("SelectBestResultsWithEventSort", [2]interface{}{best, avg}, time.Minute*30)
+	return best, avg
+}
+
+func (c *ResultIter) SelectBestResultsWithEventSortWithPlayer(cubeId string) PlayerBestResult {
+	value, ok := c.Cache.Get("SelectBestResultsWithEventSortWithPlayer_" + cubeId)
+	if ok {
+		data := value.(map[string]PlayerBestResult)
+		return data[cubeId]
+	}
+
+	var dict = make(map[string]PlayerBestResult)
+	setCubeId := func(cubeId string, PersonName string, userId uint) {
+		if _, ok := dict[cubeId]; !ok {
+			dict[cubeId] = PlayerBestResult{
+				Player: Player{
+					PlayerId:   userId,
+					PlayerName: PersonName,
+					CubeId:     cubeId,
+				},
+				Single: make(map[EventID]result.Results),
+				Avgs:   make(map[EventID]result.Results),
+			}
+		}
+	}
+
+	best, avg := c.SelectBestResultsWithEventSort()
+	for _, bb := range best {
+		for _, b := range bb {
+			setCubeId(b.CubeID, b.PersonName, b.UserID)
+			dict[b.CubeID].Single[b.EventID] = b
+		}
+	}
+	for _, aa := range avg {
+		for _, a := range aa {
+			setCubeId(a.CubeID, a.PersonName, a.UserID)
+			dict[a.CubeID].Avgs[a.EventID] = a
+		}
+	}
+
+	c.Cache.Set("SelectBestResultsWithEventSortWithPlayer_"+cubeId, dict, time.Minute*30)
+	return dict[cubeId]
+}
+
+func (c *ResultIter) SelectUserResultDetail(cubeId string) UserResultDetail {
+	value, ok := c.Cache.Get("SelectUserResultDetail_" + cubeId)
+	if ok {
+		return value.(UserResultDetail)
+	}
+
+	var out UserResultDetail
+
+	var results []result.Results
+	c.DB.Where("ban = ?", false).Where("cube_id = ?", cubeId).Find(&results)
+
+	var compIds = make(map[uint]struct{})
+
+	for _, r := range results {
+		if r.EventRoute.RouteMap().Repeatedly {
+			continue
+		}
+		compIds[r.CompetitionID] = struct{}{}
+		for _, rr := range r.Result {
+
+			if rr <= result.DNS {
+				continue
+			}
+			out.RestoresNum += 1
+			if rr > result.DNF {
+				out.SuccessesNum += 1
+			}
+		}
+	}
+	out.Matches = len(compIds)
+
+	// todo PodiumNum
+	c.Cache.Set("SelectUserResultDetail_", out, time.Minute*15)
+
+	return out
 }

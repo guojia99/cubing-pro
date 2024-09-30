@@ -2,12 +2,12 @@ package organizers
 
 import (
 	"fmt"
+	email2 "github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	"github.com/guojia99/cubing-pro/src/email"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -44,8 +44,8 @@ func CreatePersons(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		for _, u := range users {
-			_ = email.SendEmailWithTemp(
-				svc.Cfg.GlobalConfig.EmailConfig, "加入主办团队", []string{u.Email}, email.CodeTemp, email.CodeTempData{
+			_ = email2.SendEmailWithTemp(
+				svc.Cfg.GlobalConfig.EmailConfig, "加入主办团队", []string{u.Email}, email2.CodeTemp, email2.CodeTempData{
 					Subject:   "加入主办团队",
 					UserName:  u.Name,
 					Notify:    "加入主办团队",

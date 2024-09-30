@@ -20,6 +20,7 @@ type Record struct {
 	Type        string            `gorm:"column:d_type"`       // 记录类型
 	ResultId    uint              `gorm:"column:result_id"`    // 成绩ID
 	UserId      uint              `gorm:"column:user_id"`      // 用户ID
+	CubeId      string            `gorm:"column:cube_id"`      // cube id
 	UserName    string            `gorm:"column:user_name"`    // 用户名
 	CompsId     uint              `gorm:"column:comps_id"`     // 比赛ID
 	CompsName   string            `gorm:"column:comps_name"`   // 比赛名

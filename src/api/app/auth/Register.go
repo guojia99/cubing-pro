@@ -2,11 +2,11 @@ package auth
 
 import (
 	"fmt"
+	"github.com/guojia99/cubing-pro/src/internel/email"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	utils2 "github.com/guojia99/cubing-pro/src/email"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -184,7 +184,7 @@ func SendRegisterEmailCode(svc *svc.Svc, typ string) gin.HandlerFunc {
 			subject += "注册"
 		}
 
-		data := utils2.CodeTempData{
+		data := email.CodeTempData{
 			Subject:        subject,
 			UserName:       req.Name,
 			Option:         "注册",
@@ -192,7 +192,7 @@ func SendRegisterEmailCode(svc *svc.Svc, typ string) gin.HandlerFunc {
 			OptionsCode:    checker.Code,
 		}
 
-		if err := utils2.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, subject, []string{req.Email}, utils2.CodeTemp, data); err != nil {
+		if err := email.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, subject, []string{req.Email}, email.CodeTemp, data); err != nil {
 			exception.ErrRegisterField.ResponseWithError(ctx, err)
 			return
 		}

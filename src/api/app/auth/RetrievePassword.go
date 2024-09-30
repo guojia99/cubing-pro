@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"github.com/guojia99/cubing-pro/src/internel/email"
 	"net/url"
 	"strings"
 	"time"
@@ -9,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	utils2 "github.com/guojia99/cubing-pro/src/email"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -107,14 +107,14 @@ func RetrievePasswordSendCode(svc *svc.Svc) gin.HandlerFunc {
 				checker.Key, checker.Code, user.Email, time.Now().Unix(), checker.Timeout.Unix(), user.ID, checker.Type,
 			)
 
-			data := utils2.CodeTempData{
+			data := email.CodeTempData{
 				Subject:        "CubePro找回密码",
 				UserName:       user.Name,
 				Option:         "找回密码",
 				OptionsTimeOut: resp.Timeout.Format(time.DateTime),
 				OptionsUrl:     urlP, // todo
 			}
-			if err = utils2.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, data.Subject, []string{user.Email}, utils2.CodeTemp, data); err != nil {
+			if err = email.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, data.Subject, []string{user.Email}, email.CodeTemp, data); err != nil {
 				exception.ErrAuthField.ResponseWithError(ctx, err)
 				return
 			}

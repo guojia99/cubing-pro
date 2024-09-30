@@ -40,9 +40,11 @@ type ListSearchParam struct {
 	NotAutoResp      bool     //  自动封装消息
 }
 
-func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSearchParam) {
+//PrintSlice[T any](s []T)
+
+func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSearchParam) (out []T, err error) {
 	var req GenerallyListReq
-	if err := BindAll(ctx, &req); err != nil {
+	if err = BindAll(ctx, &req); err != nil {
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
 		return
 	}
@@ -103,8 +105,9 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 
 	// total
 	var total int64
-	if err := searchDB.Count(&total).Error; err != nil {
+	if err = searchDB.Count(&total).Error; err != nil {
 		exception.ErrDatabase.ResponseWithError(ctx, err)
+		fmt.Println(err)
 		return
 	}
 
@@ -119,7 +122,6 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 
 	// page
 	offset := (req.Page - 1) * req.Size
-	var err error
 	if param.MaxSize == 0 {
 		err = searchDB.Find(&dest).Error
 	} else {
@@ -138,4 +140,5 @@ func GenerallyList(ctx *gin.Context, db *gorm.DB, dest interface{}, param ListSe
 			},
 		)
 	}
+	return dest, err
 }

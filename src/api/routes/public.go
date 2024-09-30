@@ -6,6 +6,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
+	"github.com/guojia99/cubing-pro/src/api/app/statistics"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -22,14 +23,15 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	player := public.Group("/player")
 	{
 		// todo 加缓存
-		player.GET("/", users.Users(svc))                   // 玩家列表
-		player.POST("/", users.Users(svc))                  // 查询
-		player.GET("/:playerId", users.UserBaseResult(svc)) // 玩家基础信息
+		player.GET("/", users.Users(svc))                 // 玩家列表
+		player.POST("/", users.Users(svc))                // 查询
+		player.GET("/:cubeId", users.UserBaseResult(svc)) // 玩家基础信息
 		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表
-		player.GET("/:playerId/results", result.PlayerResults(svc)) // 玩家成绩汇总
-		player.GET("/:playerId/nemesis", result.PlayerNemesis(svc)) // 宿敌列表
-		player.GET("/:playerId/records", result.PlayerRecords(svc)) // 玩家记录
-		player.GET("/:playerId/sor", result.PlayerSor(svc))         // 玩家统计成绩
+		player.GET("/:cubeId/results", result.PlayerResults(svc)) // 玩家成绩汇总
+		player.GET("/:cubeId/nemesis", result.PlayerNemesis(svc)) // 宿敌列表
+		player.GET("/:cubeId/records", result.PlayerRecords(svc)) // 玩家记录
+		player.GET("/:cubeId/sor", result.PlayerSor(svc))         // 玩家统计成绩
+		player.GET("/:cubeId/comps", result.PlayerComps(svc))     // 玩家参加过的比赛列表
 	}
 
 	comps := public.Group("/comps")
@@ -42,24 +44,24 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		comps.GET("/:compId/record", comp.Record(svc))       // 比赛产生的记录
 	}
 
-	statistics := public.Group("/statistics")
+	sta := public.Group("/statistics")
 	{
-		statistics.GET("/best_result")            //最佳成绩列表
-		statistics.GET("/records")                //记录列表
-		statistics.GET("/sor")                    //Sor统计
-		statistics.GET("/sum-of-ranks")           //排名总和榜单,可分单次平均、选择项目
-		statistics.GET("/medal-collection")       //奖牌累积榜单，可分项目
-		statistics.GET("/top-n")                  //项目前N - 指该项目前N的历史成绩（不根据选手去重，选手可以重复上榜），可分单平
-		statistics.GET("/record-num")             //记录数
-		statistics.GET("/comp-record-num")        //赛事打破记录数
-		statistics.GET("/record-time")            //记录保持时间榜单
-		statistics.GET("/most-comps-num")         //选手比赛记录数
-		statistics.GET("/most-persons-in-comps")  //赛事人数排名
-		statistics.GET("/most-solves-by-persons") //选手还原次数排名
-		statistics.GET("/most-solves-in-comps")   //赛事还原次数排名
-		statistics.GET("/most-personal-solves")   //选手还原次数排名，可按年份区分
-		statistics.GET("/best-uncrowned-kings")   //无冕之王, 排在第二里面成绩最好
-		statistics.GET("/best-podium-miss")       //老四之王，排在第四里面成绩最好
-		statistics.GET("/all-events")             //大满贯
+		sta.GET("/best_result")              //最佳成绩列表
+		sta.GET("/records")                  //记录列表
+		sta.GET("/sor", statistics.Sor(svc)) //Sor统计
+		sta.GET("/sum-of-ranks")             //排名总和榜单,可分单次平均、选择项目
+		sta.GET("/medal-collection")         //奖牌累积榜单，可分项目
+		sta.GET("/top-n")                    //项目前N - 指该项目前N的历史成绩（不根据选手去重，选手可以重复上榜），可分单平
+		sta.GET("/record-num")               //记录数
+		sta.GET("/comp-record-num")          //赛事打破记录数
+		sta.GET("/record-time")              //记录保持时间榜单
+		sta.GET("/most-comps-num")           //选手比赛记录数
+		sta.GET("/most-persons-in-comps")    //赛事人数排名
+		sta.GET("/most-solves-by-persons")   //选手还原次数排名
+		sta.GET("/most-solves-in-comps")     //赛事还原次数排名
+		sta.GET("/most-personal-solves")     //选手还原次数排名，可按年份区分
+		sta.GET("/best-uncrowned-kings")     //无冕之王, 排在第二里面成绩最好
+		sta.GET("/best-podium-miss")         //老四之王，排在第四里面成绩最好
+		sta.GET("/all-events")               //大满贯
 	}
 }

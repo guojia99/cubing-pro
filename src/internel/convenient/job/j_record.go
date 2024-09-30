@@ -33,6 +33,7 @@ func (c *RecordUpdateJob) getRecords(where string, typ string) []result.Record {
 			EventRoute:  r.EventRoute,
 			ResultId:    r.ID,
 			UserId:      r.UserID,
+			CubeId:      r.CubeID,
 			UserName:    r.PersonName,
 			CompsId:     r.CompetitionID,
 			CompsName:   comp.Name,

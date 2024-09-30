@@ -2,12 +2,12 @@ package organizers
 
 import (
 	"fmt"
+	email2 "github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	"github.com/guojia99/cubing-pro/src/email"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -67,7 +67,7 @@ func RegisterOrganizers(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 发送通知邮箱
-		data := email.CodeTempData{
+		data := email2.CodeTempData{
 			Subject:   "创建主办团队",
 			UserName:  user.Name,
 			BaseUrl:   svc.Cfg.GlobalConfig.BaseHost,
@@ -75,7 +75,7 @@ func RegisterOrganizers(svc *svc.Svc) gin.HandlerFunc {
 			NotifyMsg: fmt.Sprintf(RegisterOrganizersEmailMsgT, req.Name),
 			NotifyUrl: "",
 		}
-		_ = email.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, "创建主办团队", []string{user.Email}, email.CodeTemp, data)
+		_ = email2.SendEmailWithTemp(svc.Cfg.GlobalConfig.EmailConfig, "创建主办团队", []string{user.Email}, email2.CodeTemp, data)
 
 		exception.ResponseOK(ctx, nil)
 

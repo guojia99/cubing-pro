@@ -30,6 +30,14 @@ type KinChSorResultWithEvent struct {
 
 type KinChSorResult struct {
 	Player
+	Rank    int
 	Result  float64
 	Results []KinChSorResultWithEvent
+}
+
+type UserResultDetail struct {
+	RestoresNum  int `json:"RestoresNum"`  // 尝试次数
+	SuccessesNum int `json:"SuccessesNum"` // 成功还原次数
+	Matches      int `json:"Matches"`      // 比赛场次
+	PodiumNum    int `json:"PodiumNum"`    // 领奖台次数
 }

@@ -15,7 +15,7 @@ func (c *RecordUpdateJob) Name() string {
 	return "RecordUpdateJob"
 }
 
-func (c *RecordUpdateJob) getRecords(where string, typ string) []result.Record {
+func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []result.Record {
 	// 1. 分段获取所有比赛的成绩
 	//      - 一次获取20个比赛的id
 	//      - 通过这20个比赛id，拉取比赛成绩数据
@@ -39,6 +39,7 @@ func (c *RecordUpdateJob) getRecords(where string, typ string) []result.Record {
 			CompsName:   comp.Name,
 			CompsGenre:  comp.Genre,
 			ThisResults: r.ResultJSON,
+			GroupId:     gid,
 		}
 		if best {
 			if r.EventRoute.RouteMap().Repeatedly {
@@ -145,7 +146,8 @@ func (c *RecordUpdateJob) getRecords(where string, typ string) []result.Record {
 			for key, val := range withEventBest {
 				// 不存在时
 				// 成绩比以前的好时
-				if b, ok3 := nowBest[key]; !ok3 || (b.EventRoute.RouteMap().Repeatedly && val[0].IsBest(b)) || val[0].Best < b.Best {
+				if b, ok3 := nowBest[key]; !ok3 || (b.EventRoute.RouteMap().Repeatedly && val[0].IsBest(b)) ||
+					(!b.EventRoute.RouteMap().Repeatedly && val[0].Best < b.Best) {
 					for _, v := range val {
 						addRecord(true, v, comp)
 					}
@@ -185,7 +187,7 @@ func (c *RecordUpdateJob) Run() error {
 	//}
 
 	// base records
-	records := c.getRecords("", result.RecordTypeWithCubingPro)
+	records := c.getRecords("", 0, result.RecordTypeWithCubingPro)
 	var baseRecordsMap = make(map[string]result.Record)
 	for _, record := range records {
 		baseRecordsMap[record.Key()] = record
@@ -195,7 +197,7 @@ func (c *RecordUpdateJob) Run() error {
 	var groups []competition.CompertionGroup
 	c.DB.Find(&groups)
 	for _, group := range groups {
-		rs := c.getRecords(fmt.Sprintf("group_id = %d", group.ID), result.RecordTypeWithGroup)
+		rs := c.getRecords(fmt.Sprintf("group_id = %d", group.ID), group.ID, result.RecordTypeWithGroup)
 		for _, record := range rs {
 			if _, ok := baseRecordsMap[record.Key()]; ok {
 				continue
@@ -218,7 +220,7 @@ func (c *RecordUpdateJob) Run() error {
 	// todo 如果GR破了CR，则这个CR也要删除
 
 	fmt.Printf("[Record] update record = %d", len(records))
-	if err := c.DB.Where("1 = 1").Delete(&result.Record{}).Error; err != nil {
+	if err := c.DB.Unscoped().Where("1 = 1").Delete(&result.Record{}).Error; err != nil {
 		return err
 	}
 

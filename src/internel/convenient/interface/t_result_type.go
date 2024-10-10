@@ -1,7 +1,6 @@
 package _interface
 
 import (
-	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 )
 
@@ -23,7 +22,7 @@ type Nemesis struct {
 }
 
 type KinChSorResultWithEvent struct {
-	Event  event.Event
+	Event  string
 	Result float64
 	IsBest bool
 }

@@ -2,9 +2,9 @@ package _interface
 
 import (
 	"fmt"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
-	"math"
 	"sort"
 	"time"
 
@@ -222,7 +222,7 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 
 		for _, e := range hasResultEvents {
 			mp := e.BaseRouteType.RouteMap()
-			kr := KinChSorResultWithEvent{Event: e}
+			kr := KinChSorResultWithEvent{Event: e.ID}
 			s, ok := player.Single[e.ID]
 			if ok {
 				if mp.Repeatedly {
@@ -230,8 +230,6 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 					bestResult := best.Single[e.ID].Best + ((3600 - best.Single[e.ID].BestRepeatedlyTime) / 3600)
 					playerResult := s.Best + ((3600 - s.BestRepeatedlyTime) / 3600)
 					kr.Result = (playerResult / bestResult) * 100
-
-					kr.IsBest = kr.Result == 100.0
 				} else if mp.WithBest {
 					kr.Result = (best.Single[e.ID].Best / s.Best) * 100
 				} else {
@@ -239,8 +237,8 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 						kr.Result = (best.Avgs[e.ID].Average / a.Average) * 100
 					}
 				}
+				kr.IsBest = kr.Result == 100.0
 			}
-
 			k.Results = append(k.Results, kr)
 		}
 
@@ -295,16 +293,10 @@ func (c *ResultIter) SelectKinChSor(page int, size int, events []event.Event) ([
 		eventIds = append(eventIds, ev.ID)
 	}
 
-	start := (page - 1) * size
-
 	value, ok := c.Cache.Get(keys)
 	if ok {
 		data := value.([]KinChSorResult)
-		if start > len(data) {
-			return nil, len(data)
-		}
-		end := int(math.Min(float64(start+size), float64(len(data))))
-		return data[start:end], len(data)
+		return utils.Page[KinChSorResult](data, page, size)
 	}
 
 	var results []result.Results
@@ -320,13 +312,9 @@ func (c *ResultIter) SelectKinChSor(page int, size int, events []event.Event) ([
 	best, all := c.AllPlayerBestResult(results, players)
 
 	data := c.KinChSor(best, evs, all)
-	if start > len(data) {
-		return nil, len(data)
-	}
-	end := int(math.Min(float64(start+size), float64(len(data))))
 
 	c.Cache.Set(keys, data, time.Minute*60)
-	return data[start:end], len(data)
+	return utils.Page[KinChSorResult](data, page, size)
 }
 
 func (c *ResultIter) SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult) {

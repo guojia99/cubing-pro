@@ -64,6 +64,7 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 		ResultIter:      _interface.ResultIter{DB: db, Cache: cache},
 		Jobs: []job.Job{
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
+			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
 		},
 	}
 

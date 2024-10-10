@@ -1,5 +1,9 @@
 package utils
 
+import (
+	"math"
+)
+
 func Merge[T comparable](list1, list2 []T) []T {
 	merged := make(map[T]bool)
 
@@ -56,4 +60,32 @@ func Has[T comparable](org, s []T) []T {
 	}
 
 	return result
+}
+
+func Page[T any](src []T, page, size int) (out []T, total int) {
+	if len(src) == 0 {
+		return src, len(src)
+	}
+
+	if page <= 1 {
+		page = 1
+	}
+	if size > len(src) {
+		size = len(src)
+	}
+	if size > 1000 {
+		size = 1000
+	}
+	if size < 20 {
+		size = 20
+	}
+
+	start := (page - 1) * size
+
+	if start > len(src) {
+		return nil, len(src)
+	}
+
+	end := int(math.Min(float64(start+size), float64(len(src))))
+	return src[start:end], len(src)
 }

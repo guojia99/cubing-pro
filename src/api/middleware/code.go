@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"sync"
 	"time"
@@ -48,12 +47,11 @@ func (c *code) CodeRouter() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		res := base64Captcha.NewCaptcha(utils.DigitRandomConfig(), c.result)
 
-		id, base64, value, err := res.Generate()
+		id, base64, _, err := res.Generate()
 		if err != nil {
 			exception.ErrInternalServer.ResponseWithError(ctx, err)
 			return
 		}
-		fmt.Println(value)
 
 		ctx.JSON(
 			http.StatusOK, CodeResp{

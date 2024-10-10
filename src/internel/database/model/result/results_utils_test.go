@@ -388,3 +388,29 @@ func TestUpdateOrgResult(t *testing.T) {
 		)
 	}
 }
+
+func TestTimeParser(t *testing.T) {
+	type args struct {
+		in float64
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "max_2h",
+			args: args{
+				in: 9612,
+			},
+			want: "2:40:12",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := TimeParser(tt.args.in); got != tt.want {
+				t.Errorf("TimeParser() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

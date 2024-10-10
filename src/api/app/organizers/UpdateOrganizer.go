@@ -3,6 +3,7 @@ package organizers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -22,11 +23,9 @@ type DoWithOrganizerReq struct {
 func DoWithOrganizers(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req DoWithOrganizerReq
-		if err := ctx.ShouldBindQuery(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-
 		var org user.Organizers
 		if err := svc.DB.First(&org, "id = ?", req.OrgId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)

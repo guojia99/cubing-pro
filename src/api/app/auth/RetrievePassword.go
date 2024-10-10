@@ -139,8 +139,7 @@ type RetrievePasswordReq struct {
 func RetrievePassword(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req RetrievePasswordReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
 

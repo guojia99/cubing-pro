@@ -37,16 +37,17 @@ func PasswordCheck(svc *svc.Svc) gin.HandlerFunc {
 
 type RegisterReq struct {
 	// 用户数据
-	LoginID    string `json:"loginID" binding:"required"`
-	UserName   string `json:"userName" binding:"required"`
+	LoginID    string `json:"loginID"`
+	UserName   string `json:"userName"`
 	ActualName string `json:"actualName"`
 	EnName     string `json:"enName"`
-	Password   string `json:"password" binding:"required"`
-	TimeStamp  int64  `json:"timestamp" binding:"required"`
+	Password   string `json:"password"`
+	TimeStamp  int64  `json:"timestamp"`
+	QQ         string `json:"QQ"`
 
 	// 验证
-	Email     string `json:"email" binding:"required,email"`
-	EmailCode string `json:"emailCode" binding:"required"`
+	Email     string `json:"email"`
+	EmailCode string `json:"emailCode"`
 
 	// 旧数据
 	CubeID       string `json:"cubeID"`       // v2 留下的 CubeID
@@ -56,8 +57,28 @@ type RegisterReq struct {
 func Register(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req RegisterReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+
+		// 验证邮箱验证码数据
+		var checker user.CheckCode
+		if err := svc.DB.
+			Where("`use` = ?", false).
+			Where("email = ?", req.Email).
+			Where("typ = ?", user.RegisterWithEmail).
+			Order("created_at desc").First(&checker).Error; err != nil {
+			fmt.Println(err)
+			exception.ErrRegisterField.ResponseWithError(ctx, fmt.Errorf("验证码不存在"))
+			return
+		}
+
+		if time.Since(checker.Timeout) > 0 {
+			exception.ErrRegisterField.ResponseWithError(ctx, "邮箱验证码过期")
+			return
+		}
+		if checker.Code != req.EmailCode {
+			exception.ErrRegisterField.ResponseWithError(ctx, "邮箱验证码错误")
 			return
 		}
 
@@ -75,18 +96,7 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		var newUser = user.User{
-			Name:            req.UserName,
-			EnName:          req.EnName,
-			LoginID:         req.LoginID,
-			ActualName:      req.ActualName,
-			Password:        password,
-			HistoryPassword: password,
-			Email:           req.Email,
-			Hash:            string(utils.GenerateRandomKey(time.Now().UnixNano())),
-			CubeID:          svc.Cov.GetCubeID(name),
-			ActivationTime:  utils.PtrNow(),
-		}
+		var newUser user.User
 		newUser.SetAuth(user.AuthPlayer)
 
 		if len(req.CubeID) != 0 && len(req.InitPassword) != 0 {
@@ -98,33 +108,26 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 				exception.ErrRegisterField.ResponseWithError(ctx, "依据原有用户进行注册初始化密码错误")
 				return
 			}
-			newUser.ActivationTime = utils.PtrNow()
-			newUser.Email = req.Email
-			newUser.LoginID = req.LoginID
 		}
 
-		// 验证邮箱验证码数据
-		var checker user.CheckCode
-		if err = svc.DB.
-			Where("use = ?", false).
-			Where("email = ?", req.Email).
-			Where("typ = ?", user.RegisterWithEmail).
-			Order("created_at desc").First(&checker).Error; err != nil {
-			exception.ErrRegisterField.ResponseWithError(ctx, fmt.Errorf("验证码不存在"))
-			return
+		if req.QQ != "" {
+			newUser.QQ = req.QQ
 		}
-		fmt.Println(checker)
-		if time.Since(checker.Timeout) > 0 {
-			exception.ErrRegisterField.ResponseWithError(ctx, "邮箱验证码过期")
-			return
+		if newUser.CubeID == "" {
+			newUser.CubeID = svc.Cov.GetCubeID(name)
 		}
-		if checker.Code != req.EmailCode {
-			exception.ErrRegisterField.ResponseWithError(ctx, "邮箱验证码错误")
-			return
-		}
+		newUser.Name = req.UserName
+		newUser.EnName = req.EnName
+		newUser.ActivationTime = utils.PtrNow()
+		newUser.LoginID = req.LoginID
+		newUser.ActualName = req.ActualName
+		newUser.Password = password
+		newUser.HistoryPassword = password
+		newUser.Email = req.Email
+		newUser.Hash = string(utils.GenerateRandomKey(time.Now().UnixNano()))
 
 		// 创建用户
-		if err := svc.DB.Save(&newUser).Error; err != nil {
+		if err = svc.DB.Save(&newUser).Error; err != nil {
 			exception.ErrRegisterField.ResponseWithError(ctx, err)
 			return
 		}
@@ -149,11 +152,15 @@ type SendRegisterEmailCodeResp struct {
 func SendRegisterEmailCode(svc *svc.Svc, typ string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req SendRegisterEmailCodeReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-		fmt.Println(req, "--------")
+
+		var emailUser user.User
+		if err := svc.DB.Where("email = ?", req.Email).First(&emailUser).Error; err == nil || emailUser.ID != 0 {
+			exception.ErrRegisterField.ResponseWithError(ctx, "该邮箱已被注册，请联系管理员")
+			return
+		}
 
 		var checker user.CheckCode
 		if err := svc.DB.Where("email = ?", req.Email).Where("use = ?", false).Where("typ = ?", typ).Order("created_at desc").First(&checker); err == nil {

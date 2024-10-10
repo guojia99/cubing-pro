@@ -203,6 +203,7 @@ func (c *Results) isBest(other Results) bool {
 	if c.DBest() || other.DBest() {
 		return !c.DBest()
 	}
+
 	if c.Best == other.Best {
 		if c.EventRoute.RouteMap().Repeatedly {
 			return c.BestRepeatedlyTime <= other.BestRepeatedlyTime
@@ -327,6 +328,14 @@ func TimeParser(in float64) string {
 		return "DNP"
 	case DNT:
 		return "DNT"
+	}
+
+	// 判断是否超过2小时
+	if in >= 2*60*60 {
+		h := int(math.Floor(in) / 3600)  // 小时
+		m := int(math.Floor(in)/60) % 60 // 分钟
+		s := int(in) % 60                // 秒
+		return fmt.Sprintf("%d:%02d:%02d", h, m, s)
 	}
 
 	if in < 60 {

@@ -12,13 +12,16 @@ func BindAll(ctx *gin.Context, req interface{}) (err error) {
 		}
 	}()
 
-	if err = ctx.BindUri(&req); err != nil {
+	if err = ctx.BindUri(req); err != nil {
 		return err
 	}
-	if err = ctx.BindQuery(&req); err != nil {
+	//if err = ctx.BindHeader(req); err != nil {
+	//	return err
+	//}
+	if err = ctx.BindQuery(req); err != nil {
 		return err
 	}
-	if err = ctx.Bind(&req); err != nil {
+	if err = ctx.Bind(req); err != nil {
 		return err
 	}
 	return nil

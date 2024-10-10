@@ -23,8 +23,7 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	player := public.Group("/player")
 	{
 		// todo 加缓存
-		player.GET("/", users.Users(svc))                 // 玩家列表
-		player.POST("/", users.Users(svc))                // 查询
+		player.Any("/", users.Users(svc))                 // 玩家列表
 		player.GET("/:cubeId", users.UserBaseResult(svc)) // 玩家基础信息
 		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表
 		player.GET("/:cubeId/results", result.PlayerResults(svc)) // 玩家成绩汇总
@@ -36,8 +35,7 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	comps := public.Group("/comps")
 	{
-		comps.GET("/", comp.List(svc))                       // 比赛列表
-		comps.POST("/", comp.List(svc))                      // 查询
+		comps.Any("/", comp.List(svc))                       // 比赛列表 查询
 		comps.GET("/:compId", comp.Comp(svc))                // 比赛详情
 		comps.GET("/:compId/registers", comp.Registers(svc)) // 比赛报名列表
 		comps.GET("/:compId/result", comp.Results(svc))      // 比赛成绩列表
@@ -46,22 +44,23 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	sta := public.Group("/statistics")
 	{
-		sta.GET("/best_result")              //最佳成绩列表
-		sta.GET("/records")                  //记录列表
-		sta.GET("/sor", statistics.Sor(svc)) //Sor统计
-		sta.GET("/sum-of-ranks")             //排名总和榜单,可分单次平均、选择项目
-		sta.GET("/medal-collection")         //奖牌累积榜单，可分项目
-		sta.GET("/top-n")                    //项目前N - 指该项目前N的历史成绩（不根据选手去重，选手可以重复上榜），可分单平
-		sta.GET("/record-num")               //记录数
-		sta.GET("/comp-record-num")          //赛事打破记录数
-		sta.GET("/record-time")              //记录保持时间榜单
-		sta.GET("/most-comps-num")           //选手比赛记录数
-		sta.GET("/most-persons-in-comps")    //赛事人数排名
-		sta.GET("/most-solves-by-persons")   //选手还原次数排名
-		sta.GET("/most-solves-in-comps")     //赛事还原次数排名
-		sta.GET("/most-personal-solves")     //选手还原次数排名，可按年份区分
-		sta.GET("/best-uncrowned-kings")     //无冕之王, 排在第二里面成绩最好
-		sta.GET("/best-podium-miss")         //老四之王，排在第四里面成绩最好
-		sta.GET("/all-events")               //大满贯
+		sta.Any("/best_result", statistics.Best(svc))          //最佳成绩列表
+		sta.Any("/best_result/:eventId", statistics.Best(svc)) //最佳成绩基于项目单项
+		sta.Any("/records", statistics.Records(svc))           //记录列表
+		sta.Any("/kinch", statistics.KinCh(svc))               //Sor统计
+		sta.GET("/sum-of-ranks")                               //排名总和榜单,可分单次平均、选择项目
+		sta.GET("/medal-collection")                           //奖牌累积榜单，可分项目
+		sta.GET("/top-n")                                      //项目前N - 指该项目前N的历史成绩（不根据选手去重，选手可以重复上榜），可分单平
+		sta.GET("/record-num")                                 //记录数
+		sta.GET("/comp-record-num")                            //赛事打破记录数
+		sta.GET("/record-time")                                //记录保持时间榜单
+		sta.GET("/most-comps-num")                             //选手比赛记录数
+		sta.GET("/most-persons-in-comps")                      //赛事人数排名
+		sta.GET("/most-solves-by-persons")                     //选手还原次数排名
+		sta.GET("/most-solves-in-comps")                       //赛事还原次数排名
+		sta.GET("/most-personal-solves")                       //选手还原次数排名，可按年份区分
+		sta.GET("/best-uncrowned-kings")                       //无冕之王, 排在第二里面成绩最好
+		sta.GET("/best-podium-miss")                           //老四之王，排在第四里面成绩最好
+		sta.GET("/all-events")                                 //大满贯
 	}
 }

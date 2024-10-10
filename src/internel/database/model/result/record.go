@@ -29,6 +29,7 @@ type Record struct {
 	Average     *float64          `gorm:"column:average"`      // 平均成绩
 	Repeatedly  *string           `gorm:"column:repeatedly"`   // 多次尝试成绩
 	ThisResults string            `gorm:"column:this_results"` // 本次成绩
+	GroupId     uint              `gorm:"column:group_id"`     // 群ID
 }
 
 func (r *Record) Key() string {

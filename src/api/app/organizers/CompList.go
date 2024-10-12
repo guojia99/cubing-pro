@@ -13,7 +13,7 @@ func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 		var list []competition.Competition
-		app_utils.GenerallyList(
+		_, _ = app_utils.GenerallyList(
 			ctx, svc.DB, list, app_utils.ListSearchParam{
 				Model:   &competition.Competition{},
 				MaxSize: 100,

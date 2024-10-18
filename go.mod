@@ -11,6 +11,7 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/mozillazg/go-pinyin v0.20.0
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/spf13/cobra v1.8.0
 	github.com/unrolled/secure v1.14.0

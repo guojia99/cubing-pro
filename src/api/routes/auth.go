@@ -4,13 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/api/app/auth"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 )
 
 func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
-	authG := router.Group("/auth") // 限流
+	authG := router.Group("/auth", middleware.RateLimitMiddleware(10, time.Second*3))
 	{
 		//if svc.Cfg.GlobalConfig.Debug {
 		//	authG.POST("/password_check", auth.PasswordCheck(svc)) // 调试用，密码生成工具
@@ -40,6 +41,16 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		// 用户操作
 		authG.PUT("/reset/password", middleware.JWT().MiddlewareFunc(), middleware.Code().VerifyCodeMiddlewareFn(svc), auth.ResetPassword(svc)) // 用户重置密码
 		authG.GET("/current", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), auth.Current(svc))
+
 	}
 
+	usr := authG.Group("/user",
+		middleware.JWT().MiddlewareFunc(),
+		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer),
+	)
+	{
+		usr.GET("/auth_rule_list")                  // 规则权限列表
+		usr.POST("/detail")                         // 修改用户信息
+		usr.POST("/avatar", auth.UpdateAvatar(svc)) // 修改用户头像
+	}
 }

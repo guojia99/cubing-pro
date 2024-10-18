@@ -11,6 +11,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"time"
 )
 
 func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
@@ -18,6 +19,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		"/admin",
 		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user2.AuthSuperAdmin),
+		middleware.RateLimitMiddleware(20, time.Second),
 	)
 
 	//// 角色管理

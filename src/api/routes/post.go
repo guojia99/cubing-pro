@@ -6,11 +6,12 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"time"
 )
 
 func PostRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
-	topics := router.Group("/topic")
+	topics := router.Group("/topic", middleware.RateLimitMiddleware(3, time.Second))
 	{
 		topics.GET("/", posts.GetTopics(svc))                            // 帖子列表
 		topics.GET("/:topicId", posts.GetTopic(svc, true))               // 帖子详情
@@ -21,6 +22,7 @@ func PostRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	topicsAuth := topics.Group(
 		"/auth",
 		middleware.CheckAuthMiddlewareFunc(user2.AuthPlayer),
+		middleware.RateLimitMiddleware(10, time.Second),
 	)
 	{
 		topicsAuth.POST("/", posts.CreateTopic(svc))                 // 编写帖子

@@ -28,6 +28,7 @@ type APIGatewayConfig struct {
 	APIPort    int    `yaml:"apiPort"`
 	HTTPSPort  int    `yaml:"httpsPort"`
 	IndexPath  string `yaml:"indexPath"`
+	AssetsPath string `yaml:"assetsPath"`
 	StaticPath string `yaml:"staticPath"`
 }
 

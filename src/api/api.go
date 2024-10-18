@@ -2,9 +2,9 @@ package api
 
 import (
 	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"os"
 
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/api/routes"
@@ -17,6 +17,13 @@ type API struct {
 }
 
 func NewAPI(svc *svc.Svc) *API {
+	if svc.Cfg.APIGatewayConfig.StaticPath != "" {
+		_ = os.MkdirAll(svc.Cfg.APIGatewayConfig.StaticPath, os.ModePerm)
+	}
+	if svc.Cfg.APIGatewayConfig.AssetsPath != "" {
+		_ = os.MkdirAll(svc.Cfg.APIGatewayConfig.AssetsPath, os.ModePerm)
+	}
+
 	a := &API{
 		Svc:    svc,
 		engine: gin.New(),
@@ -41,13 +48,13 @@ func NewAPI(svc *svc.Svc) *API {
 	)
 	routes.AuthRouters(group, svc)
 	routes.AdminRouters(group, svc)
-	routes.UserRouters(group, svc)
 	routes.CompWithOrgRouters(group, svc)
 	routes.CompWithUserRouters(group, svc)
 	routes.PostRouters(group, svc)
 	routes.PublicRouters(group, svc)
+	routes.StaticRouters(group, svc)
 
-	group.Static("/assets", svc.Cfg.APIGatewayConfig.StaticPath)
+	group.Static("/assets", svc.Cfg.APIGatewayConfig.AssetsPath)
 	return a
 }
 

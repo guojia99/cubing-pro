@@ -316,7 +316,7 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			RejectMsg:  "",
 			Name:       c.Name,
 			Illustrate: fmt.Sprintf("## %s(v2版本)", c.Name),
-			City:       "广州",
+			City:       "线上",
 			RuleMD:     "群赛(V2)",
 			Series:     "",
 			Genre: func() competition.Genre {

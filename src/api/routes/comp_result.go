@@ -9,6 +9,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"time"
 )
 
 // 比赛和主办相关路由
@@ -18,6 +19,7 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		"/organizers",
 		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), // 起码是一个玩家才能使用
+		middleware.RateLimitMiddleware(20, time.Second),
 	)
 	{
 		organizers.POST("/register", organizers2.RegisterOrganizers(svc))                     // 申请主办团队, 创建主办团队, 如果是管理员自动审核完成

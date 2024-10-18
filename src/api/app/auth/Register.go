@@ -108,6 +108,7 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 				exception.ErrRegisterField.ResponseWithError(ctx, "依据原有用户进行注册初始化密码错误")
 				return
 			}
+			newUser.InitPassword = ""
 		}
 
 		if req.QQ != "" {

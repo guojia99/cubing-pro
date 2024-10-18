@@ -8,11 +8,15 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/result"
 	"github.com/guojia99/cubing-pro/src/api/app/statistics"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
+	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"time"
 )
 
 func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
-	public := router.Group("/public")
+	public := router.Group("/public",
+		middleware.CacheMiddleware(time.Minute*5),
+		middleware.RateLimitMiddleware(20, time.Second))
 	{
 		public.GET("/swagger/json", func(context *gin.Context) { context.JSON(404, "not data") }) // api文档
 		public.GET("/events", result.Events(svc))                                                 // 项目列表 TODO 加缓存
@@ -20,9 +24,8 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		public.GET("/forum", posts.GetForums(svc))                                                // 板块列表
 	}
 
-	player := public.Group("/player")
+	player := public.Group("/player", middleware.CacheMiddleware(time.Minute))
 	{
-		// todo 加缓存
 		player.Any("/", users.Users(svc))                 // 玩家列表
 		player.GET("/:cubeId", users.UserBaseResult(svc)) // 玩家基础信息
 		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表

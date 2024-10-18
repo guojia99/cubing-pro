@@ -26,7 +26,8 @@ apiGateway:
   port: 80
   apiPort: 20000
   httpsPort: 443
-  staticPath: "./static" # 资源文件
+  staticPath: "./static" # 系统资源文件
+  assetsPath: "./assets" # 其他静态资源文件
   indexPath: "/build/index.html" # 前端启动文件
 
 robot:

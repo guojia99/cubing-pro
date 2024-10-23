@@ -69,7 +69,6 @@ func UpdateAvatar(svc *svc.Svc) gin.HandlerFunc {
 			img, format, err := image.Decode(bytes.NewReader(data))
 			if err != nil {
 				exception.ErrValidationFailed.ResponseWithError(ctx, "不是有效的图像数据")
-				fmt.Println(err)
 				return
 			}
 
@@ -125,7 +124,7 @@ func saveImageToPath(img image.Image, imgPath string, format string) error {
 
 	switch format {
 	case "jpeg", ".jpeg", "jpg", ".jpg":
-		err = jpeg.Encode(baseImagePathOutPutFile, img, &jpeg.Options{Quality: 85})
+		err = jpeg.Encode(baseImagePathOutPutFile, img, &jpeg.Options{Quality: 65})
 	case "png", ".png":
 		err = png.Encode(baseImagePathOutPutFile, img)
 	}

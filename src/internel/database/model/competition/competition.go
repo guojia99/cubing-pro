@@ -149,3 +149,20 @@ func (c *Competition) CheckRegisterTime() error {
 	}
 	return nil
 }
+
+func (c *Competition) StatusName() string {
+	switch c.Status {
+	case Running:
+		if c.IsDone {
+			return "已结束"
+		}
+		return "进行中"
+	case Reject:
+		return "被驳回"
+	case Reviewing:
+		return "审核中"
+	case Temporary:
+		return "申请中"
+	}
+	return ""
+}

@@ -38,6 +38,8 @@ func NewAPISvc(file string) (*Svc, error) {
 	if c.DB, err = newDB(cfg.GlobalConfig.DB); err != nil {
 		return nil, err
 	}
+
+	// todo 多个程序时
 	c.Cov = convenient.NewConvenient(c.DB, true)
 	return c, nil
 }

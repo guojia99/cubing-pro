@@ -29,3 +29,10 @@ func ToJSON(in interface{}) string {
 	out, _ := jsoniter.MarshalToString(in)
 	return out
 }
+
+func ReplaceAll(s, new string, old ...string) string {
+	for _, o := range old {
+		s = strings.ReplaceAll(s, o, new)
+	}
+	return s
+}

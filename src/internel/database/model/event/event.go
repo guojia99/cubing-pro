@@ -9,6 +9,7 @@ type Event struct {
 	Idx                     int64     `gorm:"column:idx" json:"idx,omitempty"`                          // 项目排序
 	Name                    string    `gorm:"column:name" json:"name,omitempty"`                        // 项目名
 	OtherNames              string    `gorm:"column:other_name" json:"otherNames,omitempty"`            // 其他名称
+	Cn                      string    `gorm:"column:cn" json:"cn,omitempty"`                            // 中文名
 	Class                   string    `gorm:"column:class" json:"class,omitempty"`                      // 分类
 	IsComp                  bool      `gorm:"column:is_comp" json:"isComp,omitempty"`                   // 比赛项目
 	Icon                    string    `gorm:"column:icon" json:"icon,omitempty" table:"-"`              // Icon

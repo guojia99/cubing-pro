@@ -40,3 +40,8 @@ robot:
         - "F98A8BE874C743A626695F4124E42BBE"
   WeChatBot:
     - enable: false
+  CQHttpBot:
+    # CQ请参考 https://docs.go-cqhttp.org/
+    - enable: true
+      address: "http://localhost:15700"
+      post: 16701

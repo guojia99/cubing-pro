@@ -44,7 +44,15 @@ type WeChatBotConfig struct {
 	Enable bool `yaml:"enable"`
 }
 
+type CQHttpBot struct {
+	Prefix  string `yaml:"prefix"`  // 命令头 如 .
+	Address string `yaml:"address"` // http 地址
+	Post    int    `yaml:"post"`    // 反向HTTP地址, 需要robot开启一个地址
+}
+
 type RobotConfig struct {
+	CQHttpBot []CQHttpBot `yaml:"CQHttpBot"` // cq http qq机器人
+
 	QQBot     []QQBotConfig     `yaml:"QQBot"`
 	WeChatBot []WeChatBotConfig `yaml:"WeChatBot"`
 }

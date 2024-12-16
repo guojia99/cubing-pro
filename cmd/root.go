@@ -37,7 +37,7 @@ func NewRootCmd() *cobra.Command {
 		robot.NewCmd(&s),
 		admin.NewCmd(&s),
 		initer.NewCmd(&s),
-		gateway.NewCmd(s),
+		gateway.NewCmd(&s),
 	)
 	return cmd
 }

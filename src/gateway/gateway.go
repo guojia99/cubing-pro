@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -17,16 +19,16 @@ type Gateway struct {
 	cfg svc.Config
 }
 
-func NewGateway(cfg svc.Config) *Gateway {
+func NewGateway(svc *svc.Svc) *Gateway {
 	return &Gateway{
-		cfg: cfg,
+		cfg: svc.Cfg,
 		api: gin.Default(),
 	}
 }
 
 func (g *Gateway) Run() error {
-	g.api.Static("/dist", g.cfg.Gateway.StaticPath)
 	g.api.NoRoute(g.baseRoute())
+	//g.api.Static("/", g.cfg.Gateway.StaticPath)
 
 	if g.cfg.Gateway.PEM != "" && g.cfg.Gateway.PrivateKey != "" {
 		g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
@@ -43,6 +45,11 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if strings.Contains(ctx.Request.URL.Path, "/v3/cube-api") {
 			proxyApi.ServeHTTP(ctx.Writer, ctx.Request)
+			return
+		}
+		staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
+		if _, err := os.Stat(staticFilePath); err == nil {
+			ctx.File(staticFilePath)
 			return
 		}
 		ctx.File(g.cfg.Gateway.IndexPath)

@@ -24,7 +24,7 @@ type Svc struct {
 	Cov   convenient.ConvenientI
 }
 
-func NewAPISvc(file string) (*Svc, error) {
+func NewAPISvc(file string, job bool) (*Svc, error) {
 	var err error
 	var cfg Config
 	if err = cfg.Load(file); err != nil {
@@ -40,7 +40,7 @@ func NewAPISvc(file string) (*Svc, error) {
 	}
 
 	// todo 多个程序时
-	c.Cov = convenient.NewConvenient(c.DB, true)
+	c.Cov = convenient.NewConvenient(c.DB, job)
 	return c, nil
 }
 

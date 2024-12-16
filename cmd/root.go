@@ -15,11 +15,12 @@ import (
 func NewRootCmd() *cobra.Command {
 	var s *svc.Svc
 	var config string
+	var runJob bool
 	cmd := &cobra.Command{
 		Use:   "cubing-pro",
 		Short: "魔方赛事网",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			s, err = svc.NewAPISvc(config)
+			s, err = svc.NewAPISvc(config, runJob)
 			if err != nil {
 				return err
 			}
@@ -30,6 +31,7 @@ func NewRootCmd() *cobra.Command {
 	}
 	flags := cmd.PersistentFlags()
 	flags.StringVarP(&config, "config", "c", "./etc/server.yaml", "配置文件")
+	flags.BoolVarP(&runJob, "job", "j", false, "运行定时任务")
 	cmd.AddCommand(
 		api.NewCmd(&s),
 		robot.NewCmd(&s),

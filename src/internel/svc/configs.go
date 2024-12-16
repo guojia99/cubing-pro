@@ -9,8 +9,6 @@ import (
 type GlobalConfig struct {
 	Debug       bool        `yaml:"debug"`
 	BaseHost    string      `yaml:"baseHost"`
-	XStaticPath string      `yaml:"xStaticPath"`
-	XFilePath   string      `yaml:"xFilePath"`
 	DB          DBConfig    `yaml:"db"`
 	EmailConfig EmailConfig `yaml:"emailConfig"`
 }
@@ -31,7 +29,7 @@ type GatewayConfig struct {
 	PrivateKey string `yaml:"privateKey"`
 	HttpPort   int    `yaml:"httpPort"`
 	HTTPSPort  int    `yaml:"httpsPort"`
-	HTTPSHost  string `yaml:"HTTPSHost"`
+	HTTPSHost  string `yaml:"httpsHost"`
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
 }

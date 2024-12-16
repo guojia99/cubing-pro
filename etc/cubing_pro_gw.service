@@ -1,0 +1,15 @@
+
+[Unit]
+Description=CubingProGW
+After=rc-local.service
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/bin
+LimitCORE=infinity
+ExecStart=/usr/local/bin/cubing-pro gateway --config /etc/cubing_pro/config.yaml
+RestartSec=1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

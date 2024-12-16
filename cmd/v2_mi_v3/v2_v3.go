@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"log"
 	"reflect"
 	"slices"
@@ -27,8 +28,8 @@ import (
 )
 
 var (
-	v2Db = "root@tcp(127.0.0.1:33306)/mycube2?charset=utf8&parseTime=True&loc=Local"
-	v3Db = "root@tcp(127.0.0.1:33306)/mycube3?charset=utf8&parseTime=True&loc=Local"
+	v2Db = "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
+	v3Db = "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
 )
 
 // 1. 将所有的数据拉到内存
@@ -118,6 +119,7 @@ func r3ClearV3Datas(ctx *Context) (err error) {
 		&competition.Competition{},
 		&competition.Registration{},
 		&competition.CompetitionGroup{},
+		&system.KeyValue{},
 	}
 
 	for _, t := range tables {
@@ -648,6 +650,76 @@ func r7SaveV3Results(ctx *Context) (err error) {
 		return err
 	}
 	return
+}
+
+func r8SetV3Ranking(ctx *Context) error {
+	gaoxiao_list := []string{
+		"2018GUOZ01",
+		"2018XUEZ01",
+		"2019LIUY06",
+		"2017XUZI03",
+		"2023GUXI01",
+		"2021HUAN08",
+		"2023ZHEN26",
+		"2017XUYO01",
+		"2017LIUG02",
+		"2024ZHAN08",
+		"2024LUOW02",
+		"2018YINZ03",
+		"2024LURU01",
+		"2019NIJI01",
+		"2024CHEN94",
+		"2017CHEN01",
+		"2017WENQ01",
+		"2016LURU01",
+		"2024TANC03",
+		"2024CHEN90",
+		"2024GUOR02",
+		"2018YIJU01",
+		"2018XUMI06",
+		"2016ZHUR01",
+		"2017XUAN01",
+		"2017LIZH13",
+		"2017YANG87",
+		"2024YANY02",
+		"2023JIAN04",
+		"2024LUYA01",
+		"2016ZHEN08",
+		"2023RENK05",
+		"2018LUOW01",
+		"2016FANB01",
+		"2017DONG13",
+		"2017QUAN22",
+		"2015SHEN07",
+		"2016CHER03",
+		"2019HUAN76",
+		"2024CHEC02",
+		"2018ZHOU59",
+		"2024WANG96",
+		"2019LUOP01",
+		"2019CHEQ05",
+		"2017LIAO01",
+		"2017ZHAO47",
+		"2017HUAN77",
+		"2017XUYI03",
+		"2015XUTI01",
+		"2019SHIH01",
+		"2018HETI02",
+		"2024LUYU05",
+		"2024WANY05",
+		"2024LING08",
+		"2023CHEL09",
+		"2019ZHUH05",
+		"2017CAIZ03",
+		"2017PENG14",
+		"2019SHEN18",
+		"2017SUNN02",
+		"2018LIZH01",
+	}
+
+	system.SetKeyJSONValue(ctx.v3Db, "gd_gao_xiao_list", gaoxiao_list, "")
+	system.SetKeyJSONValue(ctx.v3Db, "diy_rankings", []string{"gd_gao_xiao_list"}, "")
+	return nil
 }
 
 func main() {

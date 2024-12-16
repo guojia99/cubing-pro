@@ -31,6 +31,7 @@ type GatewayConfig struct {
 	PrivateKey string `yaml:"privateKey"`
 	HttpPort   int    `yaml:"httpPort"`
 	HTTPSPort  int    `yaml:"httpsPort"`
+	HTTPSHost  string `yaml:"HTTPSHost"`
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
 }

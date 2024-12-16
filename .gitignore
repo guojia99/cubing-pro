@@ -33,4 +33,5 @@ log
 ./etc/曹神/
 *曹神*
 
-etc/server_local.yaml
+local/server_local.yaml
+local

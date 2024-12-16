@@ -125,19 +125,17 @@ func (c *Competition) UpdateEvent(ev CompetitionEvent) {
 	}
 }
 
-// IsRunningTime 是否在比赛时间段内
+// IsRunningTime 是否在比赛时间段内 todo 验证正确性
 func (c *Competition) IsRunningTime() bool {
 	if c.Status != Running {
 		return false
 	}
-	if time.Since(c.CompStartTime) < 0 {
-		return false
-	}
+	now := time.Now()
+	location := now.Location()
 
-	if time.Since(c.CompEndTime) > 0 {
-		return false
-	}
-	return true
+	start := time.Date(now.Year(), now.Month(), now.Day()-1, 0, 0, 0, 0, location)
+	end := time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, location)
+	return now.After(start) && now.Before(end)
 }
 
 func (c *Competition) CheckRegisterTime() error {

@@ -189,7 +189,6 @@ func r5SaveUser(ctx *Context) (err error) {
 
 		if newUser.Name == "模仿者Wing" || newUser.Name == "小丫鬟" || newUser.Name == "ltc" {
 			newUser.SetAuth(user.AuthOrganizers)
-			newUser.Password = "123456"
 
 			// 创建主办团队
 			var org user.Organizers
@@ -209,7 +208,6 @@ func r5SaveUser(ctx *Context) (err error) {
 					QQGroupUid:   "BF9E9681703B83E5A5626831756E5977,A46A01E1E5F7D3B8980BCDB6FF868717",
 					WechatGroups: "",
 				}
-				newUser.Password = "guojia99"
 			case "ltc":
 				org = user.Organizers{
 					Name:         "魔方联盟LGS",
@@ -223,7 +221,6 @@ func r5SaveUser(ctx *Context) (err error) {
 					QQGroups:   "726509985",
 					QQGroupUid: "8FA08FD9FE7C32ECA924232DD1AFE82A",
 				}
-				newUser.Password = "guojia99"
 			case "小丫鬟":
 				org = user.Organizers{
 					Model:        basemodel.Model{},
@@ -238,7 +235,6 @@ func r5SaveUser(ctx *Context) (err error) {
 					QQGroups:   "563250032,771265976",
 					QQGroupUid: "EF82424EFCF061E0BB923CE58D828442",
 				}
-				newUser.Password = "guojia99"
 			}
 			org.SetUsersCubingID([]string{"2023JIAY01"})
 

@@ -1,10 +1,13 @@
-FROM eclipse-temurin:11-jre-alpine
-ADD TNoodle-WCA-0.15.1.jar TNoodle-WCA.jar
-EXPOSE 2014
-CMD java -jar TNoodle-WCA.jar
+FROM openjdk:18-ea-11-jdk-alpine
 
-# build: docker build -t tnoodle:0.15.1 .
-# run: docker run -d --restart always -p 2014:2014 --name tnoodle tnoodle:0.15.1
+ADD TNoodle-WCA-1.2.2.jar TNoodle-WCA.jar
+
+EXPOSE 2014
+CMD ["java", "-jar", "TNoodle-WCA.jar"]
+# todo 需要用java sdk 11
+
+# build: docker build -t tnoodle:1.2.2 .
+# run: docker run -d --restart always -p 2014:2014 --name tnoodle tnoodle:1.2.2
 
 
 

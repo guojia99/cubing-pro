@@ -16,19 +16,19 @@ func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 		_, _ = app_utils.GenerallyList(
 			ctx, svc.DB, list, app_utils.ListSearchParam{
 				Model:   &competition.Competition{},
-				MaxSize: 100,
+				MaxSize: 0,
 				Query:   "orgId = ?",
 				QueryCons: []interface{}{
 					org.ID,
 				},
 				Select: []string{
-					"str_id", "name", "city",
+					"str_id", "name", "city", "event_min",
 					"genre", "count", "free_p",
 					"comp_start_time", "comp_end_time",
 					"reg_start_time", "reg_end_time",
 					"reg_cancel_dl_time", "reg_restart_time",
 					"orgId", "wca_url", "min_count", "count",
-					"status", "reject_msg",
+					"status", "reject_msg", "is_done",
 				},
 				HasDeleted: true,
 			},

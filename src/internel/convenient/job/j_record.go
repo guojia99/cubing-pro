@@ -32,6 +32,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 			EventId:     r.EventID,
 			EventRoute:  r.EventRoute,
 			ResultId:    r.ID,
+			ResultTime:  r.UpdatedAt,
 			UserId:      r.UserID,
 			CubeId:      r.CubeID,
 			UserName:    r.PersonName,
@@ -42,6 +43,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 			GroupId:     gid,
 		}
 		if best {
+			record.ResultString = r.BestString()
 			if r.EventRoute.RouteMap().Repeatedly {
 				s := r.BestString()
 				record.Repeatedly = &s
@@ -49,6 +51,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 				record.Best = &r.Best
 			}
 		} else {
+			record.ResultString = r.BestAvgString()
 			record.Average = &r.Average
 		}
 		records = append(records, record)
@@ -194,7 +197,7 @@ func (c *RecordUpdateJob) Run() error {
 	}
 
 	// groups
-	var groups []competition.CompertionGroup
+	var groups []competition.CompetitionGroup
 	c.DB.Find(&groups)
 	for _, group := range groups {
 		rs := c.getRecords(fmt.Sprintf("group_id = %d", group.ID), group.ID, result.RecordTypeWithGroup)
@@ -208,7 +211,7 @@ func (c *RecordUpdateJob) Run() error {
 
 	//// base
 	//records := c.getRecords("", result.RecordTypeWithCubingPro)
-	//var groups []competition.CompertionGroup
+	//var groups []competition.CompetitionGroup
 	//
 	//// group
 	//c.DB.Find(&groups)

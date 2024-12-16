@@ -67,15 +67,17 @@ type ApprovalCompReq struct {
 func ApprovalComp(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req ApprovalCompReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := ctx.BindUri(&req); err != nil {
 			return
 		}
+
 		var comp competition.Competition
+
 		if err := svc.DB.First(&comp, "id = ?", req.CompId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return
 		}
+		req.Ok = true
 
 		switch comp.Status {
 		case competition.Reviewing:

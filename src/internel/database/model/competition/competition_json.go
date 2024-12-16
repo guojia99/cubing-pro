@@ -2,6 +2,7 @@ package competition
 
 import (
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -61,16 +62,23 @@ type CompetitionEvent struct {
 }
 
 func (c *CompetitionEvent) CurRunningSchedule(round interface{}, run *bool) (Schedule, error) {
+	var roundNum = -1
+
+	switch data := round.(type) {
+	case string:
+		roundNum, _ = strconv.Atoi(data)
+	}
+
 	for _, schedule := range c.Schedule {
 		if run != nil && schedule.IsRunning != *run {
 			continue
 		}
 
-		if round == "" || round == schedule.Round || round == schedule.RoundNum {
+		if round == schedule.Round || round == schedule.RoundNum || roundNum == schedule.RoundNum || round == "" {
 			return schedule, nil
 		}
 	}
-	return Schedule{}, errors.New("no running schedule found")
+	return Schedule{}, errors.New("没有执行中的轮次")
 }
 
 func (c *CompetitionEvent) UpdateSchedule(round interface{}, schedule Schedule) {

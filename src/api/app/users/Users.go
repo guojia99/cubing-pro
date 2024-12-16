@@ -8,14 +8,14 @@ import (
 )
 
 // todo 热门查询
-func Users(svc *svc.Svc) gin.HandlerFunc {
+func Users(svc *svc.Svc, maxSize int) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		var out []user.User
 		app_utils.GenerallyList(
 			ctx, svc.DB, out, app_utils.ListSearchParam{
 				Model:   &user.User{},
-				MaxSize: 100,
+				MaxSize: maxSize,
 				CanSearchAndLike: []string{
 					"cube_id", "en_name", "name",
 				},

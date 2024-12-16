@@ -137,7 +137,7 @@ var wcaEvents = []event.Event{
 			ID: "sq1",
 		},
 		Name:          "SQ-1",
-		OtherNames:    "sq1;sq",
+		OtherNames:    "sq1;sq;SQ;",
 		Cn:            "SQ1",
 		Class:         "wca",
 		IsComp:        true,
@@ -264,6 +264,20 @@ var wcaEvents = []event.Event{
 }
 
 var otherEvents = []event.Event{
+	{
+		StringIDModel: basemodel.StringIDModel{
+			ID: "fto",
+		},
+		Name:          "FTO",
+		OtherNames:    "fto;八面体;转面八面体",
+		Cn:            "八面体",
+		Class:         "异型",
+		IsComp:        true,
+		Icon:          "",
+		IconBase64:    "",
+		IsWCA:         false,
+		BaseRouteType: event.RouteType5RoundsAvgHT,
+	},
 	{
 		StringIDModel: basemodel.StringIDModel{
 			ID: "333mbf_unlimited",

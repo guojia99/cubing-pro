@@ -65,7 +65,7 @@ type Context struct {
 	V3Users  map[uint]user.User               // 这里用的是v2的Id作为key
 	V3Comps  map[uint]competition.Competition // 原本的比赛ID
 	v3Org    map[string]user.Organizers       // 魔缘 or 盲拧
-	v3Groups map[string]competition.CompertionGroup
+	v3Groups map[string]competition.CompetitionGroup
 }
 
 func r1LoadDb(ctx *Context) (err error) {
@@ -117,7 +117,7 @@ func r3ClearV3Datas(ctx *Context) (err error) {
 		&result.Results{},
 		&competition.Competition{},
 		&competition.Registration{},
-		&competition.CompertionGroup{},
+		&competition.CompetitionGroup{},
 	}
 
 	for _, t := range tables {
@@ -155,7 +155,7 @@ func r4InitV3BaseData(ctx *Context) (err error) {
 func r5SaveUser(ctx *Context) (err error) {
 	ctx.V3Users = make(map[uint]user.User)
 	ctx.v3Org = make(map[string]user.Organizers)
-	ctx.v3Groups = make(map[string]competition.CompertionGroup)
+	ctx.v3Groups = make(map[string]competition.CompetitionGroup)
 	for _, val := range ctx.PlayerList {
 		u := ctx.players[val.ID]
 		usr, _ := ctx.playerUsers[val.ID]
@@ -182,13 +182,16 @@ func r5SaveUser(ctx *Context) (err error) {
 		}
 		if newUser.Name == "嘉吖" {
 			newUser.SetAuth(user.AuthOrganizers, user.AuthAdmin, user.AuthSuperAdmin)
+			newUser.Password = "guojia99"
 		}
+
 		if newUser.Name == "模仿者Wing" || newUser.Name == "小丫鬟" || newUser.Name == "ltc" {
 			newUser.SetAuth(user.AuthOrganizers)
+			newUser.Password = "123456"
 
 			// 创建主办团队
 			var org user.Organizers
-			var groups competition.CompertionGroup
+			var groups competition.CompetitionGroup
 			switch newUser.Name {
 			case "模仿者Wing":
 				org = user.Organizers{
@@ -198,12 +201,13 @@ func r5SaveUser(ctx *Context) (err error) {
 					LeaderID:     newUser.CubeID,
 					Status:       user.Using,
 				}
-				groups = competition.CompertionGroup{
+				groups = competition.CompetitionGroup{
 					Name:         "中国盲拧战队群",
 					QQGroups:     "941777598,942909225",
 					QQGroupUid:   "BF9E9681703B83E5A5626831756E5977,A46A01E1E5F7D3B8980BCDB6FF868717",
 					WechatGroups: "",
 				}
+				newUser.Password = "guojia99"
 			case "ltc":
 				org = user.Organizers{
 					Name:         "魔方联盟LGS",
@@ -212,11 +216,12 @@ func r5SaveUser(ctx *Context) (err error) {
 					LeaderID:     newUser.CubeID,
 					Status:       user.Using,
 				}
-				groups = competition.CompertionGroup{
+				groups = competition.CompetitionGroup{
 					Name:       "魔方联盟LGS群",
 					QQGroups:   "726509985",
 					QQGroupUid: "8FA08FD9FE7C32ECA924232DD1AFE82A",
 				}
+				newUser.Password = "guojia99"
 			case "小丫鬟":
 				org = user.Organizers{
 					Model:        basemodel.Model{},
@@ -226,15 +231,19 @@ func r5SaveUser(ctx *Context) (err error) {
 					LeaderID:     newUser.CubeID,
 					Status:       user.Using,
 				}
-				groups = competition.CompertionGroup{
+				groups = competition.CompetitionGroup{
 					Name:       "魔缘群",
-					QQGroups:   "563250032",
+					QQGroups:   "563250032,771265976",
 					QQGroupUid: "EF82424EFCF061E0BB923CE58D828442",
 				}
+				newUser.Password = "guojia99"
 			}
+			org.SetUsersCubingID([]string{"2023JIAY01"})
+
 			if err = ctx.v3Db.Create(&org).Error; err != nil {
 				return err
 			}
+			groups.OrganizersID = org.ID
 			if err = ctx.v3Db.Create(&groups).Error; err != nil {
 				return err
 			}
@@ -251,6 +260,13 @@ func r5SaveUser(ctx *Context) (err error) {
 }
 
 func _cutBfGroupRound(ctx *Context, in string) (ev event.Event, groupNum int) {
+	//switch in {
+	//case "333bf", "444bf", "555bf", "333mbf":
+	//	ev = ctx.V3events[in]
+	//	groupNum = 1
+	//	return
+	//}
+
 	cut0, cut1 := in[:len(in)-1], string(in[len(in)-1])
 	groupNum, _ = strconv.Atoi(cut1)
 
@@ -263,6 +279,8 @@ func _cutBfGroupRound(ctx *Context, in string) (ev event.Event, groupNum int) {
 		ev = ctx.V3events["555bf"]
 	case "3mbf":
 		ev = ctx.V3events["333mbf"]
+	default:
+		groupNum = -1
 	}
 	return
 }
@@ -281,6 +299,35 @@ func _resetRoundName(roundName string) string {
 		return "决赛"
 	}
 	return roundName
+}
+
+var getRoundNewNameKey = func() map[int][]string {
+	out := map[int][]string{
+		1: {"决赛"},
+		2: {"初赛", "决赛"},
+		3: {"初赛", "复赛 ", "决赛"},
+		4: {"初赛", "复赛 ", "半决赛", "决赛"},
+		//5: {"初赛", "复赛第1轮", "复赛第2轮", "半决赛", "决赛"},
+		//6: {"初赛", "复赛第1轮", "复赛第2轮", "复赛第3轮", "半决赛", "决赛"},
+		//7: {"初赛", "复赛第1轮", "复赛第2轮", "复赛第3轮", "复赛第4轮", "半决赛", "决赛"},
+	}
+
+	for i := 5; i <= 24; i++ {
+		n := i - 3
+
+		l := []string{"初赛"}
+		for j := 0; j < n; j++ {
+			l = append(l, fmt.Sprintf("复赛第%d轮", j+1))
+		}
+		l = append(l, "半决赛")
+		l = append(l, "决赛")
+		out[i] = l
+	}
+	return out
+}()
+
+func getRoundNewName(maxRoundNum int, curNum int) string {
+	return getRoundNewNameKey[maxRoundNum][curNum-1]
 }
 
 func r6SaveV3CompetitionData(ctx *Context) (err error) {
@@ -303,6 +350,15 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 		ctx.v2Db.Model(&types.Score{}).Where("contest_id = ?", c.ID).Count(&count)
 		if count == 0 {
 			continue
+		}
+
+		inThisBf := []string{
+			"333bf", "444bf", "555bf", "333mbf",
+			"3bf1", "3bf2", "3bf3", "3bf4", "3bf5", "3bf6", "3bf7",
+			"4bf1", "4bf2", "4bf3", "4bf4",
+			"4bf1", "4bf2", "4bf3", "4bf4",
+			"3mbf1", "3mbf2", "3mbf3", "3mbf4",
+			"333mbf_unlimited",
 		}
 
 		newComp := competition.Competition{
@@ -344,20 +400,46 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 		}
 		var events = make(map[string]competition.CompetitionEvent)
 
+		bfKey := make(map[string]int)
+		curBfKey := make(map[string]int)
+		for _, roundNum := range roundNums {
+			round := ctx.rounds[roundNum]
+			if !strings.Contains(round.Project, "bf") {
+				continue
+			}
+			if !slices.Contains(inThisBf, round.Project) {
+				continue
+			}
+
+			ev, _ := _cutBfGroupRound(ctx, round.Project)
+			if ev.Name == "" {
+				ev = ctx.V3events[round.Project]
+			}
+			if _, ok := bfKey[ev.Name]; !ok {
+				bfKey[ev.Name] = 0
+				curBfKey[ev.Name] = 1
+			}
+			bfKey[ev.Name] += 1
+		}
+
 		for _, roundNum := range roundNums {
 			round := ctx.rounds[roundNum]
 
 			var ev event.Event
-			switch key {
-			case "中国盲拧战队":
-				ev, round.Number = _cutBfGroupRound(ctx, round.Project)
-			default:
+			if strings.Contains(round.Project, "bf") && slices.Contains(inThisBf, round.Project) {
+				ev, _ = _cutBfGroupRound(ctx, round.Project)
+				if ev.Name == "" {
+					ev = ctx.V3events[round.Project]
+				}
+				round.Number = curBfKey[ev.Name]
+				curBfKey[ev.Name] += 1
+			} else {
 				var ok bool
-				ev, ok = ctx.V3events[round.Project]
-				if !ok {
+				if ev, ok = ctx.V3events[round.Project]; !ok {
 					continue
 				}
 			}
+
 			var cEvent = competition.CompetitionEvent{
 				EventName:         ev.Name,
 				EventID:           ev.ID,
@@ -372,22 +454,39 @@ func r6SaveV3CompetitionData(ctx *Context) (err error) {
 			if evs, ok := events[ev.ID]; ok {
 				cEvent = evs
 			}
-			cEvent.Schedule = append(
-				cEvent.Schedule,
-				competition.Schedule{
-					Round:           _resetRoundName(round.Name),
-					Event:           ev.Name,
-					IsComp:          ev.IsComp,
-					StartTime:       newComp.CompStartTime,
-					EndTime:         newComp.CompEndTime,
-					ActualStartTime: newComp.CompStartTime,
-					ActualEndTime:   newComp.CompEndTime,
-					RoundNum:        round.Number,
-					IsRunning:       false,
-				},
-			)
+			schedule := competition.Schedule{
+				Round:               _resetRoundName(round.Name),
+				Stage:               "",
+				Event:               ev.Name,
+				IsComp:              ev.IsComp,
+				StartTime:           newComp.CompStartTime,
+				EndTime:             newComp.CompEndTime,
+				Format:              "",
+				Competitors:         0,
+				ActualStartTime:     newComp.CompStartTime,
+				ActualEndTime:       newComp.CompEndTime,
+				NoRestrictions:      false,
+				Cutoff:              0,
+				CutoffNumber:        0,
+				TimeLimit:           0,
+				RoundNum:            round.Number,
+				IsRunning:           false,
+				FirstRound:          false,
+				FinalRound:          false,
+				AdvancedToThisRound: nil,
+			}
+			round.Name = _resetRoundName(round.Name)
+			if strings.Contains(round.Project, "bf") {
+				//fmt.Printf("===> \n %+v \n %+v %+v\n", round, curBfKey, bfKey)
+				schedule.Round = getRoundNewName(bfKey[ev.Name], round.Number)
+				round.Name = schedule.Round
+			}
+
+			ctx.rounds[roundNum] = round
+			cEvent.Schedule = append(cEvent.Schedule, schedule)
 			events[ev.ID] = cEvent
 		}
+
 		for _, ev := range events {
 			newComp.CompJSON.Events = append(newComp.CompJSON.Events, ev)
 		}
@@ -442,6 +541,14 @@ func r7SaveV3Results(ctx *Context) (err error) {
 	var regs = make(map[string]competition.Registration)
 	var results []result.Results
 
+	var resultMap = make(map[string]struct{}) // key => {compID}-{UserID}-{EventID}-{roundNum}
+
+	sort.Slice(ctx.scoresList, func(i, j int) bool {
+		ri := ctx.rounds[ctx.scoresList[i].RouteID]
+		rj := ctx.rounds[ctx.scoresList[j].RouteID]
+		return ri.Number <= rj.Number
+	})
+	continueResult := 0
 	for _, score := range ctx.scoresList {
 		ev, number, err := _getResultEv(ctx, score.Project)
 		if err != nil {
@@ -453,11 +560,22 @@ func r7SaveV3Results(ctx *Context) (err error) {
 			round.Number = number
 		}
 
+		if round.Number != 1 {
+			lastResultKey := fmt.Sprintf("%d-%d-%s-%d", ctx.V3Comps[score.ContestID].ID, ctx.V3Users[score.PlayerID].ID,
+				ev.ID, round.Number-1)
+			if _, ok := resultMap[lastResultKey]; !ok {
+				fmt.Printf("[%d]%s - %s %s上一轮 %d 不存在, 跳过该成绩\n", continueResult, ctx.V3Users[score.PlayerID].Name, ctx.V3Comps[score.ContestID].Name, ev.Name, round.Number-1)
+				continueResult += 1
+				continue
+			}
+		}
+
 		// 确认是否已经加过比赛
 		key := fmt.Sprintf("%d-%d", score.PlayerID, score.ContestID)
 		reg, ok := regs[key]
 		if !ok {
 			reg = competition.Registration{
+				Model:            basemodel.Model{},
 				CompID:           ctx.V3Comps[score.ContestID].ID,
 				CompName:         ctx.V3Comps[score.ContestID].Name,
 				UserID:           ctx.V3Users[score.PlayerID].ID,
@@ -465,10 +583,9 @@ func r7SaveV3Results(ctx *Context) (err error) {
 				Status:           competition.RegisterStatusPass,
 				RegistrationTime: score.CreatedAt,
 				AcceptationTime:  utils.PtrTime(score.CreatedAt),
-				Events:           "",
 			}
 		}
-		reg.Events += fmt.Sprintf(",%s", ev.ID)
+		reg.SetEvent(score.Project)
 		regs[key] = reg
 
 		// 添加比赛成绩
@@ -479,7 +596,7 @@ func r7SaveV3Results(ctx *Context) (err error) {
 			},
 			CompetitionID:   score.ContestID,
 			CompetitionName: ctx.V3Comps[score.ContestID].Name,
-			Round:           _resetRoundName(round.Name),
+			Round:           round.Name,
 			RoundNumber:     round.Number,
 			PersonName:      ctx.V3Users[score.PlayerID].Name,
 			UserID:          ctx.V3Users[score.PlayerID].ID,
@@ -499,7 +616,9 @@ func r7SaveV3Results(ctx *Context) (err error) {
 			newResult.EventID = "333mbf_unlimited"
 		}
 
+		resultKey := fmt.Sprintf("%d-%d-%s-%d", newResult.CompetitionID, newResult.UserID, newResult.EventID, newResult.RoundNumber)
 		results = append(results, newResult)
+		resultMap[resultKey] = struct{}{}
 	}
 
 	for i := 0; i < len(results); i += 100 {
@@ -515,7 +634,7 @@ func r7SaveV3Results(ctx *Context) (err error) {
 
 	var regList []competition.Registration
 	for _, reg := range regs {
-		s := strings.Split(reg.Events, ",")
+		s := reg.EventsList()
 		s = slices.DeleteFunc(s, func(s string) bool { return !(s != " " && s != "") })
 		s = utils.RemoveRepeatedElement(s)
 

@@ -30,15 +30,32 @@ type Sender struct {
 	Title    string `json:"title"`
 }
 
+type MessageData struct {
+	Text string `json:"text,omitempty"`
+	QQ   int64  `json:"qq,omitempty"`
+	File string `json:"file,omitempty"`
+	Type string `json:"type,omitempty"` // flash 闪图， show 秀图 可以不用
+
+	//0	正常图片
+	//1	表情包, 在客户端会被分类到表情包图片并缩放显示
+	//2	热图
+	//3	斗图
+	//4	智图?
+	//7	贴图
+	//8	自拍
+	//9	贴图广告?
+	//13 热搜图
+	SubType int `json:"subType,omitempty"`
+}
+
 type Message struct {
-	Data struct {
-		Text string `json:"text"`
-	}
-	Type string `json:"type"`
+	Data MessageData `json:"data"`
+	Type string      `json:"type"`
 }
 
 type CqInMessage struct {
 	MessageType MessageType `json:"message_type"`
+	SelfID      int64       `json:"self_id"` // 自己的ID
 	SubType     SubType     `json:"sub_type"`
 	MessageId   int32       `json:"message_id"`
 	UserId      int64       `json:"user_id"` // QQ
@@ -49,4 +66,12 @@ type CqInMessage struct {
 	Sender      Sender      `json:"sender"`
 
 	MetaEventType string `json:"meta_event_type"`
+}
+
+type CQSendMessage struct {
+	GroupId int64 `json:"group_id"`
+	//QQId       int    `json:"-"`
+	//Image      string `json:"-"`
+	Message    []Message `json:"message"`
+	AutoEscape bool      `json:"auto_escape"`
 }

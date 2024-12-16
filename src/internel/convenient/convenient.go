@@ -51,7 +51,7 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 	_ = db.AutoMigrate(&competition.Competition{})                 // 比赛表
 	_ = db.AutoMigrate(&competition.Registration{})                // 比赛注册表
 	_ = db.AutoMigrate(&competition.AssCompetitionSponsorsUsers{}) // 比赛相关主办代表关联表
-	_ = db.AutoMigrate(&competition.CompertionGroup{})             // 比赛群组表
+	_ = db.AutoMigrate(&competition.CompetitionGroup{})            // 比赛群组表
 
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表
@@ -65,6 +65,7 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 		Jobs: []job.Job{
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
 			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
+			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 60},
 		},
 	}
 

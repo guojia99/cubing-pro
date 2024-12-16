@@ -55,13 +55,12 @@ func ApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
 		// 判断选手是否已经审核完成
 		res, err := checkAndAddPlayerResult(
 			ctx, svc, AddCompResultReq{
-				CompReq: CompReq{CompId: comp.ID},
-				RegId:   req.RegId,
-				Results: pre.Result,
-				UserId:  pre.UserID,
-				Round:   pre.Round,
-				EventID: pre.EventID,
-				Penalty: pre.Penalty,
+				CompReq:  CompReq{CompId: comp.ID},
+				Results:  pre.Result,
+				CubeID:   pre.CubeID,
+				RoundNum: pre.RoundNumber,
+				EventID:  pre.EventID,
+				Penalty:  pre.Penalty,
 			},
 		)
 		if err != nil {

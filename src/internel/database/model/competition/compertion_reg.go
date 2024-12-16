@@ -1,6 +1,7 @@
 package competition
 
 import (
+	"slices"
 	"time"
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
@@ -38,7 +39,19 @@ type Registration struct {
 	PaymentsJSON string    `gorm:"column:payments" json:"-"` // []Event JSON
 }
 
-func (c Registration) EventsList() []string {
+func (c *Registration) SetEvent(event string) {
+
+	list := c.EventsList()
+	if slices.Contains(list, event) {
+		return
+	}
+
+	list = append(list, event)
+	c.Events, _ = jsoniter.MarshalToString(list)
+	return
+}
+
+func (c *Registration) EventsList() []string {
 	var out []string
 	_ = jsoniter.UnmarshalFromString(c.Events, &out)
 	return out

@@ -10,5 +10,9 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		&TryPlugin{Svc: svc},
 		&CompsPlugin{Svc: svc},
 		&PlayerPlugin{Svc: svc},
+		&RecordPlugin{Svc: svc},
+		&RankPlugin{Svc: svc},
+		&PreResultPlugin{Svc: svc},
+		&PersonValPlugin{Svc: svc},
 	}
 }

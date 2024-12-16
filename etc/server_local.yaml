@@ -1,3 +1,7 @@
+log:
+  path: "./log"
+  maxSize: 128
+
 global:
   baseHost: "http://127.0.0.1"
   #  baseHost: https://cubing.pro
@@ -19,18 +23,22 @@ global:
     password: "apxdjlwmfkxjdhff"
 
 
-apiGateway:
+gateway:
   pem: "/https/cube-cert.pem"
   privateKey: "/https/cube-privatekey.key"
-  host: "localhost"
-  port: 80
-  apiPort: 20000
-  httpsPort: 443
-  staticPath: "./static" # 系统资源文件
-  assetsPath: "./assets" # 其他静态资源文件
+  httpPort: 20080
+  httpsPort: 20443
   indexPath: "/build/index.html" # 前端启动文件
 
+api:
+  host: "0.0.0.0"
+  port: 20000
+  staticPath: "./static" # 系统资源文件
+  assetsPath: "./assets" # 其他静态资源文件
+
+
 robot:
+  personValPath: "/home/guojia/worker/code/cube/cubing-pro/static/personValPath"
   QQBot:
     - group: true
       enable: true

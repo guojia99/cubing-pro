@@ -17,12 +17,12 @@ type API struct {
 }
 
 func NewAPI(svc *svc.Svc) *API {
-	if svc.Cfg.APIGatewayConfig.StaticPath != "" {
-		_ = os.MkdirAll(svc.Cfg.APIGatewayConfig.StaticPath, os.ModePerm)
+	if svc.Cfg.APIConfig.StaticPath != "" {
+		_ = os.MkdirAll(svc.Cfg.APIConfig.StaticPath, os.ModePerm)
 	}
-	if svc.Cfg.APIGatewayConfig.AssetsPath != "" {
-		_ = os.MkdirAll(svc.Cfg.APIGatewayConfig.AssetsPath, os.ModePerm)
-	}
+	//if svc.Cfg.APIConfig.AssetsPath != "" {
+	//	_ = os.MkdirAll(svc.Cfg.APIConfig.AssetsPath, os.ModePerm)
+	//}
 
 	a := &API{
 		Svc:    svc,
@@ -34,6 +34,7 @@ func NewAPI(svc *svc.Svc) *API {
 		gin.Recovery(),
 		middleware.CorsMiddleware(),
 	)
+	//a.engine.RedirectTrailingSlash = false
 	//gin.SetMode(gin.ReleaseMode)
 
 	// init middleware
@@ -54,7 +55,7 @@ func NewAPI(svc *svc.Svc) *API {
 	routes.PublicRouters(group, svc)
 	routes.StaticRouters(group, svc)
 
-	group.Static("/assets", svc.Cfg.APIGatewayConfig.AssetsPath)
+	//group.Static("/assets", svc.Cfg.APIConfig.AssetsPath)
 	return a
 }
 

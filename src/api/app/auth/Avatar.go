@@ -26,7 +26,7 @@ type UpdateAvatarReq struct {
 }
 
 func UpdateAvatar(svc *svc.Svc) gin.HandlerFunc {
-	avatarPath := path.Join(svc.Cfg.APIGatewayConfig.StaticPath, "avatar")
+	avatarPath := path.Join(svc.Cfg.APIConfig.StaticPath, "avatar")
 	_ = os.MkdirAll(avatarPath, os.ModePerm)
 
 	return func(ctx *gin.Context) {

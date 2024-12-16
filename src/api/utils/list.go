@@ -3,6 +3,7 @@ package app_utils
 import (
 	"fmt"
 	"slices"
+	"sort"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,8 @@ type ListSearchParam struct {
 	Select           []string // 所需字段
 	HasDeleted       bool     // 包含删除的行
 	NotAutoResp      bool     //  自动封装消息
+
+	SortFn func(i, j int) bool // 排序函数
 }
 
 //PrintSlice[T any](s []T)
@@ -132,6 +135,10 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 		return
 	}
 
+	if param.SortFn != nil {
+		sort.Slice(dest, param.SortFn)
+	}
+
 	if !param.NotAutoResp {
 		exception.ResponseOK(
 			ctx, GenerallyListResp{
@@ -140,5 +147,6 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 			},
 		)
 	}
+
 	return dest, err
 }

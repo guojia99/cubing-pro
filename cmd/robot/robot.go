@@ -7,24 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmd() *cobra.Command {
-	var config string
-
+func NewCmd(svc **svc2.Svc) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "robot",
-		Short: "魔方赛事网Robot",
+		Short: "魔方赛事网Robot, 单独开启机器人服务",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			svc, err := svc2.NewAPISvc(config)
-			if err != nil {
-				return err
-			}
-			robot := robot2.NewRobot(svc)
+			robot := robot2.NewRobot(*svc)
 			fmt.Println("开始启动Robot")
 			return robot.Run(cmd.Context())
 		},
 	}
-	flags := cmd.Flags()
-	flags.StringVarP(&config, "config", "c", "./etc/server.yaml", "配置文件")
-
 	return cmd
 }

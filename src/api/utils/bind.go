@@ -7,22 +7,15 @@ import (
 
 func BindAll(ctx *gin.Context, req interface{}) (err error) {
 	defer func() {
-		if err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		if err := recover(); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err.(error))
+			return
 		}
 	}()
 
-	if err = ctx.BindUri(req); err != nil {
-		return err
-	}
-	//if err = ctx.BindHeader(req); err != nil {
-	//	return err
-	//}
-	if err = ctx.BindQuery(req); err != nil {
-		return err
-	}
-	if err = ctx.Bind(req); err != nil {
-		return err
-	}
-	return nil
+	_ = ctx.BindUri(req)
+	_ = ctx.BindQuery(req)
+	_ = ctx.Bind(req)
+
+	return
 }

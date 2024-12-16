@@ -3,7 +3,10 @@ package result
 import (
 	"fmt"
 	"math"
+	"regexp"
 	"sort"
+	"strconv"
+	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 )
@@ -246,11 +249,10 @@ func SortResultWithBest(in []Results) {
 	in[0].Rank = 1
 	prev := in[0]
 	for i := 1; i < len(in); i++ {
-
 		if (rom.Repeatedly && in[i].EqualRepeatedly(prev)) || (!rom.Repeatedly && in[i].Best == prev.Best) {
 			in[i].Rank = prev.Rank
 		} else {
-			in[i].Rank = prev.Rank + 1
+			in[i].Rank = i + 1
 		}
 		prev = in[i]
 	}
@@ -272,7 +274,7 @@ func SortResultWithAvg(in []Results) {
 		if in[i].Average == prev.Average {
 			in[i].Rank = prev.Rank
 		} else {
-			in[i].Rank = prev.Rank + 1
+			in[i].Rank = i + 1
 		}
 		prev = in[i]
 	}
@@ -280,7 +282,12 @@ func SortResultWithAvg(in []Results) {
 }
 
 func SortResult(in []Results) {
-	if len(in) <= 1 {
+	if len(in) == 0 {
+		return
+	}
+
+	if len(in) == 1 {
+		in[0].Rank = 1
 		return
 	}
 
@@ -302,7 +309,7 @@ func SortResult(in []Results) {
 				in[i].Rank = prev.Rank
 				continue
 			}
-			in[i].Rank = i
+			in[i].Rank = i + 1
 			prev = in[i]
 			continue
 		}
@@ -312,12 +319,45 @@ func SortResult(in []Results) {
 			in[i].Rank = prev.Rank
 			continue
 		}
-		in[i].Rank = i
+		in[i].Rank = i + 1
 		prev = in[i]
 	}
 }
 
-func TimeParser(in float64) string {
+func TimeParserS2F(t string) float64 {
+	if t == "DNF" || strings.ContainsAny(t, "dD") {
+		return DNF
+	}
+	if t == "DNS" || strings.Contains(t, "s") {
+		return DNS
+	}
+	// 解析纯秒数格式
+	if regexp.MustCompile(`^\d+(\.\d+)?$`).MatchString(t) {
+		seconds, _ := strconv.ParseFloat(t, 64)
+		return seconds
+	}
+
+	// 解析分+秒格式
+	if regexp.MustCompile(`^\d{1,3}:\d{1,3}(\.\d+)?$`).MatchString(t) {
+		parts := strings.Split(t, ":")
+		minutes, _ := strconv.ParseFloat(parts[0], 64)
+		seconds, _ := strconv.ParseFloat(parts[1], 64)
+		return minutes*60 + seconds
+	}
+
+	// 解析时+分+秒格式
+	if regexp.MustCompile(`^\d{1,3}:\d{1,3}:\d{1,3}(\.\d+)?$`).MatchString(t) {
+		parts := strings.Split(t, ":")
+		hours, _ := strconv.ParseFloat(parts[0], 64)
+		minutes, _ := strconv.ParseFloat(parts[1], 64)
+		seconds, _ := strconv.ParseFloat(parts[2], 64)
+		return hours*3600 + minutes*60 + seconds
+	}
+
+	return DNF
+}
+
+func TimeParserF2S(in float64) string {
 
 	switch in {
 	case DNF:
@@ -357,17 +397,20 @@ func (c *Results) bestString() string {
 		return ""
 	}
 	if c.EventRoute.RouteMap().Repeatedly {
-		return fmt.Sprintf("%d/%d %s", int(c.BestRepeatedlyReduction), int(c.BestRepeatedlyTry), TimeParser(c.BestRepeatedlyTime))
+		return fmt.Sprintf("%d/%d %s", int(c.BestRepeatedlyReduction), int(c.BestRepeatedlyTry), TimeParserF2S(c.BestRepeatedlyTime))
 	}
 	if c.EventRoute.RouteMap().Integer {
 		return fmt.Sprintf("%d", int(c.Best))
 	}
-	return TimeParser(c.Best)
+	return TimeParserF2S(c.Best)
 }
 
 func (c *Results) bestAvgString() string {
 	if c.DAvg() {
 		return ""
 	}
-	return TimeParser(c.Average)
+	if c.EventRoute.RouteMap().Repeatedly {
+		return ""
+	}
+	return TimeParserF2S(c.Average)
 }

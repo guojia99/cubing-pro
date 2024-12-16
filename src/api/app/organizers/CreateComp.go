@@ -1,6 +1,7 @@
 package organizers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -9,10 +10,28 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"time"
 )
 
 type CreateCompReq struct {
-	competition.Competition
+	Name  string `json:"Name"`
+	StrId string `json:"StrId"`
+
+	Illustrate         string                      `json:"Illustrate"`
+	IllustrateHTML     string                      `json:"IllustrateHTML"`
+	Location           string                      `json:"Location"`
+	Country            string                      `json:"Country"`
+	City               string                      `json:"City"`
+	RuleMD             string                      `json:"RuleMD"`
+	RuleHTML           string                      `json:"RuleHTML"`
+	CompJSON           competition.CompetitionJson `json:"CompJSON"`
+	Genre              competition.Genre           `json:"genre"`
+	Count              int64                       `json:"Count"`
+	CanPreResult       bool                        `json:"CanPreResult"`
+	CompStartTime      time.Time                   `json:"CompStartTime"`
+	CompEndTime        time.Time                   `json:"CompEndTime"`
+	GroupID            uint                        `json:"GroupID"`
+	CanStartedAddEvent bool                        `json:"CanStartedAddEvent"`
 
 	Apply bool `json:"Apply"`
 }
@@ -26,20 +45,35 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		// 处理状态
-		req.Competition.OrganizersID = org.ID
-		req.Competition.Status = competition.Temporary
+		comps := competition.Competition{
+			StrId:              req.StrId,
+			Status:             competition.Reviewing,
+			Name:               req.Name,
+			Illustrate:         req.Illustrate,
+			IllustrateHTML:     req.IllustrateHTML,
+			Location:           req.Location,
+			Country:            req.Country,
+			City:               req.City,
+			RuleMD:             req.RuleMD,
+			RuleHTML:           req.RuleHTML,
+			CompJSON:           req.CompJSON,
+			Genre:              competition.OnlineInformal,
+			Count:              req.Count,
+			CanPreResult:       true,
+			CanStartedAddEvent: req.CanStartedAddEvent,
+			CompStartTime:      req.CompStartTime,
+			CompEndTime:        req.CompEndTime,
+			OrganizersID:       org.ID,
+			GroupID:            req.GroupID,
+		}
 		if req.Apply {
-			req.Competition.Status = competition.Reviewing
-			// todo 发邮件
+			comps.Status = competition.Reviewing
 		}
-
-		// 其他
-		if req.Competition.StrId == "" {
-			req.Competition.StrId = utils.RandomString(32)
+		if comps.StrId == "" {
+			comps.StrId = utils.RandomString(32)
 		}
-
-		if err := svc.DB.Create(&req.Competition).Error; err != nil {
+		fmt.Printf("%+v\n", comps)
+		if err := svc.DB.Create(&comps).Error; err != nil {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
 		}

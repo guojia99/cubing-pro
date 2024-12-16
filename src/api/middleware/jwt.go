@@ -43,7 +43,7 @@ func InitJWT(svc *svc.Svc) *Jwt {
 					IdentityHandler: identityHandler(svc),
 					Authorizator:    authorization(svc),
 					Authenticator:   authenticator(svc),
-					TokenLookup:     "header: Authorization, query: token, cookie: jwt",
+					TokenLookup:     "header: Authorization",
 					TokenHeadName:   "Bearer",
 					TimeFunc:        time.Now,
 				},

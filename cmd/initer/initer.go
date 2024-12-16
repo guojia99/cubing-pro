@@ -9,32 +9,22 @@ import (
 	"github.com/guojia99/go-tables/table"
 )
 
-func initDBCmd() *cobra.Command {
-	var config string
-
+func initDBCmd(svc *svc2.Svc) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "event",
 		Short: "初始化数据库 event",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			svc, err := svc2.NewAPISvc(config)
-			if err != nil {
-				return err
-			}
-
-			if err = initEvent(svc.DB); err != nil {
+			if err := initEvent(svc.DB); err != nil {
 				return err
 			}
 			return nil
 		},
 	}
 
-	flags := cmd.Flags()
-	flags.StringVarP(&config, "config", "c", "./etc/server.yaml", "配置文件")
-
 	return cmd
 }
 
-func eventsListCmd() *cobra.Command {
+func eventsListCmd(svc *svc2.Svc) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "event_list",
 		Short: "初始化预设列表",
@@ -47,15 +37,15 @@ func eventsListCmd() *cobra.Command {
 	return cmd
 }
 
-func NewCmd() *cobra.Command {
+func NewCmd(svc **svc2.Svc) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "init",
 		Short: "初始化数据库相关",
 	}
 
 	cmd.AddCommand(
-		initDBCmd(),
-		eventsListCmd(),
+		initDBCmd(*svc),
+		eventsListCmd(*svc),
 	)
 	return cmd
 }

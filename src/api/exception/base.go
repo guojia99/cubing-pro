@@ -39,6 +39,7 @@ func (e ErrorMsg) ResponseWithError(ctx *gin.Context, err interface{}) {
 	if e.HttpCode == 0 {
 		e.HttpCode = http.StatusBadRequest
 	}
+	e.Data = err
 	if err != nil {
 		e.ErrorMsg = err
 		_, file, line, _ := runtime.Caller(1)

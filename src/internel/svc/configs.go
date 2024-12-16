@@ -20,16 +20,19 @@ type DBConfig struct {
 	DSN    string `yaml:"dsn"`
 }
 
-type APIGatewayConfig struct {
-	PEM        string `yaml:"pem"`
-	PrivateKey string `yaml:"privateKey"`
+type APIConfig struct {
 	Host       string `yaml:"host"`
 	Port       int    `yaml:"port"`
-	APIPort    int    `yaml:"apiPort"`
-	HTTPSPort  int    `yaml:"httpsPort"`
-	IndexPath  string `yaml:"indexPath"`
-	AssetsPath string `yaml:"assetsPath"`
 	StaticPath string `yaml:"staticPath"`
+}
+
+type GatewayConfig struct {
+	PEM        string `yaml:"pem"`
+	PrivateKey string `yaml:"privateKey"`
+	HttpPort   int    `yaml:"httpPort"`
+	HTTPSPort  int    `yaml:"httpsPort"`
+	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
+	StaticPath string `yaml:"staticPath"` // 其他静态文件
 }
 
 type QQBotConfig struct {
@@ -51,6 +54,8 @@ type CQHttpBot struct {
 }
 
 type RobotConfig struct {
+	PersonValPath string `yaml:"personValPath"`
+
 	CQHttpBot []CQHttpBot `yaml:"CQHttpBot"` // cq http qq机器人
 
 	QQBot     []QQBotConfig     `yaml:"QQBot"`
@@ -65,10 +70,17 @@ type EmailConfig struct {
 	Password string `yaml:"password"`
 }
 
+type Log struct {
+	Path    string `yaml:"path"`
+	MaxSize int    `yaml:"maxSize"`
+}
+
 type Config struct {
-	GlobalConfig     GlobalConfig     `yaml:"global"`
-	APIGatewayConfig APIGatewayConfig `yaml:"apiGateway"`
-	Robot            RobotConfig      `yaml:"robot"`
+	Log          Log           `yaml:"log"`
+	GlobalConfig GlobalConfig  `yaml:"global"`
+	APIConfig    APIConfig     `yaml:"api"`
+	Robot        RobotConfig   `yaml:"robot"`
+	Gateway      GatewayConfig `yaml:"gateway"`
 }
 
 func (c *Config) Load(file string) error {

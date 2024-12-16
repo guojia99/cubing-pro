@@ -6,10 +6,10 @@ import (
 	organizers2 "github.com/guojia99/cubing-pro/src/api/app/organizers"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
+	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"time"
 )
 
 // 比赛和主办相关路由
@@ -19,12 +19,13 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		"/organizers",
 		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), // 起码是一个玩家才能使用
-		middleware.RateLimitMiddleware(20, time.Second),
+		//middleware.RateLimitMiddleware(20, time.Second),
 	)
 	{
-		organizers.POST("/register", organizers2.RegisterOrganizers(svc))                     // 申请主办团队, 创建主办团队, 如果是管理员自动审核完成
-		organizers.GET("/me", organizers2.MeOrganizers(svc))                                  // 我的主办团队列表, 包含申请中的
-		organizers.GET("/:orgId", org_mid.OrgAuthMiddleware(svc), organizers2.Organizer(svc)) // 获取主办团队信息
+		organizers.POST("/register", organizers2.RegisterOrganizers(svc))                            // 申请主办团队, 创建主办团队, 如果是管理员自动审核完成
+		organizers.GET("/me", organizers2.MeOrganizers(svc))                                         // 我的主办团队列表, 包含申请中的
+		organizers.GET("/:orgId", org_mid.OrgAuthMiddleware(svc), organizers2.Organizer(svc))        // 获取主办团队信息
+		organizers.GET("/:orgId/groups", org_mid.OrgAuthMiddleware(svc), organizers2.GetGroups(svc)) // 获取群组
 	}
 
 	person := organizers.Group(
@@ -46,6 +47,7 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		org_mid.CheckOrgCanUse(),
 	)
 	{
+
 		compR.GET("/", organizers2.OrgCompList(svc)) // 获取比赛列表
 		compR.POST("/", organizers2.CreateComp(svc)) // 创建比赛 [需要提交审批]
 
@@ -58,13 +60,17 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 			compId.POST("/apply", organizers2.ApplyComp(svc)) // 申请比赛
 			compId.DELETE("", organizers2.DeleteComp(svc))    // 删除比赛
 			compId.POST("", organizers2.UpdateComp(svc))      // 更新比赛
+			compId.POST("/end", organizers2.EndComp(svc))     // 结束比赛
 
+			compId.GET("/all_players", users.Users(svc, 0))                               // 临时API， 用于获取所有的选手
 			compId.GET("/players", organizers2.CompPlayers(svc))                          // 比赛选手列表 包含需审核
 			compId.POST("/players/approval/:reg_id", organizers2.CompPlayerApproval(svc)) // 审核报名选手
+
 			//compId.POST("/players", organizers2.AddCompPlayer(svc))                       // 添加比赛选手
 			//compId.DELETE("/players", organizers2.DeleteCompPlayer(svc))                  // 移除比赛选手
 
-			compId.POST("/:reg_id/result", organizers2.AddCompResult(svc))                                // 录入比赛成绩
+			compId.GET("/result", organizers2.GetCompResult(svc))
+			compId.POST("/result", organizers2.AddCompResult(svc))                                        // 录入比赛成绩
 			compId.DELETE("/result/:result_id", organizers2.DeleteCompResult(svc))                        // 删除比赛成绩
 			compId.GET("/pre_results", organizers2.GetCompPlayerPreResult(svc))                           // 获取预录入成绩
 			compId.POST("/pre_results/:result_id/approval", organizers2.ApprovalCompPlayerPreResult(svc)) // 审批预录入成绩

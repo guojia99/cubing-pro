@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -75,4 +77,59 @@ func GetEvents(svc *svc.Svc, EventMin string) []event.Event {
 
 	svc.Cache.Set(key, events, time.Second*60)
 	return events
+}
+
+func GetMessageEvent(evs []event.Event, msg string) (event.Event, string, int, error) {
+	msg = utils.ReplaceAll(msg, "", "-")
+	if len(msg) == 0 {
+		return event.Event{}, "", 0, fmt.Errorf("找不到该项目")
+	}
+
+	split := strings.Split(msg, " ")
+	var ev event.Event
+	var round string
+	if len(split) >= 1 {
+		eStr := split[0]
+		if idx := strings.IndexAny(eStr, "[("); idx >= 0 {
+			round = eStr[idx:]
+			round = utils.ReplaceAll(round, "", "(", "[", "]", ")")
+
+			eStr = eStr[:idx]
+		}
+
+		for _, e := range evs {
+			if len(ev.ID) > 0 {
+				break
+			}
+			if eStr == e.Cn || eStr == e.Name || eStr == e.ID {
+				ev = e
+				break
+			}
+			for _, s := range strings.Split(e.OtherNames, ";") {
+				if s == eStr {
+					ev = e
+					break
+				}
+			}
+		}
+	}
+
+	var num = 1
+	if len(split) >= 2 {
+		nStr := utils.ReplaceAll(split[1], "", "[", "]", "(", ")")
+		n, err := strconv.Atoi(nStr)
+		if err == nil {
+			num = n
+		}
+	}
+
+	if ev.ID == "" {
+		return ev, round, num, fmt.Errorf("找不到项目")
+	}
+
+	if num > 50 {
+		num = 50
+	}
+
+	return ev, round, num, nil
 }

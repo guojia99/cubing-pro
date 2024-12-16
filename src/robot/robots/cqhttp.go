@@ -1,7 +1,9 @@
 package robots
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -25,7 +27,7 @@ func (c *CqHttps) Run(ch chan<- types.InMessage) {
 	c.ch = ch
 	c.api.NoRoute(c.route)
 	err := c.api.Run(fmt.Sprintf("127.0.0.1:%d", c.cfg.Post))
-	fmt.Println(err)
+	logger.Error(err)
 }
 
 func (c *CqHttps) Prefix() string {
@@ -36,10 +38,15 @@ func (c *CqHttps) route(ctx *gin.Context) {
 	var r CqInMessage
 	_ = ctx.Bind(&r)
 	ctx.JSON(http.StatusOK, gin.H{})
+
 	if r.MetaEventType == "heartbeat" {
 		return
 	}
 	if r.MessageType != MessageTypeGroup {
+		return
+	}
+	// 判断是不是艾特自己
+	if r.SelfID == r.UserId {
 		return
 	}
 
@@ -51,10 +58,22 @@ func (c *CqHttps) route(ctx *gin.Context) {
 	}
 
 	for _, v := range r.Message {
-		if v.Type == "text" {
+		switch v.Type {
+		case "text":
 			msg.Message += v.Data.Text
+		case "at":
+			// 解析raw message 是否有艾特自己
+			// [CQ:at,qq=2854216320]
+			atMe := fmt.Sprintf("[CQ:at,qq=%d]", r.SelfID)
+			if v.Data.QQ == r.SelfID ||
+				(strings.Contains(r.RawMessage, "[CQ:at,qq=") && !strings.Contains(r.RawMessage, atMe)) {
+				return
+			}
 		}
 	}
+
+	data, _ := json.Marshal(r)
+	logger.Infof("[Robot] [CQ] 处理消息 %s", string(data))
 
 	msg.Message = strings.TrimPrefix(msg.Message, " ")
 
@@ -64,14 +83,6 @@ func (c *CqHttps) route(ctx *gin.Context) {
 	case c.ch <- msg:
 		return
 	}
-}
-
-type CQSendMessage struct {
-	GroupId    int64  `json:"group_id"`
-	QQId       int    `json:"-"`
-	Image      string `json:"-"`
-	Message    string `json:"message"`
-	AutoEscape bool   `json:"auto_escape"`
 }
 
 func (c *CqHttps) SendMessage(out types.OutMessage) error {
@@ -91,12 +102,43 @@ func (c *CqHttps) SendMessage(out types.OutMessage) error {
 	//if imagePath != "" {
 	//	message += fmt.Sprintf("\n[CQ:image,file=file:///%s]", imagePath)
 	//}
+	//
+	//if out
+
+	msg := CQSendMessage{
+		GroupId:    out.GroupID,
+		Message:    []Message{},
+		AutoEscape: false,
+	}
+
+	for _, v := range out.Message {
+		msg.Message = append(msg.Message, Message{
+			Data: MessageData{
+				Text: v,
+			},
+			Type: "text",
+		})
+	}
+
+	for _, v := range out.Images {
+		msg.Message = append(msg.Message, Message{
+			Data: MessageData{
+				File:    "file://" + v,
+				Type:    "show",
+				SubType: 0,
+			},
+			Type: "image",
+		})
+	}
+
+	// todo 使用CQ码
+
 	_, err := utils.HTTPRequest(
-		"POST", fmt.Sprintf("%s/send_group_msg", c.cfg.Address), nil, nil, CQSendMessage{
-			GroupId:    out.GroupID,
-			Message:    out.Message,
-			AutoEscape: false,
-		},
+		"POST", fmt.Sprintf("%s/send_group_msg", c.cfg.Address), nil, nil, msg,
 	)
+
+	data, _ := json.Marshal(msg)
+	logger.Infof("[Robot][CQ] 发送消息 %s", string(data))
+
 	return err
 }

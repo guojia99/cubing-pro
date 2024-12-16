@@ -81,7 +81,7 @@ func AddPreResults(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
 		}
-		if !schedule.FirstRound && !slices.Contains(schedule.AdvancedToThisRound, user.ID) {
+		if !schedule.FirstRound && !schedule.NoRestrictions && !slices.Contains(schedule.AdvancedToThisRound, user.ID) {
 			exception.ErrResultCreate.ResponseWithError(ctx, "你不在晋级名单中")
 			return
 		}
@@ -103,15 +103,16 @@ func AddPreResults(svc *svc.Svc) gin.HandlerFunc {
 				Model: basemodel.Model{
 					ID: pre.ID,
 				},
-				CompetitionID: comp.ID,
-				Round:         schedule.Round,
-				PersonName:    user.Name,
-				UserID:        user.ID,
-				Result:        req.Results,
-				Penalty:       req.Penalty,
-				EventID:       ev.EventID,
-				EventName:     ev.EventName,
-				EventRoute:    ev.EventRoute,
+				CompetitionID:   comp.ID,
+				CompetitionName: comp.Name,
+				Round:           schedule.Round,
+				PersonName:      user.Name,
+				UserID:          user.ID,
+				Result:          req.Results,
+				Penalty:         req.Penalty,
+				EventID:         ev.EventID,
+				EventName:       ev.EventName,
+				EventRoute:      ev.EventRoute,
 			},
 			CompsName: comp.Name,
 			RoundName: schedule.Round,

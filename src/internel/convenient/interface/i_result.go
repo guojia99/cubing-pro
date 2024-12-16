@@ -22,11 +22,12 @@ type ResultI interface {
 	KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error)
 
 	// 以下都是带缓存的
-	SelectKinChSor(page int, size int, events []event.Event) ([]KinChSorResult, int)
-	SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult)
-	SelectBestResultsWithEventSort() (best map[EventID][]result.Results, avg map[EventID][]result.Results)
-	SelectBestResultsWithEventSortWithPlayer(cubeId string) PlayerBestResult
-	SelectUserResultDetail(cubeId string) UserResultDetail
+	SelectKinChSor(page int, size int, events []event.Event) ([]KinChSorResult, int)                       // 获取sor
+	SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult)                            // 获取一个玩家所有成绩
+	SelectBestResultsWithEventSort() (best map[EventID][]result.Results, avg map[EventID][]result.Results) // 获取所有成绩的排名
+	SelectBestResultsWithEventSortWithPlayer(cubeId string) PlayerBestResult                               // 获取用户最佳成绩
+	SelectUserResultDetail(cubeId string) UserResultDetail                                                 // 获取用户详细成绩信息
+	SelectCompsResult(id uint) map[EventID]map[int][]result.Results                                        // 比赛成绩 map[项目] map[轮次] 成绩列表
 }
 
 type ResultIter struct {
@@ -444,5 +445,35 @@ func (c *ResultIter) SelectUserResultDetail(cubeId string) UserResultDetail {
 	// todo PodiumNum
 	c.Cache.Set("SelectUserResultDetail_", out, time.Minute*15)
 
+	return out
+}
+
+func (c *ResultIter) SelectCompsResult(id uint) map[EventID]map[int][]result.Results {
+	key := "SelectCompsResult_" + fmt.Sprint(id)
+	if value, ok := c.Cache.Get(key); ok {
+		return value.(map[EventID]map[int][]result.Results)
+	}
+
+	var out = make(map[EventID]map[int][]result.Results)
+
+	var results []result.Results
+	c.DB.Where("comp_id = ?", id).Where("ban = ?", false).Find(&results)
+
+	for _, rr := range results {
+		if _, ok := out[rr.EventID]; !ok {
+			out[rr.EventID] = make(map[int][]result.Results)
+		}
+		if _, ok := out[rr.EventID][rr.RoundNumber]; !ok {
+			out[rr.EventID][rr.RoundNumber] = make([]result.Results, 0)
+		}
+		out[rr.EventID][rr.RoundNumber] = append(out[rr.EventID][rr.RoundNumber], rr)
+	}
+	for k, _ := range out {
+		for k2, _ := range out[k] {
+			result.SortResult(out[k][k2])
+		}
+	}
+
+	c.Cache.Set(key, out, time.Minute*15)
 	return out
 }

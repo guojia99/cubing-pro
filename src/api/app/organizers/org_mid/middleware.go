@@ -2,11 +2,9 @@ package org_mid
 
 import (
 	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
-	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -22,7 +20,9 @@ type OrgAuthMiddlewareReq struct {
 func OrgAuthMiddleware(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req OrgAuthMiddlewareReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+
+		if err := ctx.BindUri(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
 		user, err := middleware.GetAuthUser(ctx)
@@ -66,7 +66,7 @@ type CheckCompMiddlewareReq struct {
 func CheckCompMiddleware(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req CheckCompMiddlewareReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		if err := ctx.BindUri(&req); err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}

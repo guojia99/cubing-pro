@@ -36,3 +36,22 @@ func ReplaceAll(s, new string, old ...string) string {
 	}
 	return s
 }
+
+func RemoveEmptyLines(input string) string {
+	// 按照换行符分割字符串，得到每一行
+	lines := strings.Split(input, "\n")
+
+	// 创建一个新的切片，用于存储非空行
+	var nonEmptyLines []string
+
+	// 遍历每一行，去掉完全为空的行
+	for _, line := range lines {
+		// TrimSpace 去除每一行的前后空白字符（包括空格和换行符）
+		if strings.TrimSpace(line) != "" {
+			nonEmptyLines = append(nonEmptyLines, line)
+		}
+	}
+
+	// 将剩下的行重新组合成一个字符串，使用换行符分隔
+	return strings.Join(nonEmptyLines, "\n")
+}

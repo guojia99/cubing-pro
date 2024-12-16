@@ -7,42 +7,64 @@ import (
 	"time"
 )
 
-//type Plugin interface {
-//	ID() []string
-//	Help() string
-//	Do(message InMessage) (OutMessage, error)
-//}
-
 type TryPlugin struct {
 	Svc *svc.Svc
+
+	checkFn map[string]func(message types.InMessage) (*types.OutMessage, error)
 }
 
 var _ types.Plugin = &TryPlugin{}
 
 func (t *TryPlugin) ID() []string {
-	return []string{"try", "测试"}
+	t.init()
+
+	var out []string
+	for key, _ := range t.checkFn {
+		out = append(out, key)
+	}
+	return out
 }
 
 func (t *TryPlugin) Help() string {
 	return "这是一个测试用的指令"
 }
 
+func (t *TryPlugin) init() {
+	t.checkFn = map[string]func(message types.InMessage) (*types.OutMessage, error){
+		"try": t._test, "测试": t._test,
+		"蛋炒饭": t._egg, "一碗蛋炒饭": t._egg, "一碗炒饭": t._egg, "炒饭": t._egg,
+	}
+
+}
+
 func (t *TryPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
-	msg := message.Message
-	msg = RemoveID(msg, t.ID())
-	if len(msg) > 0 {
+	key := message.Message
+	fn, ok := t.checkFn[key]
+	if !ok {
 		return nil, nil
 	}
+	return fn(message)
+}
+
+func (t *TryPlugin) _test(message types.InMessage) (*types.OutMessage, error) {
 	return message.NewOutMessage(fmt.Sprintf(`==================
-	测试: %s
-	时间: %s
-	发送消息人: %s
-	发送群聊: %d
+消息: %s
+消息长度: %d
+时间: %s
+发送消息人: %s
+发送人QQ: %d
+发送群聊: %d
 ==================
 `,
 		message.Message,
+		len(message.Message),
 		time.Now().Local().Format("2006-01-02 15:04:05"),
 		message.Name,
+		message.QQ,
 		message.GroupID,
 	)), nil
+}
+
+func (t *TryPlugin) _egg(message types.InMessage) (*types.OutMessage, error) {
+	return message.NewOutMessage("boom!程序爆炸了!"), nil
 }

@@ -27,29 +27,32 @@ const (
 	Running   CompetitionStatus = "Running"
 	Reject    CompetitionStatus = "Reject"
 	Temporary CompetitionStatus = "Temporary"
+	Ban       CompetitionStatus = "Ban"
 )
 
 type Competition struct {
-	basemodel.Model // 这里的ID需要符合条件
+	basemodel.Model
 
 	StrId     string            `gorm:"column:str_id;null" json:"StrId,omitempty"`
 	Status    CompetitionStatus `gorm:"column:status" json:"Status,omitempty"`
 	RejectMsg string            `gorm:"column:reject_msg;null" json:"RejectMsg,omitempty"`
 
 	// 详情
-	Name         string          `gorm:"column:name" json:"Name,omitempty"`                       // 名称
-	Illustrate   string          `gorm:"column:illustrate;null" json:"Illustrate,omitempty"`      // 详细说明 MD
-	Location     string          `gorm:"column:location;null" json:"Location,omitempty"`          // 地址
-	LocationAddr string          `gorm:"column:location_addr;null" json:"LocationAddr,omitempty"` // 经纬坐标
-	Country      string          `gorm:"column:country;null" json:"Country,omitempty"`            // 地区
-	City         string          `gorm:"column:city;null" json:"City,omitempty"`                  // 城市
-	RuleMD       string          `gorm:"column:rule_md;null" json:"RuleMD,omitempty"`             // 规则
-	CompJSONStr  string          `gorm:"column:comp_json;null" json:"-"`                          // 项目列表JSON
-	CompJSON     CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                            // 项目列表
-	EventMin     string          `gorm:"column:event_min;null" json:"EventMin,omitempty"`         // 项目列表简列 ；隔开
-	Series       string          `gorm:"column:series;null" json:"Series,omitempty"`              // 系列赛
-	Logo         string          `gorm:"column:logo;null" json:"logo,omitempty"`                  // logo
-	IsDone       bool            `gorm:"column:is_done"`                                          // 是否已经结束比赛
+	Name           string          `gorm:"column:name" json:"Name,omitempty"`                           // 名称
+	Illustrate     string          `gorm:"column:illustrate;null" json:"Illustrate,omitempty"`          // 详细说明 MD
+	IllustrateHTML string          `gorm:"column:illustrate_html;null" json:"IllustrateHTML,omitempty"` // 详细说明 HTML
+	Location       string          `gorm:"column:location;null" json:"Location,omitempty"`              // 地址
+	LocationAddr   string          `gorm:"column:location_addr;null" json:"LocationAddr,omitempty"`     // 经纬坐标
+	Country        string          `gorm:"column:country;null" json:"Country,omitempty"`                // 地区
+	City           string          `gorm:"column:city;null" json:"City,omitempty"`                      // 城市
+	RuleMD         string          `gorm:"column:rule_md;null" json:"RuleMD,omitempty"`                 // 规则 MD
+	RuleHTML       string          `gorm:"column:rule_html;null" json:"RuleHTML,omitempty"`             // 规则 HTML
+	CompJSONStr    string          `gorm:"column:comp_json;null" json:"-"`                              // 项目列表JSON
+	CompJSON       CompetitionJson `gorm:"-" json:"comp_json,omitempty"`                                // 项目列表
+	EventMin       string          `gorm:"column:event_min;null" json:"EventMin,omitempty"`             // 项目列表简列 ；隔开
+	Series         string          `gorm:"column:series;null" json:"Series,omitempty"`                  // 系列赛
+	Logo           string          `gorm:"column:logo;null" json:"logo,omitempty"`                      // logo
+	IsDone         bool            `gorm:"column:is_done"`                                              // 是否已经结束比赛
 
 	// 基础限制
 	Genre              Genre `gorm:"column:genre;not null" json:"Genre,omitempty"`                          // 比赛形式

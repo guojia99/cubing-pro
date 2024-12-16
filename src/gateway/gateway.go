@@ -8,8 +8,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"os"
+	"path"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -29,13 +30,9 @@ func NewGateway(svc *svc.Svc) *Gateway {
 func (g *Gateway) Run() error {
 	g.api.NoRoute(g.baseRoute())
 	//g.api.Static("/", g.cfg.Gateway.StaticPath)
-
-	if g.cfg.Gateway.PEM != "" && g.cfg.Gateway.PrivateKey != "" {
-		g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
-		go g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
-			g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey)
-	}
-	return g.api.Run(fmt.Sprintf(":%d", g.cfg.Gateway.HttpPort))
+	g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
+	return g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
+		g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey)
 }
 
 func (g *Gateway) baseRoute() gin.HandlerFunc {
@@ -47,11 +44,14 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 			proxyApi.ServeHTTP(ctx.Writer, ctx.Request)
 			return
 		}
-		staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
-		if _, err := os.Stat(staticFilePath); err == nil {
+
+		ext := path.Ext(ctx.Request.URL.Path)
+		if slices.Contains([]string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico"}, ext) {
+			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
 			ctx.File(staticFilePath)
 			return
 		}
+
 		ctx.File(g.cfg.Gateway.IndexPath)
 	}
 }

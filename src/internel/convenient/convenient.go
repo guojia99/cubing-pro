@@ -2,6 +2,8 @@ package convenient
 
 import (
 	"context"
+	"time"
+
 	"github.com/guojia99/cubing-pro/src/internel/convenient/interface"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
@@ -13,7 +15,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
-	"time"
 )
 
 var _modelList []basemodel.DBModel
@@ -63,9 +64,9 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 		UserIter:        _interface.UserIter{DB: db},
 		ResultIter:      _interface.ResultIter{DB: db, Cache: cache},
 		Jobs: []job.Job{
-			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
+			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 10},
 			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
-			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 60},
+			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 120},
 		},
 	}
 

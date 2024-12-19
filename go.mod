@@ -9,6 +9,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/appleboy/gin-jwt/v2 v2.9.2
 	github.com/donnie4w/go-logger v0.27.0
+	github.com/gin-contrib/gzip v1.0.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/guojia99/go-tables v0.1.3

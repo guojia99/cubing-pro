@@ -223,7 +223,7 @@ func (c *RecordUpdateJob) Run() error {
 
 	// todo 如果GR破了CR，则这个CR也要删除
 
-	fmt.Printf("[Record] update record = %d", len(records))
+	//fmt.Printf("[Record] update record = %d", len(records))
 	if err := c.DB.Unscoped().Where("1 = 1").Delete(&result.Record{}).Error; err != nil {
 		return err
 	}

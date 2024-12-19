@@ -28,7 +28,9 @@ func (jobs Jobs) RunLoop(ctx context.Context) {
 			//if err := job.Run(); err != nil {
 			//	fmt.Printf("[JOB] run job %s error %s\n", job.Name(), err)
 			//}
-
+			if err := job.Run(); err != nil {
+				fmt.Printf("[JOB] run job %s error %s\n", job.Name(), err)
+			}
 			for {
 				select {
 				case <-ctx.Done():

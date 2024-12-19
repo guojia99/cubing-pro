@@ -2,9 +2,6 @@ package gateway
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/unrolled/secure"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -13,6 +10,10 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/unrolled/secure"
 )
 
 type Gateway struct {
@@ -51,7 +52,7 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 			ctx.File(staticFilePath)
 			return
 		}
-
+		ctx.Header("Cache-Control", "public, max-age=2592000")
 		ctx.File(g.cfg.Gateway.IndexPath)
 	}
 }

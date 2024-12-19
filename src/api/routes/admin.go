@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
@@ -11,7 +13,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"time"
 )
 
 func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
@@ -84,8 +85,9 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 用户管理
-	user := admin.Group("/user")
+	user := admin.Group("/users")
 	{
+		user.POST("/", users.AdminUsers(svc))
 		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
 		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码
 	}

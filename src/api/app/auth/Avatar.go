@@ -4,6 +4,12 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
+	"image"
+	"image/jpeg"
+	"image/png"
+	"os"
+	"path"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -12,11 +18,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/nfnt/resize"
-	"image"
-	"image/jpeg"
-	"image/png"
-	"os"
-	"path"
 )
 
 type UpdateAvatarReq struct {
@@ -108,7 +109,7 @@ func UpdateAvatar(svc *svc.Svc) gin.HandlerFunc {
 
 		svc.DB.Save(&imgDB)
 
-		user.Avatar = fmt.Sprintf("/static/image/%s", imgDB.UID)
+		user.Avatar = fmt.Sprintf("/v3/cube-api/static/image/%s", imgDB.UID)
 		svc.DB.Save(&user)
 
 		exception.ResponseOK(ctx, nil)

@@ -29,3 +29,24 @@ func Users(svc *svc.Svc, maxSize int) gin.HandlerFunc {
 		)
 	}
 }
+
+func AdminUsers(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		var out []user.User
+		_, _ = app_utils.GenerallyList(
+			ctx, svc.DB, out, app_utils.ListSearchParam{
+				Model:   &user.User{},
+				MaxSize: 100,
+				CanSearchAndLike: []string{
+					"cube_id", "en_name", "name",
+				},
+				Select: nil,
+			},
+		)
+	}
+}
+
+/*
+
+ */

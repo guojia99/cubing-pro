@@ -2,6 +2,7 @@ package job
 
 import (
 	"fmt"
+
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"gorm.io/gorm"
@@ -118,7 +119,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 						withEventBest[r.EventID] = append(withEventBest[r.EventID], r)
 						return
 					}
-					if r.Best < best.Best {
+					if r.Best <= best.Best {
 						withEventBest[r.EventID] = []result.Results{r}
 					}
 				}()
@@ -140,7 +141,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 					withEventAvg[r.EventID] = append(withEventAvg[r.EventID], r)
 					continue
 				}
-				if r.Average < avg.Average {
+				if r.Average <= avg.Average {
 					withEventAvg[r.EventID] = []result.Results{r}
 				}
 			}
@@ -150,7 +151,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 				// 不存在时
 				// 成绩比以前的好时
 				if b, ok3 := nowBest[key]; !ok3 || (b.EventRoute.RouteMap().Repeatedly && val[0].IsBest(b)) ||
-					(!b.EventRoute.RouteMap().Repeatedly && val[0].Best < b.Best) {
+					(!b.EventRoute.RouteMap().Repeatedly && val[0].Best <= b.Best) {
 					for _, v := range val {
 						addRecord(true, v, comp)
 					}
@@ -161,7 +162,7 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 
 			// 平均成绩
 			for key, val := range withEventAvg {
-				if _, ok3 := nowAvg[key]; !ok3 || val[0].Average < nowAvg[key].Average {
+				if _, ok3 := nowAvg[key]; !ok3 || val[0].Average <= nowAvg[key].Average {
 					for _, v := range val {
 						addRecord(false, v, comp)
 					}

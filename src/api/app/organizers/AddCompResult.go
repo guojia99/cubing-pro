@@ -95,13 +95,25 @@ func checkAndAddPlayerResult(ctx *gin.Context, svc *svc.Svc, req AddCompResultRe
 			return
 		}
 	}
+
+	// 检查上一把是否有成绩
+	var lastRes result.Results
+	if schedule.RoundNum != 1 {
+		err = svc.DB.Where("user_id = ?", usr.ID).Where("comp_id = ?", comp.ID).
+			Where("event_id = ?", ev.EventID).Where("round_number = ?", schedule.RoundNum-1).First(&lastRes).Error
+		if err != nil || lastRes.ID == 0 {
+			err = errors.New("上轮无成绩无法录入")
+			return
+		}
+	}
+
 	req.Results = result.UpdateOrgResult(req.Results, ev.EventRoute, schedule.Cutoff, schedule.CutoffNumber, schedule.TimeLimit)
 	err = svc.DB.Where("user_id = ?", usr.ID).
 		Where("comp_id = ?", comp.ID).
 		Where("event_id = ?", ev.EventID).
 		Where("round_number = ?", schedule.RoundNum).
 		First(&res).Error
-	fmt.Println(res.ID, usr.ID, comp.ID, ev.EventID, req.RoundNum)
+
 	if err != nil || res.ID == 0 {
 		res = result.Results{
 			CompetitionID:   comp.ID,
@@ -138,7 +150,6 @@ func AddCompResult(svc *svc.Svc) gin.HandlerFunc {
 		}
 		_, err := checkAndAddPlayerResult(ctx, svc, req)
 		if err != nil {
-			fmt.Println(err)
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
 		}

@@ -21,16 +21,27 @@ func GetCompResult(svc *svc.Svc) gin.HandlerFunc {
 
 		var results []result.Results
 
-		if err := svc.DB.
+		cubeID := ctx.Query("cube_id")
+		eventID := ctx.Query("event_id")
+
+		if cubeID != "" {
+			svc.DB.Where("comp_id = ?", req.CompId).Where("cube_id = ?", cubeID).Find(&results)
+			exception.ResponseOK(ctx, results)
+			return
+		}
+		var err error
+		err = svc.DB.
 			Where("comp_id = ?", req.CompId).
-			Where("event_id = ?", ctx.Query("event_id")).
+			Where("event_id = ?", eventID).
 			Where("round_number = ?", ctx.Query("round_num")).
-			Find(&results).Error; err != nil {
+			Find(&results).Error
+
+		if err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, "")
 			return
 		}
-
 		result.SortResult(results)
+
 		exception.ResponseOK(ctx, results)
 	}
 }

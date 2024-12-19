@@ -41,11 +41,19 @@ func (e ErrorMsg) ResponseWithError(ctx *gin.Context, err interface{}) {
 	}
 	e.Data = err
 	if err != nil {
-		e.ErrorMsg = err
+		e.ErrorMsg = fmt.Sprintf("%+v", err)
 		_, file, line, _ := runtime.Caller(1)
 		e.Line = fmt.Sprintf("err at %s:%d", file, line)
 	}
-	ctx.AbortWithStatusJSON(e.HttpCode, e)
+	ctx.AbortWithStatusJSON(e.HttpCode, gin.H{
+		"http_code": e.HttpCode,
+		"message":   e.Msg,
+		"error":     e.ErrorMsg,
+		"data":      e.Data,
+		"level":     e.Level,
+		"line":      e.Line,
+		"ref":       e.Ref,
+	})
 }
 
 func (e ErrorMsg) ResponseWithData(ctx *gin.Context, data interface{}, err error) {

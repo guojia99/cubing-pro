@@ -70,14 +70,15 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 	if len(req.Like) > 0 {
 		for key, val := range req.Like {
 			if slices.Contains(param.CanSearchAndLike, key) {
-				searchDB = searchDB.Where(fmt.Sprintf("%s like ?", key), fmt.Sprintf("%%%s%%", val))
+				searchDB = searchDB.Or(fmt.Sprintf("%s like ?", key), fmt.Sprintf("%%%s%%", val))
 			}
 		}
 	}
+
 	if len(req.Search) > 0 {
 		for key, val := range req.Search {
 			if slices.Contains(param.CanSearchAndLike, key) {
-				searchDB = searchDB.Where(fmt.Sprintf("%s = ?", key), val)
+				searchDB = searchDB.Or(fmt.Sprintf("%s = ?", key), val)
 			}
 		}
 	}

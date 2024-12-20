@@ -1,10 +1,11 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"time"
 
 	"github.com/guojia99/cubing-pro/src/api/app/auth"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
@@ -50,7 +51,7 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	)
 	{
 		usr.GET("/auth_rule_list")                  // 规则权限列表
-		usr.POST("/detail")                         // 修改用户信息
+		usr.POST("/detail", auth.UpdateDetail(svc)) // 修改用户信息
 		usr.POST("/avatar", auth.UpdateAvatar(svc)) // 修改用户头像
 	}
 }

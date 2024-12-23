@@ -2,8 +2,11 @@ package auth
 
 import (
 	"fmt"
-	"github.com/guojia99/cubing-pro/src/internel/email"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
@@ -128,10 +131,15 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 		newUser.Hash = string(utils.GenerateRandomKey(time.Now().UnixNano()))
 
 		// 创建用户
+		newUser.LastUpdateNameTime = utils.PtrNow()
 		if err = svc.DB.Save(&newUser).Error; err != nil {
 			exception.ErrRegisterField.ResponseWithError(ctx, err)
 			return
 		}
+
+		svc.DB.Model(&result.Results{}).Where("cube_id = ?", newUser.CubeID).Update("person_name", req.UserName)
+		svc.DB.Model(&competition.Registration{}).Where("user_id = ?", newUser.ID).Update("user_name", req.UserName)
+
 		checker.Use = true
 		svc.DB.Save(&checker)
 

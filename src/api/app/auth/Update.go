@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -44,9 +45,10 @@ func UpdateDetail(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		if updateName {
-			svc.DB.Model(&result.Results{}).Where("cube_id = ?", user.CubeID).Update("person_name", req.Name)
-			svc.DB.Model(&competition.Registration{}).Where("user_id = ?", user.ID).Update("user_name", req.Name)
+			err1 := svc.DB.Model(&result.Results{}).Where("cube_id = ?", user.CubeID).Update("person_name", req.Name).Error
+			err2 := svc.DB.Model(&competition.Registration{}).Where("user_id = ?", user.ID).Update("user_name", req.Name).Error
 			user.LastUpdateNameTime = utils.PtrNow()
+			fmt.Println(err1, err2)
 		}
 
 		user.Name = req.Name

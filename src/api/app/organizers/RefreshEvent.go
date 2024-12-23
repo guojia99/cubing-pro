@@ -57,7 +57,7 @@ func RefreshEvent(svc *svc.Svc) gin.HandlerFunc {
 			// 判断是否下一轮已经打开,如果是则不允许打开
 			last, err := ev.CurRunningSchedule(req.RoundNumber, utils.Ptr(true))
 			if err == nil && last.IsRunning {
-				exception.ErrResultUpdate.ResponseWithError(ctx, fmt.Errorf("下一轮 `%s` 已经开启, 本轮将无法开启"))
+				exception.ErrResultUpdate.ResponseWithError(ctx, fmt.Errorf("下一轮 `%s` 已经开启, 本轮将无法开启", last.Round))
 				return
 			}
 			schedule.IsRunning = true

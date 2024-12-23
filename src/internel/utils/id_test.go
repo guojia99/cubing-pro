@@ -20,7 +20,7 @@ func TestGetID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(
 			tt.baseName, func(t *testing.T) {
-				got := GetIDButNotNumber(tt.baseName)
+				got := GetIDButNotNumber(tt.baseName, 2023)
 				t.Logf("%s \t %s", tt.baseName, got)
 			},
 		)

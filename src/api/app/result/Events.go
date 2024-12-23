@@ -1,8 +1,8 @@
 package result
 
 import (
-	"time"
 	"sort"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -24,12 +24,11 @@ func Events(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-
 		sort.Slice(
-                        out, func(i, j int) bool {
-                                return out[i].Idx < out[j].Idx
-                        },
-                )
+			out, func(i, j int) bool {
+				return out[i].Idx < out[j].Idx
+			},
+		)
 
 		exception.ResponseOK(
 			ctx, EventsResp{

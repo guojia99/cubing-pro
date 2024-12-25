@@ -15,16 +15,17 @@ func GetCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
 		comp := ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition)
 
 		var out []result.PreResults
+
 		app_utils.GenerallyList(
 			ctx, svc.DB, out, app_utils.ListSearchParam{
 				Model:   &result.PreResults{},
 				MaxSize: 100,
-				Query:   "comp_id = ?",
+				Query:   "comp_id = ? and finish = ?",
 				QueryCons: []interface{}{
-					comp.ID,
+					comp.ID, false,
 				},
+				OrderBy: []string{"id"},
 			},
 		)
-
 	}
 }

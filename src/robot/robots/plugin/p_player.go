@@ -2,12 +2,13 @@ package plugin
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
-	"strings"
 )
 
 type PlayerPlugin struct {
@@ -34,7 +35,11 @@ func (c *PlayerPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	var usr user.User
 	var err error
 	if len(msg) == 0 {
-		err = c.Svc.DB.Where("qq = ?", fmt.Sprintf("%d", message.QQ)).First(&usr).Error
+		if message.QQ != 0 {
+			err = c.Svc.DB.Where("qq = ?", fmt.Sprintf("%d", message.QQ)).First(&usr).Error
+		} else if message.QQBot != "" {
+			err = c.Svc.DB.Where("qq_uni_id = ?", message.QQBot).First(&usr).Error
+		}
 	} else {
 		err = c.Svc.DB.Where("name = ?", msg).Or("en_name = ?", msg).Or("cube_id = ?", strings.ToUpper(msg)).First(&usr).Error
 	}

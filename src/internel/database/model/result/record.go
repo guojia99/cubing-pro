@@ -2,10 +2,11 @@ package result
 
 import (
 	"fmt"
+	"time"
+
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
-	"time"
 )
 
 const (

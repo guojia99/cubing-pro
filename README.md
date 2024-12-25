@@ -2,11 +2,10 @@
 
 - [wca-tnoodle](https://github.com/thewca/tnoodle) 用于后端打乱和打乱图片
 
-
-
 ### 部署
 
 - mysql
+
 ```bash
 mkdir -p /home/guojia/data/mysql8.0.33
 

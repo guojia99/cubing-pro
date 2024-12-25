@@ -1,8 +1,9 @@
 package plugin
 
 import (
-	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"testing"
+
+	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
 func TestPersonValPlugin_init(t *testing.T) {

@@ -2,15 +2,16 @@ package plugin
 
 import (
 	"fmt"
+	"sort"
+	"strconv"
+	"strings"
+
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/guojia99/go-tables/table"
-	"sort"
-	"strconv"
-	"strings"
 )
 
 type CompsPlugin struct {
@@ -234,7 +235,8 @@ func (c *CompsPlugin) comps(message types.InMessage) (*types.OutMessage, error) 
 	}
 
 	var group competition.CompetitionGroup
-	c.Svc.DB.Where("qq_groups LIKE ?", fmt.Sprintf("%%%d%%", message.GroupID)).First(&group)
+	ms := fmt.Sprintf("%%%d%%", message.GroupID)
+	c.Svc.DB.Where("qq_groups LIKE ? or qq_group_uid LIKE ?", ms, ms).First(&group)
 
 	out := "===== 比赛列表 =====\n"
 	sort.Slice(comps, func(i, j int) bool {

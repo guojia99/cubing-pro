@@ -2,6 +2,7 @@ package organizers
 
 import (
 	"fmt"
+
 	"github.com/guojia99/cubing-pro/src/api/public"
 
 	"github.com/gin-gonic/gin"

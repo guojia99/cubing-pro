@@ -55,3 +55,12 @@ func RemoveEmptyLines(input string) string {
 	// 将剩下的行重新组合成一个字符串，使用换行符分隔
 	return strings.Join(nonEmptyLines, "\n")
 }
+
+func ContainsString(v string, s ...string) bool {
+	for _, ss := range s {
+		if strings.Contains(v, ss) {
+			return true
+		}
+	}
+	return false
+}

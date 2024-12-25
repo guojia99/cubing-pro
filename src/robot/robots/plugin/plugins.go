@@ -13,6 +13,8 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		&RecordPlugin{Svc: svc},
 		&RankPlugin{Svc: svc},
 		&PreResultPlugin{Svc: svc},
-		&PersonValPlugin{Svc: svc},
+		&BindPlugin{Svc: svc},
+
+		//&PersonValPlugin{Svc: svc},
 	}
 }

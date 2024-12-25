@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	gomail "gopkg.in/gomail.v2"
+	"gopkg.in/gomail.v2"
 )
 
 // todo 并发, 考虑后面也要发，是否需要存数据库

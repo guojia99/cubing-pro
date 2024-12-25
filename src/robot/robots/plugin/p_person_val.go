@@ -2,14 +2,15 @@ package plugin
 
 import (
 	"encoding/json"
-	"github.com/donnie4w/go-logger/logger"
-	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/guojia99/cubing-pro/src/robot/types"
 	"math/rand"
 	"os"
 	"path"
 	"slices"
 	"strings"
+
+	"github.com/donnie4w/go-logger/logger"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
 const MetaFileName = "meta.json"
@@ -24,7 +25,7 @@ type personMeta struct {
 	ImageQuotes []string `json:"imageQuotes"` // 图片附言
 	QuotesPath  string   `json:"quotesPath"`  // 语录地址
 
-	Groups []int64 `json:"groups"` // 群ID列表
+	Groups []interface{} `json:"groups"` // 群ID列表
 
 	imageFiles []string // 文件列表
 	quotes     []string // 语录列表

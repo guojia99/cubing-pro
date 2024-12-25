@@ -2,6 +2,7 @@ package robot
 
 import (
 	"fmt"
+
 	svc2 "github.com/guojia99/cubing-pro/src/internel/svc"
 	robot2 "github.com/guojia99/cubing-pro/src/robot"
 	"github.com/spf13/cobra"

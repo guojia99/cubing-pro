@@ -1,12 +1,18 @@
 package types
 
-import "github.com/guojia99/cubing-pro/src/internel/utils"
+import (
+	"fmt"
+
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+)
 
 type InMessage struct {
-	QQ      int64  `json:"QQ"`
-	Name    string `json:"Name"`
-	Message string `json:"Message"`
-	GroupID int64  `json:"group_id"` // 群号
+	QQ      int64       `json:"QQ"`
+	QQBot   string      `json:"QQBot"`
+	Name    string      `json:"Name"`
+	Message string      `json:"Message"`
+	GroupID interface{} `json:"GroupID"` // 群号
+	MsgID   string      `json:"MsgID"`   // 消息ID
 }
 
 func (i InMessage) NewOutMessage(message ...string) *OutMessage {
@@ -15,24 +21,32 @@ func (i InMessage) NewOutMessage(message ...string) *OutMessage {
 		msg = append(msg, utils.RemoveEmptyLines(m))
 	}
 
-	return &OutMessage{
+	out := &OutMessage{
 		GroupID: i.GroupID,
 		Message: msg,
+		MsgID:   i.MsgID,
 	}
+
+	return out
+}
+
+func (i InMessage) NewOutMessagef(format string, a ...any) *OutMessage {
+	msg := fmt.Sprintf(format, a...)
+	return i.NewOutMessage(msg)
 }
 
 func (i InMessage) NewOutMessageWithImage(msg string, images ...string) *OutMessage {
-	return &OutMessage{
-		GroupID: i.GroupID,
-		Message: []string{msg},
-		Images:  images,
-	}
+	out := i.NewOutMessage(msg)
+	out.Images = images
+	return out
 }
 
 type OutMessage struct {
-	GroupID int64    `json:"GroupId"`
-	Message []string `json:"Message"`
-	Images  []string `json:"Images"`
+	// cqHttp
+	GroupID interface{} `json:"GroupId"`
+	MsgID   string      `json:"MsgID"`
+	Message []string    `json:"Message"`
+	Images  []string    `json:"Images"`
 }
 
 type Plugin interface {

@@ -130,7 +130,8 @@
                 {{ if .OptionsCode }}
                     <p style="display: inline-block"> 你正在执行{{.Option}},以下是本次{{.Option}}的验证码,该验证码仅用于
                         <a href="{{.BaseUrl}}">CubingPro</a>的用户{{.Option}},
-                        请妥善保管好该验证码,如果不是本人操作,请忽略该邮件,验证码将在: <a style="color: red">{{.OptionsTimeOut}}</a>到期</p>
+                        请妥善保管好该验证码,如果不是本人操作,请忽略该邮件,验证码将在: <a
+                                style="color: red">{{.OptionsTimeOut}}</a>到期</p>
                     <p class="CubingProCode" id="copyText">
                         {{.OptionsCode}}
                     </p>
@@ -140,7 +141,8 @@
                 {{ if .OptionsUrl }}
                     <p style="display: inline-block"> 你正在执行{{.Option}},以下是本次{{.Option}}的链接,该链接仅用于
                         <a href="{{.BaseUrl}}">CubingPro</a>的用户{{.Option}},
-                        请点击下列按钮进行{{.Option}},如果不是本人操作,请忽略该邮件,链接将在: <a style="color: red">{{.OptionsTimeOut}}</a>到期</p>
+                        请点击下列按钮进行{{.Option}},如果不是本人操作,请忽略该邮件,链接将在: <a
+                                style="color: red">{{.OptionsTimeOut}}</a>到期</p>
                     <a href="{{.OptionsUrl}}" class="CubingProCode CubingProUrlButton">{{.Option}}</a>
                     <p style="color: grey; text-align: center">点击按钮查看详情</p>
                     <p>如果无法点击按钮, 请手动访问以下链接: <a href="{{.OptionsUrl}}">{{.OptionsUrl}}</a></p>

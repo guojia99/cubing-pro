@@ -2,12 +2,13 @@ package plugin
 
 import (
 	"fmt"
+	"sort"
+
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/guojia99/go-tables/table"
-	"sort"
 )
 
 type RecordPlugin struct {

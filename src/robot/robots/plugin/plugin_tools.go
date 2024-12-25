@@ -2,13 +2,15 @@ package plugin
 
 import (
 	"fmt"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
-	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/guojia99/cubing-pro/src/internel/utils"
-	"github.com/guojia99/cubing-pro/src/robot/types"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
 func PluginsMap(plugins []types.Plugin) map[string]types.Plugin {
@@ -47,12 +49,15 @@ func findSubSeq(input string) []string {
 
 	var out []string
 	for _, val := range cache {
-		out = append(out, string(val))
+		out = append(out, utils.ReplaceAll(string(val), "", " ", " "))
 	}
 	return out
 }
 
 func CheckPrefix(msg string, pluginMap map[string]types.Plugin) (string, types.Plugin) {
+	msg = strings.TrimLeft(msg, " ")
+	msg = utils.ReplaceAll(msg, " ", "")
+
 	for _, key := range findSubSeq(msg) {
 		if p, ok := pluginMap[key]; ok {
 			return key, p
@@ -132,4 +137,15 @@ func GetMessageEvent(evs []event.Event, msg string) (event.Event, string, int, e
 	}
 
 	return ev, round, num, nil
+}
+
+func getUser(svc *svc.Svc, message types.InMessage) (user.User, error) {
+	var usr user.User
+	var err error
+	if message.QQ != 0 {
+		err = svc.DB.Where("qq = ?", message.QQ).First(&usr).Error
+	} else if message.QQBot != "" {
+		err = svc.DB.Where("qq_uni_id = ?", message.QQBot).First(&usr).Error
+	}
+	return usr, err
 }

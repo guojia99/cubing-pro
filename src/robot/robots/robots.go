@@ -3,19 +3,24 @@ package robots
 import (
 	"context"
 	"fmt"
-	"github.com/donnie4w/go-logger/logger"
-	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
-	"github.com/guojia99/cubing-pro/src/robot/types"
 	"math/rand"
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/donnie4w/go-logger/logger"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
+	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
 type withFn = func(msg types.InMessage, pluginMap map[string]types.Plugin) (*types.OutMessage, error)
 
 func withInMessage(msg types.InMessage, pluginMap map[string]types.Plugin) (*types.OutMessage, error) {
 	isHelp := strings.Contains(msg.Message, "帮助") || strings.Contains(msg.Message, "help")
+
+	msg.Message = utils.ReplaceAll(msg.Message, "", "帮助", "help")
+
 	key, p := plugin.CheckPrefix(msg.Message, pluginMap)
 	if key != "" && isHelp {
 		return msg.NewOutMessage(p.Help()), nil

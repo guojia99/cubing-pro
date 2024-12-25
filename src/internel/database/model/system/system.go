@@ -2,6 +2,7 @@ package system
 
 import (
 	"encoding/json"
+
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"gorm.io/gorm"
 )

@@ -1,12 +1,13 @@
 package statistics
 
 import (
+	"path"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"path"
 )
 
 type DiyRankingsReq struct {

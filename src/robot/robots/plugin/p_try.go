@@ -2,9 +2,10 @@ package plugin
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/robot/types"
-	"time"
 )
 
 type TryPlugin struct {
@@ -53,7 +54,8 @@ func (t *TryPlugin) _test(message types.InMessage) (*types.OutMessage, error) {
 时间: %s
 发送消息人: %s
 发送人QQ: %d
-发送群聊: %d
+发送人QQBot: %s
+发送群聊: %s
 ==================
 `,
 		message.Message,
@@ -61,6 +63,7 @@ func (t *TryPlugin) _test(message types.InMessage) (*types.OutMessage, error) {
 		time.Now().Local().Format("2006-01-02 15:04:05"),
 		message.Name,
 		message.QQ,
+		message.QQBot,
 		message.GroupID,
 	)), nil
 }

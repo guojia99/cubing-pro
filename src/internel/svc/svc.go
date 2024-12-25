@@ -36,7 +36,7 @@ func NewAPISvc(file string, job bool) (*Svc, error) {
 		Cfg:   cfg,
 		Cache: cache.New(time.Minute*5, time.Minute*5),
 	}
-	if c.DB, err = newDB(cfg.GlobalConfig.DB); err != nil {
+	if c.DB, err = newDB(cfg.GlobalConfig); err != nil {
 		return nil, err
 	}
 
@@ -45,18 +45,22 @@ func NewAPISvc(file string, job bool) (*Svc, error) {
 	return c, nil
 }
 
-func newDB(cfg DBConfig) (*gorm.DB, error) {
+func newDB(cfg GlobalConfig) (*gorm.DB, error) {
 	var err error
 	var db *gorm.DB
-	//var dbLog = logger.Default.LogMode(logger.Info) // 将日志模式设置为 Info
+
 	var dbLog = logger.Discard
 
-	switch cfg.Driver {
+	if cfg.Debug {
+		dbLog = logger.Default.LogMode(logger.Info) // 将日志模式设置为 Info
+	}
+
+	switch cfg.DB.Driver {
 	case "sqlite":
-		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{Logger: dbLog})
+		db, err = gorm.Open(sqlite.Open(cfg.DB.DSN), &gorm.Config{Logger: dbLog})
 	case "mysql":
 		db, err = gorm.Open(
-			mysql.New(mysql.Config{DSN: cfg.DSN}), &gorm.Config{
+			mysql.New(mysql.Config{DSN: cfg.DB.DSN}), &gorm.Config{
 				Logger: dbLog,
 			},
 		)

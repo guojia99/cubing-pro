@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/comp"
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
@@ -10,7 +12,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"time"
 )
 
 func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {

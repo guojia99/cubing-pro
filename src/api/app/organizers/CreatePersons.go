@@ -2,6 +2,7 @@ package organizers
 
 import (
 	"fmt"
+
 	email2 "github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"

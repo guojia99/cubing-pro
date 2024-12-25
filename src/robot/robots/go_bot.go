@@ -4,59 +4,95 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	bot "github.com/2mf8/Go-QQ-SDK"
-	"github.com/2mf8/Go-QQ-SDK/dto"
-	"github.com/2mf8/Go-QQ-SDK/log"
-	"github.com/2mf8/Go-QQ-SDK/openapi"
-	"github.com/2mf8/Go-QQ-SDK/token"
-	"github.com/2mf8/Go-QQ-SDK/webhook"
 	"strings"
 	"time"
+
+	bot "github.com/2mf8/Better-Bot-Go"
+	"github.com/2mf8/Better-Bot-Go/dto"
+	"github.com/2mf8/Better-Bot-Go/openapi"
+	"github.com/2mf8/Better-Bot-Go/token"
+	"github.com/2mf8/Bot-Client-Go/safe_ws"
+	"github.com/donnie4w/go-logger/logger"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
 type QQBot struct {
+	Api openapi.OpenAPI
+
+	cfg *svc.QQBotConfig
+	ctx context.Context
+	ch  chan<- types.InMessage
 }
 
-func (q *QQBot) Run() {
-	var Apis = make(map[string]openapi.OpenAPI, 0)
+func NewQQBot(cfg *svc.QQBotConfig, ctx context.Context) *QQBot {
+	return &QQBot{
+		cfg: cfg,
+		ctx: ctx,
+	}
+}
 
-	webhook.InitLog()
-	as := webhook.ReadSetting()
-	var ctx context.Context
-	for i, v := range as.Apps {
-		token := token.BotToken(v.AppId, v.Token, string(token.TypeBot))
-		api := bot.NewOpenAPI(token).WithTimeout(3 * time.Second)
-		Apis[i] = api
-	}
-	b, _ := json.Marshal(as)
-	fmt.Println("配置", string(b))
-	webhook.GroupAtMessageEventHandler = func(bot *webhook.BotHeaderInfo, event *dto.WSPayload, data *dto.WSGroupATMessageData) error {
-		fmt.Println(bot.XBotAppid, data.GroupId, data.Content)
-		if len(data.Attachments) > 0 {
-			log.Infof(`BotId(%s) GroupId(%s) UserId(%s) <- %s <image id="%s">`, bot.XBotAppid[0], data.GroupId, data.Author.UserId, data.Content, data.Attachments[0].URL)
-		} else {
-			log.Infof("BotId(%s) GroupId(%s) UserId(%s) <- %s", bot.XBotAppid[0], data.GroupId, data.Author.UserId, data.Content)
-		}
-		if strings.TrimSpace(data.Content) == "测试" {
-			Apis[bot.XBotAppid[0]].PostGroupMessage(ctx, data.GroupId, &dto.GroupMessageToCreate{
-				Content: "成功",
-				MsgID:   data.MsgId,
-				MsgType: 0,
-			})
-		}
-		return nil
-	}
-	webhook.C2CMessageEventHandler = func(bot *webhook.BotHeaderInfo, event *dto.WSPayload, data *dto.WSC2CMessageData) error {
-		b, _ := json.Marshal(event)
-		fmt.Println(bot.XBotAppid, string(b), data.Content)
-		return nil
-	}
-	webhook.MessageEventHandler = func(bot *webhook.BotHeaderInfo, event *dto.WSPayload, data *dto.WSMessageData) error {
-		b, _ := json.Marshal(event)
-		fmt.Println(bot.XBotAppid, string(b), data.Content)
-		return nil
-	}
-	webhook.InitGin()
-	select {}
+func (q *QQBot) Prefix() string {
+	return ""
+}
 
+func (q *QQBot) Run(ch chan<- types.InMessage) {
+	//safe_ws.InitLog()
+
+	go safe_ws.ConnectUniversal(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.WSSAddr)
+
+	q.Api = bot.NewSandboxOpenAPI(
+		token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
+	).WithTimeout(3 * time.Second)
+
+	q.ch = ch
+	safe_ws.GroupAtMessageEventHandler = q.messageAtEventHandler
+	//safe_ws.GroupMessageEventHandler = q.messageEventHandler
+	select {
+	case <-q.ctx.Done():
+		return
+	}
+}
+
+//func (q *QQBot) messageEventHandler(appid string, event *dto.WSPayload, data *dto.WSGroupMessageData) error {
+//	log.Info(data.Content, data.GroupId)
+//	log.Infof("%+v\n", data)
+//
+//	log.Infof("%+v\n", data.Author.UserId)
+//	log.Infof("%+v\n", data.Author.UserOpenId)
+//	return nil
+//}
+
+func (q *QQBot) messageAtEventHandler(appid string, event *dto.WSPayload, data *dto.WSGroupATMessageData) error {
+
+	msg := types.InMessage{
+		QQ:      0,
+		QQBot:   data.Author.UserOpenId,
+		Name:    "",
+		Message: data.Content,
+		GroupID: data.GroupId,
+		MsgID:   data.MsgId,
+	}
+
+	msg.Message = strings.TrimLeft(msg.Message, " ")
+
+	select {
+	case <-q.ctx.Done():
+		return nil
+	case q.ch <- msg:
+		d, _ := json.Marshal(msg)
+		logger.Infof("[Robot] [GoBot] 处理消息 %s", string(d))
+		return nil
+	}
+}
+
+func (q *QQBot) SendMessage(out types.OutMessage) error {
+	//TODO implement me
+	newMsg := &dto.GroupMessageToCreate{
+		Content: "\n" + strings.Join(out.Message, ""),
+		MsgID:   out.MsgID,
+		MsgType: 0,
+	}
+	_, err := q.Api.PostGroupMessage(q.ctx, out.GroupID.(string), newMsg)
+	return err
 }

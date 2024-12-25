@@ -1,12 +1,13 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"time"
 )
 
 func PostRouters(router *gin.RouterGroup, svc *svc.Svc) {

@@ -2,6 +2,7 @@ package robot
 
 import (
 	"context"
+
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/robot/robots"
 	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
@@ -21,8 +22,16 @@ func NewRobot(svc *svc.Svc) *Client {
 	}
 
 	for _, cq := range svc.Cfg.Robot.CQHttpBot {
-		cli.robots = append(cli.robots, robots.NewCqHttps(&cq))
+		if cq.Enable {
+			cli.robots = append(cli.robots, robots.NewCqHttps(&cq))
+		}
 	}
+	for _, gq := range svc.Cfg.Robot.QQBot {
+		if gq.Enable {
+			cli.robots = append(cli.robots, robots.NewQQBot(&gq, context.Background()))
+		}
+	}
+
 	return cli
 }
 

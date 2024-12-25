@@ -3,13 +3,14 @@ package robots
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strings"
+
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
-	"net/http"
-	"strings"
 )
 
 type CqHttps struct {
@@ -106,7 +107,7 @@ func (c *CqHttps) SendMessage(out types.OutMessage) error {
 	//if out
 
 	msg := CQSendMessage{
-		GroupId:    out.GroupID,
+		GroupId:    out.GroupID.(int64),
 		Message:    []Message{},
 		AutoEscape: false,
 	}

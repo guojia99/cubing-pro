@@ -2,6 +2,7 @@ package org_mid
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"

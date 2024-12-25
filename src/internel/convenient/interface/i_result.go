@@ -2,11 +2,12 @@ package _interface
 
 import (
 	"fmt"
+	"sort"
+	"time"
+
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
-	"sort"
-	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"

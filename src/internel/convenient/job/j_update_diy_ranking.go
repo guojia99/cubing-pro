@@ -2,10 +2,6 @@ package job
 
 import (
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
-	"github.com/guojia99/cubing-pro/src/internel/utils"
-	"gorm.io/gorm"
 	"net/http"
 	"path"
 	"regexp"
@@ -15,6 +11,11 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"gorm.io/gorm"
 )
 
 const (

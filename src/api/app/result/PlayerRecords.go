@@ -1,11 +1,12 @@
 package result
 
 import (
+	"sort"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"sort"
 )
 
 type PlayerRecordsReq struct {

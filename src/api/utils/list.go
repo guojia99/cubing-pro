@@ -111,7 +111,6 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 	var total int64
 	if err = searchDB.Count(&total).Error; err != nil {
 		exception.ErrDatabase.ResponseWithError(ctx, err)
-		fmt.Println(err)
 		return
 	}
 

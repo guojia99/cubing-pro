@@ -35,11 +35,14 @@ type GatewayConfig struct {
 }
 
 type QQBotConfig struct {
-	Group     bool     `yaml:"group"`
-	Enable    bool     `yaml:"enable"`
-	AppID     int      `yaml:"appID"`
-	Token     string   `yaml:"token"`
-	GroupList []string `yaml:"groupList"`
+	Enable bool `yaml:"enable"`
+
+	QQ        uint64 `json:"qq,omitempty" toml:"QQ" yaml:"qq"`
+	AppId     uint64 `json:"app_id,omitempty" toml:"AppId" yaml:"app_id"`
+	Token     string `json:"token,omitempty" toml:"Token" yaml:"token"`
+	AppSecret string `json:"app_secret,omitempty" toml:"AppSecret" yaml:"app_secret"`
+	IsSandBox bool   `json:"is_sandbox,omitempty" toml:"IsSandBox" yaml:"is_sandbox"`
+	WSSAddr   string `json:"wss_addr,omitempty" toml:"WSSAddr" yaml:"wss_addr"`
 }
 
 type WeChatBotConfig struct {
@@ -47,6 +50,7 @@ type WeChatBotConfig struct {
 }
 
 type CQHttpBot struct {
+	Enable  bool   `yaml:"enable"`
 	Prefix  string `yaml:"prefix"`  // 命令头 如 .
 	Address string `yaml:"address"` // http 地址
 	Post    int    `yaml:"post"`    // 反向HTTP地址, 需要robot开启一个地址

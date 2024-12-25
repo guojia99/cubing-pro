@@ -2,6 +2,10 @@ package plugin
 
 import (
 	"fmt"
+	"slices"
+	"strings"
+	"time"
+
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -9,9 +13,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
-	"slices"
-	"strings"
-	"time"
 )
 
 type PreResultPlugin struct {
@@ -39,15 +40,14 @@ func (c *PreResultPlugin) Do(message types.InMessage) (*types.OutMessage, error)
 	msg = c.cutMsg(msg)
 
 	// 0. 判断用户
-	var usr user.User
-	if err := c.Svc.DB.Where("qq = ?", message.QQ).First(&usr).Error; err != nil {
+	usr, err := getUser(c.Svc, message)
+	if err != nil || usr.ID == 0 {
 		return message.NewOutMessage("用户不存在, 请绑定QQ后重试"), nil
 	}
-
 	var group competition.CompetitionGroup
-	if err := c.Svc.DB.Where("qq_groups LIKE ?", fmt.Sprintf("%%%d%%", message.GroupID)).First(&group).Error; err != nil {
-		fmt.Println(err)
-		return message.NewOutMessage("本群比赛群组未创建"), nil
+	gms := fmt.Sprintf("%%%v%%", message.GroupID)
+	if err = c.Svc.DB.Where("qq_groups LIKE ? or qq_group_uid LIKE ?", gms, gms).First(&group).Error; err != nil {
+		return message.NewOutMessage("本群比赛群组未创建或不存在"), nil
 	}
 
 	if len(msg) == 0 {
@@ -60,8 +60,6 @@ func (c *PreResultPlugin) cutMsg(msg string) string {
 	msg = utils.ReplaceAll(msg, ":", "：")
 	msg = utils.ReplaceAll(msg, ",", "，", ", ")
 	msg = utils.ReplaceAll(msg, ".", "。")
-	msg = utils.ReplaceAll(msg, "/", "\\")
-	msg = utils.ReplaceAll(msg, " ", "\n")
 	msg = utils.ReplaceAll(msg, "[", "【", "〔", "〈", "［", "{")
 	msg = utils.ReplaceAll(msg, "]", "】", "〕", "〉", "］", "}")
 	msg = utils.ReplaceAll(msg, "(", "（")
@@ -73,7 +71,6 @@ func (c *PreResultPlugin) cutMsg(msg string) string {
 }
 
 func (c *PreResultPlugin) getPreResults(msg string, message types.InMessage, usr user.User) (*types.OutMessage, error) {
-
 	var pre []result.PreResults
 
 	c.Svc.DB.Where("finish = ?", false).Where("user_id = ?", usr.ID).Find(&pre)
@@ -123,9 +120,14 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	out := fmt.Sprintf("比赛: %s\n", comp.Name)
 	out += fmt.Sprintf("选手: %s\n", usr.Name)
 
-	for _, resStr := range strings.Split(msg, "/") {
+	for _, resStr := range strings.Split(msg, "\n") {
+		if len(resStr) == 0 {
+			continue
+		}
 		resStr = utils.ReplaceAll(resStr, "", "(", ")")
 		resStr = utils.ReplaceAll(resStr, " ", ",", ";")
+		resStr = utils.ReplaceAll(resStr, "[", " [", "  [", "   [")
+		resStr = utils.ReplaceAll(resStr, "] ", "]")
 
 		// 获取轮次和项目
 		split := strings.Split(resStr, " ")
@@ -140,11 +142,11 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		// 确认赛程
 		evWithComp, ok := comp.EventMap()[ev.ID]
 		if !ok {
-			return message.NewOutMessage(fmt.Sprintf("本次比赛未开放`%s`赛程", ev.ID)), nil
+			return message.NewOutMessage(fmt.Sprintf("'%s'本次%s比赛未开放`%s`赛程", resStr, comp.Name, ev.ID)), nil
 		}
 		schedule, err := evWithComp.CurRunningSchedule(round, nil)
 		if err != nil {
-			return message.NewOutMessage(fmt.Sprintf("本次比赛未开放`%s`赛程", ev.ID)), nil
+			return message.NewOutMessage(fmt.Sprintf("'%s'本次%s比赛未开放`%s` '%v'赛程", resStr, comp.Name, ev.ID, round)), nil
 		}
 
 		// todo 晋级机制?
@@ -161,8 +163,17 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		}
 
 		// 写入数据
+
 		var results []float64
-		for _, r := range split[1:] {
+		for idx, r := range split[1:] {
+			if ev.BaseRouteType.RouteMap().Repeatedly && idx == 0 {
+				sp2 := strings.Split(r, "/")
+				if !strings.Contains(r, "/") || len(sp2) != 2 {
+					return message.NewOutMessage("多盲格式不符合'x/y time'的格式"), nil
+				}
+				results = append(results, utils.GetNum(sp2[0]), utils.GetNum(sp2[1]))
+				continue
+			}
 			results = append(results, result.TimeParserS2F(r))
 		}
 
@@ -174,6 +185,7 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 				CompetitionID:   comp.ID,
 				CompetitionName: comp.Name,
 				Round:           schedule.Round,
+				RoundNumber:     schedule.RoundNum,
 				PersonName:      usr.Name,
 				CubeID:          usr.CubeID,
 				UserID:          usr.ID,
@@ -194,10 +206,11 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		pres = append(pres, preResult)
 
 		out += fmt.Sprintf("%s %s (%s / %s)\n", ev.Cn, schedule.Round, preResult.BestString(), preResult.BestAvgString())
-		// todo 破记录播报
 	}
 
 	out += "录入成功!\n"
 	c.Svc.DB.Save(&pres)
+	// todo 破记录播报
+
 	return message.NewOutMessage(out), nil
 }

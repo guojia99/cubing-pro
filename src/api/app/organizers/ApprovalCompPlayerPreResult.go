@@ -13,7 +13,6 @@ import (
 
 type ApprovalCompPlayerPreResultReq struct {
 	ResultID uint `uri:"result_id"`
-	RegId    uint `uri:"reg_id"`
 
 	Detail string `json:"FinishDetail"`
 }
@@ -46,27 +45,6 @@ func ApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResultCreate.ResponseWithError(ctx, "成绩已被处理，请不要反复处理")
 			return
 		}
-		var reg competition.Registration
-		if err = svc.DB.First(&reg, "id = ?", req.RegId).Error; err != nil {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
-			return
-		}
-
-		// 判断选手是否已经审核完成
-		res, err := checkAndAddPlayerResult(
-			ctx, svc, AddCompResultReq{
-				CompReq:  CompReq{CompId: comp.ID},
-				Results:  pre.Result,
-				CubeID:   pre.CubeID,
-				RoundNum: pre.RoundNumber,
-				EventID:  pre.EventID,
-				Penalty:  pre.Penalty,
-			},
-		)
-		if err != nil {
-			exception.ErrResultCreate.ResponseWithError(ctx, err)
-			return
-		}
 
 		pre.Processor = user.Name
 		pre.ProcessorID = user.ID
@@ -75,8 +53,25 @@ func ApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
 			pre.FinishDetail = req.Detail
 			pre.Finish = true
 		}
-		pre.ResultID = &res.ID
 
+		if req.Detail == result.DetailOk {
+			// 判断选手是否已经审核完成
+			res, err := checkAndAddPlayerResult(
+				ctx, svc, AddCompResultReq{
+					CompReq:  CompReq{CompId: comp.ID},
+					Results:  pre.Result,
+					CubeID:   pre.CubeID,
+					RoundNum: pre.RoundNumber,
+					EventID:  pre.EventID,
+					Penalty:  pre.Penalty,
+				},
+			)
+			if err != nil {
+				exception.ErrResultCreate.ResponseWithError(ctx, err)
+				return
+			}
+			pre.ResultID = &res.ID
+		}
 		svc.DB.Save(&pre)
 		exception.ResponseOK(ctx, nil)
 	}

@@ -3,8 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/guojia99/cubing-pro/src/internel/convenient"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"log"
 	"reflect"
 	"slices"
@@ -12,6 +10,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/cmd/v2_mi_v3/types"

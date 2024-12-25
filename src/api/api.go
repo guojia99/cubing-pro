@@ -2,9 +2,10 @@ package api
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"os"
 
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/api/routes"

@@ -2,10 +2,11 @@ package auth
 
 import (
 	"fmt"
-	"github.com/guojia99/cubing-pro/src/internel/email"
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"

@@ -325,12 +325,13 @@ func SortResult(in []Results) {
 }
 
 func TimeParserS2F(t string) float64 {
-	if t == "DNF" || strings.ContainsAny(t, "dD") {
-		return DNF
-	}
-	if t == "DNS" || strings.Contains(t, "s") {
+	if t == "DNS" || strings.Contains(strings.ToLower(t), "s") {
 		return DNS
 	}
+	if t == "DNF" || strings.ContainsAny(strings.ToLower(t), "dnf") {
+		return DNF
+	}
+
 	// 解析纯秒数格式
 	if regexp.MustCompile(`^\d+(\.\d+)?$`).MatchString(t) {
 		seconds, _ := strconv.ParseFloat(t, 64)
@@ -394,7 +395,7 @@ func TimeParserF2S(in float64) string {
 
 func (c *Results) bestString() string {
 	if c.DBest() {
-		return ""
+		return "DNF"
 	}
 	if c.EventRoute.RouteMap().Repeatedly {
 		return fmt.Sprintf("%d/%d %s", int(c.BestRepeatedlyReduction), int(c.BestRepeatedlyTry), TimeParserF2S(c.BestRepeatedlyTime))
@@ -407,7 +408,7 @@ func (c *Results) bestString() string {
 
 func (c *Results) bestAvgString() string {
 	if c.DAvg() {
-		return ""
+		return "DNF"
 	}
 	if c.EventRoute.RouteMap().Repeatedly {
 		return ""

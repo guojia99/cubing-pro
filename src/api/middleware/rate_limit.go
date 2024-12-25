@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/guojia99/cubing-pro/src/api/exception"
 	"sync"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/exception"
 )
 
 type RateLimitMiddlewareRequestInfo struct {

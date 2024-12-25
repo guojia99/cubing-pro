@@ -3,8 +3,9 @@ package _interface
 import (
 	"context"
 	"fmt"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 )

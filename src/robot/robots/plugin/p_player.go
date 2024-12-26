@@ -30,7 +30,7 @@ func (c *PlayerPlugin) Help() string {
 }
 
 func (c *PlayerPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
-	msg := RemoveID(message.Message, c.ID())
+	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, "", "-", " ")
 	var usr user.User
 	var err error
@@ -49,7 +49,7 @@ func (c *PlayerPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 	out := "===== " + usr.Name + " =====\n"
 	out += fmt.Sprintf("CubeID: %s\n", usr.CubeID)
-	out += fmt.Sprintf("主页: https://cubing.pro/player/%s\n", usr.CubeID)
+	out += fmt.Sprintf("主页: https://mycube.club/x/player/%s\n", usr.CubeID)
 	out += "\n========================\n"
 
 	best := c.Svc.Cov.SelectBestResultsWithEventSortWithPlayer(usr.CubeID)

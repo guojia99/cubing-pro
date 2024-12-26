@@ -5,7 +5,6 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/robot/robots"
-	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
@@ -36,7 +35,7 @@ func NewRobot(svc *svc.Svc) *Client {
 }
 
 func (c *Client) Run(ctx context.Context) error {
-	plugins := plugin.NewPlugins(c.Svc)
+	plugins := robots.NewPlugins(c.Svc)
 	for _, bot := range c.robots {
 		go robots.RunRobot(ctx, bot, plugins)
 	}

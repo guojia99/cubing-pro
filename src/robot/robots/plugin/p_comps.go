@@ -60,7 +60,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 }
 
 func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competition, error) {
-	msg := RemoveID(message.Message, c.ID())
+	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, "", "-")
 
 	var id = 0
@@ -94,7 +94,7 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 		return message.NewOutMessage(err.Error()), nil
 	}
 
-	msg := RemoveID(message.Message, c.ID())
+	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, "", "-")
 	group := strings.Split(msg, " ")
 

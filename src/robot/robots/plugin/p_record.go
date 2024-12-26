@@ -39,7 +39,7 @@ type tableRecord struct {
 
 func (r *RecordPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	evs := GetEvents(r.Svc, "")
-	msg := RemoveID(message.Message, r.ID())
+	msg := types.RemoveID(message.Message, r.ID())
 	ev, _, num, err := GetMessageEvent(evs, msg)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil

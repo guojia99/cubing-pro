@@ -27,13 +27,6 @@ func PluginsMap(plugins []types.Plugin) map[string]types.Plugin {
 	return out
 }
 
-func RemoveID(message string, id []string) string {
-	for _, i := range id {
-		message = strings.TrimLeft(message, i)
-	}
-	return message
-}
-
 const MaxKeyLength = 16
 
 func findSubSeq(input string) []string {

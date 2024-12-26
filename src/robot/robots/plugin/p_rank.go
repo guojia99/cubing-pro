@@ -32,7 +32,7 @@ type rankTable struct {
 
 func (r *RankPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	evs := GetEvents(r.Svc, "")
-	msg := RemoveID(message.Message, r.ID())
+	msg := types.RemoveID(message.Message, r.ID())
 
 	ev, _, num, err := GetMessageEvent(evs, msg)
 	if err != nil {

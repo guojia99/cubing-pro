@@ -36,7 +36,7 @@ func (c *PreResultPlugin) Help() string {
 }
 
 func (c *PreResultPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
-	msg := RemoveID(message.Message, c.ID())
+	msg := types.RemoveID(message.Message, c.ID())
 	msg = c.cutMsg(msg)
 
 	// 0. 判断用户

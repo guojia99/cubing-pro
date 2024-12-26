@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
@@ -49,6 +50,15 @@ type OutMessage struct {
 	Images  []string    `json:"Images"`
 }
 
+func (o *OutMessage) AddMessagef(format string, a ...any) *OutMessage {
+	o.Message = append(o.Message, fmt.Sprintf(format, a...))
+	return o
+}
+func (o *OutMessage) AddMessages(msg ...string) *OutMessage {
+	o.Message = append(o.Message, msg...)
+	return o
+}
+
 type Plugin interface {
 	ID() []string
 	Help() string
@@ -59,4 +69,11 @@ type Robot interface {
 	Prefix() string
 	Run(ch chan<- InMessage)
 	SendMessage(out OutMessage) error
+}
+
+func RemoveID(message string, id []string) string {
+	for _, i := range id {
+		message = strings.TrimLeft(message, i)
+	}
+	return message
 }

@@ -21,15 +21,11 @@ func RemoveRepeatedElement[S ~[]E, E comparable](s S) S {
 // allowDuplicates 参数控制是否允许重复
 // 如果允许重复，将随机选择-2, -1, 0, 1, 2作为长度变化量
 func ShuffledCopy[T any](slice []T, allowDuplicates bool) []T {
-	// 设置随机种子
 	rand.Seed(time.Now().UnixNano())
-
-	// 初始化新切片长度为原切片长度
 	newLen := len(slice)
 
 	if allowDuplicates {
-		// 从 -2, -1, 0, 1, 2 中随机选择一个作为长度变化量
-		deltaOptions := []int{-2, -1, 0, 1, 2}
+		deltaOptions := []int{-2, -1, 0, 1, 2} // 从 -2, -1, 0, 1, 2 中随机选择一个作为长度变化量
 		delta := deltaOptions[rand.Intn(len(deltaOptions))]
 
 		// 计算新的切片长度，确保不小于 0
@@ -39,7 +35,6 @@ func ShuffledCopy[T any](slice []T, allowDuplicates bool) []T {
 		}
 	}
 
-	// 创建新切片
 	newSlice := make([]T, newLen)
 
 	if allowDuplicates {

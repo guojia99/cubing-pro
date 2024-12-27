@@ -281,8 +281,8 @@ func (u *UpdateDiyRankings) getAllResult(WcaIDs []string) map[string]PersonBestR
 	for res := range resultsCh {
 		allP = append(allP, res)
 	}
-	for err := range errCh {
-		fmt.Println("Error fetching result:", err)
+	for _ = range errCh {
+
 	}
 	return u.getAllPersonBestResultsMap(allP)
 }
@@ -348,13 +348,14 @@ func (u *UpdateDiyRankings) Run() error {
 	for _, key := range keys {
 		var wcaKeys []string
 		if err := system.GetKeyJSONValue(u.DB, key, &wcaKeys); err != nil {
+			fmt.Println(err)
 			continue
 		}
 
 		dataKey := path.Join(DiyRankingsKey, key, "data")
 		var kv system.KeyValue
 		if err := system.GetKeyJSONValue(u.DB, dataKey, &kv); err == nil {
-			if time.Since(kv.UpdatedAt) > time.Minute*15 {
+			if time.Since(kv.UpdatedAt) < time.Minute*15 {
 				continue
 			}
 		}

@@ -33,6 +33,8 @@ func TestResultsTimeFormat(t *testing.T) {
 		{args: args{in: 690360208, event: "333mbf"}, want: "38/46 1:00:02"}, // 2015ALEK01
 		{args: args{in: 950360014, event: "333mbf"}, want: "18/32 1:00:00"}, // 2015ALEK01
 
+		//{args: args{in: 832179317, event: "333mbo"}, want: "33/50 29:53"},
+
 		// DNF DNS
 		{args: args{in: -1, event: "333mbf"}, want: "DNF"},
 		{args: args{in: -2, event: "333"}, want: "DNS"},

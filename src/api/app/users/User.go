@@ -40,7 +40,7 @@ func UserBaseResult(svc *svc.Svc) gin.HandlerFunc {
 
 		exception.ResponseOK(ctx, UserBaseResultResp{
 			User:   public.UserToUser(usr),
-			Detail: svc.Cov.SelectUserResultDetail(req.CubeId),
+			Detail: svc.Cov.SelectUserResultDetail(req.CubeId, nil),
 			Best:   svc.Cov.SelectBestResultsWithEventSortWithPlayer(usr.CubeID),
 		})
 	}

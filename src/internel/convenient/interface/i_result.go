@@ -16,7 +16,7 @@ import (
 
 type ResultI interface {
 	AllPlayerBestResult(results []result.Results, players []user.User) (best PlayerBestResult, all []PlayerBestResult) // 获取所有成绩列表中，对应玩家的所有最佳成绩汇总
-	PlayerBestResult(playerId uint, events []string) (PlayerBestResult, error)                                         // 获取玩家最佳成绩
+	PlayerBestResult(playerId uint, events []string, year *int) (PlayerBestResult, error)                              // 获取玩家最佳成绩
 	PlayerNemesisWithID(playerId uint, events []string) (out []Nemesis)
 	PlayerNemesis(player PlayerBestResult, all []PlayerBestResult, events map[string]event.Event, com bool) []Nemesis
 	KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult
@@ -27,8 +27,9 @@ type ResultI interface {
 	SelectAllPlayerBestResult() (best PlayerBestResult, all []PlayerBestResult)                            // 获取一个玩家所有成绩
 	SelectBestResultsWithEventSort() (best map[EventID][]result.Results, avg map[EventID][]result.Results) // 获取所有成绩的排名
 	SelectBestResultsWithEventSortWithPlayer(cubeId string) PlayerBestResult                               // 获取用户最佳成绩
-	SelectUserResultDetail(cubeId string) UserResultDetail                                                 // 获取用户详细成绩信息
+	SelectUserResultDetail(cubeId string, year *int) UserResultDetail                                      // 获取用户详细成绩信息
 	SelectCompsResult(id uint) map[EventID]map[int][]result.Results                                        // 比赛成绩 map[项目] map[轮次] 成绩列表
+	SelectPlayerEndYears(id uint, year int) (PlayerEndYears, error)                                        // 某一年的年终总结
 }
 
 type ResultIter struct {
@@ -89,14 +90,21 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 	return
 }
 
-func (c *ResultIter) PlayerBestResult(playerId uint, events []string) (PlayerBestResult, error) {
+func (c *ResultIter) PlayerBestResult(playerId uint, events []string, year *int) (PlayerBestResult, error) {
 	var player user.User
 	if err := c.DB.Where("id = ?", playerId).First(&player).Error; err != nil {
 		return PlayerBestResult{}, err
 	}
 
 	var results []result.Results
-	c.DB.Where("user_id = ?", playerId).Where("event_id in ?", events).Find(&results)
+	db := c.DB.Where("user_id = ?", playerId).Where("event_id in ?", events)
+
+	if year != nil {
+		timeLimit := time.Date(*year, 1, 1, 0, 0, 0, 0, time.UTC)
+		db = db.Where("created_at < ?", timeLimit)
+	}
+
+	db.Find(&results)
 	b, _ := c.AllPlayerBestResult(results, []user.User{player})
 	return b, nil
 }
@@ -169,7 +177,7 @@ func (c *ResultIter) PlayerNemesis(player PlayerBestResult, all []PlayerBestResu
 
 func (c *ResultIter) PlayerNemesisWithID(playerId uint, events []string) (out []Nemesis) {
 
-	playerBest, err := c.PlayerBestResult(playerId, events)
+	playerBest, err := c.PlayerBestResult(playerId, events, nil)
 	if err != nil {
 		return
 	}
@@ -412,7 +420,7 @@ func (c *ResultIter) SelectBestResultsWithEventSortWithPlayer(cubeId string) Pla
 	return dict[cubeId]
 }
 
-func (c *ResultIter) SelectUserResultDetail(cubeId string) UserResultDetail {
+func (c *ResultIter) SelectUserResultDetail(cubeId string, year *int) UserResultDetail {
 	value, ok := c.Cache.Get("SelectUserResultDetail_" + cubeId)
 	if ok {
 		return value.(UserResultDetail)
@@ -421,7 +429,14 @@ func (c *ResultIter) SelectUserResultDetail(cubeId string) UserResultDetail {
 	var out UserResultDetail
 
 	var results []result.Results
-	c.DB.Where("ban = ?", false).Where("cube_id = ?", cubeId).Find(&results)
+	db := c.DB.Where("ban = ?", false).Where("cube_id = ?", cubeId)
+
+	if year != nil {
+		timeLimit := time.Date(*year, 1, 1, 0, 0, 0, 0, time.UTC)
+		db = db.Where("created_at < ?", timeLimit)
+	}
+
+	db.Find(&results)
 
 	var compIds = make(map[uint]struct{})
 
@@ -477,4 +492,32 @@ func (c *ResultIter) SelectCompsResult(id uint) map[EventID]map[int][]result.Res
 
 	c.Cache.Set(key, out, time.Minute*15)
 	return out
+}
+
+func (c *ResultIter) SelectPlayerEndYears(id uint, year int) (PlayerEndYears, error) {
+
+	var eventIds []string
+	c.DB.Model(&event.Event{}).Distinct("id").Where("is_comp = ?", true).Find(&eventIds)
+	out := PlayerEndYears{
+		Player:       Player{},
+		HasYears:     nil,
+		CurYear:      0,
+		CompNum:      0,
+		RestoresNum:  0,
+		SuccessesNum: 0,
+		Single:       nil,
+		Avg:          nil,
+		Ao12:         nil,
+		Ao50:         nil,
+		Ao100:        nil,
+	}
+
+	playerBest, err := c.PlayerBestResult(id, eventIds, &year)
+	if err != nil {
+		return out, err
+	}
+
+	c.SelectUserResultDetail(playerBest.CubeId, &year)
+
+	return out, nil
 }

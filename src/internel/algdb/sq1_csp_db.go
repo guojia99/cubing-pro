@@ -88,7 +88,8 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	key1, ok1 := reConfig[utils.ReplaceAll(input[0], "", " ")]
 	key2, ok2 := reConfig[utils.ReplaceAll(input[1], "", " ")]
 	if !ok1 || !ok2 {
-		return "", "", fmt.Errorf("`%s`, `%s`的配置名称不存在", input[0], input[1])
+		out := s.getList(config.(map[string]string))
+		return "", "", fmt.Errorf("`%s`, `%s`的配置名称不存在\n 请参考%s\n", input[0], input[1], out)
 	}
 
 	data, algKey, err := s.getData(key1, key2)
@@ -210,6 +211,16 @@ func (s *SQ1CspDB) getImage(base, mirror cspAlg) string {
 	return outputPath
 }
 
+func (s *SQ1CspDB) getList(config map[string]string) string {
+	out := ""
+	idx := 1
+	for key := range s.data {
+		out += fmt.Sprintf("%d. %s\n", idx, key)
+		idx++
+	}
+	return out
+}
+
 func (s *SQ1CspDB) BaseConfig() interface{} {
 	var mp = map[string]string{
 		"star":       "六星",
@@ -227,8 +238,8 @@ func (s *SQ1CspDB) BaseConfig() interface{} {
 		"left fist":  "左拳",
 		"right fist": "右拳",
 		"pawn":       "爪",
-		"left pawn":  "左爪",
-		"right pawn": "右爪",
+		"left paw":   "左爪",
+		"right paw":  "右爪",
 		"pair":       "对",
 		"line":       "直线",
 		"l":          "拐",

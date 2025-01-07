@@ -1,6 +1,8 @@
 package event
 
 import (
+	"strings"
+
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 )
 
@@ -21,4 +23,8 @@ type Event struct {
 	ScrambleValue   string `gorm:"column:scramble_value" json:"scrambleValue,omitempty" table:"-"` // 打乱ID []string
 	AutoScrambleKey string `gorm:"column:auto_scramble_key" json:"autoScrambleKey,omitempty" table:"-"`
 	PuzzleID        string `gorm:"column:puzzle_id" json:"puzzleId,omitempty" table:"-"`
+}
+
+func (e *Event) ScrambleValues() []string {
+	return strings.Split(e.ScrambleValue, ",")
 }

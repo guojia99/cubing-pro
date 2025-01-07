@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -21,7 +22,12 @@ type CompsPlugin struct {
 var _ types.Plugin = &CompsPlugin{}
 
 func (c *CompsPlugin) ID() []string {
-	return []string{"comp", "comps", "比赛", "比赛列表", "比赛赛果", "赛果", "比赛成绩", "比赛打乱", "打乱"}
+	return []string{
+		"comp", "比赛",
+		"比赛列表", "comps",
+		"比赛赛果", "赛果", "比赛成绩",
+		"比赛打乱",
+	}
 }
 
 func (c *CompsPlugin) Help() string {
@@ -31,6 +37,7 @@ func (c *CompsPlugin) Help() string {
 3. 比赛成绩/赛果/比赛赛果-{名称/序号} {项目} {轮次} {排名}: 
               可查询比赛成绩详细列表.
               例如 "赛果-1 333 初赛 30", 代表查询比赛1 三阶初赛前30名
+4. 比赛打乱-{名称/序号} {项目} {轮次}
 `
 }
 
@@ -47,16 +54,6 @@ func (c *CompsPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 
 	return c.comp(message)
-}
-
-func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, error) {
-	//comp, err := c._getComps(message)
-	//if err != nil {
-	//	return message.NewOutMessage(err.Error()), nil
-	//}
-	//
-	////comp.CompJSON.Events
-	return nil, nil
 }
 
 func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competition, error) {
@@ -80,18 +77,16 @@ func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competitio
 	return comp, nil
 }
 
-type compResultTable struct {
-	Rank   string `table:"排名"`
-	Name   string `table:"选手"`
-	Single string `table:"单次"`
-	Avg    string `table:"平均"`
-}
-
-func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, error) {
-
-	comp, err := c._getComps(message)
+func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
+	comp competition.Competition,
+	compEv competition.CompetitionEvent,
+	ev event.Event,
+	round interface{},
+	num int,
+	err error) {
+	comp, err = c._getComps(message)
 	if err != nil {
-		return message.NewOutMessage(err.Error()), nil
+		return
 	}
 
 	msg := types.RemoveID(message.Message, c.ID())
@@ -99,17 +94,17 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 	group := strings.Split(msg, " ")
 
 	if len(group) < 2 {
-		return message.NewOutMessage("请输入一个项目"), nil
+		err = fmt.Errorf("请输入一个项目")
+		return
 	}
 
 	// 比赛成绩/赛果/比赛赛果-{名称/序号} {项目} {轮次} {排名}
 
 	// 项目处理
-	ev, _, _, err := GetMessageEvent(GetEvents(c.Svc, ""), group[1])
+	ev, _, _, err = GetMessageEvent(GetEvents(c.Svc, ""), group[1])
 	if err != nil {
-		return message.NewOutMessage(err.Error()), nil
+		return
 	}
-	var compEv competition.CompetitionEvent
 	for _, v := range comp.CompJSON.Events {
 		if v.EventID == ev.ID {
 			compEv = v
@@ -117,15 +112,16 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 		}
 	}
 	if len(compEv.EventID) == 0 {
-		return message.NewOutMessage("本场比赛未开设该项目"), nil
+		err = fmt.Errorf("本场比赛未开设该项目")
+		return
 	}
 
 	// 其他参数处理
-	roundStr := "决赛"
+	round = "决赛"
 	if len(group) >= 3 {
-		roundStr = group[2]
+		round = group[2]
 	}
-	num := 10
+	num = 10
 	if len(group) >= 4 {
 		num, _ = strconv.Atoi(group[3])
 		if num < 3 {
@@ -135,21 +131,35 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 			num = 50
 		}
 	}
+	return
+}
 
+type compResultTable struct {
+	Rank   string `table:"排名"`
+	Name   string `table:"选手"`
+	Single string `table:"单次"`
+	Avg    string `table:"平均"`
+}
+
+func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, error) {
+	comp, compEv, ev, round, num, err := c._getCompWithEventsAndRound(message)
+	if err != nil {
+		return nil, err
+	}
 	results := c.Svc.Cov.SelectCompsResult(comp.ID)
 
 	rrr, ok := results[ev.ID]
 	if !ok {
 		return message.NewOutMessage("该项目未有成绩"), nil
 	}
-	schedule, err := compEv.CurRunningSchedule(roundStr, nil)
+	schedule, err := compEv.CurRunningSchedule(round, nil)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil
 	}
 
 	rr, ok := rrr[schedule.RoundNum]
 	if !ok {
-		return message.NewOutMessage(fmt.Sprintf("本场比赛`%s`项目没有 `%s` 轮次", group[1], roundStr)), nil
+		return message.NewOutMessage(fmt.Sprintf("本场比赛`%s`项目没有 `%s` 轮次", ev.ID, round)), nil
 	}
 
 	out := fmt.Sprintf("比赛: %s\n", comp.Name)
@@ -214,6 +224,51 @@ func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
 		if len(cr) > 0 {
 			out += "======== CR =========\n"
 			out += _recordTable(cr, evs, len(cr)).String()
+		}
+	}
+
+	return message.NewOutMessage(out), nil
+}
+
+func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, error) {
+	comp, compEv, ev, round, _, err := c._getCompWithEventsAndRound(message)
+	if err != nil {
+		return message.NewOutMessage(err.Error()), nil
+	}
+	schedule, err := compEv.CurRunningSchedule(round, nil)
+	if err != nil {
+		return message.NewOutMessage(err.Error()), nil
+	}
+
+	if len(schedule.Scrambles) == 0 {
+		return message.NewOutMessage("无打乱"), nil
+	}
+
+	var out = fmt.Sprintf("%s - %s - %s 打乱:\n", comp.Name, ev.Cn, round)
+	rm := ev.BaseRouteType.RouteMap()
+	for i := 0; i < len(schedule.Scrambles); i++ {
+		sc := schedule.Scrambles[i]
+		out += fmt.Sprintf("打乱 %d\n", i+1)
+		if rm.Repeatedly {
+			for idx, ssc := range sc {
+				out += fmt.Sprintf("#%d: %s\n", idx+1, ssc)
+			}
+			continue
+		}
+
+		if ev.ScrambleValue != "" && len(sc) == len(ev.ScrambleValues()) {
+			for idx, val := range ev.ScrambleValues() {
+				out += fmt.Sprintf("#%s: %s\n\n", val, sc[idx])
+			}
+			continue
+		}
+
+		for idx, val := range sc {
+			title := fmt.Sprintf("#%d", idx+1)
+			if idx+1 > rm.Rounds {
+				title = "EX#"
+			}
+			out += fmt.Sprintf("%s: %s\n", title, val)
 		}
 	}
 

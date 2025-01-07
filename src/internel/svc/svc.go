@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
+	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"gorm.io/gorm/logger"
 
 	"github.com/patrickmn/go-cache"
@@ -19,10 +20,11 @@ import (
 )
 
 type Svc struct {
-	DB    *gorm.DB
-	Cache *cache.Cache
-	Cfg   Config
-	Cov   convenient.ConvenientI
+	DB       *gorm.DB
+	Cache    *cache.Cache
+	Cfg      Config
+	Cov      convenient.ConvenientI
+	Scramble scramble.Scramble
 }
 
 func NewAPISvc(file string, job bool) (*Svc, error) {
@@ -33,8 +35,9 @@ func NewAPISvc(file string, job bool) (*Svc, error) {
 	}
 
 	c := &Svc{
-		Cfg:   cfg,
-		Cache: cache.New(time.Minute*5, time.Minute*5),
+		Cfg:      cfg,
+		Cache:    cache.New(time.Minute*5, time.Minute*5),
+		Scramble: scramble.NewScramble(cfg.GlobalConfig.Scramble.EndPoint),
 	}
 	if c.DB, err = newDB(cfg.GlobalConfig); err != nil {
 		return nil, err

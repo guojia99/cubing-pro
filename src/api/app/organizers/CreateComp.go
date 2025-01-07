@@ -9,6 +9,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -73,7 +74,37 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 		if comps.StrId == "" {
 			comps.StrId = utils.RandomString(32)
 		}
-		fmt.Printf("%+v\n", comps)
+
+		// 更新comp JSON 打乱
+		for i := 0; i < len(comps.CompJSON.Events); i++ {
+			ev := comps.CompJSON.Events[i]
+
+			if !ev.IsComp {
+				fmt.Println("xxx1")
+				continue
+			}
+			var eve event.Event
+			if err := svc.DB.Where("id = ?", ev.EventID).First(&eve).Error; err != nil {
+				fmt.Printf("xxxx%+v\n", err)
+				continue
+			}
+			for j := 0; j < len(ev.Schedule); j++ {
+				if ev.Schedule[j].NotScramble {
+					continue
+				}
+				comps.CompJSON.Events[i].Schedule[j].Scrambles = make([][]string, 0)
+				for k := 0; k < ev.Schedule[j].ScrambleNums; k++ {
+					sc, err := svc.Scramble.Scramble(eve)
+					if err != nil {
+						fmt.Printf("scramble error : %s\n", err.Error())
+						break
+					}
+					fmt.Printf("生成打乱 scramble %+v\n", sc)
+					comps.CompJSON.Events[i].Schedule[j].Scrambles = append(comps.CompJSON.Events[i].Schedule[j].Scrambles, sc)
+				}
+			}
+		}
+
 		if err := svc.DB.Create(&comps).Error; err != nil {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return

@@ -87,3 +87,11 @@ func (s HTTPTransporter) Request(method, url string, params, headers map[string]
 func HTTPRequest(method, url string, params, headers map[string]interface{}, data interface{}) ([]byte, error) {
 	return defaultHTTPTransporter.Request(method, url, params, headers, data)
 }
+
+func HTTPRequestWithJSON(method, url string, params, headers map[string]interface{}, data, dst interface{}) error {
+	output, err := HTTPRequest(method, url, params, headers, data)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(output, dst)
+}

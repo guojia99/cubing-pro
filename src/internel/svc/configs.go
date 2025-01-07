@@ -11,6 +11,11 @@ type GlobalConfig struct {
 	BaseHost    string      `yaml:"baseHost"`
 	DB          DBConfig    `yaml:"db"`
 	EmailConfig EmailConfig `yaml:"emailConfig"`
+	Scramble    Scramble    `yaml:"scramble"`
+}
+
+type Scramble struct {
+	EndPoint string `yaml:"endpoint"`
 }
 
 type DBConfig struct {

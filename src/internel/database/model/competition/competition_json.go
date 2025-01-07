@@ -115,4 +115,9 @@ type Schedule struct {
 	FirstRound          bool   `json:"FirstRound,omitempty"`          // 第一轮
 	FinalRound          bool   `json:"FinalRound,omitempty"`          // 最后一轮
 	AdvancedToThisRound []uint `json:"AdvancedToNextRound,omitempty"` // 本轮晋级的选手
+
+	// 打乱
+	NotScramble  bool       `json:"NotScramble,omitempty"`  // 不需要打乱
+	Scrambles    [][]string `json:"Scrambles,omitempty"`    // 打乱
+	ScrambleNums int        `json:"ScrambleNums,omitempty"` // 打乱数
 }

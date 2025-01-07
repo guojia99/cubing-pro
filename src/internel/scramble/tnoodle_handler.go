@@ -2,58 +2,78 @@ package scramble
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
+
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
 type scramble struct {
-	url string
+	endpoint string
 }
 
-func (s scramble) get(typ string, nums int) (string, error) {
-	url := fmt.Sprintf("%s/scramble/.txt?=%s*%d", s.url, typ, nums)
-	resp, err := http.Get(url)
-	if err != nil {
-		return "", err
-	}
-	v, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	return string(v), nil
+type scrambleValue struct {
+	Scramble string `json:"scramble"`
+	SvgImage string `json:"svgImage"`
 }
 
-func (s scramble) CubeScramble(cube string, nums int) ([]string, error) {
-	key, err := TNoodleKey(cube)
-	if err != nil {
-		return nil, err
+func (s *scramble) WCACubeScramble(cube string, nums int) ([]string, error) {
+	events := s.events()
+
+	if _, ok := events[cube]; !ok {
+		return []string{}, fmt.Errorf("cube not found `%s`", cube)
+	}
+	event := events[cube]
+	var cubeKey = cube
+	if strings.Contains(cube, "bf") || strings.Contains(cube, "oh") {
+		cubeKey = event.PuzzleID
 	}
 
-	if nums >= 100 {
-		nums = 100
+	// 获取colors
+	var colors map[string]string
+	colorUrl := fmt.Sprintf("%s/frontend/puzzle/%s/colors", s.endpoint, cubeKey)
+	if err := utils.HTTPRequestWithJSON(http.MethodGet, colorUrl, nil, nil, nil, &colors); err != nil {
+		return []string{}, err
 	}
 
-	data, err := s.get(key, nums)
-	if err != nil {
-		return nil, err
+	url := fmt.Sprintf("%s/frontend/puzzle/%s/scramble", s.endpoint, cubeKey)
+
+	var out []string
+	for i := 0; i < nums; i++ {
+		var val scrambleValue
+		err := utils.HTTPRequestWithJSON(http.MethodPost, url, nil, nil, colors, &val)
+		if err != nil {
+			return []string{}, err
+		}
+		out = append(out, val.Scramble)
 	}
-	out := strings.Split(data, "\r\n")
-	return out[:nums], err
+
+	return out, nil
 }
 
-/*
-CE	基础公式	U' R' U L U' R U L'	[U' R' U,L]
-EC	基础公式	L U' R' U L' U' R U	[L,U' R' U]
-CM	基础公式	U' R' U L' U' R U L	[U' R' U,L']
-MC	基础公式	L' U' R' U L U' R U	[L',U' R' U]
-CQ	基础公式	U' R' U L2 U' R U L2	[U' R' U,L2]
-QC	基础公式	L2 U' R' U L2 U' R U	[L2,U' R' U]
-CH	基础公式	R' U L U' R U L' U'	[R',U L U']
-HC	基础公式	U L U' R' U L' U' R	[U L U',R']
-CR	基础公式	R2 U L U' R2 U L' U'	[R2,U L U']
-RC	基础公式	U L U' R2 U L' U' R2	[U L U',R2]
-CY	基础公式	R U L U' R' U L' U'	[R,U L U']
-YC	基础公式	U L U' R U L' U' R'	[U L U',R]
+type Event struct {
+	ID                    string   `json:"id"`
+	Name                  string   `json:"name"`
+	PuzzleID              string   `json:"puzzle_id"`
+	PuzzleGroupID         string   `json:"puzzle_group_id"`
+	FormatIDs             []string `json:"format_ids"`
+	CanChangeTimeLimit    bool     `json:"can_change_time_limit"`
+	IsTimedEvent          bool     `json:"is_timed_event"`
+	IsFewestMoves         bool     `json:"is_fewest_moves"`
+	IsMultipleBlindfolded bool     `json:"is_multiple_blindfolded"`
+}
 
-*/
+func (s *scramble) events() map[string]Event {
+	//http://localhost:2014/frontend/data/events
+	url := fmt.Sprintf("%s/frontend/data/events", s.endpoint)
+	var evs []Event
+	if err := utils.HTTPRequestWithJSON(http.MethodGet, url, nil, nil, nil, &evs); err != nil {
+		return nil
+	}
+
+	var out = make(map[string]Event)
+	for _, ev := range evs {
+		out[ev.ID] = ev
+	}
+	return out
+}

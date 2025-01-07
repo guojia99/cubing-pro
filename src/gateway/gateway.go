@@ -56,6 +56,8 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 			ctx.File(staticFilePath)
 			return
 		}
+
+		ctx.Header("Cache-Control", "public, max-age=10")
 		ctx.File(g.cfg.Gateway.IndexPath)
 	}
 }

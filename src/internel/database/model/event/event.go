@@ -16,4 +16,9 @@ type Event struct {
 	IconBase64              string    `gorm:"column:icon_base64" json:"iconBase64,omitempty" table:"-"` // Icon base64
 	IsWCA                   bool      `gorm:"column:is_wca" json:"isWCA,omitempty"`                     // WCA项目
 	BaseRouteType           RouteType `gorm:"column:base_route_typ" json:"base_route_typ,omitempty"`    // 默认轮次
+
+	// 非WCA项目打乱
+	ScrambleValue   string `gorm:"column:scramble_value" json:"scrambleValue,omitempty" table:"-"` // 打乱ID []string
+	AutoScrambleKey string `gorm:"column:auto_scramble_key" json:"autoScrambleKey,omitempty" table:"-"`
+	PuzzleID        string `gorm:"column:puzzle_id" json:"puzzleId,omitempty" table:"-"`
 }

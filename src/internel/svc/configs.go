@@ -7,12 +7,14 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug       bool        `yaml:"debug"`
-	BaseHost    string      `yaml:"baseHost"`
-	DB          DBConfig    `yaml:"db"`
-	EmailConfig EmailConfig `yaml:"emailConfig"`
-	Scramble    Scramble    `yaml:"scramble"`
-	AlgPath     AlgPath     `yaml:"algPath"`
+	Debug         bool        `yaml:"debug"`
+	BaseHost      string      `yaml:"baseHost"`
+	ImageTempPath string      `yaml:"imageTempPath"`
+	BaseFontTTf   string      `yaml:"baseFontTTf"`
+	DB            DBConfig    `yaml:"db"`
+	EmailConfig   EmailConfig `yaml:"emailConfig"`
+	Scramble      Scramble    `yaml:"scramble"`
+	AlgPath       AlgPath     `yaml:"algPath"`
 }
 
 type Scramble struct {
@@ -20,7 +22,8 @@ type Scramble struct {
 }
 
 type AlgPath struct {
-	Csp string `yaml:"csp"`
+	Csp       string `yaml:"csp"`
+	CspImages string `yaml:"cspImages"`
 }
 
 type DBConfig struct {

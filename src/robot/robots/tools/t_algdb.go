@@ -17,7 +17,7 @@ type TAlgDB struct {
 
 func (t *TAlgDB) init() {
 	t.dbs = []algdb.AlgDB{
-		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath.Csp),
+		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath.Csp, t.Svc.Cfg.GlobalConfig.AlgPath.CspImages, t.Svc.Cfg.GlobalConfig.ImageTempPath, t.Svc.Cfg.GlobalConfig.BaseFontTTf),
 	}
 
 	t.dbsMap = make(map[string]algdb.AlgDB)
@@ -46,7 +46,7 @@ func (t *TAlgDB) Do(message types.InMessage) (*types.OutMessage, error) {
 	msg := types.RemoveID(message.Message, t.ID())
 
 	sp := strings.Split(strings.TrimLeft(msg, " "), " ")
-	if len(sp) < 2 {
+	if len(sp) == 0 {
 		return message.NewOutMessage(t.Help()), nil
 	}
 	key := sp[0]
@@ -56,10 +56,14 @@ func (t *TAlgDB) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 	config := db.BaseConfig()
 
-	output, err := db.Select(msg, config)
+	output, img, err := db.Select(msg, config)
 	if err != nil {
 		return message.NewOutMessagef("%+v", err), nil
 	}
 
+	if img != "" {
+		return message.NewOutMessageWithImage(output, img), nil
+	}
 	return message.NewOutMessage(output), nil
+
 }

@@ -15,7 +15,7 @@ type AlgDB interface {
 	*/
 	UpdateCases() []string
 	Help() string
-	Select(selectInput string, config interface{}) (output string, err error)
+	Select(selectInput string, config interface{}) (output string, image string, err error)
 	UpdateConfig(caseInput string, oldConfig interface{}) (config string, err error)
 	BaseConfig() interface{}
 }

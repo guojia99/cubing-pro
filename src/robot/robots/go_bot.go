@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -91,8 +92,34 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 	newMsg := &dto.GroupMessageToCreate{
 		Content: "\n" + strings.Join(out.Message, ""),
 		MsgID:   out.MsgID,
+		MsgReq:  1,
 		MsgType: 0,
 	}
+
+	if len(out.Images) == 1 {
+
+		data, err := os.ReadFile(out.Images[0])
+		if err != nil {
+			return err
+		}
+
+		resp, err := q.Api.PostGroupRichMediaMessage(q.ctx, out.GroupID.(string),
+			&dto.GroupRichMediaMessageToCreate{
+				FileType:   1,
+				FileData:   data,
+				SrvSendMsg: false,
+			},
+		)
+		if err != nil {
+			return err
+		}
+
+		newMsg.MsgType = 7
+		newMsg.Media = &dto.FileInfo{
+			FileInfo: resp.FileInfo,
+		}
+	}
+
 	_, err := q.Api.PostGroupMessage(q.ctx, out.GroupID.(string), newMsg)
 	return err
 }

@@ -3,35 +3,52 @@ package algdb
 import (
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/draw"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
 	"os"
+	"path"
 	"strings"
+	"time"
+
+	"github.com/fogleman/gg"
 
 	"github.com/2mf8/Better-Bot-Go/log"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
 type SQ1CspDB struct {
-	DBPath string `json:"db_path"`
+	DBPath    string
+	ImagePath string
+	TempPath  string
+	FontTTf   string
 
 	data cspAlgMap
 }
 
-func NewSQ1CspDB(dbPath string) *SQ1CspDB {
+func NewSQ1CspDB(dbPath string, imagePath string, tmpPath string, FontTTf string) *SQ1CspDB {
 	s := &SQ1CspDB{
-		DBPath: dbPath,
+		ImagePath: imagePath,
+		DBPath:    dbPath,
+		TempPath:  tmpPath,
+		FontTTf:   FontTTf,
 	}
 	s.init()
 	return s
 }
 
 func (s *SQ1CspDB) init() {
+	_ = os.MkdirAll(s.TempPath, os.ModePerm)
+
 	file, err := os.ReadFile(s.DBPath)
 	if err != nil {
 		log.Errorf(err.Error())
 		return
 	}
+	_ = json.Unmarshal(file, &s.data)
 
-	err = json.Unmarshal(file, &s.data)
 }
 
 func (s *SQ1CspDB) ID() []string          { return []string{"csp", "CSP", "Csp", "吃薯片"} }
@@ -40,10 +57,16 @@ func (s *SQ1CspDB) UpdateCases() []string { return []string{"修改配置"} }
 
 func (s *SQ1CspDB) Help() string { return "'csp 桶-桶' : 可获取对应公式 " }
 
-func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string, err error) {
+func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string, image string, err error) {
 	if config == nil {
 		config = s.BaseConfig()
 	}
+
+	fmt.Println(utils.ReplaceAll(selectInput, "", " "), "==========")
+	if utils.ReplaceAll(selectInput, "", " ") == "吃薯片" {
+		return "嘎崩脆", "", nil
+	}
+
 	selectInput = utils.ReplaceAll(selectInput, "", s.ID()...)
 	var input []string
 
@@ -58,19 +81,19 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 		}
 	}
 	if len(input) < 2 {
-		return "", fmt.Errorf("格式应当为: 'csp 桶 桶' 或 'csp star/star'")
+		return "", "", fmt.Errorf("格式应当为: 'csp 桶 桶' 或 'csp star/star'")
 	}
 	reConfig := s.reConfig(config.(map[string]string))
 
 	key1, ok1 := reConfig[utils.ReplaceAll(input[0], "", " ")]
 	key2, ok2 := reConfig[utils.ReplaceAll(input[1], "", " ")]
 	if !ok1 || !ok2 {
-		return "", fmt.Errorf("`%s`, `%s`的配置名称不存在", input[0], input[1])
+		return "", "", fmt.Errorf("`%s`, `%s`的配置名称不存在", input[0], input[1])
 	}
 
 	data, algKey, err := s.getData(key1, key2)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	out := fmt.Sprintf("形态 ====> %s\n", algKey)
 	base, baseOk := data[baseKey]
@@ -81,11 +104,16 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	}
 	mirror, mirrorOk := data[mirrorKey]
 	if mirrorOk {
-		out += fmt.Sprintf("-- 镜像\n")
+		out += fmt.Sprintf("-- 倒置\n")
 		out += fmt.Sprintf("a.偶(%d) %s\n", len(strings.Split(mirror.Even, "/")), mirror.Even)
 		out += fmt.Sprintf("b.奇(%d) %s\n", len(strings.Split(mirror.Odd, "/")), mirror.Odd)
 	}
-	return out, nil
+
+	// 合并图片
+	img := s.getImage(base, mirror)
+
+	fmt.Println(img)
+	return out, img, nil
 }
 
 func (s *SQ1CspDB) UpdateConfig(updateInput string, oldConfig interface{}) (config string, err error) {
@@ -114,6 +142,74 @@ func (s *SQ1CspDB) reConfig(mp map[string]string) map[string]string {
 	return out
 }
 
+func (s *SQ1CspDB) getImage(base, mirror cspAlg) string {
+	bIEv, bIOd := "", ""
+	mIEv, mIOd := "", ""
+
+	if len(base.Image) == 2 {
+		bIEv, bIOd = base.Image[0], base.Image[1]
+	}
+	if len(mirror.Image) == 2 {
+		mIEv, mIOd = mirror.Image[0], mirror.Image[1]
+	}
+
+	if len(bIEv) == 0 || len(bIOd) == 0 {
+		return ""
+	}
+	bIEv = path.Join(s.ImagePath, bIEv)
+	bIOd = path.Join(s.ImagePath, bIOd)
+	mIEv = path.Join(s.ImagePath, mIEv)
+	mIOd = path.Join(s.ImagePath, mIOd)
+
+	bIEvImg, err1 := utils.OpenImage(bIEv)
+	bIOdImg, err2 := utils.OpenImage(bIOd)
+	if err1 != nil || err2 != nil {
+		return ""
+	}
+
+	width := bIEvImg.Bounds().Dx()
+	height := bIEvImg.Bounds().Dy()
+
+	const imageMesDy = 50
+	newWidth := bIEvImg.Bounds().Dx()
+	newHeight := bIEvImg.Bounds().Dy() * 2
+
+	mIEvImg, err3 := utils.OpenImage(mIEv)
+	mIOdImg, err4 := utils.OpenImage(mIOd)
+	if err3 == nil && err4 == nil {
+		newWidth *= 2
+	}
+	newImage := image.NewRGBA(image.Rect(0, 0, newWidth, newHeight))
+
+	draw.Draw(newImage, image.Rect(0, 0, width, height), bIEvImg, image.Point{}, draw.Over)
+	draw.Draw(newImage, image.Rect(0, height, width, newHeight), bIOdImg, image.Point{}, draw.Over)
+
+	if err3 == nil && err4 == nil {
+		draw.Draw(newImage, image.Rect(width, 0, newWidth, height), mIEvImg, image.Point{}, draw.Over)
+		draw.Draw(newImage, image.Rect(width, height, newWidth, newHeight), mIOdImg, image.Point{}, draw.Over)
+	}
+	outputPath := path.Join(s.TempPath, fmt.Sprintf("%d.png", time.Now().UnixNano()))
+	//outputPath := path.Join(s.TempPath, "test.png")
+	// 写入文字
+	dc := gg.NewContextForImage(newImage)
+	if err := dc.LoadFontFace(s.FontTTf, 30); err != nil {
+		fmt.Printf("无法加载字体: %v\n", err)
+		return ""
+	}
+	dc.SetRGB(206, 27, 183)
+	dc.DrawStringAnchored("Base", float64(40), float64(newHeight-20), 0.5, 0.5)
+	if err3 == nil && err4 == nil {
+		dc.SetRGB(181, 224, 133)
+		dc.DrawStringAnchored("Invert", float64(newWidth-50), float64(newHeight-20), 0.5, 0.5)
+	}
+
+	err := utils.SaveImage(outputPath, dc.Image())
+	if err != nil {
+		return ""
+	}
+	return outputPath
+}
+
 func (s *SQ1CspDB) BaseConfig() interface{} {
 	var mp = map[string]string{
 		"star":       "六星",
@@ -126,7 +222,7 @@ func (s *SQ1CspDB) BaseConfig() interface{} {
 		"scallop":    "贝",
 		"shield":     "盾",
 		"barrel":     "桶",
-		"mushroom":   "菇",
+		"muffin":     "菇",
 		"fist":       "拳",
 		"left fist":  "左拳",
 		"right fist": "右拳",
@@ -153,8 +249,9 @@ func (s *SQ1CspDB) BaseConfig() interface{} {
 }
 
 type cspAlg struct {
-	Even string `json:"even"`
-	Odd  string `json:"odd"`
+	Even  string   `json:"even"`
+	Odd   string   `json:"odd"`
+	Image []string `json:"image"`
 }
 
 const (

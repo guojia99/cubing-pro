@@ -8,6 +8,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/appleboy/gin-jwt/v2 v2.9.2
 	github.com/donnie4w/go-logger v0.27.0
+	github.com/fogleman/gg v1.3.0
 	github.com/gin-contrib/gzip v1.0.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
@@ -17,7 +18,6 @@ require (
 	github.com/mozillazg/go-pinyin v0.20.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0
 	github.com/unrolled/secure v1.14.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
@@ -45,7 +45,6 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/btree v1.1.3 // indirect
 	github.com/gookit/color v1.5.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
@@ -64,6 +63,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/t-tomalak/logrus-easy-formatter v0.0.0-20190827215021-c074f06c5816 // indirect
 	github.com/tidwall/gjson v1.17.0 // indirect

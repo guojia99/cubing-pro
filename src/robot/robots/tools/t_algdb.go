@@ -1,0 +1,65 @@
+package tools
+
+import (
+	"fmt"
+	"strings"
+
+	"github.com/guojia99/cubing-pro/src/internel/algdb"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/robot/types"
+)
+
+type TAlgDB struct {
+	Svc    *svc.Svc
+	dbs    []algdb.AlgDB
+	dbsMap map[string]algdb.AlgDB
+}
+
+func (t *TAlgDB) init() {
+	t.dbs = []algdb.AlgDB{
+		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath.Csp),
+	}
+
+	t.dbsMap = make(map[string]algdb.AlgDB)
+	for _, db := range t.dbs {
+		for _, id := range db.ID() {
+			t.dbsMap[id] = db
+		}
+	}
+}
+
+func (t *TAlgDB) ID() []string {
+	t.init()
+	return []string{"alg", "公式"}
+}
+
+func (t *TAlgDB) Help() string {
+	out := "1. 输入： 公式 xxxx 可查询某些公式\n"
+	idx := 2
+	for i, db := range t.dbs {
+		out += fmt.Sprintf("%d. %s\n", idx+i, db.Help())
+	}
+	return out
+}
+
+func (t *TAlgDB) Do(message types.InMessage) (*types.OutMessage, error) {
+	msg := types.RemoveID(message.Message, t.ID())
+
+	sp := strings.Split(strings.TrimLeft(msg, " "), " ")
+	if len(sp) < 2 {
+		return message.NewOutMessage(t.Help()), nil
+	}
+	key := sp[0]
+	db, ok := t.dbsMap[key]
+	if !ok {
+		return message.NewOutMessage(t.Help()), nil
+	}
+	config := db.BaseConfig()
+
+	output, err := db.Select(msg, config)
+	if err != nil {
+		return message.NewOutMessagef("%+v", err), nil
+	}
+
+	return message.NewOutMessage(output), nil
+}

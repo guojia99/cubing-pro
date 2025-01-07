@@ -12,10 +12,15 @@ type GlobalConfig struct {
 	DB          DBConfig    `yaml:"db"`
 	EmailConfig EmailConfig `yaml:"emailConfig"`
 	Scramble    Scramble    `yaml:"scramble"`
+	AlgPath     AlgPath     `yaml:"algPath"`
 }
 
 type Scramble struct {
 	EndPoint string `yaml:"endpoint"`
+}
+
+type AlgPath struct {
+	Csp string `yaml:"csp"`
 }
 
 type DBConfig struct {

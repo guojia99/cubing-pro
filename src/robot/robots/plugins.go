@@ -19,5 +19,6 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		//&PersonValPlugin{Svc: svc},
 
 		&tools.TRandom{},
+		&tools.TAlgDB{Svc: svc},
 	}
 }

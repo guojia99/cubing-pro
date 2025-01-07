@@ -25,7 +25,8 @@ type SQ1CspDB struct {
 	TempPath  string
 	FontTTf   string
 
-	data cspAlgMap
+	data     cspAlgMap
+	dataList []string
 }
 
 func NewSQ1CspDB(dbPath string, imagePath string, tmpPath string, FontTTf string) *SQ1CspDB {
@@ -47,7 +48,17 @@ func (s *SQ1CspDB) init() {
 		log.Errorf(err.Error())
 		return
 	}
-	_ = json.Unmarshal(file, &s.data)
+
+	var in map[string]interface{}
+	err = json.Unmarshal(file, &in)
+	if err != nil {
+		return
+	}
+	s.dataList = in[listKey].([]string)
+	delete(in, listKey)
+
+	b, _ := json.Marshal(in)
+	_ = json.Unmarshal(b, &s.data)
 
 }
 
@@ -89,7 +100,7 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	key2, ok2 := reConfig[utils.ReplaceAll(input[1], "", " ")]
 	if !ok1 || !ok2 {
 		out := s.getList(config.(map[string]string))
-		return "", "", fmt.Errorf("`%s`, `%s`的配置名称不存在\n 请参考%s\n", input[0], input[1], out)
+		return "", "", fmt.Errorf("`%s`, `%s`的配置名称不存在\n 请参考\n %s\n", input[0], input[1], out)
 	}
 
 	data, algKey, err := s.getData(key1, key2)
@@ -100,14 +111,14 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	base, baseOk := data[baseKey]
 	if baseOk {
 		out += fmt.Sprintf("-- 基础\n")
-		out += fmt.Sprintf("a.偶(%d) %s\n", len(strings.Split(base.Even, "/")), base.Even)
-		out += fmt.Sprintf("b.奇(%d) %s\n", len(strings.Split(base.Odd, "/")), base.Odd)
+		out += fmt.Sprintf("a.偶(%d) %s\n", strings.Count(base.Even, "/"), base.Even)
+		out += fmt.Sprintf("b.奇(%d) %s\n", strings.Count(base.Odd, "/"), base.Odd)
 	}
 	mirror, mirrorOk := data[mirrorKey]
 	if mirrorOk {
 		out += fmt.Sprintf("-- 倒置\n")
-		out += fmt.Sprintf("a.偶(%d) %s\n", len(strings.Split(mirror.Even, "/")), mirror.Even)
-		out += fmt.Sprintf("b.奇(%d) %s\n", len(strings.Split(mirror.Odd, "/")), mirror.Odd)
+		out += fmt.Sprintf("a.偶(%d) %s\n", strings.Count(mirror.Even, "/"), mirror.Even)
+		out += fmt.Sprintf("b.奇(%d) %s\n", strings.Count(mirror.Odd, "/"), mirror.Odd)
 	}
 
 	// 合并图片
@@ -211,11 +222,20 @@ func (s *SQ1CspDB) getImage(base, mirror cspAlg) string {
 	return outputPath
 }
 
-func (s *SQ1CspDB) getList(config map[string]string) string {
-	out := ""
+func (s *SQ1CspDB) getList(config map[string]string) (out string) {
+
 	idx := 1
-	for key := range s.data {
-		out += fmt.Sprintf("%d. %s\n", idx, key)
+	for _, key := range s.dataList {
+		st := strings.Split(key, "/")
+		k1, k2 := strings.TrimRight(st[0], " "), strings.TrimLeft(st[1], " ")
+		if t, ok := config[k1]; ok {
+			k1 = t
+		}
+		if t, ok := config[k2]; ok {
+			k2 = t
+		}
+
+		out += fmt.Sprintf("%d. %s / %s\n", idx, k1, k2)
 		idx++
 	}
 	return out
@@ -268,6 +288,7 @@ type cspAlg struct {
 const (
 	baseKey   = "base"
 	mirrorKey = "mirror"
+	listKey   = "___list"
 )
 
-type cspAlgMap map[string]map[string]cspAlg // map[case] map[base|mirror] cspAlg
+type cspAlgMap map[string]map[string]cspAlg // map[case] map[base|mirror] cspAlg ||| __ []string

@@ -50,7 +50,12 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	if strings.Contains(selectInput, "/") {
 		input = strings.Split(selectInput, "/")
 	} else {
-		input = strings.Split(selectInput, " ")
+		xxInput := strings.Split(selectInput, " ")
+		for _, x := range xxInput {
+			if len(x) > 0 {
+				input = append(input, x)
+			}
+		}
 	}
 	if len(input) < 2 {
 		return "", fmt.Errorf("格式应当为: 'csp 桶 桶' 或 'csp star/star'")

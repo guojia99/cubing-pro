@@ -54,7 +54,10 @@ func (s *SQ1CspDB) init() {
 	if err != nil {
 		return
 	}
-	s.dataList = in[listKey].([]string)
+
+	b0, _ := json.Marshal(in[listKey])
+	_ = json.Unmarshal(b0, &s.dataList)
+
 	delete(in, listKey)
 
 	b, _ := json.Marshal(in)

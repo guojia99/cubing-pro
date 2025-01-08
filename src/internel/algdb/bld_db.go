@@ -247,6 +247,14 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 			outImageTable = append(outImageTable, tb)
 		}
 	}
+
+	outImageTable = append(outImageTable, algTable{})
+	outImageTable = append(outImageTable, algTable{
+		Idx:  "",
+		Alg:  fmt.Sprintf("%s %s Case %s ==> %s\n", class, cla, result, sCase),
+		Comm: "",
+	})
+
 	return out, b.resImage(outImageTable), err
 }
 

@@ -250,9 +250,10 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 
 	outImageTable = append(outImageTable, algTable{})
 	outImageTable = append(outImageTable, algTable{
-		Idx:  "",
-		Alg:  fmt.Sprintf("%s %s Case %s ==> %s\n", class, cla, result, sCase),
-		Comm: "",
+		Alg: fmt.Sprintf("%s %s Case %s ==> %s\n", class, cla, result, sCase),
+	})
+	outImageTable = append(outImageTable, algTable{
+		Alg: fmt.Sprintf("数据来源 blddb.net"),
 	})
 
 	return out, b.resImage(outImageTable), err

@@ -8,6 +8,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/appleboy/gin-jwt/v2 v2.9.2
 	github.com/donnie4w/go-logger v0.27.0
+	github.com/dop251/goja v0.0.0-20241024094426-79f3a7efcdbd
 	github.com/fogleman/gg v1.3.0
 	github.com/gin-contrib/gzip v1.0.1
 	github.com/gin-gonic/gin v1.10.0
@@ -33,6 +34,7 @@ require (
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
+	github.com/dlclark/regexp2 v1.11.4 // indirect
 	github.com/donnie4w/gofer v0.1.8 // indirect
 	github.com/fanliao/go-promise v0.0.0-20141029170127-1890db352a72 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
@@ -41,11 +43,13 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.20.0 // indirect
 	github.com/go-resty/resty/v2 v2.6.0 // indirect
+	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/google/btree v1.1.3 // indirect
+	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
 	github.com/gookit/color v1.5.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

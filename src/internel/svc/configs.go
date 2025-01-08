@@ -24,6 +24,7 @@ type Scramble struct {
 type AlgPath struct {
 	Csp       string `yaml:"csp"`
 	CspImages string `yaml:"cspImages"`
+	Bld       string `yaml:"bld"`
 }
 
 type DBConfig struct {

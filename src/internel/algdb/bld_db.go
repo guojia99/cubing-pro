@@ -2,13 +2,17 @@ package algdb
 
 import (
 	"fmt"
+	"image/color"
 	"path"
 	"regexp"
 	"slices"
 	"strings"
+	"time"
 
+	"github.com/fogleman/gg"
 	"github.com/guojia99/cubing-pro/src/internel/algdb/script"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/guojia99/go-tables/table"
 )
 
 type bldAlg map[string][]string
@@ -36,7 +40,9 @@ const (
 )
 
 type BldDB struct {
-	bldPath string
+	bldPath  string
+	TempPath string
+	FontTTf  string
 
 	cornerAlgToStandard, cornerCodeToPos, cornerPosToCode map[string]string // 查询映射表
 	edgeAlgToStandard, edgeCodeToPos, edgePosToCode       map[string]string // 查询映射表
@@ -48,11 +54,13 @@ type BldDB struct {
 	cornerInfo map[string]bldAlg
 }
 
-func NewBldDB(bldPath string) *BldDB {
+func NewBldDB(bldPath string, tmpPath string, FontTTf string) *BldDB {
 	script.InitCommutator(path.Join(bldPath, commutatorJs))
 
 	b := &BldDB{
 		bldPath:    bldPath,
+		TempPath:   tmpPath,
+		FontTTf:    FontTTf,
 		edgeInfo:   make(map[string]bldAlg),
 		cornerInfo: make(map[string]bldAlg),
 	}
@@ -113,6 +121,12 @@ var classInfo = []string{
 	"人造", "噩梦", "圆子", "平衡", "man", "info", "yuanzi", "balance",
 }
 
+type algTable struct {
+	Idx  string `table:"序号"`
+	Alg  string `table:"公式"`
+	Comm string `table:"交换子"`
+}
+
 func (b *BldDB) Select(selectInput string, config interface{}) (output string, image string, err error) {
 	msg := strings.TrimSpace(utils.ReplaceAll(selectInput, "", b.ID()...))
 	sp := strings.Split(msg, " ")
@@ -150,6 +164,7 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 	}
 
 	// 渲染公式
+	var outImageTable []algTable
 	out := fmt.Sprintf("%s %s Case %s ==> %s\n", class, cla, result, sCase)
 	if slices.Contains([]string{"人造", "man"}, cla) {
 		var getData bldManMadeAlg
@@ -180,6 +195,17 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 				} else {
 					out += fmt.Sprintf("公式: %s\n\t\t交换子:%s\n", alg, comm)
 				}
+				tb := algTable{
+					Idx:  fmt.Sprintf("%d", idx+1),
+					Alg:  alg,
+					Comm: fmt.Sprintf("\t%s", comm),
+				}
+
+				if i > 0 {
+					tb.Idx = ""
+				}
+
+				outImageTable = append(outImageTable, tb)
 				out += "\n"
 			}
 		}
@@ -213,10 +239,15 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 			} else {
 				out += fmt.Sprintf("%d. 公式: %s\n", idx+1, alg)
 			}
-
+			tb := algTable{
+				Idx:  fmt.Sprintf("%d", idx+1),
+				Alg:  alg,
+				Comm: fmt.Sprintf("\t%s", comm),
+			}
+			outImageTable = append(outImageTable, tb)
 		}
 	}
-	return out, "", err
+	return out, b.resImage(outImageTable), err
 }
 
 func (b *BldDB) UpdateConfig(caseInput string, oldConfig interface{}) (config string, err error) {
@@ -225,6 +256,46 @@ func (b *BldDB) UpdateConfig(caseInput string, oldConfig interface{}) (config st
 func (b *BldDB) BaseConfig() interface{} {
 	mp := make(map[string]map[string]string)
 	return mp
+}
+
+func (b *BldDB) resImage(res []algTable) string {
+	out, err := table.SimpleTable(res, &table.Option{
+		ExpendID: false,
+		Align:    table.AlignLeft,
+		Contour:  table.EmptyContour,
+	})
+	if err != nil {
+		return ""
+	}
+
+	data := out.String()
+	if len(data) == 0 {
+		return ""
+	}
+
+	height := strings.Count(data, "\n") * 32
+	width := len(strings.Split(data, "\n")[0]) * 8
+	dc := gg.NewContext(width, height)
+
+	dc.SetColor(color.White)
+	dc.Clear()
+	dc.SetRGB(0, 0, 0)
+
+	if err = dc.LoadFontFace(b.FontTTf, 16); err != nil {
+		return ""
+	}
+
+	curH := 0.0
+	for _, l := range strings.Split(data, "\n") {
+		dc.DrawStringAnchored(l, 0, curH, 0, 1)
+		curH += 32
+	}
+
+	filePath := path.Join(b.TempPath, fmt.Sprintf("bld%d.png", time.Now().UnixNano()))
+	if err = utils.SaveImage(filePath, dc.Image()); err != nil {
+		return ""
+	}
+	return filePath
 }
 
 func (b *BldDB) updateEdgeResult(res string) string {

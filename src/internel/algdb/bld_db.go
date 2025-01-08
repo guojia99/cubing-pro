@@ -169,7 +169,11 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 		}
 		for idx, res := range data {
 			out += fmt.Sprintf("%d. (%d)\t", idx+1, len(res[1]))
-			for _, alg := range res[0] {
+			for i, alg := range res[0] {
+				if i > 0 {
+					out += "\t\t"
+				}
+
 				comm, errx := script.Commutator(alg)
 				if errx != nil {
 					out += fmt.Sprintf("公式: %s\n", alg)

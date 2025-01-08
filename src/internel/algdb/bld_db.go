@@ -117,10 +117,10 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 	msg := strings.TrimSpace(utils.ReplaceAll(selectInput, "", b.ID()...))
 	sp := strings.Split(msg, " ")
 	if len(sp) != 2 {
-		return "", "", fmt.Errorf("格式错误")
+		return "", "", fmt.Errorf(b.Help())
 	}
 
-	class, result := sp[0], sp[1]
+	class, result := sp[0], strings.ToUpper(sp[1])
 	cla := "人造"
 	if matches := regexp.MustCompile(`\[(.*?)\]`).FindStringSubmatch(class); len(matches) >= 2 {
 		cla = matches[1]
@@ -166,13 +166,13 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 		}
 		for idx, res := range data {
 			out += fmt.Sprintf("%d. (%d)\t", idx+1, len(res[1]))
-			for idy, alg := range res[0] {
-				comm, _ := script.Commutator(alg)
-				if idy == 0 {
-					out += fmt.Sprintf("%s \t\t %s\n", comm, alg)
-					continue
+			for _, alg := range res[0] {
+				comm, errx := script.Commutator(alg)
+				if errx != nil {
+					out += fmt.Sprintf("%s\n", alg)
+				} else {
+					out += fmt.Sprintf("%s\n\t\t%s\n", alg, comm)
 				}
-				out += fmt.Sprintf("\t\t %s \t\t %s\n", comm, alg)
 			}
 		}
 	} else {
@@ -200,7 +200,7 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 				continue
 			}
 			comm, _ := script.Commutator(alg)
-			out += fmt.Sprintf("%d. %s \t\t %s\n", idx+1, comm, alg)
+			out += fmt.Sprintf("%d. %s\n   %s\n", idx+1, alg, comm)
 		}
 	}
 	return out, "", err

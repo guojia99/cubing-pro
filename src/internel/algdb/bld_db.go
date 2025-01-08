@@ -183,7 +183,7 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 			return "", "", fmt.Errorf("找不到该case `%s`", sp[1])
 		}
 		for idx, res := range data {
-			out += fmt.Sprintf("%d. (%d)\t", idx+1, len(res[1]))
+			out += fmt.Sprintf("%d.\t", idx+1)
 			for i, alg := range res[0] {
 				if i > 0 {
 					out += "\t\t"

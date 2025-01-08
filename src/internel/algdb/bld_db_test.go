@@ -8,9 +8,11 @@ func TestBldDB_Select(t *testing.T) {
 	b := NewBldDB("/home/guojia/worker/code/cube/cubing-pro/build/alg/bld")
 
 	ls := []string{
-		"bld 角[人造] PYR",
-		"bld 角 PYR",
-		"bld 角[圆子] PYR",
+		//"bld 角[人造] PYR",
+		//"bld 角 PYR",
+		//"bld 角[圆子] PYR",
+		"bld 角 UFR-UFL-URB",
+		"bld 棱 UF-UL-UR",
 	}
 
 	for _, l := range ls {

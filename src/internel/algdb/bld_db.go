@@ -131,22 +131,25 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 		return "", "", fmt.Errorf("不存在该类型 `%s`\n请在以下类型中选择: %+v\n", cla, classInfo)
 	}
 
+	// 获取解析case
 	sCase, ok := "", false
 	isEdge, isCorner := false, false
 	switch strings.ToLower(class) {
 	case "e", "edge", "棱":
 		isEdge = true
-		sCase, ok = b.edgeAlgToStandard[result]
+		// 将result转换为制定格式
+		sCase, ok = b.edgeAlgToStandard[b.updateEdgeResult(result)]
 	case "c", "corner", "角":
 		isCorner = true
-		sCase, ok = b.cornerAlgToStandard[result]
+		sCase, ok = b.cornerAlgToStandard[b.updateCornerResult(result)]
 	default:
 		return "", "", fmt.Errorf("请选择 棱或角")
 	}
 	if !ok {
-		return "", "", fmt.Errorf("找不到该case")
+		return "", "", fmt.Errorf("找不到该case `%s`", sp[1])
 	}
 
+	// 渲染公式
 	out := fmt.Sprintf("%s %s Case %s ==> %s\n", class, cla, result, sCase)
 	if slices.Contains([]string{"人造", "man"}, cla) {
 		var getData bldManMadeAlg
@@ -157,22 +160,23 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 			getData = b.cornerManMade
 		}
 		if getData == nil || len(getData) == 0 {
-			return "", "", fmt.Errorf("暂无数据载入")
+			return "", "", fmt.Errorf("暂无数据")
 		}
 
 		data, ok2 := getData[sCase]
 		if !ok2 {
-			return "", "", fmt.Errorf("找不到该case")
+			return "", "", fmt.Errorf("找不到该case `%s`", sp[1])
 		}
 		for idx, res := range data {
 			out += fmt.Sprintf("%d. (%d)\t", idx+1, len(res[1]))
 			for _, alg := range res[0] {
 				comm, errx := script.Commutator(alg)
 				if errx != nil {
-					out += fmt.Sprintf("%s\n", alg)
+					out += fmt.Sprintf("公式: %s\n", alg)
 				} else {
-					out += fmt.Sprintf("%s\n\t\t%s\n", alg, comm)
+					out += fmt.Sprintf("公式: %s\n\t\t交换子:%s\n", alg, comm)
 				}
+				out += "\n"
 			}
 		}
 	} else {
@@ -191,7 +195,7 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 
 		data, ok4 := getData[sCase]
 		if !ok4 {
-			return "", "", fmt.Errorf("找不到该case")
+			return "", "", fmt.Errorf("找不到该case `%s`", sp[1])
 		}
 
 		maxIdx := 10
@@ -199,8 +203,13 @@ func (b *BldDB) Select(selectInput string, config interface{}) (output string, i
 			if idx >= maxIdx {
 				continue
 			}
-			comm, _ := script.Commutator(alg)
-			out += fmt.Sprintf("%d. %s\n   %s\n", idx+1, alg, comm)
+			comm, err := script.Commutator(alg)
+			if err == nil {
+				out += fmt.Sprintf("%d. 公式: %s\n交换子: %s\n", idx+1, alg, comm)
+			} else {
+				out += fmt.Sprintf("%d. 公式: %s\n", idx+1, alg)
+			}
+
 		}
 	}
 	return out, "", err
@@ -212,4 +221,59 @@ func (b *BldDB) UpdateConfig(caseInput string, oldConfig interface{}) (config st
 func (b *BldDB) BaseConfig() interface{} {
 	mp := make(map[string]map[string]string)
 	return mp
+}
+
+func (b *BldDB) updateEdgeResult(res string) string {
+	if strings.Index(res, "-") == -1 {
+		return res
+	}
+	sp := strings.Split(res, "-")
+	if len(sp) != 3 {
+		return res
+	}
+	out := ""
+	for _, v := range sp {
+		x, ok := b.edgePosToCode[v]
+		if ok {
+			out += x
+		}
+	}
+	return out
+}
+
+func (b *BldDB) updateCornerResult(res string) string {
+	if strings.Index(res, "-") == -1 {
+		return res
+	}
+	sp := strings.Split(res, "-")
+	if len(sp) != 3 {
+		return res
+	}
+	out := ""
+	for _, v := range sp {
+		if len(v) != 3 {
+			continue
+		}
+		x, ok := b.cornerPosToCode[v]
+		if ok {
+			out += x
+			continue
+		}
+
+		v2 := fmt.Sprintf("%s%s%s", v[0:1], v[2:], v[1:2])
+		y, ok := b.cornerPosToCode[v2]
+		if ok {
+			out += y
+		}
+	}
+
+	if len(out) != 3 {
+		return res
+	}
+
+	if _, ok := b.cornerAlgToStandard[out]; ok {
+		return out
+	}
+
+	return res
 }

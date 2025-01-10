@@ -251,6 +251,7 @@ func (s *SQ1CspDB) BaseConfig() interface{} {
 		"4-4":        "4-4",
 		"6-2":        "6-2",
 		"7-1":        "7-1",
+		"5-3":        "5-3",
 		"square":     "方",
 		"kite":       "筝",
 		"scallop":    "贝",

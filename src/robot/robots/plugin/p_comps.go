@@ -268,7 +268,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 		for idx, val := range sc {
 			title := fmt.Sprintf("#%d", idx+1)
 			if idx+1 > rm.Rounds {
-				title = fmt.Sprintf("EX#%d", idx+1)
+				title = fmt.Sprintf("EX#%d", idx-rm.Rounds+1)
 			}
 			out += fmt.Sprintf("%s: %s\n", title, val)
 		}

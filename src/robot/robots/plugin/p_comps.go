@@ -266,11 +266,14 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 		for idx, val := range sc {
 			title := fmt.Sprintf("#%d", idx+1)
 			if idx+1 > rm.Rounds {
-				title = "EX#"
+				title = fmt.Sprintf("EX#%d", idx+1)
 			}
 			out += fmt.Sprintf("%s: %s\n", title, val)
 		}
 	}
+	out += fmt.Sprintf("------------------\n")
+	// todo 获取其他打乱
+	out += fmt.Sprintf("打乱网址: https://mycube.club/x/competition/%d?comps_tabs=scrambles&scrambles_key=s_%s\n", comp.ID, ev.ID)
 
 	return message.NewOutMessage(out), nil
 }

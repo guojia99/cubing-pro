@@ -246,7 +246,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 		return message.NewOutMessage("无打乱"), nil
 	}
 
-	var out = fmt.Sprintf("%s - %s - %s 打乱:\n", comp.Name, ev.Cn, round)
+	var out = fmt.Sprintf("%s - %s - %s 打乱:\n", comp.Name, ev.Cn, schedule.Round)
 	rm := ev.BaseRouteType.RouteMap()
 	for i := 0; i < len(schedule.Scrambles); i++ {
 		sc := schedule.Scrambles[i]

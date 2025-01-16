@@ -117,7 +117,7 @@ func (c *Cube222) selectEg(selectInput []string, config interface{}) (output str
 		return fmt.Sprintf("找不到该case: %s", key), "", nil
 	}
 
-	out := fmt.Sprintf("公式: %s - %s\n", alg.Group, alg.Name)
+	out := fmt.Sprintf("公式: %s - %s\n", alg.Set, alg.Name)
 	out += fmt.Sprintf("打乱: %s\n", alg.Scramble)
 	out += "---------------\n"
 	for idx, val := range alg.Alg {

@@ -54,29 +54,29 @@ type BldDB struct {
 	cornerInfo map[string]bldAlg
 }
 
-func NewBldDB(bldPath string) *BldDB {
+func NewBldDB(p string) *BldDB {
 	script.InitCommutator()
 
 	b := &BldDB{
-		bldPath:    path.Join(bldPath, "bld"),
+		bldPath:    path.Join(p, "bld"),
 		tempPath:   "/tmp",
 		edgeInfo:   make(map[string]bldAlg),
 		cornerInfo: make(map[string]bldAlg),
 	}
 
 	// edge 映射表
-	_ = utils.ReadJson(path.Join(bldPath, edgeAlgToStandard), &b.edgeAlgToStandard)
-	_ = utils.ReadJson(path.Join(bldPath, edgeCodeToPos), &b.edgeCodeToPos)
-	_ = utils.ReadJson(path.Join(bldPath, edgePosToCode), &b.edgePosToCode)
+	_ = utils.ReadJson(path.Join(b.bldPath, edgeAlgToStandard), &b.edgeAlgToStandard)
+	_ = utils.ReadJson(path.Join(b.bldPath, edgeCodeToPos), &b.edgeCodeToPos)
+	_ = utils.ReadJson(path.Join(b.bldPath, edgePosToCode), &b.edgePosToCode)
 
 	// corner 映射表
-	_ = utils.ReadJson(path.Join(bldPath, cornerAlgToStandard), &b.cornerAlgToStandard)
-	_ = utils.ReadJson(path.Join(bldPath, cornerCodeToPos), &b.cornerCodeToPos)
-	_ = utils.ReadJson(path.Join(bldPath, cornerPosToCode), &b.cornerPosToCode)
+	_ = utils.ReadJson(path.Join(b.bldPath, cornerAlgToStandard), &b.cornerAlgToStandard)
+	_ = utils.ReadJson(path.Join(b.bldPath, cornerCodeToPos), &b.cornerCodeToPos)
+	_ = utils.ReadJson(path.Join(b.bldPath, cornerPosToCode), &b.cornerPosToCode)
 
 	// 公式表
-	_ = utils.ReadJson(path.Join(bldPath, edgeManMade), &b.edgeManMade)
-	_ = utils.ReadJson(path.Join(bldPath, cornerManMade), &b.cornerManMade)
+	_ = utils.ReadJson(path.Join(b.bldPath, edgeManMade), &b.edgeManMade)
+	_ = utils.ReadJson(path.Join(b.bldPath, cornerManMade), &b.cornerManMade)
 
 	// 独立公式表
 	edgeInfos := map[string][]string{
@@ -84,7 +84,7 @@ func NewBldDB(bldPath string) *BldDB {
 	}
 	for key, p := range edgeInfos {
 		var info = make(bldAlg)
-		_ = utils.ReadJson(path.Join(bldPath, key), &info)
+		_ = utils.ReadJson(path.Join(b.bldPath, key), &info)
 		for _, v := range p {
 			b.edgeInfo[v] = info
 		}
@@ -96,7 +96,7 @@ func NewBldDB(bldPath string) *BldDB {
 	}
 	for key, p := range cornerInfos {
 		var info = make(bldAlg)
-		_ = utils.ReadJson(path.Join(bldPath, key), &info)
+		_ = utils.ReadJson(path.Join(b.bldPath, key), &info)
 		for _, v := range p {
 			b.cornerInfo[v] = info
 		}

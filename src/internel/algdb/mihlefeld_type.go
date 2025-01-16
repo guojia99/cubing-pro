@@ -10,7 +10,8 @@ import (
 )
 
 type Cube222Config struct {
-	EG EgConfig
+	EG   EgConfig
+	TCll map[string]string
 }
 
 type (

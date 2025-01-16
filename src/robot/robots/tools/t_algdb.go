@@ -20,6 +20,7 @@ func (t *TAlgDB) init() {
 		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath),
 		algdb.NewBldDB(t.Svc.Cfg.GlobalConfig.AlgPath),
 		algdb.NewCube222(t.Svc.Cfg.GlobalConfig.AlgPath),
+		algdb.NewCubePy(t.Svc.Cfg.GlobalConfig.AlgPath),
 	}
 
 	t.dbsMap = make(map[string]algdb.AlgDB)

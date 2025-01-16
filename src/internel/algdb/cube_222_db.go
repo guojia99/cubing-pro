@@ -2,16 +2,16 @@ package algdb
 
 import (
 	"fmt"
+	"math"
 	"path"
 	"strings"
-	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
 type Cube222 struct {
-	egRawData Cube222Eg
-	eg        CubeEgAlgDb
+	egRawData Cube
+	eg        CubeAlgDb
 }
 
 func (c *Cube222) ID() []string { return []string{"222", "二阶", "2"} }
@@ -27,7 +27,7 @@ func (c *Cube222) UpdateConfig(caseInput string, oldConfig interface{}) (config 
 func (c *Cube222) BaseConfig() interface{} {
 	return Cube222Config{
 		EG: EgConfig{
-			Group: map[string]string{
+			Set: map[string]string{
 				"cll":   "CLL",
 				"eg0":   "CLL",
 				"eg-0":  "CLL",
@@ -38,7 +38,7 @@ func (c *Cube222) BaseConfig() interface{} {
 				"leg":   "LEG-1",
 				"leg-1": "LEG-1",
 			},
-			Cases: map[string]string{
+			Group: map[string]string{
 				"s":         "Sune",
 				"sune":      "Sune",
 				"as":        "Anti-Sune",
@@ -91,7 +91,7 @@ func NewCube222(dbPath string) *Cube222 {
 	b := &Cube222{}
 	_ = utils.ReadJson(path.Join(dbPath, "222", "eg.json"), &b.egRawData)
 
-	b.eg = b.egRawData.ToCubeEgAlgDb() // 简化数据结构，统一数据
+	b.eg = b.egRawData.ToCubeAlgDb() // 简化数据结构，统一数据
 	return b
 }
 
@@ -105,34 +105,28 @@ func (c *Cube222) selectEg(selectInput []string, config interface{}) (output str
 		return c.Help(), "", nil
 	}
 
-	groupStr, nameStr := strings.ToLower(selectInput[0]), strings.ToLower(selectInput[1])
-	group, ok := cfg.EG.Group[groupStr] // cll
+	setStr, nameStr := strings.ToLower(selectInput[0]), strings.ToLower(selectInput[1])
+	set, ok := cfg.EG.Set[setStr] // cll
 	if !ok {
 		return c.Help(), "", nil
 	}
-	key := fmt.Sprintf("%s_%s", strings.ToLower(group), nameStr)
 
+	num := utils.GetNum(nameStr)
+	if math.IsNaN(num) || num <= 0 || num > 6 {
+		return c.Help(), "", nil
+	}
+	groupStr := utils.ReplaceAll(nameStr, "", fmt.Sprintf("%d", int(num)))
+	group, ok := cfg.EG.Group[groupStr]
+	if !ok {
+		return c.Help(), "", nil
+	}
+
+	key := fmt.Sprintf("%s_%s_%s", strings.ToLower(set), strings.ToLower(group), nameStr) // set group name
 	alg, ok := c.eg.Alg[key]
 	if !ok {
 		return fmt.Sprintf("找不到该case: %s", key), "", nil
 	}
 
-	out := fmt.Sprintf("公式: %s - %s\n", alg.Set, alg.Name)
-	out += fmt.Sprintf("打乱: %s\n", alg.Scramble)
-	out += "---------------\n"
-	for idx, val := range alg.Alg {
-		out += fmt.Sprintf("%d. %s\n", idx+1, val)
-	}
-
-	svgImg, ok := c.eg.Image[key]
-	if !ok {
-		return out, "", nil
-	}
-
-	imgPath := path.Join("/tmp", fmt.Sprintf("%d.png", time.Now().UnixNano()))
-	if err = utils.SaveSvgToImage(svgImg, imgPath); err != nil {
-		return out, "", err
-	}
-
-	return out, imgPath, err
+	out, img := alg.Data(c.eg.Image)
+	return out, img, nil
 }

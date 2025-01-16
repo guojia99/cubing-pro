@@ -257,7 +257,7 @@
   },
   "algInfos": {
     "1": {
-      "alg": [
+      "a": [
         "R U R' U R U2 R' ",
         "(U') R' U2 R U R' U R ",
         "R U R2 U' R2 U R",
@@ -266,44 +266,44 @@
       ],
       "name": "S1",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "(U') F R2 F' U' F R' F'"
+      "algset": "CLL",
+      "s": "(U') F R2 F' U' F R' F'"
     },
     "2": {
-      "alg": [
+      "a": [
         "(U') R' F R2 F' U' R' U' R2 U R' ",
         "(U') R' F R2 F' R U2 R' U' R2 ",
         "(U2) R U R' U R' F R F' R U2 R'"
       ],
       "name": "S2",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "(U') F R' F2 R F' U2 F U F2"
+      "algset": "CLL",
+      "s": "(U') F R' F2 R F' U2 F U F2"
     },
     "3": {
-      "alg": [
+      "a": [
         "F R' F' R U2 R U2 R' ",
         "R U' R2 U R U F R' F' R U R'",
         "(U2) R2 U R2 F' U' F R2 U' R2"
       ],
       "name": "S3",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "(U') F R2 F' U2 F' U F R'"
+      "algset": "CLL",
+      "s": "(U') F R2 F' U2 F' U F R'"
     },
     "4": {
-      "alg": [
+      "a": [
         "R U' R' F R' F' R ",
         "(U2) R2 U R' U' R' F R F' R'",
         "(U) F U' F' R U' R' F"
       ],
       "name": "S4",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "(U) F' R U R' F U F'"
+      "algset": "CLL",
+      "s": "(U) F' R U R' F U F'"
     },
     "5": {
-      "alg": [
+      "a": [
         "(U2) R U' R U' R' U R' U' F R' F' ",
         "(U2) R U' R U' R' U R' U' y R U' R' ",
         "R U2 R' F R U2 R' U R U' R' F ",
@@ -312,33 +312,33 @@
       ],
       "name": "S5",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "(U) F2 R U F2 R' F2 U' R' F2"
+      "algset": "CLL",
+      "s": "(U) F2 R U F2 R' F2 U' R' F2"
     },
     "6": {
-      "alg": [
+      "a": [
         "R' F2 R U2 R U' R' F",
         "F R' F' R U R U2' R' F R' F' R",
         "(U) R2 U' R2 F R' F' R2 U R2"
       ],
       "name": "S6",
       "group": "Sune",
-      "set": "CLL",
-      "scramble": "F' R U R' U2 R' F2 R"
+      "algset": "CLL",
+      "s": "F' R U R' U2 R' F2 R"
     },
     "7": {
-      "alg": [
+      "a": [
         "R' U' R U' R' U2 R ",
         "(U) R U2 R' U' R U' R' ",
         "(U2) R' F' R U' R' F2 R"
       ],
       "name": "AS1",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "F R F' U F R2 F'"
+      "algset": "CLL",
+      "s": "F R F' U F R2 F'"
     },
     "8": {
-      "alg": [
+      "a": [
         "R U2 R' F R' F' R U' R U' R' ",
         "(U2) R' U R U' R2 F R F' R U R' U' R",
         "(U') R U' R2 U R U F R2 F' R",
@@ -348,11 +348,11 @@
       ],
       "name": "AS2",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "(U2) F' R U2 R' F U2 F' U' F2"
+      "algset": "CLL",
+      "s": "(U2) F' R U2 R' F U2 F' U' F2"
     },
     "9": {
-      "alg": [
+      "a": [
         "(U2) F' R U R' U2 R' F2 R ",
         "(U) R' F R F' R U2' R' U' R' F R F'",
         "(U2) R' F R2 F' U' R' U' R F R' F' R",
@@ -360,21 +360,21 @@
       ],
       "name": "AS3",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "(U) F' R2 F R2 F R' U' R"
+      "algset": "CLL",
+      "s": "(U) F' R2 F R2 F R' U' R"
     },
     "10": {
-      "alg": [
+      "a": [
         "(U2) R' F R F' R U R'",
         "(U) R F R' F' R U R U' R2"
       ],
       "name": "AS4",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "(U') F R' F' R F' U' F"
+      "algset": "CLL",
+      "s": "(U') F R' F' R F' U' F"
     },
     "11": {
-      "alg": [
+      "a": [
         "(U) R U R2 F' R F R U' R2 F R",
         "F R F' U R U' R U R' U R'",
         "(U2) R' F2 R F' R' F2 R U' R' F R F' ",
@@ -384,22 +384,22 @@
       ],
       "name": "AS5",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "F2 R U F2 R F2 U' R' F2"
+      "algset": "CLL",
+      "s": "F2 R U F2 R F2 U' R' F2"
     },
     "12": {
-      "alg": [
+      "a": [
         "(U2) R U2 R' U2 R' F R F' ",
         "(U') R U' R' F R F' U' R' U' R2 U R'",
         "(U') R2 U R2' F' U F R2 U' R2'"
       ],
       "name": "AS6",
       "group": "Anti-Sune",
-      "set": "CLL",
-      "scramble": "F R' F' R U2 R U2 R'"
+      "algset": "CLL",
+      "s": "F R' F' R U2 R U2 R'"
     },
     "13": {
-      "alg": [
+      "a": [
         "R U' R2 U R2 U R2 U' R ",
         "R' U R2 U' R2 U' R2 U R' ",
         "F R U R' U' R U R' U' F' ",
@@ -409,11 +409,11 @@
       ],
       "name": "Pi1",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "(U') F R' F2 R U2 R U2 R' F"
+      "algset": "CLL",
+      "s": "(U') F R' F2 R U2 R U2 R' F"
     },
     "14": {
-      "alg": [
+      "a": [
         "(U') R' U' R' F R F' R U' R' U2 R  ",
         "(U2) R U R' U R U' B U' B' R' ",
         "(U) R' U2 R U R' F R' F' R U R",
@@ -425,21 +425,21 @@
       ],
       "name": "Pi2",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "(U2) F2 U F2 R' F2 R F2 U' F2"
+      "algset": "CLL",
+      "s": "(U2) F2 U F2 R' F2 R F2 U' F2"
     },
     "15": {
-      "alg": [
+      "a": [
         "(U2) R' F R F' R U' R' U' R U' R' ",
         "R U' R' F R' F R U R' F R"
       ],
       "name": "Pi3",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "F R' F' R U2 F2 R U R' F"
+      "algset": "CLL",
+      "s": "F R' F' R U2 F2 R U R' F"
     },
     "16": {
-      "alg": [
+      "a": [
         "(U') R U' R U' R' U R' F R2 F' ",
         "(U) F R2 U' R2 U R2 U R2 F'",
         "(U') F R' F' R U' R U R' U R' F R F'",
@@ -447,21 +447,21 @@
       ],
       "name": "Pi4",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "F R U2 R U2 R F U2 R2"
+      "algset": "CLL",
+      "s": "F R U2 R U2 R F U2 R2"
     },
     "17": {
-      "alg": [
+      "a": [
         "R U2 R' U' R U R' U2 R' F R F' ",
         "(U) F' R U R' U2 R' F R U' R' F2 R"
       ],
       "name": "Pi5",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "F R' U' F' R F2 U' R F2 R'"
+      "algset": "CLL",
+      "s": "F R' U' F' R F2 U' R F2 R'"
     },
     "18": {
-      "alg": [
+      "a": [
         "(U2) R' F2 R U R' F' R U2 R U' R' F",
         "(U) F R' F' R U2 R U' R' U R U2 R'",
         "R U' R' F R' F' R U' R U' R' F R' F' R",
@@ -469,11 +469,11 @@
       ],
       "name": "Pi6",
       "group": "Pi",
-      "set": "CLL",
-      "scramble": "F R2 F' R U2 F' U F U R'"
+      "algset": "CLL",
+      "s": "F R2 F' R U2 F' U F U R'"
     },
     "19": {
-      "alg": [
+      "a": [
         "F R U R' U' F'",
         "R' U' F R' F' R U R ",
         "(U2) F U R U' R' F' ",
@@ -483,11 +483,11 @@
       ],
       "name": "U1",
       "group": "U",
-      "set": "CLL",
-      "scramble": "(U2) F R U R' U' F'"
+      "algset": "CLL",
+      "s": "(U2) F R U R' U' F'"
     },
     "20": {
-      "alg": [
+      "a": [
         "(U') R U R2' U' R U2 R' U2' R U' R",
         "R2 F2 R U R U2 R2 F' R U' R",
         "(U) R U' R' F' R U' R' F2 U' R U R'",
@@ -500,11 +500,11 @@
       ],
       "name": "U2",
       "group": "U",
-      "set": "CLL",
-      "scramble": "(U2) F R' F R' U R' U' R2 F2"
+      "algset": "CLL",
+      "s": "(U2) F R' F R' U R' U' R2 F2"
     },
     "21": {
-      "alg": [
+      "a": [
         "(U') F R U R' U2 F' R U' R' F ",
         "R U2 R U' R' F R' F2 U' F",
         "F R U' R' U' F2 U' R U R' U F",
@@ -520,11 +520,11 @@
       ],
       "name": "U3",
       "group": "U",
-      "set": "CLL",
-      "scramble": "(U2) F R F' R2 U' F R' F' U R2"
+      "algset": "CLL",
+      "s": "(U2) F R F' R2 U' F R' F' U R2"
     },
     "22": {
-      "alg": [
+      "a": [
         "F R' F' R U' R U' R' U2 R U' R' ",
         "(U) x R U' R U' R' U R' F' R ",
         "(U2) R U R' U R U' R U' R' F R' F'",
@@ -533,11 +533,11 @@
       ],
       "name": "U4",
       "group": "U",
-      "set": "CLL",
-      "scramble": "(U') F R' U' R F' R' U F' R"
+      "algset": "CLL",
+      "s": "(U') F R' U' R F' R' U F' R"
     },
     "23": {
-      "alg": [
+      "a": [
         "(U) R U' R2 F R F' R U R' U' R U R'",
         "(U') R U2 R' U R' F2 R F' R' F2 R",
         "(U') R U R2 U R U2 R' F R2 F'",
@@ -547,11 +547,11 @@
       ],
       "name": "U5",
       "group": "U",
-      "set": "CLL",
-      "scramble": "F R2 F' U' R2 U' R' U R2"
+      "algset": "CLL",
+      "s": "F R2 F' U' R2 U' R' U R2"
     },
     "24": {
-      "alg": [
+      "a": [
         "(U) R' U R' F R F' R U2 R' U R ",
         "(U') R2 U R' U' R' F R2 F' U' R'",
         "(U') R2 U R' U' R2 U' y R' F2 R",
@@ -561,22 +561,22 @@
       ],
       "name": "U6",
       "group": "U",
-      "set": "CLL",
-      "scramble": "(U') F R2 F U F' R2 F U' F2"
+      "algset": "CLL",
+      "s": "(U') F R2 F U F' R2 F U' F2"
     },
     "25": {
-      "alg": [
+      "a": [
         "F R U' R' U' R U R' F' ",
         "(U) F' L F L' U' L' U L",
         "(U') R U R U' R' F R' F'"
       ],
       "name": "L1",
       "group": "L",
-      "set": "CLL",
-      "scramble": "F R F' U' R' U' R"
+      "algset": "CLL",
+      "s": "F R F' U' R' U' R"
     },
     "26": {
-      "alg": [
+      "a": [
         "F R' F' R U R U' R'",
         "(U2) L' U' L' U L F' L F",
         "(U') R F' U' R' U' R F",
@@ -584,11 +584,11 @@
       ],
       "name": "L2",
       "group": "L",
-      "set": "CLL",
-      "scramble": "(U') F R' F' U2 R' U2 R"
+      "algset": "CLL",
+      "s": "(U') F R' F' U2 R' U2 R"
     },
     "27": {
-      "alg": [
+      "a": [
         "R U2 R2 F R F' R U2 R'",
         "(U2) R' F2 R F' R' F2 R2 U' R'",
         "(U') R U2 R' F R' F' R2 U2 R'",
@@ -596,11 +596,11 @@
       ],
       "name": "L3",
       "group": "L",
-      "set": "CLL",
-      "scramble": "(U) F R F2 U2 F R F' U2 F"
+      "algset": "CLL",
+      "s": "(U) F R F2 U2 F R F' U2 F"
     },
     "28": {
-      "alg": [
+      "a": [
         "(U) R' U R' U2 R U' R' U R U' R2",
         "(U) R2 U' R U2 R' U2 R U' R2",
         "(U2) R2 U R' U2 R U2 R' U R2",
@@ -609,11 +609,11 @@
       ],
       "name": "L4",
       "group": "L",
-      "set": "CLL",
-      "scramble": "(U) F2 U F' U2 F U2 F' U F2"
+      "algset": "CLL",
+      "s": "(U) F2 U F' U2 F U2 F' U F2"
     },
     "29": {
-      "alg": [
+      "a": [
         "(U') R U' R' U R U' R' F R' F' R2 U R'",
         "R U R' U' R' F R2 F' U' R' U' R",
         "(U') R' U2 R' U' F R2 F' U R2",
@@ -623,11 +623,11 @@
       ],
       "name": "L5",
       "group": "L",
-      "set": "CLL",
-      "scramble": "(U') F2 U' F R2 F' R F R2 F"
+      "algset": "CLL",
+      "s": "(U') F2 U' F R2 F' R F R2 F"
     },
     "30": {
-      "alg": [
+      "a": [
         "R' U' R U2 R' F R' F' R U' R  ",
         "(U') R' F' R U R' U' R' F R2 U' R' U2 R",
         "R U R2 F' R U R U' R2 F' R F",
@@ -637,22 +637,22 @@
       ],
       "name": "L6",
       "group": "L",
-      "set": "CLL",
-      "scramble": "(U) F2 U F' R2 F U' F' R2 F'"
+      "algset": "CLL",
+      "s": "(U) F2 U F' R2 F U' F' R2 F'"
     },
     "31": {
-      "alg": [
+      "a": [
         " R U R' U' R' F R F' ",
         "(U2) F' L' F L' U' L U L",
         "F' U' F U R U R'"
       ],
       "name": "T1",
       "group": "T",
-      "set": "CLL",
-      "scramble": "F R' F' U' R' U R"
+      "algset": "CLL",
+      "s": "F R' F' U' R' U R"
     },
     "32": {
-      "alg": [
+      "a": [
         "(U2) R' F' R U R U' R' F",
         "F R F' R U R' U' R' ",
         "F R F' U' R' U' R",
@@ -660,11 +660,11 @@
       ],
       "name": "T2",
       "group": "T",
-      "set": "CLL",
-      "scramble": "(U') F R2 F' U2 R' U' R"
+      "algset": "CLL",
+      "s": "(U') F R2 F' U2 R' U' R"
     },
     "33": {
-      "alg": [
+      "a": [
         "(U') R U F R' F' R U2 R U2 R2",
         "(U) F U' R U2 R' U' F2 R U R'",
         "(U2) R U2 R2 F R F' R U' R' U R U2 R'",
@@ -676,11 +676,11 @@
       ],
       "name": "T3",
       "group": "T",
-      "set": "CLL",
-      "scramble": "(U2) F R U F' R U' R U2 R2 F"
+      "algset": "CLL",
+      "s": "(U2) F R U F' R U' R U2 R2 F"
     },
     "34": {
-      "alg": [
+      "a": [
         "(U') R' U R' U2 R U2 R' U R2 U' R'",
         "(U) R' U R U2' R2' F' R U' R' F2 R2",
         "R U R' U R U2 R2 F' R U' R' F2 R",
@@ -689,11 +689,11 @@
       ],
       "name": "T4",
       "group": "T",
-      "set": "CLL",
-      "scramble": "(U) F R' U F' U F U2 R2 F'"
+      "algset": "CLL",
+      "s": "(U) F R' U F' U F U2 R2 F'"
     },
     "35": {
-      "alg": [
+      "a": [
         "(U2) R U R' U2 R U R' U R' F R F'",
         "(U') F R F' R U R' U R' U' R U' R'",
         "(U') F R U R' U' R U' R' U' R U R' F'",
@@ -703,11 +703,11 @@
       ],
       "name": "T5",
       "group": "T",
-      "set": "CLL",
-      "scramble": "(U2) F R' U F' R' F U' F' R"
+      "algset": "CLL",
+      "s": "(U2) F R' U F' R' F U' F' R"
     },
     "36": {
-      "alg": [
+      "a": [
         "(U) R' U R U2 R2 F R F' R",
         "R U2 R' U' R2 U' R' F R' F' ",
         "(U') R' F R U2 R2 F R U' R",
@@ -716,11 +716,11 @@
       ],
       "name": "T6",
       "group": "T",
-      "set": "CLL",
-      "scramble": "(U2) F R F' U R2 U' R U R2"
+      "algset": "CLL",
+      "s": "(U2) F R F' U R2 U' R U R2"
     },
     "37": {
-      "alg": [
+      "a": [
         "R2 U2 R U2 R2",
         "R2 U2 R' U2 R2",
         "R U' R' U' R U' R' U R U R'",
@@ -728,11 +728,11 @@
       ],
       "name": "H1",
       "group": "H",
-      "set": "CLL",
-      "scramble": "(U) F2 U2 F U2 F2"
+      "algset": "CLL",
+      "s": "(U) F2 U2 F U2 F2"
     },
     "38": {
-      "alg": [
+      "a": [
         "(U) (R U' R' F R' F' R) (R U' R' F R' F' R)",
         "(U) ( R' F R F' R U R') ( R' F R F' R U R')",
         "(U) R2 F' U2 F2 R2 F' R2",
@@ -741,11 +741,11 @@
       ],
       "name": "H2",
       "group": "H",
-      "set": "CLL",
-      "scramble": "(U) F2 R F2 R2 U2 R F2"
+      "algset": "CLL",
+      "s": "(U) F2 R F2 R2 U2 R F2"
     },
     "39": {
-      "alg": [
+      "a": [
         "R U R' U R U R' F R' F' R ",
         "(U2) R' F' R U' R' F ' R F' R U R' ",
         "R U' R' U R U R' U2 F R' F' R",
@@ -755,11 +755,11 @@
       ],
       "name": "H3",
       "group": "H",
-      "set": "CLL",
-      "scramble": "(U') F R F' R2 U2 R U R2 U R2"
+      "algset": "CLL",
+      "s": "(U') F R F' R2 U2 R U R2 U R2"
     },
     "40": {
-      "alg": [
+      "a": [
         "(U) F R2 U' R2 U' R2 U R2 F'",
         "R' U2 R y R' U R' U' R U' R",
         "(U') F R' F' R U' R U' R' U R' F R F'",
@@ -771,11 +771,11 @@
       ],
       "name": "H4",
       "group": "H",
-      "set": "CLL",
-      "scramble": "F R2 U' R2 U R2 U R2 F'"
+      "algset": "CLL",
+      "s": "F R2 U' R2 U R2 U R2 F'"
     },
     "41": {
-      "alg": [
+      "a": [
         "(U') F' L U2 F2 R U' ",
         "(U2) R U R' U F R U' R2 F' R ",
         "y' (U') R' F R2 F' R2 U2 R",
@@ -784,11 +784,11 @@
       ],
       "name": "S1",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "F R' U2 F2 R' F"
+      "algset": "EG-1",
+      "s": "F R' U2 F2 R' F"
     },
     "42": {
-      "alg": [
+      "a": [
         "R U R' F2 U F R U R' ",
         "(U) F R' F' R F R U' R' U R' F' R",
         "(U2) F R2 U' R2 F U' F2 U' R",
@@ -799,21 +799,21 @@
       ],
       "name": "S2",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "(U2) F U' R F2 R U2 F' R"
+      "algset": "EG-1",
+      "s": "(U2) F U' R F2 R U2 F' R"
     },
     "43": {
-      "alg": [
+      "a": [
         "(U2) F R' F' R U R' F' R2 U R' ",
         "(U') R' F R U2 R U' R2 F2 R F'"
       ],
       "name": "S3",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "F' U2 F' U F2 R' F2 R"
+      "algset": "EG-1",
+      "s": "F' U2 F' U F2 R' F2 R"
     },
     "44": {
-      "alg": [
+      "a": [
         "F' U R U' R' U F R U R' ",
         "(U') R U' R' F U' R' F R2 U R' F'",
         "(U) F' R' F R2 U R' U' F R' F' R",
@@ -822,11 +822,11 @@
       ],
       "name": "S4",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "(U) F R2 F U' F2 U' R U R2"
+      "algset": "EG-1",
+      "s": "(U) F R2 F U' F2 U' R U R2"
     },
     "45": {
-      "alg": [
+      "a": [
         "(U) R U' R' U R U' R' U F R U' R'",
         "(U') R2' F U' R U' R U' B2",
         "(U) R U' R' U R U' R' U' R' F' R F",
@@ -835,51 +835,51 @@
       ],
       "name": "S5",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "(U2) F2 U R' U R' U F' R2"
+      "algset": "EG-1",
+      "s": "(U2) F2 U R' U R' U F' R2"
     },
     "46": {
-      "alg": [
+      "a": [
         "R' F R2 U' R' U R U' R' F "
       ],
       "name": "S6",
       "group": "Sune",
-      "set": "EG-1",
-      "scramble": "F2 R U R' U F' U F2"
+      "algset": "EG-1",
+      "s": "F2 R U R' U F' U F2"
     },
     "47": {
-      "alg": [
+      "a": [
         "(U') B U' R2 F2 U' F ",
         "(U) R' F R2 U R' F' U' R U' R' ",
         "R' F' R U' F' R' F R2 U R' "
       ],
       "name": "AS1",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "F' R F2 U2 R F'"
+      "algset": "EG-1",
+      "s": "F' R F2 U2 R F'"
     },
     "48": {
-      "alg": [
+      "a": [
         "(U) R U' R' F' U' F2 R U' R' ",
         "R U' F2 R U2 R U' F",
         "F R U' R' U R' F' R U F' R U R'"
       ],
       "name": "AS2",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "F U F2 R U2 R2 F' R"
+      "algset": "EG-1",
+      "s": "F U F2 R U2 R2 F' R"
     },
     "49": {
-      "alg": [
+      "a": [
         "F' R U R' U' R U R2 F' R "
       ],
       "name": "AS3",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "F U2 F U' F2 R U2 R'"
+      "algset": "EG-1",
+      "s": "F U2 F U' F2 R U2 R'"
     },
     "50": {
-      "alg": [
+      "a": [
         "R U' R' F' U' R U R' U' F ",
         "(U') R' F R F' U R U' R2 F' R F",
         "(U) F R U' R2' F' R U F' R U R'",
@@ -887,11 +887,11 @@
       ],
       "name": "AS4",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "(U) F R2 F2 U' R' F2 R' U R'"
+      "algset": "EG-1",
+      "s": "(U) F R2 F2 U' R' F2 R' U R'"
     },
     "51": {
-      "alg": [
+      "a": [
         "(U') R U R' F' U' R U R' U' R U R'",
         "(U) F' R' F R U R U R' U' R U R'",
         "(U2) R U F' R U R2 U' R U R'",
@@ -899,31 +899,31 @@
       ],
       "name": "AS5",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "F2 U' R F' U R' F R2"
+      "algset": "EG-1",
+      "s": "F2 U' R F' U R' F R2"
     },
     "52": {
-      "alg": [
+      "a": [
         "(U2) R U' R2 F R U' R' F R F' ",
         "(U) F R' F2 R2 U R' U2 R' F' R"
       ],
       "name": "AS6",
       "group": "Anti-Sune",
-      "set": "EG-1",
-      "scramble": "F2 R' F' R U' F U' F2"
+      "algset": "EG-1",
+      "s": "F2 R' F' R U' F U' F2"
     },
     "53": {
-      "alg": [
+      "a": [
         "(U2) F2 R U R' U2 R U R' U' F ",
         "(U2) R2 B2 R' U R' U' R U2 R U' R2"
       ],
       "name": "Pi1",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "(U2) F R F2 R F2 U2 R' F'"
+      "algset": "EG-1",
+      "s": "(U2) F R F2 R F2 U2 R' F'"
     },
     "54": {
-      "alg": [
+      "a": [
         "(U') R U' R2 F R2 U' R'",
         "(U') R U R2 F' R2 U R' ",
         "(U') R' F R2 U' R2 F R",
@@ -931,20 +931,20 @@
       ],
       "name": "Pi2",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "R U R2 F' R2 U R'"
+      "algset": "EG-1",
+      "s": "R U R2 F' R2 U R'"
     },
     "55": {
-      "alg": [
+      "a": [
         "(U') F R' F U' F2 R U R "
       ],
       "name": "Pi3",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "(U2) R F U R2 F' U R' F"
+      "algset": "EG-1",
+      "s": "(U2) R F U R2 F' U R' F"
     },
     "56": {
-      "alg": [
+      "a": [
         "(U') R U' R' U R U' R' F R U' R'",
         "(U') R' F R U' R' F R F' R' F R ",
         "(U') F' R U R' U' R U R' F' R U R'",
@@ -952,11 +952,11 @@
       ],
       "name": "Pi4",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "(U) F U' R U' R' F U' F2"
+      "algset": "EG-1",
+      "s": "(U) F U' R U' R' F U' F2"
     },
     "57": {
-      "alg": [
+      "a": [
         "(U) F U' R U2 R' F' R U R' F'",
         "(U') R U R' U R U' R2' F' R F R' F' R",
         "R U' R2 F R U R U' R' U' R' F R F' ",
@@ -965,11 +965,11 @@
       ],
       "name": "Pi5",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "(U') F R' U2 F2 U R' F U F'"
+      "algset": "EG-1",
+      "s": "(U') F R' U2 F2 U R' F U F'"
     },
     "58": {
-      "alg": [
+      "a": [
         "F R U' R' F R U2 R' U F' ",
         "(U') R' F' R U' R' F R2 U R' F' R U R'",
         "(U') F R' F' R U R U R' U' R' F' R2 U R'",
@@ -981,11 +981,11 @@
       ],
       "name": "Pi6",
       "group": "Pi",
-      "set": "EG-1",
-      "scramble": "(U') F R U' R F R U' F2 R"
+      "algset": "EG-1",
+      "s": "(U') F R U' R F R U' F2 R"
     },
     "59": {
-      "alg": [
+      "a": [
         "R U R' U R U R2 F R2 U' R' ",
         "R U' R2 F R2 U R' U' R U' R'",
         "R U R2' F' R2 U' R' U' R U' R'",
@@ -994,11 +994,11 @@
       ],
       "name": "U1",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "(U2) F U2 F U2 F U F2"
+      "algset": "EG-1",
+      "s": "(U2) F U2 F U2 F U F2"
     },
     "60": {
-      "alg": [
+      "a": [
         "(U') y R' U R' U' R U' R' U' F2 R2 ",
         "F R2 B R2' F U F2 R2",
         "R U R' F' U' R U R' U' F R' F' R",
@@ -1007,11 +1007,11 @@
       ],
       "name": "U2",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "(U) R2 F2 U F R2 F R2 F"
+      "algset": "EG-1",
+      "s": "(U) R2 F2 U F R2 F R2 F"
     },
     "61": {
-      "alg": [
+      "a": [
         "(U) F' U2 R U2 R' U2 F ",
         "(U') R U' R2 F2 R F' U R U R'",
         "(U) R U R' U F' R U R' U' R U R2 F2 R",
@@ -1019,21 +1019,21 @@
       ],
       "name": "U3",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "F U2 R' F2 R U2 F'"
+      "algset": "EG-1",
+      "s": "F U2 R' F2 R U2 F'"
     },
     "62": {
-      "alg": [
+      "a": [
         "(U2) R' F R F' R' F R2 U' R' ",
         "R U' R' F R U' R2 F R "
       ],
       "name": "U4",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "F R' U F' U2 F' R' F R'"
+      "algset": "EG-1",
+      "s": "F R' U F' U2 F' R' F R'"
     },
     "63": {
-      "alg": [
+      "a": [
         "(U2) R' F R F' U R U' R' F R U' R'",
         "(U') R U' R' U R U' R' U' F R U' R'",
         "(U') R U' R' U R U' R' U R' F' R F",
@@ -1042,11 +1042,11 @@
       ],
       "name": "U5",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "(U) F U2 F R' F2 R U F'"
+      "algset": "EG-1",
+      "s": "(U) F U2 F R' F2 R U F'"
     },
     "64": {
-      "alg": [
+      "a": [
         "(U') R' F R U' R' F R U' R U R' F'",
         "(U') R' F R2 U' R' y' U R U R'",
         "(U) F' U R U2 R' F U2 F",
@@ -1056,22 +1056,22 @@
       ],
       "name": "U6",
       "group": "U",
-      "set": "EG-1",
-      "scramble": "(U2) F U' R2 U F U' F2 R"
+      "algset": "EG-1",
+      "s": "(U2) F U' R2 U F U' F2 R"
     },
     "65": {
-      "alg": [
+      "a": [
         "R U' R' U R U' R2 F' R F ",
         "(U) R U R' F' R U2 R' U2 R U R' ",
         "(U) F R U' R' F' R U R' F' R U R'"
       ],
       "name": "L1",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U') F' R F R2 F R U2 R"
+      "algset": "EG-1",
+      "s": "(U') F' R F R2 F R U2 R"
     },
     "66": {
-      "alg": [
+      "a": [
         "(U) R' F R U' R' F R2 U R' F'",
         "(U2) R' F R F' R' F R U R U2 R'",
         "x U' R' U R U R' U' R U R' U' R ",
@@ -1081,20 +1081,20 @@
       ],
       "name": "L2",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U) F R' U' F2 U' R' F2 R'"
+      "algset": "EG-1",
+      "s": "(U) F R' U' F2 U' R' F2 R'"
     },
     "67": {
-      "alg": [
+      "a": [
         "R' U R2 U' R2 U' F R2 U' R' "
       ],
       "name": "L3",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U') F R' U F' U' R2 F U F2"
+      "algset": "EG-1",
+      "s": "(U') F R' U F' U' R2 F U F2"
     },
     "68": {
-      "alg": [
+      "a": [
         "R' F R2 U R' F' R U2 R' ",
         "R U2 R' F R U' R2 F' R",
         "(U) R' F2 R F' R' F R2 U R'",
@@ -1102,11 +1102,11 @@
       ],
       "name": "L4",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U') F R2 F U' F2 R2 F R2 F'"
+      "algset": "EG-1",
+      "s": "(U') F R2 F U' F2 R2 F R2 F'"
     },
     "69": {
-      "alg": [
+      "a": [
         "(U) R U R' F' R U R' U' F R' F' R ",
         "(U2) F' R' F R U' R U R' U' R U R'",
         "(U) L' U L y' R U2 R U' R2",
@@ -1115,11 +1115,11 @@
       ],
       "name": "L5",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U') F U' R' F2 R F' U2 F'"
+      "algset": "EG-1",
+      "s": "(U') F U' R' F2 R F' U2 F'"
     },
     "70": {
-      "alg": [
+      "a": [
         "(U) R' U2 F R U2 R U' R2 F",
         "(U') F R U' R' U R' F' R U R' F' R",
         "(U') F' U2 F' R U2 R' U' F",
@@ -1127,11 +1127,11 @@
       ],
       "name": "L6",
       "group": "L",
-      "set": "EG-1",
-      "scramble": "(U2) F' U R U2 R' F U2 F"
+      "algset": "EG-1",
+      "s": "(U2) F' U R U2 R' F U2 F"
     },
     "71": {
-      "alg": [
+      "a": [
         "(U) F R U' R2 F' R U R' F' R",
         "R U' R2 F R2 U R' U2 R' F R F' ",
         "R U R' U R U R2 F R U' R' F R F'",
@@ -1139,11 +1139,11 @@
       ],
       "name": "T1",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U') F R2 F2 R F R2 F R2"
+      "algset": "EG-1",
+      "s": "(U') F R2 F2 R F R2 F R2"
     },
     "72": {
-      "alg": [
+      "a": [
         "(U) F' R' F R2 U R' U' R U R'",
         "(U2) R U' R' U2 R U2 R' F R U' R'",
         "(U') R U2 R' F R U' R' F' R U R'",
@@ -1151,21 +1151,21 @@
       ],
       "name": "T2",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U) F R2 F2 R F' U2 F' R2"
+      "algset": "EG-1",
+      "s": "(U) F R2 F2 R F' U2 F' R2"
     },
     "73": {
-      "alg": [
+      "a": [
         "R' F R2 U' R' U' R' F2 R ",
         "(U2) R U' R2 F R U R U2 R'"
       ],
       "name": "T3",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U) R F U2 F' U R2 F' R"
+      "algset": "EG-1",
+      "s": "(U) R F U2 F' U R2 F' R"
     },
     "74": {
-      "alg": [
+      "a": [
         "R2 B2 U' R' U' R U' R' U R'",
         "(U2) R' F R F' U R U' R' U' R' F' R F",
         "(U') R' U F R2 U' R2 U' F U' R",
@@ -1173,22 +1173,22 @@
       ],
       "name": "T4",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U) F R2 F U2 F U F2 R2"
+      "algset": "EG-1",
+      "s": "(U) F R2 F U2 F U F2 R2"
     },
     "75": {
-      "alg": [
+      "a": [
         "R' F' R2 U R' F' R U R' ",
         "(U2) R U R2 F' R F R' F' R",
         "R U2 R2' F R2 U' R' F' R U R'"
       ],
       "name": "T5",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U') F R2 U' F2 U F2 R F2 R2"
+      "algset": "EG-1",
+      "s": "(U') F R2 U' F2 U F2 R F2 R2"
     },
     "76": {
-      "alg": [
+      "a": [
         "(U') R U' R' U2 F R U2 R' F ",
         "(U') R' F R U2 F' R' F2 R F'",
         "(U') R' F R2 U R' F' U2' R' F R F'",
@@ -1197,11 +1197,11 @@
       ],
       "name": "T6",
       "group": "T",
-      "set": "EG-1",
-      "scramble": "(U) F R' F U' F' R F' U R"
+      "algset": "EG-1",
+      "s": "(U) F R' F U' F' R F' U R"
     },
     "77": {
-      "alg": [
+      "a": [
         "R' F R2 U' R2 U' F U R ",
         "R' F R2 U' R' F R U R' F'",
         "(U') R U R' F R U' R' U' R U' R' F",
@@ -1210,83 +1210,83 @@
       ],
       "name": "H1",
       "group": "H",
-      "set": "EG-1",
-      "scramble": "F R2 F U' F' R F' R"
+      "algset": "EG-1",
+      "s": "F R2 F U' F' R F' R"
     },
     "78": {
-      "alg": [
+      "a": [
         "F' U R U' R2 F2 R U' F",
         "R U' R' U' R U' R2 F2 R U R U R'"
       ],
       "name": "H2",
       "group": "H",
-      "set": "EG-1",
-      "scramble": "(U) F R U' R2 F U' F2 U R"
+      "algset": "EG-1",
+      "s": "(U) F R U' R2 F U' F2 U R"
     },
     "79": {
-      "alg": [
+      "a": [
         "R' U' R' F2 U F' R F' ",
         "(U) R' F R F' U2 F R U2 R' F"
       ],
       "name": "H3",
       "group": "H",
-      "set": "EG-1",
-      "scramble": "F R' F U' F2 R U R"
+      "algset": "EG-1",
+      "s": "F R' F U' F2 R U R"
     },
     "80": {
-      "alg": [
+      "a": [
         "R U R' F' R U R' U' R U R' ",
         "(U) R' F R F' R' F R U' R' F R F'"
       ],
       "name": "H4",
       "group": "H",
-      "set": "EG-1",
-      "scramble": "(U') F R' F R U' F U2 F"
+      "algset": "EG-1",
+      "s": "(U') F R' F R U' F U2 F"
     },
     "81": {
-      "alg": [
+      "a": [
         "(U') F U' R2 U' R' U2 R U' R2 F'",
         "(U') R' F R2 F' R U2 R' U' F2 R2 "
       ],
       "name": "S1",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U2) F R U R U2 F' R' U2 F2 R"
+      "algset": "EG-2",
+      "s": "(U2) F R U R U2 F' R' U2 F2 R"
     },
     "82": {
-      "alg": [
+      "a": [
         "R U R' U R U2 R B2 R2",
         "(U') R' U2 R U R' U R' F2 R2",
         "(U') R2 F2 R U2 R U R' U R"
       ],
       "name": "S2",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U) F R2 F' U' F R' F R2 F2"
+      "algset": "EG-2",
+      "s": "(U) F R2 F' U' F R' F R2 F2"
     },
     "83": {
-      "alg": [
+      "a": [
         "R U' R' F R' F' R' F2 R2",
         "(U2) R' U F U R U' R2 F R2"
       ],
       "name": "S3",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U') F2 R U2 F' U F' U' R'"
+      "algset": "EG-2",
+      "s": "(U') F2 R U2 F' U F' U' R'"
     },
     "84": {
-      "alg": [
+      "a": [
         "(U) F R2 F' R2 F' R U' R ",
         "(U2) R' F' U R' F R2 U R' U2 R ",
         "F R' F' R U2 R U2 R B2 R2"
       ],
       "name": "S4",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U') F' R U' R F2 R U2 R'"
+      "algset": "EG-2",
+      "s": "(U') F' R U' R F2 R U2 R'"
     },
     "85": {
-      "alg": [
+      "a": [
         "F' R' U R' U2 F R' U R'",
         "(U2) R' F R' F2 R U R U R' U R",
         "R' U R' F R2 U' F R' F'",
@@ -1294,11 +1294,11 @@
       ],
       "name": "S5",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U2) F R F' U R2 F' R U' R"
+      "algset": "EG-2",
+      "s": "(U2) F R F' U R2 F' R U' R"
     },
     "86": {
-      "alg": [
+      "a": [
         "R2 B2 R' U' R' F R' F' R",
         "(U) R' U F R U R' F' R U R' U' R",
         "R' F U R' F R2 U R' U' R",
@@ -1307,11 +1307,11 @@
       ],
       "name": "S6",
       "group": "Sune",
-      "set": "EG-2",
-      "scramble": "(U) F' R' F' U R U2 F' R2"
+      "algset": "EG-2",
+      "s": "(U) F' R' F' U R U2 F' R2"
     },
     "87": {
-      "alg": [
+      "a": [
         "(U2) R' U R U' R2 F R F' R U R' U' R' F2 R2",
         "(U') R2 U R U2 R' F R2 F' R' F2 R2",
         "(U2) F R2 U2 R' U R' U2 R U' F'",
@@ -1322,178 +1322,178 @@
       ],
       "name": "AS1",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "(U') F R F U F' U R F2 U' R"
+      "algset": "EG-2",
+      "s": "(U') F R F U F' U R F2 U' R"
     },
     "88": {
-      "alg": [
+      "a": [
         "R' U' R U' R' U2 R' F2 R2"
       ],
       "name": "AS2",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "F R F' U F R2 F R2 F2"
+      "algset": "EG-2",
+      "s": "F R F' U F R2 F R2 F2"
     },
     "89": {
-      "alg": [
+      "a": [
         "(U2) R' F R F' R U R B2 R2 ",
         "(U') F' U' R' U R' U2 F R2",
         "(U) R F R' F' R U R U' B2 R2"
       ],
       "name": "AS3",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "(U) F2 R F2 U' R' F U R"
+      "algset": "EG-2",
+      "s": "(U) F2 R F2 U' R' F U R"
     },
     "90": {
-      "alg": [
+      "a": [
         "R' U2 R U' R2 F' R U' F R ",
         "(U') R' U R' F R2 F R2 F'"
       ],
       "name": "AS4",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "(U2) F R' F R' F2 R' U2 R"
+      "algset": "EG-2",
+      "s": "(U2) F R' F R' F2 R' U2 R"
     },
     "91": {
-      "alg": [
+      "a": [
         "R2 B2 R2 F' R U R' U2 R' F2 R ",
         "R' U' R U' R' U' R' F2 R F' R",
         "(U) R' F R U' R' F' U' R U R' F2 R"
       ],
       "name": "AS5",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "(U) F R2 F U F U R U2 R"
+      "algset": "EG-2",
+      "s": "(U) F R2 F U F U R U2 R"
     },
     "92": {
-      "alg": [
+      "a": [
         "(U2) R2 F2 R F R F' R U R' "
       ],
       "name": "AS6",
       "group": "Anti-Sune",
-      "set": "EG-2",
-      "scramble": "(U) F R U F' U R2 F' R2"
+      "algset": "EG-2",
+      "s": "(U) F R U F' U R2 F' R2"
     },
     "93": {
-      "alg": [
+      "a": [
         "F U' R U2 R U' R' U R' F'"
       ],
       "name": "Pi1",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "(U2) F R' F2 R' F2 U' R2 U' R"
+      "algset": "EG-2",
+      "s": "(U2) F R' F2 R' F2 U' R2 U' R"
     },
     "94": {
-      "alg": [
+      "a": [
         "R' U2 R2 U' R' F2 R2 F' "
       ],
       "name": "Pi2",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "F R2 F2 R U R2 U2 R"
+      "algset": "EG-2",
+      "s": "F R2 F2 R U R2 U2 R"
     },
     "95": {
-      "alg": [
+      "a": [
         "(U2) R' F' U R' F R2 U2 R' U R",
         "R' F R U R' U' R U2 R' U' F R"
       ],
       "name": "Pi3",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "(U2) F R2 F R' F2 R' U2 F' R"
+      "algset": "EG-2",
+      "s": "(U2) F R2 F R' F2 R' U2 F' R"
     },
     "96": {
-      "alg": [
+      "a": [
         "(U) R' F U' R U R' F2 U2 R"
       ],
       "name": "Pi4",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "(U') F R2 U2 F' U F R' U F'"
+      "algset": "EG-2",
+      "s": "(U') F R2 U2 F' U F R' U F'"
     },
     "97": {
-      "alg": [
+      "a": [
         "(U) R' U' R' F2 R2 U R' F2 R",
         "(U') R' F' R' F2 R2 U R' U2 R",
         "(U') R' F' R U' R2 F2 R U2 R"
       ],
       "name": "Pi5",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "(U') F R F R2 F2 U' F U2 F'"
+      "algset": "EG-2",
+      "s": "(U') F R F R2 F2 U' F U2 F'"
     },
     "98": {
-      "alg": [
+      "a": [
         "(U) R' U2 R U' R2 F2 R F R"
       ],
       "name": "Pi6",
       "group": "Pi",
-      "set": "EG-2",
-      "scramble": "(U') F R2 F R2 F2 U' F U' F'"
+      "algset": "EG-2",
+      "s": "(U') F R2 F R2 F2 U' F U' F'"
     },
     "99": {
-      "alg": [
+      "a": [
         "F U' R U2 R U' R' U2 R' U' F' ",
         "(U) R2 U2 R U R' U F' R U' R"
       ],
       "name": "U1",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "(U2) F R F U2 R2 F2 U F' U R2"
+      "algset": "EG-2",
+      "s": "(U2) F R F U2 R2 F2 U F' U R2"
     },
     "100": {
-      "alg": [
+      "a": [
         "F R U R' U' F R2 B2",
         "R' U' F R' F' R U R' F2 R2 "
       ],
       "name": "U2",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "F2 R2 F R' F' R U F"
+      "algset": "EG-2",
+      "s": "F2 R2 F R' F' R U F"
     },
     "101": {
-      "alg": [
+      "a": [
         "(U') R' U' R U R' F2 R U' R' U R",
         "(U) R U R' U' R B2 R' U R U' R' "
       ],
       "name": "U3",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "F R F R2 F2 U2 F U' F'"
+      "algset": "EG-2",
+      "s": "F R F R2 F2 U2 F U' F'"
     },
     "102": {
-      "alg": [
+      "a": [
         "R2 F2 R U R U2 R2 F R F' R ",
         "(U2) R' U R' F' R U' R U R' F2 R"
       ],
       "name": "U4",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "(U2) F R F' U R' F2 U F U' R"
+      "algset": "EG-2",
+      "s": "(U2) F R F' U R' F2 U F U' R"
     },
     "103": {
-      "alg": [
+      "a": [
         "(U') R2 B2 R' U R' U' R' F R F' ",
         "(U') R U' R' U2 R B R' U2 R U' R'"
       ],
       "name": "U5",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "(U2) F R' F R U F' U' R2 F2"
+      "algset": "EG-2",
+      "s": "(U2) F R' F R U F' U' R2 F2"
     },
     "104": {
-      "alg": [
+      "a": [
         "(U') R2 B2 R2 F R F' R U R' U' R'",
         "(U') R' F R U2 R' U' R U2 R' F R"
       ],
       "name": "U6",
       "group": "U",
-      "set": "EG-2",
-      "scramble": "F R U' R F' R' F' U2 R"
+      "algset": "EG-2",
+      "s": "F R U' R F' R' F' U2 R"
     },
     "105": {
-      "alg": [
+      "a": [
         "R' U' R' F' R U' R U' R' F R",
         "F U2 R' U R U2 R F'",
         "R2 B2 R2 F R' F' R U R U' R' ",
@@ -1501,111 +1501,111 @@
       ],
       "name": "L1",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "(U) F R' U2 R' U' R U2 F'"
+      "algset": "EG-2",
+      "s": "(U) F R' U2 R' U' R U2 F'"
     },
     "106": {
-      "alg": [
+      "a": [
         "(U) R2 B2 R' U R U' R' F R' F'",
         "(U) F' R F' U' R2 F R U2 R'"
       ],
       "name": "L2",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "(U2) F' R F2 R F U' R2 F"
+      "algset": "EG-2",
+      "s": "(U2) F' R F2 R F U' R2 F"
     },
     "107": {
-      "alg": [
+      "a": [
         "R' U' F2 R U2 R' U2 F R"
       ],
       "name": "L3",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "F R U2 F' U2 F R2 U' F'"
+      "algset": "EG-2",
+      "s": "F R U2 F' U2 F R2 U' F'"
     },
     "108": {
-      "alg": [
+      "a": [
         "(U2) R' U' R U R' F' R U R' U' R' F' R2",
         "R U2 R2 F R F' R U2 R B2 R2 "
       ],
       "name": "L4",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "(U') F R U F U2 F2 U R' F' R'"
+      "algset": "EG-2",
+      "s": "(U') F R U F U2 F2 U R' F' R'"
     },
     "109": {
-      "alg": [
+      "a": [
         "F R' F' R U R U' R B2 R2"
       ],
       "name": "L5",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "(U') F R2 U' F' R' U F' U R"
+      "algset": "EG-2",
+      "s": "(U') F R2 U' F' R' U F' U R"
     },
     "110": {
-      "alg": [
+      "a": [
         "(U') R U R U' R' F R' F' R2 B2 R2",
         "(U) F' R U R' U' R' F R' F2 R2"
       ],
       "name": "L6",
       "group": "L",
-      "set": "EG-2",
-      "scramble": "(U) F' R2 U R F R' F U' R'"
+      "algset": "EG-2",
+      "s": "(U) F' R2 U R F R' F U' R'"
     },
     "111": {
-      "alg": [
+      "a": [
         "F R F' R U R' U' R B2 R2 "
       ],
       "name": "T1",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "F' R2 U F' R' F2 R' F"
+      "algset": "EG-2",
+      "s": "F' R2 U F' R' F2 R' F"
     },
     "112": {
-      "alg": [
+      "a": [
         "R U R' U' R' F R F' R2 B2 R2",
         "(U2) x U' R' F R' F' R U R' U2 R2"
       ],
       "name": "T2",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "F R2 U' R U R2 U F'"
+      "algset": "EG-2",
+      "s": "F R2 U' R U R2 U F'"
     },
     "113": {
-      "alg": [
+      "a": [
         "(U2) R' U R' F U' R U R2 ",
         "(U) R' U R' F R2 U2 R' U' R",
         "(U) R' U R U2 R2' F' R U' R"
       ],
       "name": "T3",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "(U') F R' F R' U R' U' F2"
+      "algset": "EG-2",
+      "s": "(U') F R' F R' U R' U' F2"
     },
     "114": {
-      "alg": [
+      "a": [
         "(U) R2 F2 R U' F R' F' R U R ",
         "(U') R2 B2 R2 F R U R' U' F' ",
         "(U') R2 F2 R U' R' F R F' U R"
       ],
       "name": "T4",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "(U2) F R U R' U' F R2 F2"
+      "algset": "EG-2",
+      "s": "(U2) F R U R' U' F R2 F2"
     },
     "115": {
-      "alg": [
+      "a": [
         "(U2) R' F2 R U' R' U R' F R U' R",
         "(U) R' U R U2 R2 F R F' R' F2 R2",
         "(U') R' F R' F' R2 U2 R' U' R' F2 R2"
       ],
       "name": "T5",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "(U2) F R U R' U2 F R2 F' R F'"
+      "algset": "EG-2",
+      "s": "(U2) F R U R' U2 F R2 F' R F'"
     },
     "116": {
-      "alg": [
+      "a": [
         "R' F' U R U2 R' F' U R",
         "(U2) R' U2 R' F2 R F2 R",
         "(U2) R U2 R F2 R' U2 R'",
@@ -1615,21 +1615,21 @@
       ],
       "name": "T6",
       "group": "T",
-      "set": "EG-2",
-      "scramble": "(U') F R2 F R2 F' U2 F'"
+      "algset": "EG-2",
+      "s": "(U') F R2 F R2 F' U2 F'"
     },
     "117": {
-      "alg": [
+      "a": [
         "(U') R2 F U2 F2 R2 F' R2",
         "(U') x R2 U' R2 U2 F2 U R2"
       ],
       "name": "H1",
       "group": "H",
-      "set": "EG-2",
-      "scramble": "(U) F2 R F2 R2 U2 R' F2"
+      "algset": "EG-2",
+      "s": "(U) F2 R F2 R2 U2 R' F2"
     },
     "118": {
-      "alg": [
+      "a": [
         "R2 U2 R U2 B2 R2 ",
         "R2 U2 R' U2 F2 R2",
         "R2 F2 U2 R U2 R2",
@@ -1637,90 +1637,90 @@
       ],
       "name": "H2",
       "group": "H",
-      "set": "EG-2",
-      "scramble": "(U) F2 R2 U2 F U2 F2"
+      "algset": "EG-2",
+      "s": "(U) F2 R2 U2 F U2 F2"
     },
     "119": {
-      "alg": [
+      "a": [
         "R' U' R U2 R2 F' R U' F R",
         "(U) R' U' F R U' R U R' U2 R' F"
       ],
       "name": "H3",
       "group": "H",
-      "set": "EG-2",
-      "scramble": "(U') F R' U2 F' R2 F' R F2 R"
+      "algset": "EG-2",
+      "s": "(U') F R' U2 F' R2 F' R F2 R"
     },
     "120": {
-      "alg": [
+      "a": [
         "R U2 B2 R' U R U' B R' ",
         "R' U' R U' R U' R' F U2 R' U' R "
       ],
       "name": "H4",
       "group": "H",
-      "set": "EG-2",
-      "scramble": "(U') F R' U F' U' F R2 U2 F'"
+      "algset": "EG-2",
+      "s": "(U') F R' U F' U' F R2 U2 F'"
     },
     "121": {
-      "alg": [
+      "a": [
         "(U2) R' F R2 F' R2 U2 R",
         "(U2) R' F U2 R2' F R'"
       ],
       "name": "S1",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "R F' R2 U2 F' R"
+      "algset": "LEG-1",
+      "s": "R F' R2 U2 F' R"
     },
     "122": {
-      "alg": [
+      "a": [
         "(U') R U R2 F' U F2 R2 F'",
         "R U' R' U R U2 R' U R2 U' R2"
       ],
       "name": "S2",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "F R' U2 F R2 F U' R"
+      "algset": "LEG-1",
+      "s": "F R' U2 F R2 F U' R"
     },
     "123": {
-      "alg": [
+      "a": [
         "(U2) F R' F' R2 U2 R U' R2",
         "(U) R F R' F' R U' R' U R U' R' "
       ],
       "name": "S3",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "(U') R' U2 R' U R2 F' U2 F"
+      "algset": "LEG-1",
+      "s": "(U') R' U2 R' U R2 F' U2 F"
     },
     "124": {
-      "alg": [
+      "a": [
         "(U) R2 U' R2 F' R U2 R' U2 R' F"
       ],
       "name": "S4",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "(U) F R' F R2 F U R2 F2 R'"
+      "algset": "LEG-1",
+      "s": "(U) F R' F R2 F U R2 F2 R'"
     },
     "125": {
-      "alg": [
+      "a": [
         "(U2) F2 R F' U R' F U' R2",
         "R U2 R' U F R F' R2 U' R"
       ],
       "name": "S5",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "(U2) F2 R' U F' U F' U R2"
+      "algset": "LEG-1",
+      "s": "(U2) F2 R' U F' U F' U R2"
     },
     "126": {
-      "alg": [
+      "a": [
         "(U') R U2 R U' R2 F R2 F'",
         "(U2) R2' U' R U' F R' F' R2"
       ],
       "name": "S6",
       "group": "Sune",
-      "set": "LEG-1",
-      "scramble": "F R2 F' R2 U R' U2 R'"
+      "algset": "LEG-1",
+      "s": "F R2 F' R2 U R' U2 R'"
     },
     "127": {
-      "alg": [
+      "a": [
         "(U2) x' R U' R2 U R2 B2 R'",
         "(U) R2 U R2 F R F' R U R' U R'",
         "(U2) R' U2 R2 F R2 F' R",
@@ -1728,43 +1728,43 @@
       ],
       "name": "AS1",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "R' F U2 R2 F R'"
+      "algset": "LEG-1",
+      "s": "R' F U2 R2 F R'"
     },
     "128": {
-      "alg": [
+      "a": [
         "(U) R2 U R2 U' R U2 R' U' R U R'",
         "(U) R U' R' U' F R F' R' F R F'",
         "R' U R U' R' U2 R U' R2 U R2"
       ],
       "name": "AS2",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "(U) F R' F2 U2 F R2 U R"
+      "algset": "LEG-1",
+      "s": "(U) F R' F2 U2 F R2 U R"
     },
     "129": {
-      "alg": [
+      "a": [
         "(U') F R2 F' R2 U R' U2 R'",
         "(U2) F' U F R2 U2 R' U R2",
         "(U') R2 F R F' U R' U R2"
       ],
       "name": "AS3",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "R U2 R U' R2 F R2 F'"
+      "algset": "LEG-1",
+      "s": "R U2 R U' R2 F R2 F'"
     },
     "130": {
-      "alg": [
+      "a": [
         "(U') F' R U2 R U2 R' F R2 U R2",
         "(U') F R' F' R U2 R2 U' R2 F R2 F'"
       ],
       "name": "AS4",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "(U') F R F' R2 F' U2 F U' R"
+      "algset": "LEG-1",
+      "s": "(U') F R F' R2 F' U2 F U' R"
     },
     "131": {
-      "alg": [
+      "a": [
         "F' U2 R U R' U' R' F2 R2 F' R'",
         "(U2) R2 U R2 U2 R' F R F' R U' R'",
         " F2 R U' R2 U' R2 U' R' F R'",
@@ -1773,21 +1773,21 @@
       ],
       "name": "AS5",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "(U2) F2 R F' U R' F U' R2"
+      "algset": "LEG-1",
+      "s": "(U2) F2 R F' U R' F U' R2"
     },
     "132": {
-      "alg": [
+      "a": [
         "(U2) R2 U R' U2 R2 F R F'",
         "(U') R U R' U' R U R' F R F' R'"
       ],
       "name": "AS6",
       "group": "Anti-Sune",
-      "set": "LEG-1",
-      "scramble": "F R U2 R2 F R' U' R2"
+      "algset": "LEG-1",
+      "s": "F R U2 R2 F R' U' R2"
     },
     "133": {
-      "alg": [
+      "a": [
         "(U2) F R F' R' F R2 F' R' U2 R",
         "(U2) R' F' R2 F' R2 U2 F R",
         "(U') R F R' F' U R U' R2 F R F'",
@@ -1795,11 +1795,11 @@
       ],
       "name": "Pi1",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "(U) R F R2 U2 F' U2 F' R'"
+      "algset": "LEG-1",
+      "s": "(U) R F R2 U2 F' U2 F' R'"
     },
     "134": {
-      "alg": [
+      "a": [
         "(U') R U R' U' R U2 R U' R2",
         "(U') R2 U R' U2 R' U R U' R'",
         "(U) R2' U' R U2 R U' R' U R",
@@ -1810,22 +1810,22 @@
       ],
       "name": "Pi2",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "(U') F R F2 U' F2 R F'"
+      "algset": "LEG-1",
+      "s": "(U') F R F2 U' F2 R F'"
     },
     "135": {
-      "alg": [
+      "a": [
         "(U2) R F' U R' F2 U R F",
         "(U2) R F' U R2 U' R' F' U' R2 F' R'",
         "(U2) F U' R' U' R' F R2 U' R2 U' F"
       ],
       "name": "Pi3",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "(U2) F U F R2 U' R F' R"
+      "algset": "LEG-1",
+      "s": "(U2) F U F R2 U' R F' R"
     },
     "136": {
-      "alg": [
+      "a": [
         "(U') R2 U R' F R F' U R'",
         "(U') R' F R' F' U R' U2 R' ",
         "(U) R F' U F U' R U2 R ",
@@ -1833,11 +1833,11 @@
       ],
       "name": "Pi4",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "R U' F R' F' R U' R2"
+      "algset": "LEG-1",
+      "s": "R U' F R' F' R U' R2"
     },
     "137": {
-      "alg": [
+      "a": [
         "(U) R U' R' F R F' R2 U2 R",
         "R2 U R' U R' U' R U2 R2 F R F' ",
         "(U') R F R' F R U R' U2 F ",
@@ -1845,11 +1845,11 @@
       ],
       "name": "Pi5",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "(U') F U F R2 U F' U2 R2 F'"
+      "algset": "LEG-1",
+      "s": "(U') F U F R2 U F' U2 R2 F'"
     },
     "138": {
-      "alg": [
+      "a": [
         "(U) R U R' U R2 U' R2 F R2 F'",
         "(U2) R' U2 R2 F R' F' R U R'",
         "(U') R' U R F' U' F R2 U2 R'",
@@ -1857,11 +1857,11 @@
       ],
       "name": "Pi6",
       "group": "Pi",
-      "set": "LEG-1",
-      "scramble": "(U) F R2 U' F R F U' F R"
+      "algset": "LEG-1",
+      "s": "(U) F R2 U' F R F U' F R"
     },
     "139": {
-      "alg": [
+      "a": [
         "R' U R' U' R U' R' U' R2",
         "(U') R2 U' R' U' R U' R' U R'",
         "R U' R U R' U R U R2 ",
@@ -1871,11 +1871,11 @@
       ],
       "name": "U1",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "R U2 R U2 R U R2"
+      "algset": "LEG-1",
+      "s": "R U2 R U2 R U R2"
     },
     "140": {
-      "alg": [
+      "a": [
         "(U2) R2 U R2 F' R2 F' R2 F R2 ",
         "(U') R F R' F' R U' R' F' U' F",
         "(U) R2 B2 R' U' R2 F R U R U2 R'",
@@ -1883,11 +1883,11 @@
       ],
       "name": "U2",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "(U') F2 R2 U R U2 R F2 R"
+      "algset": "LEG-1",
+      "s": "(U') F2 R2 U R U2 R F2 R"
     },
     "141": {
-      "alg": [
+      "a": [
         "(U) R U R' F R2 F' R U' R' ",
         "R2 F R U R' U' R2 U2 R2 F",
         "R U' F R' F' R U R U2 R2",
@@ -1896,31 +1896,31 @@
       ],
       "name": "U3",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "(U') R U2 F' U2 F U2 R'"
+      "algset": "LEG-1",
+      "s": "(U') R U2 F' U2 F U2 R'"
     },
     "142": {
-      "alg": [
+      "a": [
         "(U') F' U' F R2 U' R' U R U' R'",
         "(U') R2 U R' U R' F R F' R U R2"
       ],
       "name": "U4",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "(U2) F R F R' F U' F' R F2"
+      "algset": "LEG-1",
+      "s": "(U2) F R F R' F U' F' R F2"
     },
     "143": {
-      "alg": [
+      "a": [
         "(U') R2 U R' U2 R' F' U' F",
         "R F R' F' U' R U' R' U R U' R' "
       ],
       "name": "U5",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "F' R' F U2 F R F R2"
+      "algset": "LEG-1",
+      "s": "F' R' F U2 F R F R2"
     },
     "144": {
-      "alg": [
+      "a": [
         "(U) R2 U' R U2 R F R F'",
         "(U') F R' F' U R2 U R' U R'",
         "(U2) F R F' U R2 U R' U2 R'",
@@ -1929,84 +1929,84 @@
       ],
       "name": "U6",
       "group": "U",
-      "set": "LEG-1",
-      "scramble": "F R' F' R' U2 R' U R2"
+      "algset": "LEG-1",
+      "s": "F R' F' R' U2 R' U R2"
     },
     "145": {
-      "alg": [
+      "a": [
         "R2 U R' U' F R2 F' U R'",
         "(U2) R2 F R F' R U R2 U R2",
         "(U') R U2 F R' F' R U2 R U R2"
       ],
       "name": "L1",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U) F2 R F2 R F R2 F2 R"
+      "algset": "LEG-1",
+      "s": "(U) F2 R F2 R F R2 F2 R"
     },
     "146": {
-      "alg": [
+      "a": [
         "(U2) R U' R' U' R2 U' R2 F R F'",
         "(U) R2 U R2 U F R F' R U R2",
         "(U2) F R' F' R2 U' R' U' R2 U' R2"
       ],
       "name": "L2",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U2) F2 R U' R' U2 R' U F"
+      "algset": "LEG-1",
+      "s": "(U2) F2 R U' R' U2 R' U F"
     },
     "147": {
-      "alg": [
+      "a": [
         "R' U R' U R2 U' R U2 R'",
         "(U') R U2 R' U R2 U' R U' R"
       ],
       "name": "L3",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U2) F R U2 R' F U' R2 U F2"
+      "algset": "LEG-1",
+      "s": "(U2) F R U2 R' F U' R2 U F2"
     },
     "148": {
-      "alg": [
+      "a": [
         "(U') R' U R' U' R U R' F R2 F' R",
         "R' F U2 R2 F R U2 R U2 R2"
       ],
       "name": "L4",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U2) F R' F2 U' F R F' U2 F"
+      "algset": "LEG-1",
+      "s": "(U2) F R' F2 U' F R F' U2 F"
     },
     "149": {
-      "alg": [
+      "a": [
         "F' U F R U2 R U' R2"
       ],
       "name": "L5",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U') F R2 U' R U F2 U' R"
+      "algset": "LEG-1",
+      "s": "(U') F R2 U' R U F2 U' R"
     },
     "150": {
-      "alg": [
+      "a": [
         "(U) R U' R U' R2 U' F R F'",
         "R U' R' D' R U R2 F' R",
         "(U2) R' U2 R' F R2 F' U' R"
       ],
       "name": "L6",
       "group": "L",
-      "set": "LEG-1",
-      "scramble": "(U') F' R2 F' U2 R2 F' U' R2"
+      "algset": "LEG-1",
+      "s": "(U') F' R2 F' U2 R2 F' U' R2"
     },
     "151": {
-      "alg": [
+      "a": [
         "(U) F R' F' R2 U R2 U R U R'",
         "R2 U R2 U R U R2 F R F'",
         "(U') R2 U' R' F R' F' U' R2 U' R2 "
       ],
       "name": "T1",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "F U2 F R F2 R F R'"
+      "algset": "LEG-1",
+      "s": "F U2 F R F2 R F R'"
     },
     "152": {
-      "alg": [
+      "a": [
         "(U) R U' F R2 F' U R U' R2",
         "R2 U' R' U2 R' F R F' U2 R'",
         "R2 U' R2 U' R' F R' F' R2",
@@ -2016,33 +2016,33 @@
       ],
       "name": "T2",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "(U) F R U' F2 U' F' R F2"
+      "algset": "LEG-1",
+      "s": "(U) F R U' F2 U' F' R F2"
     },
     "153": {
-      "alg": [
+      "a": [
         "(U2) R U2 R' U R' U' R U2 R U R' ",
         "(U2) R U2 R' U2 R U2 R U' R2",
         "(U2) R2 U R' U2 R' U2 R U2 R'"
       ],
       "name": "T3",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "(U') F R' F2 U R' U2 R F"
+      "algset": "LEG-1",
+      "s": "(U') F R' F2 U R' U2 R F"
     },
     "154": {
-      "alg": [
+      "a": [
         "(U) F R F' R' F R2 F' U R' U R",
         "(U2) R2 U' F2 R U2 R' U2 R' F2",
         "(U2) R F' R2' U2' F R U R' F R"
       ],
       "name": "T4",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "(U') R F2 R F2 R U R2 F2"
+      "algset": "LEG-1",
+      "s": "(U') R F2 R F2 R U R2 F2"
     },
     "155": {
-      "alg": [
+      "a": [
         "R2 U' R' F R' F' R U' R U' R2",
         "(U2) R U R' U' R U R2 F' U F",
         "(U2) R' U2 R' U' R U R' F R' F'",
@@ -2051,40 +2051,40 @@
       ],
       "name": "T5",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "F R' F' R F R' F2 U F"
+      "algset": "LEG-1",
+      "s": "F R' F' R F R' F2 U F"
     },
     "156": {
-      "alg": [
+      "a": [
         "(U') R' F R2 F' R' U2 F R F'"
       ],
       "name": "T6",
       "group": "T",
-      "set": "LEG-1",
-      "scramble": "F R' F' U2 R F R2 F' R"
+      "algset": "LEG-1",
+      "s": "F R' F' U2 R F R2 F' R"
     },
     "157": {
-      "alg": [
+      "a": [
         "x R U2 R U' R' U F' R",
         "R F2 R F' R' F U' F"
       ],
       "name": "H1",
       "group": "H",
-      "set": "LEG-1",
-      "scramble": "F R' F R' U' R F2 R"
+      "algset": "LEG-1",
+      "s": "F R' F R' U' R F2 R"
     },
     "158": {
-      "alg": [
+      "a": [
         "R2 U R' U R U' R U R' U R2 ",
         "R2 U' R U' R' U R' U' R U' R2 "
       ],
       "name": "H2",
       "group": "H",
-      "set": "LEG-1",
-      "scramble": "F U R2 U' R F2 U' F R"
+      "algset": "LEG-1",
+      "s": "F U R2 U' R F2 U' F R"
     },
     "159": {
-      "alg": [
+      "a": [
         "(U') F' R' U' F2 R U' F R'",
         "F R' F' R U2 R' F' U2 F R'",
         "(U') F' R' U2 F2 R2 F' R' U' F2 R2",
@@ -2092,19 +2092,19 @@
       ],
       "name": "H3",
       "group": "H",
-      "set": "LEG-1",
-      "scramble": "R F' U R' F2 U R F"
+      "algset": "LEG-1",
+      "s": "R F' U R' F2 U R F"
     },
     "160": {
-      "alg": [
+      "a": [
         "R U' F R' F' R U' R2",
         "R U2 R U' F R F' R",
         "(U2) F' U' F R2 U' R2' F R F'"
       ],
       "name": "H4",
       "group": "H",
-      "set": "LEG-1",
-      "scramble": "(U2) R F' U F U' R U2 R"
+      "algset": "LEG-1",
+      "s": "(U2) R F' U F U' R U2 R"
     }
   },
   "images": {

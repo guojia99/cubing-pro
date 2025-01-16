@@ -8,16 +8,12 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
-type scramble struct {
-	endpoint string
-}
-
 type scrambleValue struct {
 	Scramble string `json:"scramble"`
 	SvgImage string `json:"svgImage"`
 }
 
-func (s *scramble) WCACubeScramble(cube string, nums int) ([]string, error) {
+func (s *scramble) TNoodleCubeScramble(cube string, nums int) ([]string, error) {
 	events := s.events()
 
 	if _, ok := events[cube]; !ok {
@@ -31,12 +27,12 @@ func (s *scramble) WCACubeScramble(cube string, nums int) ([]string, error) {
 
 	// 获取colors
 	var colors map[string]string
-	colorUrl := fmt.Sprintf("%s/frontend/puzzle/%s/colors", s.endpoint, cubeKey)
+	colorUrl := fmt.Sprintf("%s/frontend/puzzle/%s/colors", s.tNoodleEndpoint, cubeKey)
 	if err := utils.HTTPRequestWithJSON(http.MethodGet, colorUrl, nil, nil, nil, &colors); err != nil {
 		return []string{}, err
 	}
 
-	url := fmt.Sprintf("%s/frontend/puzzle/%s/scramble", s.endpoint, cubeKey)
+	url := fmt.Sprintf("%s/frontend/puzzle/%s/scramble", s.tNoodleEndpoint, cubeKey)
 
 	var out []string
 	for i := 0; i < nums; i++ {
@@ -65,7 +61,7 @@ type Event struct {
 
 func (s *scramble) events() map[string]Event {
 	//http://localhost:2014/frontend/data/events
-	url := fmt.Sprintf("%s/frontend/data/events", s.endpoint)
+	url := fmt.Sprintf("%s/frontend/data/events", s.tNoodleEndpoint)
 	var evs []Event
 	if err := utils.HTTPRequestWithJSON(http.MethodGet, url, nil, nil, nil, &evs); err != nil {
 		return nil

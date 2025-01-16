@@ -8,7 +8,7 @@ import (
 
 func Test_scramble_Scramble(t *testing.T) {
 	s := &scramble{
-		endpoint: "http://localhost:2014",
+		tNoodleEndpoint: "http://localhost:2014",
 	}
 
 	t.Run("fto", func(t *testing.T) {

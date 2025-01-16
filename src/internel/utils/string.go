@@ -64,3 +64,18 @@ func ContainsString(v string, s ...string) bool {
 	}
 	return false
 }
+
+func Split(s, sep string) []string {
+	sp := strings.Split(s, sep)
+	var out []string
+	for _, ss := range sp {
+		if len(ss) == 0 {
+			continue
+		}
+		if len(strings.TrimSpace(ss)) == 0 {
+			continue
+		}
+		out = append(out, ss)
+	}
+	return out
+}

@@ -5,7 +5,7 @@ import (
 )
 
 func TestCommutator(t *testing.T) {
-	InitCommutator("./commutator.js")
+	InitCommutator()
 
 	tests := []struct {
 		name    string

@@ -1,8 +1,8 @@
 package script
 
 import (
+	_ "embed"
 	"fmt"
-	"os"
 	"sync"
 
 	"github.com/2mf8/Better-Bot-Go/log"
@@ -15,17 +15,13 @@ var (
 	once sync.Once
 )
 
-//const CommutatorJs = "./commutator.js"
+//go:embed commutator.js
+var CommutatorJs []byte
 
-func InitCommutator(CommutatorJs string) {
+func InitCommutator() {
 	once.Do(func() {
-		file, err := os.ReadFile(CommutatorJs)
-		if err != nil {
-			return
-		}
-
 		vm = goja.New()
-		_, err = vm.RunString(string(file))
+		_, err := vm.RunString(string(CommutatorJs))
 		if err != nil {
 			log.Errorf(err.Error())
 			vm = nil

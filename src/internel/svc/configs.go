@@ -14,18 +14,19 @@ type GlobalConfig struct {
 	DB            DBConfig    `yaml:"db"`
 	EmailConfig   EmailConfig `yaml:"emailConfig"`
 	Scramble      Scramble    `yaml:"scramble"`
-	AlgPath       AlgPath     `yaml:"algPath"`
+	AlgPath       string      `yaml:"algPath"`
 }
 
 type Scramble struct {
+	Type     string `yaml:"type"` // lang, tnoodle
 	EndPoint string `yaml:"endpoint"`
 }
 
-type AlgPath struct {
-	Csp       string `yaml:"csp"`
-	CspImages string `yaml:"cspImages"`
-	Bld       string `yaml:"bld"`
-}
+//type AlgPath struct {
+//	Csp       string `yaml:"csp"`
+//	CspImages string `yaml:"cspImages"`
+//	Bld       string `yaml:"bld"`
+//}
 
 type DBConfig struct {
 	Driver string `yaml:"driver"`

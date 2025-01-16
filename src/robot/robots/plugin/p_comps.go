@@ -91,7 +91,7 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 
 	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, "", "-")
-	group := strings.Split(msg, " ")
+	group := utils.Split(msg, " ")
 
 	if len(group) < 2 {
 		err = fmt.Errorf("请输入一个项目")

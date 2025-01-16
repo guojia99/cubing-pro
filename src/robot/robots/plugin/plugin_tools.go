@@ -66,7 +66,7 @@ func GetEvents(svc *svc.Svc, EventMin string) []event.Event {
 	}
 
 	var events []event.Event
-	var evs = strings.Split(EventMin, ";")
+	var evs = utils.Split(EventMin, ";")
 	if len(EventMin) > 0 {
 		svc.DB.Where("id in ?", evs).Order("idx").Find(&events)
 	} else {
@@ -83,7 +83,7 @@ func GetMessageEvent(evs []event.Event, msg string) (event.Event, string, int, e
 		return event.Event{}, "", 0, fmt.Errorf("找不到该项目")
 	}
 
-	split := strings.Split(msg, " ")
+	split := utils.Split(msg, " ")
 	var ev event.Event
 	var round string
 	if len(split) >= 1 {
@@ -103,7 +103,7 @@ func GetMessageEvent(evs []event.Event, msg string) (event.Event, string, int, e
 				ev = e
 				break
 			}
-			for _, s := range strings.Split(e.OtherNames, ";") {
+			for _, s := range utils.Split(e.OtherNames, ";") {
 				if s == eStr {
 					ev = e
 					break

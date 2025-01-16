@@ -11,6 +11,7 @@ import (
 
 	"github.com/fogleman/gg"
 	"github.com/guojia99/cubing-pro/src/internel/algdb/script"
+	"github.com/guojia99/cubing-pro/src/internel/ttf"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/go-tables/table"
 )
@@ -41,8 +42,7 @@ const (
 
 type BldDB struct {
 	bldPath  string
-	TempPath string
-	FontTTf  string
+	tempPath string
 
 	cornerAlgToStandard, cornerCodeToPos, cornerPosToCode map[string]string // 查询映射表
 	edgeAlgToStandard, edgeCodeToPos, edgePosToCode       map[string]string // 查询映射表
@@ -54,13 +54,12 @@ type BldDB struct {
 	cornerInfo map[string]bldAlg
 }
 
-func NewBldDB(bldPath string, tmpPath string, FontTTf string) *BldDB {
-	script.InitCommutator(path.Join(bldPath, commutatorJs))
+func NewBldDB(bldPath string) *BldDB {
+	script.InitCommutator()
 
 	b := &BldDB{
-		bldPath:    bldPath,
-		TempPath:   tmpPath,
-		FontTTf:    FontTTf,
+		bldPath:    path.Join(bldPath, "bld"),
+		tempPath:   "/tmp",
 		edgeInfo:   make(map[string]bldAlg),
 		cornerInfo: make(map[string]bldAlg),
 	}
@@ -129,7 +128,7 @@ type algTable struct {
 
 func (b *BldDB) Select(selectInput string, config interface{}) (output string, image string, err error) {
 	msg := strings.TrimSpace(utils.ReplaceAll(selectInput, "", b.ID()...))
-	sp := strings.Split(msg, " ")
+	sp := utils.Split(msg, " ")
 	if len(sp) != 2 {
 		return "", "", fmt.Errorf(b.Help())
 	}
@@ -283,24 +282,22 @@ func (b *BldDB) resImage(res []algTable) string {
 	}
 
 	height := strings.Count(data, "\n") * 32
-	width := len(strings.Split(data, "\n")[0]) * 8
+	width := len(utils.Split(data, "\n")[0]) * 8
 	dc := gg.NewContext(width, height)
 
 	dc.SetColor(color.White)
 	dc.Clear()
 	dc.SetRGB(0, 0, 0)
 
-	if err = dc.LoadFontFace(b.FontTTf, 16); err != nil {
-		return ""
-	}
+	dc.SetFontFace(ttf.HuaWenHeiTiTTFFontFace(16))
 
 	curH := 0.0
-	for _, l := range strings.Split(data, "\n") {
+	for _, l := range utils.Split(data, "\n") {
 		dc.DrawStringAnchored(l, 0, curH, 0, 1)
 		curH += 32
 	}
 
-	filePath := path.Join(b.TempPath, fmt.Sprintf("bld%d.png", time.Now().UnixNano()))
+	filePath := path.Join(b.tempPath, fmt.Sprintf("bld%d.png", time.Now().UnixNano()))
 	if err = utils.SaveImage(filePath, dc.Image()); err != nil {
 		return ""
 	}
@@ -311,7 +308,7 @@ func (b *BldDB) updateEdgeResult(res string) string {
 	if strings.Index(res, "-") == -1 {
 		return res
 	}
-	sp := strings.Split(res, "-")
+	sp := utils.Split(res, "-")
 	if len(sp) != 3 {
 		return res
 	}
@@ -329,7 +326,7 @@ func (b *BldDB) updateCornerResult(res string) string {
 	if strings.Index(res, "-") == -1 {
 		return res
 	}
-	sp := strings.Split(res, "-")
+	sp := utils.Split(res, "-")
 	if len(sp) != 3 {
 		return res
 	}

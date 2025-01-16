@@ -6,7 +6,7 @@ import (
 
 func Test_scramble_WCACubeScramble(t *testing.T) {
 	s := &scramble{
-		endpoint: "http://localhost:2014",
+		tNoodleEndpoint: "http://localhost:2014",
 	}
 
 	type args struct {
@@ -28,9 +28,9 @@ func Test_scramble_WCACubeScramble(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.WCACubeScramble(tt.name, 1)
+			got, err := s.TNoodleCubeScramble(tt.name, 1)
 			if err != nil {
-				t.Errorf("WCACubeScramble() error = %v", err)
+				t.Errorf("TNoodleCubeScramble() error = %v", err)
 				return
 			}
 			t.Log(tt.name, got)
@@ -40,7 +40,7 @@ func Test_scramble_WCACubeScramble(t *testing.T) {
 
 func Test_scramble_WCACubeScramble2(t *testing.T) {
 	s := &scramble{
-		endpoint: "http://localhost:2014",
+		tNoodleEndpoint: "http://localhost:2014",
 	}
 	var tests []struct {
 		name string
@@ -52,9 +52,9 @@ func Test_scramble_WCACubeScramble2(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.WCACubeScramble(tt.name, 1)
+			got, err := s.TNoodleCubeScramble(tt.name, 1)
 			if err != nil {
-				t.Errorf("WCACubeScramble() error = %v", err)
+				t.Errorf("TNoodleCubeScramble() error = %v", err)
 				return
 			}
 			t.Log(tt.name, got)

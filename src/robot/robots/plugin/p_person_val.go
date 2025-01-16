@@ -10,6 +10,7 @@ import (
 
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
@@ -58,7 +59,7 @@ func getPersonValue(file string) []string {
 	if err != nil {
 		return caoGodLine
 	}
-	for _, line := range strings.Split(string(data), "\n") {
+	for _, line := range utils.Split(string(data), "\n") {
 		if strings.Contains(line, "==") {
 			continue
 		}

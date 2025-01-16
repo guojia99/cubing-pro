@@ -5,10 +5,7 @@ import (
 )
 
 func TestBldDB_Select(t *testing.T) {
-	b := NewBldDB("/home/guojia/worker/code/cube/cubing-pro/build/alg/bld",
-		"/home/guojia/worker/code/cube/cubing-pro/temp",
-		"/home/guojia/worker/code/cube/cubing-pro/build/HuaWenHeiTi.ttf",
-	)
+	b := NewBldDB("/home/guojia/worker/code/cube/cubing-pro/build/alg")
 
 	ls := []string{
 		"bld 角[人造] PYR",

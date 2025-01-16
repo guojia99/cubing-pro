@@ -120,7 +120,7 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	out := fmt.Sprintf("比赛: %s\n", comp.Name)
 	out += fmt.Sprintf("选手: %s\n", usr.Name)
 
-	for _, resStr := range strings.Split(msg, "\n") {
+	for _, resStr := range utils.Split(msg, "\n") {
 		if len(resStr) == 0 {
 			continue
 		}
@@ -130,7 +130,7 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		resStr = utils.ReplaceAll(resStr, "] ", "]")
 
 		// 获取轮次和项目
-		split := strings.Split(resStr, " ")
+		split := utils.Split(resStr, " ")
 		split = slices.DeleteFunc(split, func(s string) bool { return len(s) == 0 })
 		if len(split) <= 1 {
 			return message.NewOutMessage(fmt.Sprintf("存在成绩录入格式错误, 或有空数据`%s`", resStr)), nil
@@ -167,7 +167,7 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		var results []float64
 		for idx, r := range split[1:] {
 			if ev.BaseRouteType.RouteMap().Repeatedly && idx == 0 {
-				sp2 := strings.Split(r, "/")
+				sp2 := utils.Split(r, "/")
 				if !strings.Contains(r, "/") || len(sp2) != 2 {
 					return message.NewOutMessage("多盲格式不符合'x/y time'的格式"), nil
 				}

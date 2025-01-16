@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/fogleman/gg"
+	"github.com/guojia99/cubing-pro/src/internel/ttf"
 
 	"github.com/2mf8/Better-Bot-Go/log"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -23,18 +24,17 @@ type SQ1CspDB struct {
 	DBPath    string
 	ImagePath string
 	TempPath  string
-	FontTTf   string
+	//FontTTf   string
 
 	data     cspAlgMap
 	dataList []string
 }
 
-func NewSQ1CspDB(dbPath string, imagePath string, tmpPath string, FontTTf string) *SQ1CspDB {
+func NewSQ1CspDB(dbPath string) *SQ1CspDB {
 	s := &SQ1CspDB{
-		ImagePath: imagePath,
-		DBPath:    dbPath,
-		TempPath:  tmpPath,
-		FontTTf:   FontTTf,
+		ImagePath: path.Join(dbPath, "csp", "csp_image"),
+		DBPath:    path.Join(dbPath, "csp", "csp.json"),
+		TempPath:  "/tmp",
 	}
 	s.init()
 	return s
@@ -85,9 +85,9 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 	var input []string
 
 	if strings.Contains(selectInput, "/") {
-		input = strings.Split(selectInput, "/")
+		input = utils.Split(selectInput, "/")
 	} else {
-		xxInput := strings.Split(selectInput, " ")
+		xxInput := utils.Split(selectInput, " ")
 		for _, x := range xxInput {
 			if len(x) > 0 {
 				input = append(input, x)
@@ -126,8 +126,6 @@ func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string
 
 	// 合并图片
 	img := s.getImage(base, mirror)
-
-	fmt.Println(img)
 	return out, img, nil
 }
 
@@ -207,10 +205,7 @@ func (s *SQ1CspDB) getImage(base, mirror cspAlg) string {
 	//outputPath := path.Join(s.TempPath, "test.png")
 	// 写入文字
 	dc := gg.NewContextForImage(newImage)
-	if err := dc.LoadFontFace(s.FontTTf, 30); err != nil {
-		fmt.Printf("无法加载字体: %v\n", err)
-		return ""
-	}
+	dc.SetFontFace(ttf.HuaWenHeiTiTTFFontFace(30))
 	dc.SetRGB(206, 27, 183)
 	dc.DrawStringAnchored("Base", float64(40), float64(newHeight-20), 0.5, 0.5)
 	if err3 == nil && err4 == nil {
@@ -229,7 +224,7 @@ func (s *SQ1CspDB) getList(config map[string]string) (out string) {
 
 	idx := 1
 	for _, key := range s.dataList {
-		st := strings.Split(key, "/")
+		st := utils.Split(key, "/")
 		k1, k2 := strings.TrimRight(st[0], " "), strings.TrimLeft(st[1], " ")
 		if t, ok := config[k1]; ok {
 			k1 = t

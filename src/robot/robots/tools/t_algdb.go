@@ -17,8 +17,9 @@ type TAlgDB struct {
 
 func (t *TAlgDB) init() {
 	t.dbs = []algdb.AlgDB{
-		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath.Csp, t.Svc.Cfg.GlobalConfig.AlgPath.CspImages, t.Svc.Cfg.GlobalConfig.ImageTempPath, t.Svc.Cfg.GlobalConfig.BaseFontTTf),
-		algdb.NewBldDB(t.Svc.Cfg.GlobalConfig.AlgPath.Bld, t.Svc.Cfg.GlobalConfig.ImageTempPath, t.Svc.Cfg.GlobalConfig.BaseFontTTf),
+		algdb.NewSQ1CspDB(t.Svc.Cfg.GlobalConfig.AlgPath),
+		algdb.NewBldDB(t.Svc.Cfg.GlobalConfig.AlgPath),
+		algdb.NewCube222(t.Svc.Cfg.GlobalConfig.AlgPath),
 	}
 
 	t.dbsMap = make(map[string]algdb.AlgDB)

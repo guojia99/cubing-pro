@@ -17,6 +17,7 @@ func TestCube222_Select(t *testing.T) {
 		{"222 cll s1"},
 		{"222 eg0 as4"},
 		{"222 eg0 as8"},
+		{"222 eg2 s1"},
 	}
 	c := NewCube222("/home/guojia/worker/code/cube/cubing-pro/build/alg")
 	for _, tt := range tests {

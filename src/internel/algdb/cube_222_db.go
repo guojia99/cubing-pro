@@ -14,7 +14,7 @@ type Cube222 struct {
 	eg        CubeAlgDb
 }
 
-func (c *Cube222) ID() []string { return []string{"222", "二阶", "2"} }
+func (c *Cube222) ID() []string { return []string{"222", "二阶"} }
 func (c *Cube222) Cases() []string {
 	return []string{
 		"eg", "EG", "EG1", "EG2", "cll", "LEG",
@@ -100,7 +100,6 @@ func (c *Cube222) selectEg(selectInput []string, config interface{}) (output str
 		config = c.BaseConfig()
 	}
 	cfg := config.(Cube222Config)
-
 	if len(selectInput) != 2 {
 		return c.Help(), "", nil
 	}

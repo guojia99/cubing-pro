@@ -58,7 +58,7 @@ func (c Cube) ToCubeAlgDb() CubeAlgDb {
 }
 
 func (c Cube) CaseList() string {
-	out := "Case列表"
+	out := "Case列表\n"
 	idx := 1
 	for _, val := range c.Sets["L4E"] {
 		out += fmt.Sprintf("%d.%s: ", idx, val)

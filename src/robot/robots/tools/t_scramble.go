@@ -32,14 +32,27 @@ func (t *TScramble) Help() string {
 	return `打乱`
 }
 
-func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
-	ts := time.Now()
-	out := t.Svc.Scramble.Scramble(message.Message, 1)
-	use := time.Since(ts)
-
-	if len(out) == 0 {
-		return message.NewOutMessage("获取打乱失败"), nil
+func (t *TScramble) helps() string {
+	out := ""
+	for i, id := range t.ID() {
+		out += fmt.Sprintf("%d. %s\n", i+1, id)
 	}
+	return out
+}
+
+func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
+
+	var ev event.Event
+	if err := t.Svc.DB.Where("id = ?", message.Message).Error; err != nil {
+		return message.NewOutMessage("打乱不存在\n" + t.helps()), err
+	}
+
+	ts := time.Now()
+	out, err := t.Svc.Scramble.ScrambleWithComp(ev)
+	if err != nil || len(out) == 0 {
+		return message.NewOutMessagef("获取打乱错误%s\n", err), nil
+	}
+	use := time.Since(ts)
 	msg := ""
 	for idx, o := range out {
 		msg += fmt.Sprintf("%d. %s\n", idx+1, o)

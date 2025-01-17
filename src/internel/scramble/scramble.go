@@ -1,37 +1,38 @@
 package scramble
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 )
 
 type Scramble interface {
-	TNoodleCubeScramble(cube string, nums int) ([]string, error)
-	AutoScramble(keys [2][]string, min, max int, group int) []string
-	Scramble(event event.Event) ([]string, error)
+	ScrambleWithComp(event event.Event) ([]string, error)
+	Scramble(ev string, num int) []string
 }
 
 func NewScramble(scrambleType string, tNoodleEndpoint string) Scramble {
 	if scrambleType == "" {
 		scrambleType = scrambleTypeTNoodle
 	}
-
-	return &scramble{
+	s := &scramble{
 		scrambleType:    scrambleType,
 		tNoodleEndpoint: tNoodleEndpoint,
 	}
+	if s.scrambleType == scrambleTypeRustTwisty {
+		go s.loopRustScrambleCache()
+	}
+
+	return s
 }
 
 type scramble struct {
-	scrambleType string
-
+	scrambleType    string
 	tNoodleEndpoint string
 }
 
 const (
-	repeatedlyNum int = 40
+	repeatedlyNum int = 99
 	backupNum         = 2 // 备打数
 )
 
@@ -40,33 +41,22 @@ const (
 	scrambleTypeTNoodle    = "tnoodle"
 )
 
-func (s *scramble) Scramble(event event.Event) ([]string, error) {
-	var handler func(string, int) ([]string, error)
-	switch s.scrambleType {
-	case scrambleTypeTNoodle:
-		handler = s.TNoodleCubeScramble
-	case scrambleTypeRustTwisty:
-		handler = s.LangScramble
-	}
-	if handler == nil {
-		return nil, fmt.Errorf("scramble type %s not supported", s.scrambleType)
-	}
-
+func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 	if event.IsWCA {
 		if event.BaseRouteType.RouteMap().Repeatedly {
-			return handler(event.ID, repeatedlyNum)
+			return s.Scramble(event.ID, repeatedlyNum), nil
 		}
-		return handler(event.ID, event.BaseRouteType.RouteMap().Rounds+backupNum)
+		return s.Scramble(event.ID, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
 	}
 
 	switch event.AutoScrambleKey {
 	case "FTO":
-		return s.AutoScramble(FTOScrambleKey, 25, 30, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
+		return s.autoScramble(FTOScrambleKey, 25, 30, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
 	}
 
 	switch event.ScrambleValue {
 	case "333mbf":
-		return handler("333mbf", repeatedlyNum)
+		return s.Scramble("333mbf", repeatedlyNum), nil
 	}
 
 	var evs []string
@@ -76,12 +66,29 @@ func (s *scramble) Scramble(event event.Event) ([]string, error) {
 
 	var out []string
 	for _, ev := range evs {
-		data, err := handler(ev, event.BaseRouteType.RouteMap().Rounds+backupNum)
-		if err != nil {
-			return nil, err
-		}
+		data := s.Scramble(ev, event.BaseRouteType.RouteMap().Rounds+backupNum)
 		out = append(out, data...)
 	}
 
 	return out, nil
+}
+
+func (s *scramble) Scramble(ev string, num int) []string {
+	var wcaHandler func(string, int) ([]string, error)
+	switch s.scrambleType {
+	case scrambleTypeTNoodle:
+		wcaHandler = s.tNoodleCubeScramble
+	case scrambleTypeRustTwisty:
+		wcaHandler = s.rustScramble
+	}
+	if wcaHandler == nil {
+		//, fmt.Errorf("scramble type %s not supported", s.scrambleType)
+		return nil
+	}
+	data, err := wcaHandler(ev, num)
+	if err != nil {
+		return nil
+	}
+
+	return data
 }

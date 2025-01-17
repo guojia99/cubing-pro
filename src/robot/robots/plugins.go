@@ -20,5 +20,6 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 
 		&tools.TRandom{},
 		&tools.TAlgDB{Svc: svc},
+		&tools.TScramble{Svc: svc},
 	}
 }

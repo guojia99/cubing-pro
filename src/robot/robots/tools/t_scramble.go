@@ -41,9 +41,8 @@ func (t *TScramble) helps() string {
 }
 
 func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
-
 	var ev event.Event
-	if err := t.Svc.DB.Where("id = ?", message.Message).Error; err != nil {
+	if err := t.Svc.DB.Where("id = ?", message.Message).First(&ev).Error; err != nil {
 		return message.NewOutMessage("打乱不存在\n" + t.helps()), err
 	}
 

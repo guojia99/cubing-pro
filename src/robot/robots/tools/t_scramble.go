@@ -33,11 +33,6 @@ func (t *TScramble) Help() string {
 }
 
 func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
-	msg := types.RemoveID(message.Message, t.ID())
-	if len(msg) != 0 {
-		return nil, nil
-	}
-
 	ts := time.Now()
 	out := t.Svc.Scramble.Scramble(message.Message, 1)
 	use := time.Since(ts)
@@ -45,7 +40,7 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 	if len(out) == 0 {
 		return message.NewOutMessage("获取打乱失败"), nil
 	}
-	msg = ""
+	msg := ""
 	for idx, o := range out {
 		msg += fmt.Sprintf("%d. %s\n", idx+1, o)
 	}

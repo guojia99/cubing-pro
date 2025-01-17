@@ -6,6 +6,7 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
@@ -41,8 +42,10 @@ func (t *TScramble) helps() string {
 }
 
 func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
+	m := utils.ReplaceAll(message.Message, "", " ")
+
 	var ev event.Event
-	if err := t.Svc.DB.Where("id = ?", message.Message).First(&ev).Error; err != nil {
+	if err := t.Svc.DB.Where("id = ?", m).First(&ev).Error; err != nil {
 		return message.NewOutMessage("打乱不存在\n" + t.helps()), err
 	}
 

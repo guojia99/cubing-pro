@@ -48,8 +48,14 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 			return
 		}
 
-		ext := path.Ext(ctx.Request.URL.Path)
+		if strings.Contains(ctx.Request.URL.Path, "/v3/x-file") {
+			filename := strings.ReplaceAll(ctx.Request.URL.Path, "/v3/x-file", "")
+			filePath := path.Join(g.cfg.Gateway.XFile, filename)
+			ctx.File(filePath)
+			return
+		}
 
+		ext := path.Ext(ctx.Request.URL.Path)
 		if slices.Contains([]string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico"}, ext) {
 			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
 			ctx.Header("Cache-Control", "public, max-age=2592000")

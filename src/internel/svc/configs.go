@@ -45,6 +45,7 @@ type GatewayConfig struct {
 	HttpPort   int    `yaml:"httpPort"`
 	HTTPSPort  int    `yaml:"httpsPort"`
 	HTTPSHost  string `yaml:"httpsHost"`
+	XFile      string `yaml:"xFile"`      // 其他特殊文件
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
 }

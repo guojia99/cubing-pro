@@ -109,7 +109,8 @@ func (b *BldDB) ID() []string          { return []string{"bld", "3bf", "三蝙�
 func (b *BldDB) Cases() []string       { return []string{"edge", "e", "E", "棱", "corner", "c", "C", "角"} }
 func (b *BldDB) UpdateCases() []string { return nil }
 func (b *BldDB) Help() string {
-	return `数据来源: blddb|王子兴
+	return `三盲公式查询
+- 数据来源: blddb|王子兴
 a. bld 棱|角 ADE
 b.bld 角[人造|噩梦|圆子|平衡] ADG
 c.bld 角[man|info|yuanzi|balance] ADG

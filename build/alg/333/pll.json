@@ -1,0 +1,288 @@
+{
+  "keys": {
+    "PLL Adjacent": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      11,
+      14,
+      15,
+      16
+    ],
+    "PLL Opposite": [
+      3,
+      12,
+      13,
+      19,
+      20
+    ],
+    "PLL Edges": [
+      17,
+      18,
+      9,
+      21
+    ]
+  },
+  "sets": {
+    "PLL": [
+      "PLL Adjacent",
+      "PLL Opposite",
+      "PLL Edges"
+    ]
+  },
+  "algInfos": {
+    "1": {
+      "a": [
+        "x R' U R' D2 R U' R' D2 R2",
+        "R' B' R2 D R' U' R D' R' U R' B R",
+        "R' D' R U2 R' D R U' R' D' R U' R' D R",
+        "U F' R' F R U' R' F' R2 U R' U' R' F R"
+      ],
+      "name": "Aa",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' U F' R2 F U' F U F2 R2 F2"
+    },
+    "2": {
+      "a": [
+        "x R2 D2 R U R' D2 R U' R x'",
+        "R' B' R U' R D R' U R D' R2' B R",
+        "R' D' R U R' D R U R' D' R U2 R' D R",
+        "R' F' R U R U' R2' F R U R' F' R F"
+      ],
+      "name": "Ab",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 R2 F2 U' F' U F' R2 F U' F"
+    },
+    "3": {
+      "a": [
+        "x' R U' R' D R U R' D' R U R' D R U' R' D'",
+        "R' U' R' D' R U' R' D R U R' D' R U R' D R2"
+      ],
+      "name": "E",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 U' F2 U2 R2 U R2 U F2 R2 U2 R2 U F2"
+    },
+    "4": {
+      "a": [
+        "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+        "S' R U' R2' F R U R U' R2' F' R f R' F' R",
+        "U' R' U R U' R2 F' U' F U R F R' F' R2"
+      ],
+      "name": "F",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F U' F' U F2 R U R' U' F' R' F R F2"
+    },
+    "5": {
+      "a": [
+        "R2 U R' U R' U' R U' R2 D U' R' U R D'",
+        "R2 u R' U R' U' R u' R2 F' U F"
+      ],
+      "name": "Ga",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 U' F2 U2 R2 U F2 U F2 U' R2 F2 U2 F2"
+    },
+    "6": {
+      "a": [
+        "R' U' R U D' R2 U R' U R U' R U' R2 D",
+        "y' l U R' D R U R' D' F r U' r' R U2 R' x",
+        "y F' U' F R2 u R' U R U' R u' R2"
+      ],
+      "name": "Gb",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 R2 U F2 U F2 U' R U' R F2 R' U R"
+    },
+    "7": {
+      "a": [
+        "y2 R2 F2 R U2 R U2 R' F R U R' U' R' F R2",
+        "R2 U' R U' R U R' U R2 D' U R U' R' D",
+        "R2 u' R U' R U R' u R2 f R' f'"
+      ],
+      "name": "Gc",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F U F' R2 F U' F U' R2 U R2 U F2 R2"
+    },
+    "8": {
+      "a": [
+        "R U R' U' D R2 U' R U' R' U R' U R2 D'"
+      ],
+      "name": "Gd",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 R2 U' F2 R' U' R F2 R' U R U R2 F2"
+    },
+    "9": {
+      "a": [
+        "M2 U' M2 U2 M2 U' M2",
+        "M2 U M2 U2 M2 U M2"
+      ],
+      "name": "H",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 U2 F U2 F2 U2 F2 U2 F U2 F2"
+    },
+    "10": {
+      "a": [
+        "y2 x R2 F R F' R U2 r' U r U2 x'",
+        "y R' U L' U2 R U' R' U2 R L"
+      ],
+      "name": "Ja",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' U R' U F U F' U' R U2 F"
+    },
+    "11": {
+      "a": [
+        "R U R' F' R U R' U' R' F R2 U' R'"
+      ],
+      "name": "Jb",
+      "group": "A",
+      "algset": "PLL",
+      "s": "R U F' R' F U F' R F U2 R'"
+    },
+    "12": {
+      "a": [
+        "R F U' R' U R U F' R2' F' R U R U' R' F",
+        "F' R U R' U' R' F R2 F U' R' U' R U F' R'",
+        "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
+        "f R' F R2 f' U S R' F R2 f' U F'"
+      ],
+      "name": "Na",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' U F2 R2 U F' R2 F U' R2 F2 U' F"
+    },
+    "13": {
+      "a": [
+        "r' D' F r U' r' F' D r2 U r' U' r' F r F'",
+        "R' U R U' R' F' U' F R U R' U' R U' f R f'",
+        "z U' R D' R2' U R' D U' R D' R2 U R' D z'",
+        "R2' U' R2 U D R2' D' R2 U2 R2' U' R2 U D R2' D' R2"
+      ],
+      "name": "Nb",
+      "group": "A",
+      "algset": "PLL",
+      "s": "R U' R2 F2 U' R F2 R' U F2 R2 U R'"
+    },
+    "14": {
+      "a": [
+        "R U' R' U' R U R D R' U' R D' R' U2 R'",
+        "R U R' F' R U2 R' U2 R' F R U R U2 R'"
+      ],
+      "name": "Ra",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F U2 F' U2 F R' F' U' F U F R F2"
+    },
+    "15": {
+      "a": [
+        "R' U2 R U2 R' F R U R' U' R' F' R2",
+        "R' U2 R' D' R U' R' D R U R U' R' U' R"
+      ],
+      "name": "Rb",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' U F' R2 U' F' U' F' U F U R2 F2"
+    },
+    "16": {
+      "a": [
+        "R U R' U' R' F R2 U' R' U' R U R' F'"
+      ],
+      "name": "T",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F R U' R' U R U R2 F' R U R U' R'"
+    },
+    "17": {
+      "a": [
+        "M2 U M U2 M' U M2",
+        "U' R2 U' S' U2 S U' R2",
+        "U2 M2 U M' U2 M U M2",
+        "U2 R U R' U R' U' R2 U' R' U R' U R"
+      ],
+      "name": "Ua",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' U F' U' F' U' F' U F U F2"
+    },
+    "18": {
+      "a": [
+        "M2 U' M U2 M' U' M2",
+        "U' R2 U' S R2' S' R2 U R2",
+        "U2 M2 U' M' U2 M U' M2",
+        "U' R2' U R2 S R2' S' U' R2"
+      ],
+      "name": "Ub",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F U' F U F U F U' F' U' F2"
+    },
+    "19": {
+      "a": [
+        "R' U R' d' R' F' R2 U' R' U R' F R F",
+        "U F' U F' U' R' F' R2 U' R' U R' F R F",
+        "R' U R U' R' f' U' R U2 R' U' R U' R' f R",
+        "R' U R' U' R D' R' D R' U D' R2 U' R2' D R2"
+      ],
+      "name": "V",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F' R' F' R U' R U R2 F R U F U' F"
+    },
+    "20": {
+      "a": [
+        "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+        "F R' F R2 U' R' U' R U R' F' R U R' U' F'",
+        "F R' F' R U R U' R2' U' R U R f' U' f"
+      ],
+      "name": "Y",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F U F' R2 F U' F' U' R2 U R2 U R2"
+    },
+    "21": {
+      "a": [
+        "M2 U2 M U' M2 U' M2 U' M",
+        "M2 U2 M U M2 U M2 U M"
+      ],
+      "name": "Z",
+      "group": "A",
+      "algset": "PLL",
+      "s": "F2 R2 U' F2 U R2 F2 R2 U R2 U' R2"
+    }
+  },
+  "images": {
+    "1": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#F28E2B' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#4E79A7' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#E15759' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#4E79A7' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "2": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#59A14F' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#E15759' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#F28E2B' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#4E79A7' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "3": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#E15759' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#59A14F' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#4E79A7' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#E15759' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "4": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#59A14F' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#4E79A7' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "5": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#59A14F' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#4E79A7' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#F28E2B' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "6": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#E15759' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#59A14F' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#4E79A7' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "7": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#E15759' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#59A14F' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#59A14F' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#59A14F' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#E15759' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#F28E2B' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#E15759' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#4E79A7' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "8": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#59A14F' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#4E79A7' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#E15759' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "9": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#59A14F' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#4E79A7' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "10": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#E15759' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#59A14F' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#59A14F' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#4E79A7' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#E15759' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#E15759' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "11": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#F28E2B' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#F28E2B' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#59A14F' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#4E79A7' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#E15759' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#4E79A7' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#4E79A7' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#E15759' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "12": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#59A14F' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#E15759' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#F28E2B' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#4E79A7' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "13": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#59A14F' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#F28E2B' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#E15759' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#4E79A7' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "14": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#F28E2B' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#59A14F' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#4E79A7' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#E15759' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#59A14F' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#4E79A7' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#E15759' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#E15759' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "15": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#59A14F' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#F28E2B' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#F28E2B' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#4E79A7' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#4E79A7' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#59A14F' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#E15759' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#E15759' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "16": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#F28E2B' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#59A14F' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "17": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#59A14F' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#E15759' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#F28E2B' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "18": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#4E79A7' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#4E79A7' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#E15759' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#F28E2B' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#59A14F' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#F28E2B' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#E15759' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#59A14F' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "19": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#59A14F' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#F28E2B' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#F28E2B' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#4E79A7' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#E15759' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#4E79A7' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "20": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#59A14F' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#E15759' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#4E79A7' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#F28E2B' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#F28E2B' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#4E79A7' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#E15759' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#E15759' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#59A14F' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#59A14F' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#4E79A7' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>",
+    "21": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100.0 100.0\">\n<style>\npolygon { stroke: black; stroke-width: 0.5px; stroke-linejoin: round;}\n</style><polygon fill='#E15759' points='16.84 5.00 35.79 5.00 38.16 14.47 14.47 14.47'/>\n<polygon fill='#59A14F' points='40.53 5.00 59.47 5.00 61.84 14.47 38.16 14.47'/>\n<polygon fill='#E15759' points='64.21 5.00 83.16 5.00 85.53 14.47 61.84 14.47'/>\n<polygon fill='#59A14F' points='5.00 16.84 14.47 14.47 14.47 38.16 5.00 35.79'/>\n<polygon fill='#F1CE63' points='14.47 14.47 38.16 14.47 38.16 38.16 14.47 38.16'/>\n<polygon fill='#F1CE63' points='38.16 14.47 61.84 14.47 61.84 38.16 38.16 38.16'/>\n<polygon fill='#F1CE63' points='61.84 14.47 85.53 14.47 85.53 38.16 61.84 38.16'/>\n<polygon fill='#4E79A7' points='85.53 14.47 95.00 16.84 95.00 35.79 85.53 38.16'/>\n<polygon fill='#E15759' points='5.00 40.53 14.47 38.16 14.47 61.84 5.00 59.47'/>\n<polygon fill='#F1CE63' points='14.47 38.16 38.16 38.16 38.16 61.84 14.47 61.84'/>\n<polygon fill='#F1CE63' points='38.16 38.16 61.84 38.16 61.84 61.84 38.16 61.84'/>\n<polygon fill='#F1CE63' points='61.84 38.16 85.53 38.16 85.53 61.84 61.84 61.84'/>\n<polygon fill='#F28E2B' points='85.53 38.16 95.00 40.53 95.00 59.47 85.53 61.84'/>\n<polygon fill='#59A14F' points='5.00 64.21 14.47 61.84 14.47 85.53 5.00 83.16'/>\n<polygon fill='#F1CE63' points='14.47 61.84 38.16 61.84 38.16 85.53 14.47 85.53'/>\n<polygon fill='#F1CE63' points='38.16 61.84 61.84 61.84 61.84 85.53 38.16 85.53'/>\n<polygon fill='#F1CE63' points='61.84 61.84 85.53 61.84 85.53 85.53 61.84 85.53'/>\n<polygon fill='#4E79A7' points='85.53 61.84 95.00 64.21 95.00 83.16 85.53 85.53'/>\n<polygon fill='#F28E2B' points='14.47 85.53 38.16 85.53 35.79 95.00 16.84 95.00'/>\n<polygon fill='#4E79A7' points='38.16 85.53 61.84 85.53 59.47 95.00 40.53 95.00'/>\n<polygon fill='#F28E2B' points='61.84 85.53 85.53 85.53 83.16 95.00 64.21 95.00'/>\n</svg>"
+  }
+}

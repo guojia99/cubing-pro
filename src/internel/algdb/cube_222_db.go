@@ -90,6 +90,9 @@ b. tcll+ H
 c. tcll case： H, SS, S, P, TF, T, PP, G
 d. tcll case 原称: Hammer, Spaceship, Stollery, Pinwheel
                   Two-Face, Turtle,  Pinwheel Poser, Gun
+LS: 待更新
+TEG:待更新
+FH: 待更新
 `
 }
 
@@ -104,7 +107,7 @@ func (c *Cube222) Select(selectInput string, config interface{}) (output string,
 	switch Case {
 	case "eg1", "eg2", "cll", "eg0", "eg-1", "eg-2", "eg-0", "leg":
 		return c.selectEg(sp, config)
-	case "tcll+", "tcll-":
+	case "tcll+", "tcll-", "tc+", "tc-":
 		return c.selectTCll(sp, config)
 	}
 	return c.Help(), "", nil

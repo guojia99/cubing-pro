@@ -27,7 +27,7 @@ type Svc struct {
 	Scramble scramble.Scramble
 }
 
-func NewAPISvc(file string, job bool) (*Svc, error) {
+func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 	var err error
 	var cfg Config
 	if err = cfg.Load(file); err != nil {
@@ -35,10 +35,13 @@ func NewAPISvc(file string, job bool) (*Svc, error) {
 	}
 
 	c := &Svc{
-		Cfg:      cfg,
-		Cache:    cache.New(time.Minute*5, time.Minute*5),
-		Scramble: scramble.NewScramble(cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint),
+		Cfg:   cfg,
+		Cache: cache.New(time.Minute*5, time.Minute*5),
 	}
+	if scr {
+		c.Scramble = scramble.NewScramble(cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint)
+	}
+
 	if c.DB, err = newDB(cfg.GlobalConfig); err != nil {
 		return nil, err
 	}

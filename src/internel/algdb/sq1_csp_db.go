@@ -69,7 +69,10 @@ func (s *SQ1CspDB) ID() []string          { return []string{"csp", "CSP", "Csp",
 func (s *SQ1CspDB) Cases() []string       { return []string{} }
 func (s *SQ1CspDB) UpdateCases() []string { return []string{"修改配置"} }
 
-func (s *SQ1CspDB) Help() string { return "'csp 桶-桶' : 可获取对应公式 " }
+func (s *SQ1CspDB) Help() string {
+	return `CSP公式查询
+a.'csp 桶-桶' : 可获取对应公式 `
+}
 
 func (s *SQ1CspDB) Select(selectInput string, config interface{}) (output string, image string, err error) {
 	if config == nil {

@@ -1,6 +1,7 @@
 package algdb
 
 import (
+	"fmt"
 	"path"
 	"strings"
 
@@ -35,6 +36,7 @@ func (c *Cube333) BaseConfig() interface{} {
 func (c *Cube333) Help() string {
 	return `三阶公式查询
 PLL: pll Ja
+	 PLL case Aa\Ab E F Ga\Gb\Gc\Gd H Ja\Jb Na\Nb Ra\Rb T Ua\Ub V Y Z 
 CMLL: 待更新
 ZBLL: 待更新
 `
@@ -72,5 +74,42 @@ func (c *Cube333) selectPll(selectInput []string, config interface{}) (output st
 		return c.Help(), "", err
 	}
 
-	return "", "", err
+	caseHelp := "case仅有： Aa\\Ab E F Ga\\Gb\\Gc\\Gd H Ja\\Jb Na\\Nb Ra\\Rb T Ua\\Ub V Y Z "
+	cc := strings.ToLower(selectInput[1])
+
+	var pll CubeAlg
+	var ohPll CubeAlg
+	for _, k := range c.pllRawData.AlgInfos {
+		if strings.ToLower(k.Name) != cc {
+			continue
+		}
+		pll = k
+		break
+	}
+	for _, k := range c.ohPllRawData.AlgInfos {
+		if strings.ToLower(k.Name) != cc {
+			continue
+		}
+		ohPll = k
+		break
+	}
+
+	if pll.Name == "" || ohPll.Name == "" {
+		return caseHelp, "", nil
+	}
+
+	out := fmt.Sprintf("PLL case %s\n", pll.Name)
+	out += fmt.Sprintf("打乱:%s\n", pll.Scramble)
+
+	out += "双手公式\n"
+	for idx, v := range pll.Alg {
+		out += fmt.Sprintf("%d. %s\n", idx+1, v)
+	}
+	out += "单手公式\n"
+	for idx, v := range ohPll.Alg {
+		out += fmt.Sprintf("%d. %s\n", idx+1, v)
+	}
+
+	_, img := pll.Data(c.pll.Image)
+	return out, img, err
 }

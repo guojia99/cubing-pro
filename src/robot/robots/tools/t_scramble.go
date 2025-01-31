@@ -26,6 +26,9 @@ func (t *TScramble) ID() []string {
 		}
 		out = append(out, ev.ID)
 	}
+
+	out = append(out, "打乱调试")
+
 	return out
 }
 
@@ -43,6 +46,10 @@ func (t *TScramble) helps() string {
 
 func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 	m := utils.ReplaceAll(message.Message, "", " ")
+
+	if m == "打乱调试" {
+		return message.NewOutMessage(t.Svc.Scramble.Test()), nil
+	}
 
 	var ev event.Event
 	if err := t.Svc.DB.Where("id = ?", m).First(&ev).Error; err != nil {

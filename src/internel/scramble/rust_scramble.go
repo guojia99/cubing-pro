@@ -7,7 +7,9 @@ package scramble
 import "C"
 import (
 	"errors"
+	"fmt"
 	"sync"
+	"time"
 )
 
 func cube333Scramble() string {
@@ -158,4 +160,39 @@ func (s *scramble) rustScramble(cube string, nums int) ([]string, error) {
 		out = append(out, <-ch)
 	}
 	return out, nil
+}
+func (s *scramble) rustTestLongScramble() string {
+	out := ""
+	testFn := func(key string, fn func() string) {
+		var times []time.Duration
+		for i := 0; i < 5; i++ {
+			start := time.Now()
+			_ = fn()
+			duration := time.Since(start)
+			times = append(times, duration)
+		}
+
+		// 计算最大值、最小值和平均值
+		var minS, maxS, sum time.Duration = times[0], times[0], 0
+		for _, t := range times {
+			if t < minS {
+				minS = t
+			}
+			if t > maxS {
+				maxS = t
+			}
+			sum += t
+		}
+		avg := sum / time.Duration(len(times))
+		out += fmt.Sprintf("%s => Min Time: %v;Max Time: %v\n;Avg Time: %v\n", key, minS, maxS, avg)
+	}
+
+	for key, fn := range rustScrambleMp {
+		testFn(key, fn)
+	}
+	for key, fn := range rustCacheMp {
+		testFn(key, fn)
+	}
+	
+	return out
 }

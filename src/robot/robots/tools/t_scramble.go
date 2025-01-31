@@ -50,9 +50,9 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 
 	ts := time.Now()
-	out, err := t.Svc.Scramble.ScrambleWithComp(ev)
-	if err != nil || len(out) == 0 {
-		return message.NewOutMessagef("获取打乱错误%s\n", err), nil
+	out := t.Svc.Scramble.Scramble(ev.ID, 1)
+	if len(out) == 0 {
+		return message.NewOutMessagef("获取打乱错误, 长度0\n"), nil
 	}
 	use := time.Since(ts)
 	msg := ""

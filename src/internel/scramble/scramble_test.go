@@ -12,7 +12,7 @@ func Test_scramble_Scramble(t *testing.T) {
 	}
 
 	t.Run("fto", func(t *testing.T) {
-		data, err := s.Scramble(event.Event{
+		data, err := s.ScrambleWithComp(event.Event{
 			AutoScrambleKey: "FTO",
 			BaseRouteType:   event.RouteType5RoundsAvgHT,
 		})
@@ -23,7 +23,7 @@ func Test_scramble_Scramble(t *testing.T) {
 	})
 
 	t.Run("333,444,555,666,777", func(t *testing.T) {
-		data, err := s.Scramble(event.Event{
+		data, err := s.ScrambleWithComp(event.Event{
 			ScrambleValue: "333,444,555,666,777",
 			BaseRouteType: event.RouteType1rounds,
 		})

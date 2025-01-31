@@ -184,7 +184,7 @@ func (s *scramble) rustTestLongScramble() string {
 			sum += t
 		}
 		avg := sum / time.Duration(len(times))
-		out += fmt.Sprintf("%s => Min Time: %v;Max Time: %v\n;Avg Time: %v\n", key, minS, maxS, avg)
+		out += fmt.Sprintf("%s => 最小:%v;最大:%v;平均: %v\n", key, minS, maxS, avg)
 	}
 
 	for key, fn := range rustScrambleMp {
@@ -193,6 +193,6 @@ func (s *scramble) rustTestLongScramble() string {
 	for key, fn := range rustCacheMp {
 		testFn(key, fn)
 	}
-	
+
 	return out
 }

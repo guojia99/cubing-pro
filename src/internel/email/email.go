@@ -6,12 +6,12 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"gopkg.in/gomail.v2"
 )
 
 // todo 并发, 考虑后面也要发，是否需要存数据库
-func SendEmail(config svc.EmailConfig, subject string, emails []string, message []byte) error {
+func SendEmail(config configs.EmailConfig, subject string, emails []string, message []byte) error {
 	var msgs []*gomail.Message
 	for _, email := range emails {
 		m := gomail.NewMessage()
@@ -33,7 +33,7 @@ func SendEmail(config svc.EmailConfig, subject string, emails []string, message 
 	return nil
 }
 
-func SendEmailWithTemp(config svc.EmailConfig, subject string, email []string, templateStr string, data interface{}) error {
+func SendEmailWithTemp(config configs.EmailConfig, subject string, email []string, templateStr string, data interface{}) error {
 	// 创建template对象
 	t := template.New("cubingPro")
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
-	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
@@ -17,10 +17,10 @@ type CqHttps struct {
 	api *gin.Engine
 
 	ch  chan<- types.InMessage
-	cfg *svc.CQHttpBot
+	cfg *configs.CQHttpBot
 }
 
-func NewCqHttps(cfg *svc.CQHttpBot) *CqHttps {
+func NewCqHttps(cfg *configs.CQHttpBot) *CqHttps {
 	return &CqHttps{cfg: cfg, api: gin.Default()}
 }
 

@@ -8,7 +8,6 @@ import "C"
 import (
 	"errors"
 	"fmt"
-	"sync"
 	"time"
 )
 
@@ -115,31 +114,8 @@ var rustScrambleMp = map[string]func() string{
 	"555bf":  cube555bfScramble,
 	"333ft":  cube333ftScramble,
 	"333mbf": cube333bfScramble,
-}
-
-var rustCacheMp = map[string]func() string{
-	"444":   cube444Scramble,
-	"444bf": cube444bfScramble,
-}
-
-var (
-	rustCache = make(map[string]chan string)
-	rustOnce  = sync.Once{}
-)
-
-func (s *scramble) loopRustScrambleCache() {
-	rustOnce.Do(func() {
-		for k, _ := range rustCacheMp {
-			go func(key string) {
-				fn := rustCacheMp[key]
-				rustCache[k] = make(chan string, 100)
-				for {
-					data := fn()
-					rustCache[k] <- data
-				}
-			}(k)
-		}
-	})
+	"444":    cube444Scramble,
+	"444bf":  cube444bfScramble,
 }
 
 // Rust静态库本代码由狼(2007YUNQ01) 提供，为rust编写的打乱生成器。
@@ -147,20 +123,14 @@ func (s *scramble) rustScramble(cube string, nums int) ([]string, error) {
 	var out []string
 	for i := 0; i < nums; i++ {
 		fn, ok := rustScrambleMp[cube]
-		if ok {
-			out = append(out, fn())
-			continue
-		}
-
-		_, ok = rustCacheMp[cube]
 		if !ok {
 			return nil, errors.New("cube not found")
 		}
-		ch, ok := rustCache[cube]
-		out = append(out, <-ch)
+		out = append(out, fn())
 	}
 	return out, nil
 }
+
 func (s *scramble) rustTestLongScramble() string {
 	out := ""
 	testFn := func(key string, fn func() string) {
@@ -190,9 +160,5 @@ func (s *scramble) rustTestLongScramble() string {
 	for key, fn := range rustScrambleMp {
 		testFn(key, fn)
 	}
-	for key, fn := range rustCacheMp {
-		testFn(key, fn)
-	}
-
 	return out
 }

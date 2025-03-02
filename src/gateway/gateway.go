@@ -13,13 +13,14 @@ import (
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/unrolled/secure"
 )
 
 type Gateway struct {
 	api *gin.Engine
-	cfg svc.Config
+	cfg configs.Config
 }
 
 func NewGateway(svc *svc.Svc) *Gateway {

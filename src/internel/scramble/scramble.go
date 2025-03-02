@@ -21,7 +21,7 @@ func NewScramble(scrambleType string, tNoodleEndpoint string) Scramble {
 		tNoodleEndpoint: tNoodleEndpoint,
 	}
 	if s.scrambleType == scrambleTypeRustTwisty {
-		go s.loopRustScrambleCache()
+		//go s.loopRustScrambleCache()
 	}
 
 	return s
@@ -67,7 +67,10 @@ func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 
 	switch event.ScrambleValue {
 	case "333mbf":
-		return s.Scramble("333mbf", repeatedlyNum), nil
+		return s.Scramble("333bf", repeatedlyNum), nil
+	case "444", "444bf":
+		// 等狼优化到极致速度再采用随机状态
+		return s.autoScramble(Cube444ScrambleKey, 39, 49, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
 	}
 
 	var evs []string

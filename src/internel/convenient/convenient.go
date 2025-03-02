@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/interface"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
@@ -27,7 +28,7 @@ func Models() []interface{} {
 	return out
 }
 
-func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
+func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI {
 	_ = db.AutoMigrate()
 	_ = db.AutoMigrate(&user.User{})       // 用户表
 	_ = db.AutoMigrate(&user.CheckCode{})  // check code表
@@ -67,6 +68,7 @@ func NewConvenient(db *gorm.DB, runJob bool) ConvenientI {
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
 			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
 			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 120},
+			{JobI: &job.JJCrawler{Config: config}, Time: time.Hour * 6},
 		},
 	}
 

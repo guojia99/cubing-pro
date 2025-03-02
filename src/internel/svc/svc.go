@@ -9,6 +9,7 @@ package svc
 import (
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"gorm.io/gorm/logger"
@@ -22,14 +23,14 @@ import (
 type Svc struct {
 	DB       *gorm.DB
 	Cache    *cache.Cache
-	Cfg      Config
+	Cfg      configs.Config
 	Cov      convenient.ConvenientI
 	Scramble scramble.Scramble
 }
 
 func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 	var err error
-	var cfg Config
+	var cfg configs.Config
 	if err = cfg.Load(file); err != nil {
 		return nil, err
 	}
@@ -47,11 +48,11 @@ func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 	}
 
 	// todo 多个程序时
-	c.Cov = convenient.NewConvenient(c.DB, job)
+	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
 	return c, nil
 }
 
-func newDB(cfg GlobalConfig) (*gorm.DB, error) {
+func newDB(cfg configs.GlobalConfig) (*gorm.DB, error) {
 	var err error
 	var db *gorm.DB
 

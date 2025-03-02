@@ -14,19 +14,19 @@ import (
 	"github.com/2mf8/Better-Bot-Go/token"
 	"github.com/2mf8/Bot-Client-Go/safe_ws"
 	"github.com/donnie4w/go-logger/logger"
-	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
 type QQBot struct {
 	Api openapi.OpenAPI
 
-	cfg *svc.QQBotConfig
+	cfg *configs.QQBotConfig
 	ctx context.Context
 	ch  chan<- types.InMessage
 }
 
-func NewQQBot(cfg *svc.QQBotConfig, ctx context.Context) *QQBot {
+func NewQQBot(cfg *configs.QQBotConfig, ctx context.Context) *QQBot {
 	return &QQBot{
 		cfg: cfg,
 		ctx: ctx,

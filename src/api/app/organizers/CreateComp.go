@@ -1,7 +1,6 @@
 package organizers
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -80,12 +79,10 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 			ev := comps.CompJSON.Events[i]
 
 			if !ev.IsComp {
-				fmt.Println("xxx1")
 				continue
 			}
 			var eve event.Event
 			if err := svc.DB.Where("id = ?", ev.EventID).First(&eve).Error; err != nil {
-				fmt.Printf("xxxx%+v\n", err)
 				continue
 			}
 			for j := 0; j < len(ev.Schedule); j++ {
@@ -96,10 +93,8 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 				for k := 0; k < ev.Schedule[j].ScrambleNums; k++ {
 					sc, err := svc.Scramble.ScrambleWithComp(eve)
 					if err != nil {
-						fmt.Printf("scramble error : %s\n", err.Error())
 						break
 					}
-					fmt.Printf("生成打乱 scramble %+v\n", sc)
 					comps.CompJSON.Events[i].Schedule[j].Scrambles = append(comps.CompJSON.Events[i].Schedule[j].Scrambles, sc)
 				}
 			}

@@ -7,9 +7,11 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/email"
 	"github.com/guojia99/cubing-pro/src/robot/crawler"
+	"gorm.io/gorm"
 )
 
 type JJCrawler struct {
+	DB     *gorm.DB
 	Config configs.Config
 }
 
@@ -26,8 +28,15 @@ func (c *JJCrawler) Run() error {
 		for _, v := range find {
 			msg += fmt.Sprintf("%s\n", v)
 		}
-		err := email.SendEmail(c.Config.GlobalConfig.EmailConfig, "爬虫报告", []string{"guojia99@foxmail.com"}, []byte(msg))
-		return err
+		for _, e := range []string{
+			"guojia99@foxmail.com",
+			"921403690@qq.com",
+		} {
+			err := email.SendEmail(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{e}, []byte(msg))
+			if err != nil {
+				log.Printf("[e] 粗饼报告错误 %s\n", err)
+			}
+		}
 	}
 	log.Printf("cubing获取结束")
 	return nil

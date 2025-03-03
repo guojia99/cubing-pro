@@ -1,0 +1,59 @@
+import random
+import json
+import os
+
+data_file = "letter_stats.json"
+input_file = "letter_pairs.txt"
+
+def load_data():
+    if os.path.exists(data_file):
+        with open(data_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+def save_data(data):
+    with open(data_file, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def load_letter_pairs():
+    if not os.path.exists(input_file):
+        print(f"请提供 {input_file} 文件，每行包含一个字母组合")
+        return []
+    with open(input_file, "r", encoding="utf-8") as f:
+        return [line.strip() for line in f.readlines() if line.strip()]
+
+def get_random_pair(pairs, stats):
+    pair = random.choice(pairs)
+    total_appearances = stats.get(pair, {}).get("count", 0)
+    success_count = stats.get(pair, {}).get("success", 0)
+    failure_count = stats.get(pair, {}).get("failure", 0)
+    return pair, total_appearances, success_count, failure_count
+
+def main():
+    letter_pairs = load_letter_pairs()
+    if not letter_pairs:
+        return
+
+    stats = load_data()
+
+    while True:
+        pair, count, success, failure = get_random_pair(letter_pairs, stats)
+        print("------------------------------------")
+        print(f"随机字母组合: {pair} (出现次数: {count}, 成功: {success}, 失败: {failure})")
+
+        user_input = input("请输入 1 (成功) 或 0 (失败)，q 退出: ").strip()
+        if user_input.lower() == 'q':
+            break
+        elif user_input in ["0", "1"]:
+            stats.setdefault(pair, {"count": 0, "success": 0, "failure": 0})
+            stats[pair]["count"] += 1
+            if user_input == "1":
+                stats[pair]["success"] += 1
+            else:
+                stats[pair]["failure"] += 1
+            save_data(stats)
+        else:
+            print("无效输入，请输入 1 或 0")
+
+if __name__ == "__main__":
+    main()

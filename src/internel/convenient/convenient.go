@@ -68,7 +68,7 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
 			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
 			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 120},
-			{JobI: &job.JJCrawler{Config: config}, Time: time.Hour * 6},
+			{JobI: &job.JJCrawler{DB: db, Config: config}, Time: time.Hour * 6},
 		},
 	}
 

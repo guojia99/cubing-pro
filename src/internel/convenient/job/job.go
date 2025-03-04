@@ -36,10 +36,12 @@ func (jobs Jobs) RunLoop(ctx context.Context) {
 				case <-ctx.Done():
 					return
 				case <-ticker.C:
+					ts := time.Now()
 					if err := job.Run(); err != nil {
 						fmt.Printf("[JOB] run job %s error %s\n", job.Name(), err)
 						continue
 					}
+					fmt.Printf("[JOB] run job %s took %s\n", job.Name(), time.Since(ts))
 				}
 			}
 		}(job)

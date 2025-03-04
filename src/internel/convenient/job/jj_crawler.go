@@ -20,10 +20,10 @@ func (c *JJCrawler) Name() string {
 }
 
 func (c *JJCrawler) Run() error {
-	find := crawler.CheckAllCompetition()
+	find := crawler.CheckAllCubingCompetition()
 
 	log.Printf("cubing获取开始")
-	if len(find) >= 0 {
+	if len(find) > 0 {
 		msg := "获取到链接为:\n"
 		for _, v := range find {
 			msg += fmt.Sprintf("%s\n", v)

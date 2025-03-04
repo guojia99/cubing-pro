@@ -35,6 +35,13 @@ func Test_getPage(t *testing.T) {
 }
 
 func Test_checkAllCompetition(t *testing.T) {
-	fd := CheckAllCompetition()
+	fd := CheckAllCubingCompetition()
 	fmt.Println(fd)
+}
+
+func Test_getAllProbablyUrl(t *testing.T) {
+	a, b := getAllProbablyUrl()
+	fmt.Println(a, b)
+	fmt.Println(len(a))
+	fmt.Println(len(b))
 }

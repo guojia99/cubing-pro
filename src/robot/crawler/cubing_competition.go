@@ -107,6 +107,13 @@ var cpPrefix = []string{
 	"Please-Be-Quiet", // 安静赛
 }
 
+var probablyOtherCitys = []string{
+	"ShiJiaZhuang", "TaiYuan", "DaTong", "ChangChun", "NanJing", "NingBo",
+	"FuZhou", "JiNan", "QinDao", "NanNing", "HaiKou", "SanYa", "KunMing", "YinChuan", "WeiFang",
+	"LinYi", "YanTai", "WuXi", "ChangZhou", "NanTong", "XiaMen", "QuanZhou", "WenZhou", "JinHua", "ShaoXing",
+	"BaoDing", "ZhuHai", "ZhongShan", "LanZhou",
+}
+
 // getAllProbablyUrl 获取可能的组合
 func getAllProbablyUrl() (oldCp, newCp map[string]string) {
 	oldCp = make(map[string]string)
@@ -138,6 +145,14 @@ func getAllProbablyUrl() (oldCp, newCp map[string]string) {
 			}
 			newVal := fmt.Sprintf("%s-%s-", v, sp[0])
 			newCp[newVal] = url
+		}
+	}
+
+	// 补充城市
+	for _, city := range probablyOtherCitys {
+		for _, v := range cpNames {
+			newVal := fmt.Sprintf("%s-%s-", city, v)
+			newCp[newVal] = city
 		}
 	}
 

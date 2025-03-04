@@ -108,10 +108,10 @@ var cpPrefix = []string{
 }
 
 var probablyOtherCitys = []string{
-	"ShiJiaZhuang", "TaiYuan", "DaTong", "ChangChun", "NanJing", "NingBo",
-	"FuZhou", "JiNan", "QinDao", "NanNing", "HaiKou", "SanYa", "KunMing", "YinChuan", "WeiFang",
-	"LinYi", "YanTai", "WuXi", "ChangZhou", "NanTong", "XiaMen", "QuanZhou", "WenZhou", "JinHua", "ShaoXing",
-	"BaoDing", "ZhuHai", "ZhongShan", "LanZhou",
+	"Shijiazhuang", "Taiyuan", "Datong", "Changchun", "Nanjing", "Ningbo",
+	"Fuzhou", "Jinan", "Qindao", "Nanning", "Haikou", "Sanya", "Kunming", "Yinchuan", "Weifang",
+	"LinYyi", "Yantai", "Wuxi", "Changzhou", "Nantong", "Xiamen", "Quanzhou", "Wenzhou", "Jinhua", "Shaoxing",
+	"Baoding", "Zhuhai", "Zhongshan", "Lanzhou",
 }
 
 // getAllProbablyUrl 获取可能的组合

@@ -133,6 +133,9 @@ func (c *JJCrawlerWca) Run() error {
 
 		var ccpTmp []CityCompetitions
 		for city, cps := range canSendEmail {
+			if len(cps) == 0 {
+				continue
+			}
 			cpTmp := CityCompetitions{
 				City:         city,
 				Competitions: []Competition{},
@@ -146,6 +149,7 @@ func (c *JJCrawlerWca) Run() error {
 					EndDate:   cp.EndDate,
 				})
 			}
+			ccpTmp = append(ccpTmp, cpTmp)
 		}
 
 		if len(needSaveSendEmail) == 0 {

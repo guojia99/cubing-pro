@@ -52,7 +52,7 @@ func (s HTTPTransporter) Request(method, url string, params, headers map[string]
 	default:
 		err = fmt.Errorf("no support `%s` method", method)
 	}
-	if err != nil {
+	if err != nil || req == nil {
 		return nil, fmt.Errorf("requset `%s` error: `%s`", url, err)
 	}
 	// Add request params

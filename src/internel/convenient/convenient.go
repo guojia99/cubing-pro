@@ -9,6 +9,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -55,6 +56,9 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 	_ = db.AutoMigrate(&competition.AssCompetitionSponsorsUsers{}) // 比赛相关主办代表关联表
 	_ = db.AutoMigrate(&competition.CompetitionGroup{})            // 比赛群组表
 
+	// 爬虫表
+	_ = db.AutoMigrate(&crawler.SendEmail{})
+
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表
 	_ = db.AutoMigrate(&system.Image{})    // 系统图片表
@@ -68,7 +72,8 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
 			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
 			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 120},
-			{JobI: &job.JJCrawler{DB: db, Config: config}, Time: time.Hour * 3},
+			{JobI: &job.JJCrawlerCubing{DB: db, Config: config}, Time: time.Hour * 3},
+			{JobI: &job.JJCrawlerWca{DB: db, Config: config}, Time: time.Minute * 5},
 		},
 	}
 

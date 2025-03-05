@@ -7,7 +7,7 @@ import (
 type SendEmail struct {
 	basemodel.DBModel
 
-	Email string
-	Type  string
+	Email string // 防治重复发送的
+	Type  string // 类型 cubing, wca
 	Key   string // 唯一识别ID
 }

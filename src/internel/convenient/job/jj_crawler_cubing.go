@@ -5,22 +5,22 @@ import (
 	"log"
 
 	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/internel/crawler/cubing"
 	"github.com/guojia99/cubing-pro/src/internel/email"
-	"github.com/guojia99/cubing-pro/src/robot/crawler"
 	"gorm.io/gorm"
 )
 
-type JJCrawler struct {
+type JJCrawlerCubing struct {
 	DB     *gorm.DB
 	Config configs.Config
 }
 
-func (c *JJCrawler) Name() string {
-	return "JJCrawler"
+func (c *JJCrawlerCubing) Name() string {
+	return "JJCrawlerCubing"
 }
 
-func (c *JJCrawler) Run() error {
-	find := crawler.CheckAllCubingCompetition()
+func (c *JJCrawlerCubing) Run() error {
+	find := cubing.CheckAllCubingCompetition()
 
 	log.Printf("cubing获取开始")
 	if len(find) > 0 {
@@ -28,10 +28,7 @@ func (c *JJCrawler) Run() error {
 		for _, v := range find {
 			msg += fmt.Sprintf("%s\n", v)
 		}
-		for _, e := range []string{
-			"guojia99@foxmail.com",
-			"921403690@qq.com",
-		} {
+		for _, e := range sendEmails {
 			err := email.SendEmail(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{e}, []byte(msg))
 			if err != nil {
 				log.Printf("[e] 粗饼报告错误 %s\n", err)

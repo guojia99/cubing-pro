@@ -119,7 +119,7 @@ func (c *JJCrawlerWca) Run() error {
 		for city, cps := range curAll {
 			for _, cp := range cps {
 				var curSendEmail crawler.SendEmail
-				if err := c.DB.Where("type = 'wca_comps'").Where("key = ?", cp.Id).Where("email = ?", em).First(&curSendEmail).Error; err == nil || curSendEmail.ID != 0 {
+				if err := c.DB.Where("type = 'wca_comps'").Where("`key` = ?", cp.Id).Where("email = ?", em).First(&curSendEmail).Error; err == nil || curSendEmail.ID != 0 {
 					continue
 				}
 				canSendEmail[city] = append(canSendEmail[city], cp)

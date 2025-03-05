@@ -1,6 +1,9 @@
 package job
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/crawler/cubing"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
@@ -145,10 +148,17 @@ func (c *JJCrawlerWca) Run() error {
 			}
 		}
 
+		if len(needSaveSendEmail) == 0 {
+			fmt.Println("无比赛")
+			continue
+		}
+
 		if err := email.SendEmailWithTemp(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{em}, wcaCompTemp, ccpTmp); err != nil {
 			continue
 		}
-		c.DB.Save(&needSaveSendEmail)
+		if err := c.DB.Save(&needSaveSendEmail).Error; err != nil {
+			log.Printf("[E] error %s\n", err)
+		}
 	}
 	return nil
 }

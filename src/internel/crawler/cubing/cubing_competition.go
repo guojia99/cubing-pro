@@ -128,8 +128,11 @@ var cpNames = []string{
 
 	// 专项赛
 	"Big-Cubes",
+	"Small-Cubes",
 	"Big-Cubes-Spring",
 	"Big-Cubes-Summer",
+	"Small-Cubes-Spring",
+	"Small-Cubes-Summer",
 	"Special",
 	//"Quiet-Day", // 安静赛
 }

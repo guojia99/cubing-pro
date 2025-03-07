@@ -1,11 +1,11 @@
 package job
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/crawler/cubing"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/email"
 	"gorm.io/gorm"
 )
@@ -21,18 +21,47 @@ func (c *JJCrawlerCubing) Name() string {
 
 func (c *JJCrawlerCubing) Run() error {
 	find := cubing.CheckAllCubingCompetition()
-
 	log.Printf("cubing获取开始")
-	if len(find) > 0 {
-		msg := "获取到链接为:\n"
-		for _, v := range find {
-			msg += fmt.Sprintf("%s\n", v)
-		}
-		for _, e := range sendEmails {
-			err := email.SendEmail(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{e}, []byte(msg))
-			if err != nil {
-				log.Printf("[e] 粗饼报告错误 %s\n", err)
+
+	for _, em := range sendEmails {
+		var canSendEmailCp []Competition
+		var needSaveSendEmail []crawler.SendEmail
+
+		for _, fid := range find {
+			var curSendEmail crawler.SendEmail
+			if err := c.DB.Where("type = 'cubing_comps'").Where("`key` = ?", fid.ID).Where("email = ?", em).First(&curSendEmail).Error; err == nil {
+				continue
 			}
+			needSaveSendEmail = append(needSaveSendEmail, crawler.SendEmail{
+				Email: em,
+				Type:  "cubing_comps",
+				Key:   fid.ID,
+			})
+			canSendEmailCp = append(canSendEmailCp, Competition{
+				Name:      fid.Name,
+				Id:        fid.ID,
+				EventIds:  []string{fid.Events},
+				StartDate: fid.Date,
+				EndDate:   fid.Date,
+			})
+		}
+
+		if len(needSaveSendEmail) == 0 {
+			continue
+		}
+		ccp := []CityCompetitions{
+			{
+				City:         "中国 - 粗饼",
+				Competitions: canSendEmailCp,
+			},
+		}
+
+		if err := email.SendEmailWithTemp(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{em}, wcaCompTemp, ccp); err != nil {
+			log.Printf("[E] 发送邮件失败")
+			continue
+		}
+		if err := c.DB.Create(&needSaveSendEmail).Error; err != nil {
+			log.Printf("[E] error %s\n", err)
 		}
 	}
 	log.Printf("cubing获取结束")

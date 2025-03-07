@@ -69,18 +69,49 @@ func getAllCompetitionUrls() []string {
 	return out
 }
 
-func getPage(url string) (string, bool, error) {
+type TCubingCompetition struct {
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Url    string
+	Date   string `json:"date"`
+	Events string `json:"events"`
+}
+
+func getPage(id, url string) (TCubingCompetition, bool, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("[e] %s", err)
-		return "", false, err
+		return TCubingCompetition{}, false, err
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode == 200 {
-		return url, true, nil
+	if resp.StatusCode != 200 {
+		return TCubingCompetition{}, false, fmt.Errorf("[e] %s", resp.Status)
 	}
-	return "", false, nil
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		return TCubingCompetition{}, false, err
+	}
+
+	var out = TCubingCompetition{
+		ID:  id,
+		Url: url,
+	}
+	doc.Find("h1.heading-title").Each(func(i int, s *goquery.Selection) {
+		out.Name = s.Text()
+	})
+	doc.Find("dt#events").NextFiltered("dd").Each(func(i int, s *goquery.Selection) {
+		out.Events = s.Text()
+	})
+	doc.Find("dt").Each(func(i int, s *goquery.Selection) {
+		if strings.TrimSpace(s.Text()) == "日期" {
+			dd := s.NextFiltered("dd") // 获取紧随其后的 <dd>
+			out.Date = strings.TrimSpace(dd.Text())
+		}
+	})
+
+	return out, true, nil
 }
 
 var cpNames = []string{
@@ -159,7 +190,7 @@ func getAllProbablyUrl() (oldCp, newCp map[string]string) {
 	return
 }
 
-func CheckAllCubingCompetition() (find []string) {
+func CheckAllCubingCompetition() (find []TCubingCompetition) {
 	var oldCp, newCp = getAllProbablyUrl()
 	idx := 0
 	for npKey, _ := range newCp {
@@ -168,7 +199,7 @@ func CheckAllCubingCompetition() (find []string) {
 		if _, ok := oldCp[nKey]; ok {
 			continue
 		}
-		url, isFind, _ := getPage(fmt.Sprintf("%s%s", competitionBase, nKey))
+		url, isFind, _ := getPage(nKey, fmt.Sprintf("%s%s", competitionBase, nKey))
 		RandSleep()
 		time.Sleep(time.Millisecond * 400)
 		if isFind {

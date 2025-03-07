@@ -5,8 +5,8 @@
         "failure": 0
     },
     "GY": {
-        "count": 1,
-        "success": 1,
+        "count": 2,
+        "success": 2,
         "failure": 0
     },
     "ES": {
@@ -33,5 +33,175 @@
         "count": 1,
         "success": 1,
         "failure": 0
+    },
+    "EZ": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "EQ": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "EM": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "AI": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "GC": {
+        "count": 2,
+        "success": 1,
+        "failure": 1
+    },
+    "AM": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "CF": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "BQ": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "CQ": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "FB": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "DP": {
+        "count": 2,
+        "success": 2,
+        "failure": 0
+    },
+    "ER": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "GA": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "CO": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "BD": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "HT": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "IA": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "BX": {
+        "count": 2,
+        "success": 2,
+        "failure": 0
+    },
+    "FM": {
+        "count": 3,
+        "success": 2,
+        "failure": 1
+    },
+    "GZ": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "AX": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "DY": {
+        "count": 2,
+        "success": 2,
+        "failure": 0
+    },
+    "EI": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "GM": {
+        "count": 2,
+        "success": 2,
+        "failure": 0
+    },
+    "BZ": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "AE": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "FH": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "HP": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "DQ": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "DZ": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "BI": {
+        "count": 2,
+        "success": 2,
+        "failure": 0
+    },
+    "IP": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
+    },
+    "FC": {
+        "count": 1,
+        "success": 1,
+        "failure": 0
+    },
+    "IW": {
+        "count": 1,
+        "success": 0,
+        "failure": 1
     }
 }

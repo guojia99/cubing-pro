@@ -157,7 +157,7 @@ func (c *JJCrawlerWca) Run() error {
 			continue
 		}
 
-		if err := email.SendEmailWithTemp(c.Config.GlobalConfig.EmailConfig, "粗饼爬虫报告", []string{em}, wcaCompTemp, ccpTmp); err != nil {
+		if err := email.SendEmailWithTemp(c.Config.GlobalConfig.EmailConfig, "WCA比赛获取报告", []string{em}, wcaCompTemp, ccpTmp); err != nil {
 			continue
 		}
 		if err := c.DB.Create(&needSaveSendEmail).Error; err != nil {

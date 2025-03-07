@@ -25,12 +25,12 @@ func Test_getAllCompetitionUrls(t *testing.T) {
 func Test_getPage(t *testing.T) {
 	u := "https://cubing.com/competition/FMC-Cubing-China-2024"
 
-	out, tt, _ := getPage(u)
+	out, tt, _ := getPage("x", u)
 	fmt.Println(out, tt)
 
 	u = "https://cubing.com/competition/FMC-Cubing-China-2025"
 
-	out, tt, _ = getPage(u)
+	out, tt, _ = getPage("x", u)
 	fmt.Println(out, tt)
 }
 
@@ -44,4 +44,9 @@ func Test_getAllProbablyUrl(t *testing.T) {
 	fmt.Println(a, b)
 	fmt.Println(len(a))
 	fmt.Println(len(b))
+}
+
+func Test_getPage1(t *testing.T) {
+	out, _, _ := getPage("xxx", "https://cubing.com/competition/Please-Be-Quiet-Shanghai-2025")
+	t.Logf("%+v", out)
 }

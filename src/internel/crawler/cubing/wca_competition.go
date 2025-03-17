@@ -30,15 +30,16 @@ type WcaCompetition struct {
 const wcaCompUrl = "https://www.worldcubeassociation.org/api/v0/competition_index"
 
 var wcaCitys = map[string]string{
-	"中国":   "CN", // 中国
+	"中国":     "CN", // 中国
 	"中国香港": "HK", // 香港
-	"韩国":   "KR", // 韩国
+	"韩国":     "KR", // 韩国
 	"马来西亚": "MY", // 马来
-	"新加坡":  "SG", // 新加坡
-	"越南":   "VN", // 越南
-	//"泰国":   "TH", // 泰国
-	"日本": "JP", // 日本
-	"印尼": "ID", // 印度尼西亚
+	"新加坡":   "SG", // 新加坡
+	"越南":     "VN", // 越南
+	"泰国":     "TH", // 泰国
+	"日本":     "JP", // 日本
+	"印尼":     "ID", // 印度尼西亚
+	"英国":     "GB", // 英国
 }
 
 func GetWcaComps(city string) []WcaCompetition {

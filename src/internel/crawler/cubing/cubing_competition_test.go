@@ -2,6 +2,7 @@ package cubing
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -40,10 +41,25 @@ func Test_checkAllCompetition(t *testing.T) {
 }
 
 func Test_getAllProbablyUrl(t *testing.T) {
-	a, b := getAllProbablyUrl()
-	fmt.Println(a, b)
-	fmt.Println(len(a))
-	fmt.Println(len(b))
+	a, _ := getAllProbablyUrl()
+	//fmt.Println(a)
+	fmt.Println(a)
+
+	for key, v := range a {
+		if strings.Contains(key, "Shenyang") {
+			fmt.Printf("contains => `%s`, `%s`\n", key, v)
+		}
+	}
+	fmt.Println(a["Shenyang-Spring-2025"])
+
+	//fmt.Println(len(a))
+	//fmt.Println(len(b))
+	//for k, v := range a {
+	//	if k == "Shenyang" {
+	//		fmt.Println(k, v)
+	//	}
+	//}
+	//fmt.Println(b)
 }
 
 func Test_getPage1(t *testing.T) {

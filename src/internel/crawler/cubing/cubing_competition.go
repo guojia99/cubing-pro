@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -20,7 +21,7 @@ func RandSleep() {
 }
 
 const (
-	startYear       = 2010
+	startYear       = 2012
 	endYear         = 2025 // todo
 	nowYear         = 2025
 	competitionUrl  = "https://cubing.com/competition?year=%d&type=WCA&province=&event="
@@ -64,7 +65,8 @@ func getAllCompetitionUrls() []string {
 	for i := startYear; i <= endYear; i++ {
 		d := getBaseCompetitionUrls(i)
 		out = append(out, d...)
-		RandSleep()
+		time.Sleep(time.Millisecond * 100)
+		//RandSleep()
 	}
 	return out
 }
@@ -121,10 +123,10 @@ var cpNames = []string{
 	"Spring-Open",
 	"Summer",
 	"Summer-Open",
-	//"Winter",
-	//"Winter-Open",
-	//"Autumn",
-	//"Autumn-Open",
+	"Winter",
+	"Winter-Open",
+	"Autumn",
+	"Autumn-Open",
 
 	// 专项赛
 	"Big-Cubes",
@@ -193,23 +195,69 @@ func getAllProbablyUrl() (oldCp, newCp map[string]string) {
 	return
 }
 
-func CheckAllCubingCompetition() (find []TCubingCompetition) {
+//func CheckAllCubingCompetition() (find []TCubingCompetition) {
+//	var oldCp, newCp = getAllProbablyUrl()
+//	idx := 0
+//	for npKey, _ := range newCp {
+//		idx += 1
+//		nKey := fmt.Sprintf("%s%d", npKey, nowYear)
+//		if _, ok := oldCp[nKey]; ok {
+//			continue
+//		}
+//		url, isFind, _ := getPage(nKey, fmt.Sprintf("%s%s", competitionBase, nKey))
+//		RandSleep()
+//		time.Sleep(time.Millisecond * 400)
+//		if isFind {
+//			find = append(find, url)
+//			fmt.Printf("=========== find => %s\n", url)
+//		}
+//		fmt.Printf("[%d]check => %s\n", idx, nKey)
+//	}
+//	return find
+//}
+
+func CheckAllCubingCompetition() []TCubingCompetition {
 	var oldCp, newCp = getAllProbablyUrl()
+	var (
+		find []TCubingCompetition
+		wg   sync.WaitGroup
+		mu   sync.Mutex
+		ch   = make(chan TCubingCompetition, len(newCp)) // 使用缓冲通道存储结果
+	)
+	fmt.Println(oldCp)
+
 	idx := 0
-	for npKey, _ := range newCp {
-		idx += 1
+	for npKey := range newCp {
+		idx++
 		nKey := fmt.Sprintf("%s%d", npKey, nowYear)
 		if _, ok := oldCp[nKey]; ok {
 			continue
 		}
-		url, isFind, _ := getPage(nKey, fmt.Sprintf("%s%s", competitionBase, nKey))
-		RandSleep()
-		time.Sleep(time.Millisecond * 400)
-		if isFind {
-			find = append(find, url)
-			fmt.Printf("=========== find => %s\n", url)
-		}
-		fmt.Printf("[%d]check => %s\n", idx, nKey)
+		fmt.Println(nKey)
+
+		wg.Add(1)
+		go func(nKey string, idx int) {
+			defer wg.Done()
+			url, isFind, _ := getPage(nKey, fmt.Sprintf("%s%s", competitionBase, nKey))
+			if isFind {
+				ch <- url
+				fmt.Printf("=========== find = %s = => %s\n", nKey, url)
+			}
+			time.Sleep(time.Millisecond * 103)
+			//RandSleep()
+			//fmt.Printf("[%d]check => %s\n", idx, nKey)
+		}(nKey, idx)
 	}
+
+	wg.Wait()
+	close(ch) // 关闭通道，确保所有 Goroutine 结束
+
+	// 收集结果
+	for url := range ch {
+		mu.Lock()
+		find = append(find, url)
+		mu.Unlock()
+	}
+
 	return find
 }

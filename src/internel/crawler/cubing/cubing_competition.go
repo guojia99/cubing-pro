@@ -224,7 +224,6 @@ func CheckAllCubingCompetition() []TCubingCompetition {
 		mu   sync.Mutex
 		ch   = make(chan TCubingCompetition, len(newCp)) // 使用缓冲通道存储结果
 	)
-	fmt.Println(oldCp)
 
 	idx := 0
 	for npKey := range newCp {
@@ -233,7 +232,6 @@ func CheckAllCubingCompetition() []TCubingCompetition {
 		if _, ok := oldCp[nKey]; ok {
 			continue
 		}
-		fmt.Println(nKey)
 
 		wg.Add(1)
 		go func(nKey string, idx int) {
@@ -245,7 +243,7 @@ func CheckAllCubingCompetition() []TCubingCompetition {
 			}
 			time.Sleep(time.Millisecond * 103)
 			//RandSleep()
-			//fmt.Printf("[%d]check => %s\n", idx, nKey)
+			fmt.Printf("[%d]check => %s\n", idx, nKey)
 		}(nKey, idx)
 	}
 

@@ -20,8 +20,8 @@ func (c *JJCrawlerCubing) Name() string {
 }
 
 func (c *JJCrawlerCubing) Run() error {
-	find := cubing.CheckAllCubingCompetition()
 	log.Printf("cubing获取开始")
+	find := cubing.CheckAllCubingCompetition()
 
 	for _, em := range sendEmails {
 		var canSendEmailCp []Competition

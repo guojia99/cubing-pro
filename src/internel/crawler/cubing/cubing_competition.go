@@ -241,8 +241,7 @@ func CheckAllCubingCompetition() []TCubingCompetition {
 				ch <- url
 				fmt.Printf("=========== find = %s = => %s\n", nKey, url)
 			}
-			time.Sleep(time.Millisecond * 103)
-			//RandSleep()
+			time.Sleep(time.Millisecond * 203)
 			fmt.Printf("[%d]check => %s\n", idx, nKey)
 		}(nKey, idx)
 	}

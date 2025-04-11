@@ -79,11 +79,13 @@ func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 	}
 
 	var out []string
-	for _, ev := range evs {
-		data := s.Scramble(ev, event.BaseRouteType.RouteMap().Rounds+backupNum)
-		out = append(out, data...)
+	for i := 0; i < event.BaseRouteType.RouteMap().Rounds; i++ {
+		for _, ev := range evs {
+			data := s.Scramble(ev, 1)
+			out = append(out, data...)
+		}
 	}
-
+	
 	return out, nil
 }
 

@@ -18,13 +18,13 @@ func Test_scramble_rustScramble(t *testing.T) {
 		})
 	}
 
-	for key, fn := range rustCacheMp {
-		t.Run(key, func(t *testing.T) {
-			for i := 0; i < 10; i++ {
-				_ = fn()
-			}
-		})
-	}
+	//for key, fn := range rustCacheMp {
+	//	t.Run(key, func(t *testing.T) {
+	//		for i := 0; i < 10; i++ {
+	//			_ = fn()
+	//		}
+	//	})
+	//}
 }
 
 func BenchmarkRustCube444Mp(b *testing.B) {

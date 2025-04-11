@@ -1,6 +1,7 @@
 package scramble
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -9,6 +10,7 @@ import (
 func Test_scramble_Scramble(t *testing.T) {
 	s := &scramble{
 		tNoodleEndpoint: "http://localhost:2014",
+		scrambleType:    scrambleTypeRustTwisty,
 	}
 
 	t.Run("fto", func(t *testing.T) {
@@ -30,6 +32,7 @@ func Test_scramble_Scramble(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		fmt.Println(data)
 		for _, d := range data {
 			t.Logf("data: %v", d)
 		}

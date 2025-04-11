@@ -248,6 +248,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 
 	var out = fmt.Sprintf("%s - %s - %s 打乱:\n", comp.Name, ev.Cn, schedule.Round)
 	rm := ev.BaseRouteType.RouteMap()
+
 	for i := 0; i < len(schedule.Scrambles); i++ {
 		sc := schedule.Scrambles[i]
 		out += fmt.Sprintf("打乱 %d\n", i+1)
@@ -258,7 +259,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 			continue
 		}
 
-		if ev.ScrambleValue != "" && len(sc) == len(ev.ScrambleValues()) {
+		if ev.ScrambleValue != "" && len(ev.ScrambleValues()) <= len(sc) {
 			for idx, val := range ev.ScrambleValues() {
 				out += fmt.Sprintf("#%s: %s\n\n", val, sc[idx])
 			}

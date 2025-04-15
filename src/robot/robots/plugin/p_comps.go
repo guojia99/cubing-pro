@@ -56,25 +56,48 @@ func (c *CompsPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	return c.comp(message)
 }
 
-func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competition, error) {
+func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competition, string, error) {
 	msg := types.RemoveID(message.Message, c.ID())
-	msg = utils.ReplaceAll(msg, "", "-")
+	msg = utils.ReplaceAll(msg, " ", "-")
+
+	inMsgs := utils.Split(msg, " ")
+	// 比赛打乱 145 333
+	// 比赛赛果 333 => 当场比赛的成绩
+	// 如果大于2,则把第一个拿出来查询比赛
+
+	firstMsg := ""
+	if len(inMsgs) >= 2 {
+		firstMsg = inMsgs[0]
+	}
+	fmt.Println(inMsgs, message.GroupID)
 
 	var id = 0
-	if number := utils.GetNumbers(msg); len(number) > 0 {
-		id = int(number[0])
-	}
+
+	// 查询
 	var comp competition.Competition
 	var err error
-	if id == 0 {
-		err = c.Svc.DB.Where("status = ?", competition.Running).Order("created_at DESC").First(&comp).Error
+
+	query := c.Svc.DB.Model(&comp).Where("status = ?", competition.Running).Where("group_id = ?", 1)
+	if firstMsg != "" {
+		if number := utils.GetNumbers(firstMsg); len(number) > 0 {
+			id = int(number[0])
+			query = query.Where("id = ?", id)
+		} else {
+			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", firstMsg))
+		}
 	} else {
-		err = c.Svc.DB.Where("status = ?", competition.Running).Where("id = ?", id).First(&comp).Error
+		query = query.Order("created_at DESC")
 	}
-	if err != nil {
-		return comp, fmt.Errorf("找不到比赛%d", id)
+
+	//if id == 0 {
+	//	err = c.Svc.DB.Where("status = ?", competition.Running).Order("created_at DESC").First(&comp).Error
+	//} else {
+	//	err = c.Svc.DB.Where("status = ?", competition.Running).Where("id = ?", id).First(&comp).Error
+	//}
+	if err = query.First(&comp).Error; err != nil {
+		return comp, "", fmt.Errorf("找不到比赛: `%s`", msg)
 	}
-	return comp, nil
+	return comp, "", nil
 }
 
 func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
@@ -83,14 +106,16 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 	ev event.Event,
 	round interface{},
 	num int,
-	err error) {
-	comp, err = c._getComps(message)
+	err error,
+) {
+	var firstMsg string
+	comp, firstMsg, err = c._getComps(message)
 	if err != nil {
 		return
 	}
 
 	msg := types.RemoveID(message.Message, c.ID())
-	msg = utils.ReplaceAll(msg, "", "-")
+	msg = utils.ReplaceAll(msg, "", "-", firstMsg)
 	group := utils.Split(msg, " ")
 
 	if len(group) < 2 {
@@ -188,7 +213,7 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 }
 
 func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
-	comp, err := c._getComps(message)
+	comp, _, err := c._getComps(message)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil
 	}

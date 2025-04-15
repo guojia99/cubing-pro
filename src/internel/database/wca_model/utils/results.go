@@ -32,6 +32,27 @@ func SecondTimeFormat(seconds float64, mbf bool) string {
 	return fmt.Sprintf("%d:%02d:%02d%s", hours, minutes, secondsInt, mmSecondsStr)
 }
 
+func get333MBFResult(in int) (solved, attempted int, seconds int, formattedTime string) {
+	// https://www.worldcubeassociation.org/export/results
+	//difference    = 99 - DD
+	//timeInSeconds = TTTTT (99999 means unknown)
+	//missed        = MM
+	//solved        = difference + missed
+	//attempted     = solved + missed
+	strIn := strconv.Itoa(in)
+	diff, _ := strconv.Atoi(strIn[:2])
+	miss, _ := strconv.Atoi(strIn[len(strIn)-2:])
+	seconds, _ = strconv.Atoi(strIn[3 : len(strIn)-2])
+	//if seconds == 99999 {
+	//	return "unknown"
+	//}
+
+	formattedTime = SecondTimeFormat(float64(seconds), true)
+	solved = 99 - diff + miss
+	attempted = solved + miss
+	return
+}
+
 func ResultsTimeFormat(in int, event string) string {
 	switch in {
 	case -1:
@@ -49,25 +70,40 @@ func ResultsTimeFormat(in int, event string) string {
 		}
 		return fmt.Sprintf("%d", in)
 	case "333mbf":
-		// https://www.worldcubeassociation.org/export/results
-		//difference    = 99 - DD
-		//timeInSeconds = TTTTT (99999 means unknown)
-		//missed        = MM
-		//solved        = difference + missed
-		//attempted     = solved + missed
-		strIn := strconv.Itoa(in)
-		diff, _ := strconv.Atoi(strIn[:2])
-		miss, _ := strconv.Atoi(strIn[len(strIn)-2:])
-		seconds, _ := strconv.Atoi(strIn[3 : len(strIn)-2])
-		if seconds == 99999 {
-			return "unknown"
-		}
-		formattedTime := SecondTimeFormat(float64(seconds), true)
-		solved := 99 - diff + miss
-		attempted := solved + miss
+		solved, attempted, _, formattedTime := get333MBFResult(in)
 		return fmt.Sprintf("%d/%d %s", solved, attempted, formattedTime)
 	}
 	return SecondTimeFormat(float64(in)/100.0, false)
+}
+
+func IsBestResult(event string, a1, a2 int) bool {
+	// DNF
+	if a1 < 0 && a2 < 0 {
+		return true
+	}
+	if a1 < 0 && a2 > 0 {
+		return false
+	}
+	if a2 < 0 && a1 > 0 {
+		return true
+	}
+
+	switch event {
+	case "333mbf":
+		a1Solved, a1Attempted, a1Seconds, _ := get333MBFResult(a1)
+		a2Solved, a2Attempted, a2Seconds, _ := get333MBFResult(a2)
+
+		// 先比分数
+		a1Res := a1Solved - (a1Attempted - a1Solved)
+		a2Res := a2Solved - (a2Attempted - a2Solved)
+
+		if a1Res != a2Res {
+			return a1Res > a2Res
+		}
+		return a1Seconds <= a2Seconds
+	default:
+		return a1 <= a2
+	}
 }
 
 func ParserTimeToSeconds(t string) float64 {

@@ -2,7 +2,7 @@ all: api
 
 
 api:
-	go run -v main.go api --config ./local/server_local_dev.yaml
+	go run -v main.go api --config ./local/server_local_dev.yaml -j
 
 robot:
 	go run -v main.go robot --config ./local/server_local_dev.yaml

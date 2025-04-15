@@ -8,6 +8,7 @@ import (
 
 type GlobalConfig struct {
 	Debug         bool        `yaml:"debug"`
+	Dev           bool        `yaml:"dev"`
 	BaseHost      string      `yaml:"baseHost"`
 	ImageTempPath string      `yaml:"imageTempPath"`
 	BaseFontTTf   string      `yaml:"baseFontTTf"`

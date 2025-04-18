@@ -12,7 +12,6 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
-	"gorm.io/gorm"
 )
 
 var eventsList = []string{
@@ -33,10 +32,6 @@ var eventsList = []string{
 	"4x4x4Blindfolded",
 	"5x5x5Blindfolded",
 	//3x3x3Multi-Blind
-}
-
-type UpdateDiyRankings struct {
-	DB *gorm.DB
 }
 
 func (u *UpdateDiyRankings) crawlerGetWCAResults(wcaID string) (*PersonResult, error) {

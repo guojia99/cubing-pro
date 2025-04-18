@@ -42,9 +42,15 @@ func (q *QQBot) Run(ch chan<- types.InMessage) {
 
 	go safe_ws.ConnectUniversal(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.WSSAddr)
 
-	q.Api = bot.NewSandboxOpenAPI(
-		token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
-	).WithTimeout(3 * time.Second)
+	if q.cfg.IsSandBox {
+		q.Api = bot.NewSandboxOpenAPI(
+			token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
+		).WithTimeout(3 * time.Second)
+	} else {
+		q.Api = bot.NewOpenAPI(
+			token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
+		).WithTimeout(3 * time.Second)
+	}
 
 	q.ch = ch
 	safe_ws.GroupAtMessageEventHandler = q.messageAtEventHandler

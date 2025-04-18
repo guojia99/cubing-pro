@@ -2,10 +2,13 @@ package system
 
 import (
 	"encoding/json"
+	"sync"
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"gorm.io/gorm"
 )
+
+var systemKeyLock = sync.Mutex{}
 
 // KeyValue 保存一些系统kv数据的数据库
 type KeyValue struct {
@@ -16,6 +19,9 @@ type KeyValue struct {
 }
 
 func GetKeyJSONValue(db *gorm.DB, key string, value interface{}) error {
+	systemKeyLock.Lock()
+	defer systemKeyLock.Unlock()
+
 	var kv KeyValue
 	if err := db.First(&kv, "id = ?", key).Error; err != nil {
 		return err
@@ -24,6 +30,9 @@ func GetKeyJSONValue(db *gorm.DB, key string, value interface{}) error {
 }
 
 func SetKeyJSONValue(db *gorm.DB, key string, value interface{}, description string) error {
+	systemKeyLock.Lock()
+	defer systemKeyLock.Unlock()
+
 	data, err := json.Marshal(value)
 	if err != nil {
 		return err

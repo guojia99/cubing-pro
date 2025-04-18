@@ -3,14 +3,18 @@ package job
 import (
 	"fmt"
 	"path"
-	"time"
+	"sync"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
+	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"gorm.io/gorm"
 )
 
 const (
-	DiyRankingsKey = "diy_rankings"
-	urlFormat      = "https://www.worldcubeassociation.org/persons/%s" // 2017XUYO01
+	DiyRankingsKey  = "diy_rankings"
+	DiyCubingProKey = "diy_rankings_cubing_pro"
+	urlFormat       = "https://www.worldcubeassociation.org/persons/%s" // 2017XUYO01
 
 	wcaUrlFormat = "https://www.worldcubeassociation.org/api/v0/persons/%s/results" // 2017XUYO01
 )
@@ -65,10 +69,15 @@ type (
 		AvgPersonWCAID  string `json:"AvgPersonWCAID"`
 	}
 )
+type UpdateDiyRankings struct {
+	DB *gorm.DB
+
+	one sync.Once
+}
 
 func (u *UpdateDiyRankings) Name() string { return "UpdateDiyRankings" }
 
-func (u *UpdateDiyRankings) Run() error {
+func (u *UpdateDiyRankings) updateWCAResult() error {
 	var keys []string
 	if err := system.GetKeyJSONValue(u.DB, DiyRankingsKey, &keys); err != nil {
 		return err
@@ -80,17 +89,42 @@ func (u *UpdateDiyRankings) Run() error {
 		}
 
 		dataKey := path.Join(DiyRankingsKey, key, "data")
-		var kv system.KeyValue
-		if err := system.GetKeyJSONValue(u.DB, dataKey, &kv); err == nil {
-			if time.Since(kv.UpdatedAt) < time.Minute*15 {
-				continue
-			}
-		}
-
 		// 更换为WCA的逻辑代码
 		data := u.apiGetSortResult(wcaKeys)
 		_ = system.SetKeyJSONValue(u.DB, dataKey, data, "")
 		fmt.Printf("[UpdateDiyRankings] 更新数据 %s\n", key)
 	}
 	return nil
+}
+
+func (u *UpdateDiyRankings) updateCubingPro() error {
+	var users []user2.User
+	u.DB.Find(&users)
+
+	var wcaId []string
+	for _, uu := range users {
+		if uu.WcaID != "" {
+			wcaId = append(wcaId, uu.WcaID)
+		}
+	}
+
+	return system.SetKeyJSONValue(u.DB, DiyCubingProKey, wcaId, "网站成员榜单")
+}
+
+func (u *UpdateDiyRankings) updateCubingProKey() {
+	var keys []string
+	_ = system.GetKeyJSONValue(u.DB, DiyRankingsKey, &keys)
+
+	if utils.ContainsString(DiyRankingsKey, keys...) {
+		return
+	}
+	keys = append(keys, DiyCubingProKey)
+	_ = system.SetKeyJSONValue(u.DB, DiyRankingsKey, keys, "网站成员榜单")
+}
+
+func (u *UpdateDiyRankings) Run() error {
+	u.one.Do(u.updateCubingProKey)
+
+	_ = u.updateCubingPro()
+	return u.updateWCAResult()
 }

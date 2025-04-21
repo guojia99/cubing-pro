@@ -43,7 +43,16 @@ func (q *QQBot) Prefix() string {
 
 func (q *QQBot) runServer() {
 	webhook.AllSetting = &webhook.Setting{
-		Apps:     map[string]*webhook.App{},
+		Apps: map[string]*webhook.App{
+			"qq-robot": {
+				QQ:        q.cfg.QQ,
+				AppId:     q.cfg.AppId,
+				Token:     q.cfg.Token,
+				AppSecret: q.cfg.AppSecret,
+				IsSandBox: false,
+				WSSAddr:   q.cfg.WSSAddr,
+			},
+		},
 		Port:     q.cfg.Server.Port,
 		CertFile: q.cfg.Server.CertFile,
 		CertKey:  q.cfg.Server.CertKey,

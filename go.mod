@@ -3,8 +3,8 @@ module github.com/guojia99/cubing-pro
 go 1.23.4
 
 require (
-	github.com/2mf8/Better-Bot-Go v0.0.3
-	github.com/2mf8/Bot-Client-Go v0.0.0-20241223145817-dabd507aaa21
+	github.com/2mf8/Better-Bot-Go v0.0.8
+	github.com/2mf8/Bot-Client-Go v0.0.0-20250106143344-76c70c98253a
 	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/appleboy/gin-jwt/v2 v2.9.2
 	github.com/donnie4w/go-logger v0.27.0
@@ -51,6 +51,7 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
 	github.com/gookit/color v1.5.0 // indirect

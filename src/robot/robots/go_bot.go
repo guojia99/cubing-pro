@@ -12,8 +12,10 @@ import (
 	"github.com/2mf8/Better-Bot-Go/dto"
 	"github.com/2mf8/Better-Bot-Go/openapi"
 	"github.com/2mf8/Better-Bot-Go/token"
+	"github.com/2mf8/Better-Bot-Go/webhook"
 	"github.com/2mf8/Bot-Client-Go/safe_ws"
 	"github.com/donnie4w/go-logger/logger"
+	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
@@ -24,6 +26,8 @@ type QQBot struct {
 	cfg *configs.QQBotConfig
 	ctx context.Context
 	ch  chan<- types.InMessage
+
+	serverGin *gin.Engine
 }
 
 func NewQQBot(cfg *configs.QQBotConfig, ctx context.Context) *QQBot {
@@ -37,10 +41,22 @@ func (q *QQBot) Prefix() string {
 	return ""
 }
 
+func (q *QQBot) runServer() {
+	webhook.AllSetting = &webhook.Setting{
+		Apps:     map[string]*webhook.App{},
+		Port:     q.cfg.Server.Port,
+		CertFile: q.cfg.Server.CertFile,
+		CertKey:  q.cfg.Server.CertKey,
+	}
+	webhook.InitLog()
+	webhook.InitGin(q.cfg.Server.IsOpen)
+}
+
 func (q *QQBot) Run(ch chan<- types.InMessage) {
 	//safe_ws.InitLog()
 
 	go safe_ws.ConnectUniversal(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.WSSAddr)
+	go q.runServer()
 
 	if q.cfg.IsSandBox {
 		q.Api = bot.NewSandboxOpenAPI(

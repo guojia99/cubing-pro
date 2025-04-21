@@ -60,6 +60,15 @@ type QQBotConfig struct {
 	AppSecret string `json:"app_secret,omitempty" toml:"AppSecret" yaml:"app_secret"`
 	IsSandBox bool   `json:"is_sandbox,omitempty" toml:"IsSandBox" yaml:"is_sandbox"`
 	WSSAddr   string `json:"wss_addr,omitempty" toml:"WSSAddr" yaml:"wss_addr"`
+
+	Server QQBotConfigServer `json:"server" toml:"server" yaml:"server"`
+}
+
+type QQBotConfigServer struct {
+	Port     int    `yaml:"port"`
+	CertFile string `yaml:"certFile"`
+	CertKey  string `yaml:"certKey"`
+	IsOpen   bool   `yaml:"isOpen"`
 }
 
 type WeChatBotConfig struct {

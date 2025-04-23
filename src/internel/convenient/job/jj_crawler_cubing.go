@@ -21,7 +21,7 @@ func (c *JJCrawlerCubing) Name() string {
 
 func (c *JJCrawlerCubing) Run() error {
 	log.Printf("cubing获取开始")
-	find := cubing.CheckAllCubingCompetition()
+	find := cubing.NewDCubingCompetition().GetNewCompetitions()
 
 	for _, em := range sendEmails {
 		var canSendEmailCp []Competition

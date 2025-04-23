@@ -98,7 +98,7 @@ type CityCompetitions struct {
 var sendEmails = []string{
 	"guojia99@foxmail.com",
 	"921403690@qq.com",
-	"yrmfxc@gmail.com",
+	//"yrmfxc@gmail.com",
 }
 
 type JJCrawlerWca struct {

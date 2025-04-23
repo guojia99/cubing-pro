@@ -78,6 +78,7 @@ func (q *QQBot) Run(ch chan<- types.InMessage) {
 	}
 
 	q.ch = ch
+
 	safe_ws.GroupAtMessageEventHandler = q.messageAtEventHandler
 	//safe_ws.GroupMessageEventHandler = q.messageEventHandler
 	select {

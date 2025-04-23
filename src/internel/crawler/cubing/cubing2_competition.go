@@ -182,6 +182,7 @@ func (c *DCubingCompetition) GetNewCompetitions() []TCubingCompetition {
 				ch <- url
 				log.Printf("=========== find = %s = => %s\n", nKey, url)
 			}
+			time.Sleep(time.Millisecond * 100)
 			log.Printf("[%d]check => %s\n", idx, nKey)
 		}(nKey, idx)
 	}

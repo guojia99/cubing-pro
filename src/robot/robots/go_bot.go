@@ -80,6 +80,7 @@ func (q *QQBot) Run(ch chan<- types.InMessage) {
 	q.ch = ch
 
 	safe_ws.GroupAtMessageEventHandler = q.messageAtEventHandler
+
 	//safe_ws.GroupMessageEventHandler = q.messageEventHandler
 	select {
 	case <-q.ctx.Done():
@@ -97,7 +98,6 @@ func (q *QQBot) Run(ch chan<- types.InMessage) {
 //}
 
 func (q *QQBot) messageAtEventHandler(appid string, event *dto.WSPayload, data *dto.WSGroupATMessageData) error {
-
 	msg := types.InMessage{
 		QQ:      0,
 		QQBot:   data.Author.UserOpenId,
@@ -124,17 +124,17 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 	newMsg := &dto.GroupMessageToCreate{
 		Content: "\n" + strings.Join(out.Message, ""),
 		MsgID:   out.MsgID,
-		MsgReq:  1,
-		MsgType: 0,
+		MsgReq:  4,
+		MsgType: dto.C2CMsgTypeText,
 	}
 
 	if len(out.Images) == 1 {
-
 		data, err := os.ReadFile(out.Images[0])
 		if err != nil {
 			return err
 		}
 
+		// 发送图片
 		resp, err := q.Api.PostGroupRichMediaMessage(q.ctx, out.GroupID.(string),
 			&dto.GroupRichMediaMessageToCreate{
 				FileType:   1,
@@ -146,7 +146,8 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 			return err
 		}
 
-		newMsg.MsgType = 7
+		// 重新组合图文格式
+		newMsg.MsgType = dto.C2CMsgTypeMedia
 		newMsg.Media = &dto.FileInfo{
 			FileInfo: resp.FileInfo,
 		}

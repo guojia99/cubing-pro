@@ -2,6 +2,7 @@ package job
 
 import (
 	"log"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/crawler/cubing"
@@ -19,7 +20,18 @@ func (c *JJCrawlerCubing) Name() string {
 	return "JJCrawlerCubing"
 }
 
+var notCrawlerTime = map[time.Weekday][]int{
+	time.Sunday:    {19, 20, 21, 22},
+	time.Monday:    {},
+	time.Tuesday:   {},
+	time.Wednesday: {},
+	time.Thursday:  {},
+	time.Friday:    {},
+	time.Saturday:  {19, 20, 21, 22},
+}
+
 func (c *JJCrawlerCubing) Run() error {
+
 	log.Printf("cubing获取开始")
 	find := cubing.NewDCubingCompetition().GetNewCompetitions()
 

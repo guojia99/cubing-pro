@@ -3,7 +3,7 @@ module github.com/guojia99/cubing-pro
 go 1.23.4
 
 require (
-	github.com/2mf8/Better-Bot-Go v0.0.8
+	github.com/2mf8/Better-Bot-Go v0.0.9-0.20250425125817-a049cae4a166
 	github.com/2mf8/Bot-Client-Go v0.0.0-20250106143344-76c70c98253a
 	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/appleboy/gin-jwt/v2 v2.9.2

@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
 	bot "github.com/2mf8/Better-Bot-Go"
 	"github.com/2mf8/Better-Bot-Go/dto"
 	"github.com/2mf8/Better-Bot-Go/openapi"
+	v1 "github.com/2mf8/Better-Bot-Go/openapi/v1"
 	"github.com/2mf8/Better-Bot-Go/token"
 	"github.com/2mf8/Better-Bot-Go/webhook"
 	"github.com/2mf8/Bot-Client-Go/safe_ws"
@@ -61,25 +63,44 @@ func (q *QQBot) runServer() {
 	webhook.InitGin(q.cfg.Server.IsOpen)
 }
 
-func (q *QQBot) Run(ch chan<- types.InMessage) {
-	//safe_ws.InitLog()
-
-	go safe_ws.ConnectUniversal(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.WSSAddr)
-	go q.runServer()
+func (q *QQBot) updateToken() {
+	atr := v1.GetAccessToken(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.AppSecret)
+	iat, _ := strconv.Atoi(atr.ExpiresIn)
+	aei := time.Now().Unix() + int64(iat)
+	tk := token.BotToken(q.cfg.AppId, atr.AccessToken, string(token.TypeQQBot))
 
 	if q.cfg.IsSandBox {
-		q.Api = bot.NewSandboxOpenAPI(
-			token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
-		).WithTimeout(3 * time.Second)
+		q.Api = bot.NewSandboxOpenAPI(tk).WithTimeout(30 * time.Second)
 	} else {
-		q.Api = bot.NewOpenAPI(
-			token.BotToken(q.cfg.AppId, q.cfg.Token, string(token.TypeBot)),
-		).WithTimeout(3 * time.Second)
+		q.Api = bot.NewOpenAPI(tk).WithTimeout(30 * time.Second)
 	}
+	bot.AuthAcessAdd(fmt.Sprintf("%v", q.cfg.AppId), &bot.AccessToken{
+		AccessToken: atr.AccessToken,
+		ExpiresIn:   aei,
+		Api:         q.Api,
+		AppSecret:   q.cfg.AppSecret,
+		IsSandBox:   q.cfg.IsSandBox,
+		Appid:       q.cfg.AppId,
+	})
+
+}
+
+func (q *QQBot) Run(ch chan<- types.InMessage) {
+	//safe_ws.InitLog()
+	// 服务端
+	go q.runServer()
+
+	// 客户端
+	q.updateToken()
 
 	q.ch = ch
-
 	safe_ws.GroupAtMessageEventHandler = q.messageAtEventHandler
+
+	if q.cfg.IsOpen {
+		go safe_ws.ConnectUniversalWithSecret(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.AppSecret, q.cfg.WSSAddr)
+	} else {
+		go safe_ws.ConnectUniversal(fmt.Sprintf("%v", q.cfg.AppId), q.cfg.WSSAddr)
+	}
 
 	//safe_ws.GroupMessageEventHandler = q.messageEventHandler
 	select {
@@ -135,7 +156,7 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 		}
 
 		// 发送图片
-		resp, err := q.Api.PostGroupRichMediaMessage(q.ctx, out.GroupID.(string),
+		resp, err := bot.SendApi(fmt.Sprintf("%v", q.cfg.AppId)).PostGroupRichMediaMessage(q.ctx, out.GroupID.(string),
 			&dto.GroupRichMediaMessageToCreate{
 				FileType:   1,
 				FileData:   data,
@@ -153,6 +174,6 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 		}
 	}
 
-	_, err := q.Api.PostGroupMessage(q.ctx, out.GroupID.(string), newMsg)
+	_, err := bot.SendApi(fmt.Sprintf("%v", q.cfg.AppId)).PostGroupMessage(q.ctx, out.GroupID.(string), newMsg)
 	return err
 }

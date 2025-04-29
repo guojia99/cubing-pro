@@ -56,17 +56,17 @@ func (c *CompsPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	return c.comp(message)
 }
 
-func (c *CompsPlugin) _getComps(message types.InMessage) (competition.Competition, string, error) {
+func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competition.Competition, string, error) {
 	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, " ", "-")
 
 	inMsgs := utils.Split(msg, " ")
-	// 比赛打乱 145 333
+	// 比赛打乱 145 333 1
 	// 比赛赛果 333 => 当场比赛的成绩
 	// 如果大于2,则把第一个拿出来查询比赛
 
 	firstMsg := ""
-	if len(inMsgs) >= 2 {
+	if len(inMsgs) >= checkNum {
 		firstMsg = inMsgs[0]
 	}
 	fmt.Println(inMsgs, message.GroupID)
@@ -109,7 +109,7 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 	err error,
 ) {
 	var firstMsg string
-	comp, firstMsg, err = c._getComps(message)
+	comp, firstMsg, err = c._getComps(message, 1)
 	if err != nil {
 		return
 	}
@@ -213,7 +213,7 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 }
 
 func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
-	comp, _, err := c._getComps(message)
+	comp, _, err := c._getComps(message, 3)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil
 	}

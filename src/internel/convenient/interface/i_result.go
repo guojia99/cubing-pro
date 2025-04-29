@@ -97,7 +97,10 @@ func (c *ResultIter) PlayerBestResult(playerId uint, events []string, year *int)
 	}
 
 	var results []result.Results
-	db := c.DB.Where("user_id = ?", playerId).Where("event_id in ?", events)
+	db := c.DB.Where("user_id = ?", playerId)
+	if len(events) > 0 {
+		db = db.Where("event_id in ?", events)
+	}
 
 	if year != nil {
 		timeLimit := time.Date(*year, 1, 1, 0, 0, 0, 0, time.UTC)

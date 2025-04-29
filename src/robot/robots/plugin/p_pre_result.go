@@ -120,6 +120,10 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	out := fmt.Sprintf("比赛: %s\n", comp.Name)
 	out += fmt.Sprintf("选手: %s\n", usr.Name)
 
+	// 3. 最佳成绩获取
+	playerBestResult, _ := c.Svc.Cov.PlayerBestResult(usr.ID, []string{}, nil) // 玩家最佳成绩
+	allBest, _ := c.Svc.Cov.SelectAllPlayerBestResult()
+
 	for _, resStr := range utils.Split(msg, "\n") {
 		if len(resStr) == 0 {
 			continue
@@ -163,7 +167,6 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		}
 
 		// 写入数据
-
 		var results []float64
 		for idx, r := range split[1:] {
 			if ev.BaseRouteType.RouteMap().Repeatedly && idx == 0 {
@@ -206,11 +209,62 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		pres = append(pres, preResult)
 
 		out += fmt.Sprintf("%s %s (%s / %s)\n", ev.Cn, schedule.Round, preResult.BestString(), preResult.BestAvgString())
+
+		// todo 破记录播报
+		// 全部记录
+		allBestSingle, allBestSingleOk := allBest.Single[preResult.EventID]
+		allBestAvg, allBestAvgOk := allBest.Avgs[preResult.EventID]
+		hasBest, hasAvg := preResult.DBest(), preResult.DAvg()
+		isSingleRound := preResult.EventRoute.RouteMap().Repeatedly || preResult.EventRoute.RouteMap().Rounds == 1
+
+		switch {
+		case !allBestSingleOk && !allBestAvgOk && !hasBest && !hasAvg:
+			out += fmt.Sprintf("(该成绩是第一个成功有单次和平均有效成绩)\n")
+			continue
+		case !allBestSingleOk && !hasBest:
+			out += "(该成绩是第一个成功有单次成绩)\n"
+
+		case !allBestAvgOk && !hasAvg && !isSingleRound:
+			out += "(该成绩是第一个成功有平均成绩)\n"
+		}
+
+		// 判断是否打破记录
+		isBest := allBestSingleOk && preResult.IsBest(allBestSingle)
+		isAvgBest := allBestAvgOk && preResult.IsBestAvg(allBestAvg)
+
+		switch {
+		case isBest && isAvgBest && !isSingleRound:
+			out += fmt.Sprintf("(该成绩双刷了`%s | %s` 的历史最佳成绩 (%s / %s))\n", allBestSingle.PersonName, allBestAvg.PersonName, allBestSingle.BestString(), allBestAvg.BestAvgString())
+			continue
+
+		case isBest && isSingleRound:
+			out += fmt.Sprintf("(该成绩打破了`%s` 的历史单次最佳成绩 %s)\n", allBestSingle.PersonName, allBestSingle.BestString())
+			continue
+
+		case isAvgBest && !isSingleRound:
+			out += fmt.Sprintf("(该成绩打破了`%s` 的历史平均最佳成绩 %s)\n", allBestAvg.PersonName, allBestAvg.BestAvgString())
+			continue
+		}
+
+		// 个人记录
+		pbBestSingle, pbBestSingleOk := playerBestResult.Single[preResult.EventID]
+		pbBestAvg, pbBestAvgOk := playerBestResult.Avgs[preResult.EventID]
+		hasBestSinglePb := pbBestSingleOk && preResult.IsBest(pbBestSingle)
+		hasBestAvgPb := pbBestAvgOk && preResult.IsBestAvg(pbBestAvg)
+		switch {
+		case hasBestSinglePb && hasBestAvgPb && !isSingleRound:
+			out += fmt.Sprintf("(该成绩双刷了自己的历史最佳成绩 (%s / %s))\n", pbBestSingle.BestString(), pbBestAvg.BestAvgString())
+
+		case hasBestSinglePb && isSingleRound:
+			out += fmt.Sprintf("(该成绩打破了自己的历史单次最佳成绩 %s)\n", pbBestSingle.BestString())
+
+		case hasBestAvgPb && !isSingleRound:
+			out += fmt.Sprintf("(该成绩打破了自己的历史平均最佳成绩 %s)\n", pbBestAvg.BestAvgString())
+		}
 	}
 
 	out += "录入成功!\n"
 	c.Svc.DB.Save(&pres)
-	// todo 破记录播报
 
 	return message.NewOutMessage(out), nil
 }

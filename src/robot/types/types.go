@@ -7,11 +7,23 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
+type Token string
+
+//func (t Token) ToNumber() int {
+//	out, _ := strconv.Atoi(string(t))
+//	return out
+//}
+//
+//func (t Token) ToFloat() string {
+//
+//}
+
 type InMessage struct {
 	QQ      int64       `json:"QQ"`
 	QQBot   string      `json:"QQBot"`
 	Name    string      `json:"Name"`
 	Message string      `json:"Message"`
+	Tokens  []Token     `json:"Tokens"`
 	GroupID interface{} `json:"GroupID"` // 群号
 	MsgID   string      `json:"MsgID"`   // 消息ID
 }

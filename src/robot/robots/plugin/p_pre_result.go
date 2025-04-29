@@ -223,7 +223,6 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 			continue
 		case !allBestSingleOk && !hasBest:
 			out += "(该成绩是第一个成功有单次成绩)\n"
-
 		case !allBestAvgOk && !hasAvg && !isSingleRound:
 			out += "(该成绩是第一个成功有平均成绩)\n"
 		}
@@ -236,14 +235,10 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		case isBest && isAvgBest && !isSingleRound:
 			out += fmt.Sprintf("(该成绩双刷了`%s | %s` 的历史最佳成绩 (%s / %s))\n", allBestSingle.PersonName, allBestAvg.PersonName, allBestSingle.BestString(), allBestAvg.BestAvgString())
 			continue
-
-		case isBest && isSingleRound:
+		case isBest:
 			out += fmt.Sprintf("(该成绩打破了`%s` 的历史单次最佳成绩 %s)\n", allBestSingle.PersonName, allBestSingle.BestString())
-			continue
-
 		case isAvgBest && !isSingleRound:
 			out += fmt.Sprintf("(该成绩打破了`%s` 的历史平均最佳成绩 %s)\n", allBestAvg.PersonName, allBestAvg.BestAvgString())
-			continue
 		}
 
 		// 个人记录
@@ -254,10 +249,9 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 		switch {
 		case hasBestSinglePb && hasBestAvgPb && !isSingleRound:
 			out += fmt.Sprintf("(该成绩双刷了自己的历史最佳成绩 (%s / %s))\n", pbBestSingle.BestString(), pbBestAvg.BestAvgString())
-
-		case hasBestSinglePb && isSingleRound:
+			continue
+		case hasBestSinglePb:
 			out += fmt.Sprintf("(该成绩打破了自己的历史单次最佳成绩 %s)\n", pbBestSingle.BestString())
-
 		case hasBestAvgPb && !isSingleRound:
 			out += fmt.Sprintf("(该成绩打破了自己的历史平均最佳成绩 %s)\n", pbBestAvg.BestAvgString())
 		}

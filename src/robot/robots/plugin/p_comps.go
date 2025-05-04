@@ -56,6 +56,9 @@ func (c *CompsPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	return c.comp(message)
 }
 
+// todo 这里有bug
+// todo 这里有bug
+// todo 这里有bug
 func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competition.Competition, string, error) {
 	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, " ", "-")
@@ -109,6 +112,7 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 	err error,
 ) {
 	var firstMsg string
+	// todo 这里有bug
 	comp, firstMsg, err = c._getComps(message, 1)
 	if err != nil {
 		return
@@ -212,6 +216,7 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 	return message.NewOutMessage(out), nil
 }
 
+// todo 这里有bug
 func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
 	comp, _, err := c._getComps(message, 3)
 	if err != nil {

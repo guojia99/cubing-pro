@@ -1,9 +1,9 @@
 package cubing
 
 import (
+	"bytes"
 	"fmt"
 	"log"
-	"net/http"
 	"slices"
 	"strings"
 	"sync"
@@ -117,18 +117,31 @@ type TCubingCompetition struct {
 }
 
 func (c *DCubingCompetition) getPage(id, url string) (TCubingCompetition, bool, error) {
-	resp, err := http.Get(url)
+	resp, err := utils.HTTPRequestFull("GET", url, nil, map[string]interface{}{
+		"Cache-Control":             "max-age=0, private, must-revalidate",
+		"Content-Encoding":          "gzip, deflate, br, zstd",
+		"Accept-Language":           "zh-CN,zh-HK;q=0.9,zh;q=0.8,zh-TW;q=0.7,en;q=0.6",
+		"Accept":                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+		"User-Agent":                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+		"Content-Type":              "text/html; charset=UTF-8",
+		"Date":                      "Sun, 04 May 2025 07:12:22 GMT",
+		"Eagleid":                   "7ce1a79817463427425055368e",
+		"Server":                    "Tengine",
+		"Strict-Transport-Security": "max-age=5184000",
+		"Timing-Allow-Origin":       "*",
+		"Vary":                      "Accept-Encoding",
+		"Via":                       "ens-cache33.l2hk12[45,0], cache51.l2so158-1[49,0], kunlun4.cn2466[69,0]",
+	}, nil)
 	if err != nil {
-		log.Fatalf("[e] %s", err)
 		return TCubingCompetition{}, false, err
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return TCubingCompetition{}, false, fmt.Errorf("[e] %s", resp.Status)
+		return TCubingCompetition{}, false, fmt.Errorf("[e] %d", resp.StatusCode)
 	}
 
-	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	//fmt.Println(string(resp))
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body))
 	if err != nil {
 		return TCubingCompetition{}, false, err
 	}
@@ -177,13 +190,14 @@ func (c *DCubingCompetition) GetNewCompetitions() []TCubingCompetition {
 		wg.Add(1)
 		go func(nKey string, idx int) {
 			defer wg.Done()
-			url, isFind, _ := c.getPage(nKey, fmt.Sprintf("%s%s", competitionBase, nKey))
+			pUrl := fmt.Sprintf("%s%s", competitionBase, nKey)
+			url, isFind, _ := c.getPage(nKey, pUrl)
 			if isFind {
 				ch <- url
-				log.Printf("=========== find = %s = => %s\n", nKey, url)
+				log.Printf("=========== find = %s ==> %s\n", nKey, url)
 			}
 			time.Sleep(time.Millisecond * 100)
-			log.Printf("[%d]check => %s\n", idx, nKey)
+			log.Printf("[%d]check => %s | %s\n", idx, pUrl, nKey)
 		}(nKey, idx)
 	}
 

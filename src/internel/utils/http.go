@@ -3,8 +3,10 @@ package utils
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -94,4 +96,79 @@ func HTTPRequestWithJSON(method, url string, params, headers map[string]interfac
 		return err
 	}
 	return json.Unmarshal(output, dst)
+}
+
+type HTTPResponse struct {
+	StatusCode int
+	Body       []byte
+	Response   *http.Response
+}
+
+// HTTPRequestFull 支持任意 method、params、headers 和 body，返回完整响应信息
+func HTTPRequestFull(method, url string, params, headers map[string]interface{}, data interface{}) (*HTTPResponse, error) {
+	client := &http.Client{}
+	client.Timeout = time.Duration(30) * time.Second
+
+	// 构造 URL 参数
+	reqURL, err := urlWithParams(url, params)
+	if err != nil {
+		return nil, fmt.Errorf("构造 URL 参数失败: %w", err)
+	}
+
+	var reqBody io.Reader
+	if method == "POST" || method == "PUT" {
+		bodyBytes, err := json.Marshal(data)
+		if err != nil {
+			return nil, fmt.Errorf("序列化请求体失败: %w", err)
+		}
+		reqBody = bytes.NewReader(bodyBytes)
+	}
+
+	req, err := http.NewRequest(method, reqURL, reqBody)
+	if err != nil {
+		return nil, fmt.Errorf("创建请求失败: %w", err)
+	}
+
+	// 设置 headers
+	for key, val := range headers {
+		req.Header.Set(key, fmt.Sprint(val))
+	}
+
+	// 发送请求
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("请求发送失败: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// 读取响应内容
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("读取响应体失败: %w", err)
+	}
+
+	return &HTTPResponse{
+		StatusCode: resp.StatusCode,
+		Body:       bodyBytes,
+		Response:   resp,
+	}, nil
+}
+
+// urlWithParams 将 map 参数拼接到 url
+func urlWithParams(rawURL string, params map[string]interface{}) (string, error) {
+	if params == nil || len(params) == 0 {
+		return rawURL, nil
+	}
+
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return "", err
+	}
+
+	q := u.Query()
+	for k, v := range params {
+		q.Add(k, fmt.Sprint(v))
+	}
+	u.RawQuery = q.Encode()
+	return u.String(), nil
 }

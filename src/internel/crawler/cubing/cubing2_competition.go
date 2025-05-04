@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"math/rand"
 	"slices"
 	"strings"
 	"sync"
@@ -116,22 +117,38 @@ type TCubingCompetition struct {
 	Events string `json:"events"`
 }
 
-func (c *DCubingCompetition) getPage(id, url string) (TCubingCompetition, bool, error) {
-	resp, err := utils.HTTPRequestFull("GET", url, nil, map[string]interface{}{
-		"Cache-Control":             "max-age=0, private, must-revalidate",
-		"Content-Encoding":          "gzip, deflate, br, zstd",
-		"Accept-Language":           "zh-CN,zh-HK;q=0.9,zh;q=0.8,zh-TW;q=0.7,en;q=0.6",
-		"Accept":                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-		"User-Agent":                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+// 随机生成 UA
+var userAgents = []string{
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+	"Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.3 Safari/605.1.15",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
+}
+
+var languages = []string{
+	"zh-CN,zh;q=0.9,en;q=0.8",
+	"zh-CN,zh-HK;q=0.9,en;q=0.8",
+	"zh-TW,zh;q=0.9,en;q=0.7",
+}
+
+func RandomHeaders() map[string]interface{} {
+	rand.Seed(time.Now().UnixNano())
+	return map[string]interface{}{
+		"Cache-Control":             "no-cache",
+		"Accept-Language":           languages[rand.Intn(len(languages))],
+		"Accept":                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+		"User-Agent":                userAgents[rand.Intn(len(userAgents))],
 		"Content-Type":              "text/html; charset=UTF-8",
-		"Date":                      "Sun, 04 May 2025 07:12:22 GMT",
-		"Eagleid":                   "7ce1a79817463427425055368e",
-		"Server":                    "Tengine",
+		"Date":                      time.Now().UTC().Format(time.RFC1123),
+		"Eagleid":                   fmt.Sprintf("%x", rand.Uint64()),
 		"Strict-Transport-Security": "max-age=5184000",
 		"Timing-Allow-Origin":       "*",
 		"Vary":                      "Accept-Encoding",
-		"Via":                       "ens-cache33.l2hk12[45,0], cache51.l2so158-1[49,0], kunlun4.cn2466[69,0]",
-	}, nil)
+	}
+}
+
+func (c *DCubingCompetition) getPage(id, url string) (TCubingCompetition, bool, error) {
+	resp, err := utils.HTTPRequestFull("GET", url, nil, RandomHeaders(), nil)
 	if err != nil {
 		return TCubingCompetition{}, false, err
 	}

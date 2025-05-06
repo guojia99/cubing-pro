@@ -71,7 +71,7 @@ const wcaCompTemp = `<!DOCTYPE html>
                 <p><strong>比赛名称:</strong> {{.Name}} - {{.Id}}</p>
                 <p><strong>比赛项目:</strong> {{range .EventIds}} {{.}} {{end}}</p>
                 <p><strong>时间:</strong> {{.StartDate}} - {{.EndDate}}</p>
-                <p><strong>链接:</strong> <a href="https://www.worldcubeassociation.org/competitions/{{.Id}}" target="_blank">查看比赛详情</a></p>
+                <p><strong>链接:</strong> <a href="{{.Url}}" target="_blank">查看比赛详情</a></p>
             </div>
             {{end}}
         </div>
@@ -87,6 +87,7 @@ type Competition struct {
 	EventIds  []string
 	StartDate string
 	EndDate   string
+	Url       string
 }
 
 // 城市比赛映射
@@ -148,6 +149,7 @@ func (c *JJCrawlerWca) Run() error {
 					EventIds:  cp.EventIds,
 					StartDate: cp.StartDate,
 					EndDate:   cp.EndDate,
+					Url:       fmt.Sprintf("https://www.worldcubeassociation.org/competitions/%s", cp.Id),
 				})
 			}
 			ccpTmp = append(ccpTmp, cpTmp)

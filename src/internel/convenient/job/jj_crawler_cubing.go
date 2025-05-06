@@ -1,6 +1,7 @@
 package job
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -55,6 +56,7 @@ func (c *JJCrawlerCubing) Run() error {
 				EventIds:  []string{fid.Events},
 				StartDate: fid.Date,
 				EndDate:   fid.Date,
+				Url:       fmt.Sprintf("https://cubing.com/competition/%s", fid.ID),
 			})
 		}
 

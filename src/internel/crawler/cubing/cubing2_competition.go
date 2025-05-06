@@ -127,8 +127,8 @@ var userAgents = []string{
 
 var languages = []string{
 	"zh-CN,zh;q=0.9,en;q=0.8",
-	"zh-CN,zh-HK;q=0.9,en;q=0.8",
-	"zh-TW,zh;q=0.9,en;q=0.7",
+	//"zh-CN,zh-HK;q=0.9,en;q=0.8",
+	//"zh-TW,zh;q=0.9,en;q=0.7",
 }
 
 func RandomHeaders() map[string]interface{} {

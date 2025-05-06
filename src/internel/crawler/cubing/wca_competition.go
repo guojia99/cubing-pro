@@ -90,7 +90,7 @@ func GetAllWcaComps() map[string][]WcaCompetition {
 	return out
 }
 
-var wcaInfoCache = cache.New(time.Second*30, time.Minute)
+var wcaInfoCache = cache.New(time.Minute*5, time.Minute*5)
 
 func GetWcaInfo(id string) WCAInfo {
 	if resp, ok := wcaInfoCache.Get(id); ok {
@@ -103,6 +103,6 @@ func GetWcaInfo(id string) WCAInfo {
 		return wcaInfo
 	}
 	log.Printf("[Debug] get WCA Info %s\n", id)
-	wcaInfoCache.Set(id, wcaInfo, time.Minute)
+	wcaInfoCache.Set(id, wcaInfo, time.Minute*5)
 	return wcaInfo
 }

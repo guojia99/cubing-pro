@@ -98,14 +98,16 @@ const wcaCompTemp = `<!DOCTYPE html>
 					<thead>
 						<tr>
 							<th>项目</th>
-							<th>及格线</th>
-							<th>还原时限</th>
+							<th>轮次</th>
+							<th>及格线(首轮)</th>
+							<th>还原时限(首轮)</th>
 						</tr>
 					</thead>
 					<tbody>
 						{{range .CompetitionCutoffs}}
 						<tr>
 							<td>{{.Event}}</td>
+							<td>{{.RoundNum}}</td>	
 							<td>{{.AttemptResult}}</td>
 							<td>{{.LimitResult}}</td>
 						</tr>
@@ -117,9 +119,6 @@ const wcaCompTemp = `<!DOCTYPE html>
             </div>
             {{end}}
         </div>
-		
-		
-
         {{end}}
     </div>
 </body>
@@ -127,8 +126,9 @@ const wcaCompTemp = `<!DOCTYPE html>
 
 type CompetitionCutoff struct {
 	Event         string `json:"Event"`
-	AttemptResult string `json:"attemptResult"`
-	LimitResult   string `json:"limitResult"`
+	RoundNum      int    `json:"RoundNum"`      // 轮次
+	AttemptResult string `json:"attemptResult"` // 及格线
+	LimitResult   string `json:"limitResult"`   // 还原时限
 }
 
 // 比赛信息结构体
@@ -239,6 +239,7 @@ func (c *JJCrawlerWca) Run() error {
 				for _, ev := range info.Events {
 					cf := CompetitionCutoff{
 						Event:         ev.Id,
+						RoundNum:      len(ev.Rounds),
 						AttemptResult: "-",
 						LimitResult:   AttemptResultString(ev.Rounds[0].TimeLimit.Centiseconds / 100),
 					}

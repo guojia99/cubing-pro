@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/patrickmn/go-cache"
 )
 
 type WcaCompetition struct {
@@ -29,6 +32,8 @@ type WcaCompetition struct {
 
 const wcaCompUrl = "https://www.worldcubeassociation.org/api/v0/competition_index"
 
+const wcaInfoUrlFormat = "https://www.worldcubeassociation.org/api/v0/competitions/%s/wcif/public"
+
 var wcaCitys = map[string]string{
 	"中国":   "CN", // 中国
 	"中国香港": "HK", // 香港
@@ -40,6 +45,7 @@ var wcaCitys = map[string]string{
 	"日本":   "JP", // 日本
 	"印尼":   "ID", // 印度尼西亚
 	"英国":   "GB", // 英国
+	"菲律宾":  "PH", // 菲律宾
 }
 
 func GetWcaComps(city string) []WcaCompetition {
@@ -82,4 +88,21 @@ func GetAllWcaComps() map[string][]WcaCompetition {
 		log.Printf("%s - %d", key, len(cps))
 	}
 	return out
+}
+
+var wcaInfoCache = cache.New(time.Second*30, time.Minute)
+
+func GetWcaInfo(id string) WCAInfo {
+	if resp, ok := wcaInfoCache.Get(id); ok {
+		return resp.(WCAInfo)
+	}
+
+	var wcaInfo WCAInfo
+	err := utils.HTTPRequestWithJSON("GET", fmt.Sprintf(wcaInfoUrlFormat, id), nil, nil, nil, &wcaInfo)
+	if err != nil {
+		return wcaInfo
+	}
+	log.Printf("[Debug] get WCA Info %s\n", id)
+	wcaInfoCache.Set(id, wcaInfo, time.Minute)
+	return wcaInfo
 }

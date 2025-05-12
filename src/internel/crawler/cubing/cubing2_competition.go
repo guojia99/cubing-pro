@@ -153,6 +153,7 @@ func (c *DCubingCompetition) getPage(id, url string) (TCubingCompetition, bool, 
 		return TCubingCompetition{}, false, err
 	}
 
+	log.Printf("[%d]check => %s | %s\n", resp.StatusCode, id, url)
 	if resp.StatusCode != 200 {
 		return TCubingCompetition{}, false, fmt.Errorf("[e] %d", resp.StatusCode)
 	}
@@ -194,39 +195,37 @@ func (c *DCubingCompetition) GetNewCompetitions() []TCubingCompetition {
 		find []TCubingCompetition
 		wg   sync.WaitGroup
 		mu   sync.Mutex
-		ch   = make(chan TCubingCompetition, len(baseKeys)) // 使用缓冲通道存储结果
 	)
 
+	// 控制最大并发数为 10
+	concurrencyLimit := make(chan struct{}, 10)
 	idx := 0
+
 	for _, nKey := range baseKeys {
 		idx++
 		if _, ok := c.oldKey[nKey]; ok {
 			continue
 		}
 
+		// 获取一个“并发许可”
+		concurrencyLimit <- struct{}{}
 		wg.Add(1)
 		go func(nKey string, idx int) {
 			defer wg.Done()
+			defer func() { <-concurrencyLimit }() // 释放一个“并发许可”
+
 			pUrl := fmt.Sprintf("%s%s", competitionBase, nKey)
 			url, isFind, _ := c.getPage(nKey, pUrl)
 			if isFind {
-				ch <- url
+				mu.Lock()
+				find = append(find, url)
+				mu.Unlock()
 				log.Printf("=========== find = %s ==> %s\n", nKey, url)
 			}
 			time.Sleep(time.Millisecond * 100)
-			log.Printf("[%d]check => %s | %s\n", idx, pUrl, nKey)
 		}(nKey, idx)
 	}
 
-	wg.Wait()
-	close(ch) // 关闭通道，确保所有 Goroutine 结束
-
-	// 收集结果
-	for url := range ch {
-		mu.Lock()
-		find = append(find, url)
-		mu.Unlock()
-	}
-
+	wg.Wait() // 等待所有 goroutine 完成
 	return find
 }

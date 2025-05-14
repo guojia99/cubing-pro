@@ -87,6 +87,8 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	// 用户管理
 	user := admin.Group("/users")
 	{
+		user.POST("/create_user", users.CreateUser(svc))         // 添加一个用户
+		user.PUT("/update_user_name", users.UpdateUserName(svc)) // 修改用户名称
 		user.POST("/", users.AdminUsers(svc))
 		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
 		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码

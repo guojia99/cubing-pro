@@ -35,7 +35,7 @@ type User struct {
 	Hash            string `gorm:"column:hash;null" json:"-"`                            // 授权码 todo 预留
 
 	// v2用户
-	InitPassword   string     `gorm:"column:init_pw;null" json:"InitPassword,omitempty"` // 初始密码 v2预留的坑
+	InitPassword   string     `gorm:"column:init_pw;null" json:"InitPassword,omitempty"` // 初始密码 v2预留的坑, 现在是给那些不会注册的人用
 	ActivationTime *time.Time `gorm:"column:a_time" json:"ActivationTime,omitempty"`     // 启用时间
 
 	// 状态信息

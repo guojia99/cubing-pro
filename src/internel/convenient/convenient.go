@@ -13,6 +13,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/sports"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	cache2 "github.com/patrickmn/go-cache"
@@ -58,6 +59,10 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 
 	// 爬虫表
 	_ = db.AutoMigrate(&crawler.SendEmail{})
+
+	// 运动表
+	_ = db.AutoMigrate(&sports.SportEvent{})
+	_ = db.AutoMigrate(&sports.SportResult{})
 
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表

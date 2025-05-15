@@ -55,6 +55,7 @@ func NewAPI(svc *svc.Svc) *API {
 	routes.PostRouters(group, svc)
 	routes.PublicRouters(group, svc)
 	routes.StaticRouters(group, svc)
+	routes.SportsRoutes(group, svc)
 
 	//group.Static("/assets", svc.Cfg.APIConfig.AssetsPath)
 	return a

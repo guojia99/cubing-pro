@@ -325,6 +325,8 @@ func SortResult(in []Results) {
 }
 
 func TimeParserS2F(t string) float64 {
+	t = strings.ReplaceAll(t, " ", "")
+
 	if t == "DNS" || strings.Contains(strings.ToLower(t), "s") {
 		return DNS
 	}

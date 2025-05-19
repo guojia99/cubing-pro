@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 
@@ -29,8 +30,8 @@ import (
 )
 
 var (
-	v2Db = "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
-	v3Db = "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	v2Db = "root:xxxx%@tcp(127.0.0.1:3306)/mycube2?charset=utf8&parseTime=True&loc=Local"
+	v3Db = "root:xxxx%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
 )
 
 // 1. 将所有的数据拉到内存
@@ -110,7 +111,7 @@ func r2InitV2Datas(ctx *Context) (err error) {
 }
 
 func r3ClearV3Datas(ctx *Context) (err error) {
-	ctx.it = convenient.NewConvenient(ctx.v3Db, false)
+	ctx.it = convenient.NewConvenient(ctx.v3Db, false, configs.Config{})
 
 	tables := []interface{}{
 		&user.User{},

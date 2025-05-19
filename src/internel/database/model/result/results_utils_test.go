@@ -1,6 +1,7 @@
 package result
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -413,4 +414,8 @@ func TestTimeParser(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestTimeParserS2F(t *testing.T) {
+	fmt.Println(TimeParserS2F("6.30"))
 }

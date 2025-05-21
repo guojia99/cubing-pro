@@ -312,8 +312,8 @@ func runParserToDb(db *gorm.DB) {
 }
 
 func main() {
-	v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
-	//v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	//v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN: v3Db,
 	}), &gorm.Config{Logger: logger.Discard})

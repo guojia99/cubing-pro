@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"sort"
 	"strings"
@@ -131,8 +132,8 @@ func ParserToDbData(curNewCompId uint, userMap map[string]user.User, events map[
 				AvgQualify:        0,
 				HasResultsQualify: false,
 				Schedule: []competition.Schedule{
-					newSchedule(true, 1, "333bf", 3, startTime),
-					newSchedule(true, 2, "333bf", 3, startTime),
+					newSchedule(true, 1, "333bf", 1, startTime),
+					newSchedule(true, 2, "333bf", 2, startTime),
 					newSchedule(true, 3, "333bf", 3, startTime),
 				},
 				Done: true,
@@ -311,8 +312,8 @@ func runParserToDb(db *gorm.DB) {
 }
 
 func main() {
-	//v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
-	v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	//v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN: v3Db,
 	}), &gorm.Config{Logger: logger.Discard})
@@ -321,12 +322,29 @@ func main() {
 	}
 
 	// 删除大龄魔友盲第一场比赛
-	deleteID := 160
-	db.Delete(&competition.Competition{}, "id = ?", deleteID)
-	db.Delete(&competition.Registration{}, "comp_id = ?", deleteID)
-	db.Delete(&result.Results{}, "comp_id = ?", deleteID)
+	//deleteID := 160
+	//db.Delete(&competition.Competition{}, "id = ?", deleteID)
+	//db.Delete(&competition.Registration{}, "comp_id = ?", deleteID)
+	//db.Delete(&result.Results{}, "comp_id = ?", deleteID)
+
+	// 删除之前的大龄比赛
+	notDeleteName := "大龄盲拧周赛20250519第二十期"
+
+	var findDelete []competition.Competition
+	db.Unscoped().Where("name LIKE ?", "大龄盲拧周赛%").Find(&findDelete)
+
+	for _, comp := range findDelete {
+		if comp.Name == notDeleteName {
+			continue
+		}
+		fmt.Println("delete -> ", comp.Name)
+		// 生产
+		//if comp.ID == 181{
+		//	continue
+		//}
+		db.Unscoped().Delete(&comp, "id = ?", comp.ID)
+	}
 
 	// 录入前面的成绩
 	runParserToDb(db)
-
 }

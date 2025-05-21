@@ -312,8 +312,8 @@ func runParserToDb(db *gorm.DB) {
 }
 
 func main() {
-	//v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
-	v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	v3Db := "root@tcp(127.0.0.1:33306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
+	//v3Db := "root:linwanting321_mysql_ttx1$%@tcp(127.0.0.1:3306)/cubing_pro?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN: v3Db,
 	}), &gorm.Config{Logger: logger.Discard})
@@ -333,16 +333,32 @@ func main() {
 	var findDelete []competition.Competition
 	db.Unscoped().Where("name LIKE ?", "大龄盲拧周赛%").Find(&findDelete)
 
+	var findRegsiter []competition.Registration
+	db.Unscoped().Where("comp_name LIKE ?", "大龄盲拧周赛%").Find(&findRegsiter)
+
+	var results []result.Results
+	db.Unscoped().Where("comp_name LIKE ?", "大龄盲拧周赛%").Find(&results)
+
 	for _, comp := range findDelete {
 		if comp.Name == notDeleteName {
 			continue
 		}
 		fmt.Println("delete -> ", comp.Name)
-		// 生产
-		//if comp.ID == 181{
-		//	continue
-		//}
 		db.Unscoped().Delete(&comp, "id = ?", comp.ID)
+	}
+
+	for _, reg := range findRegsiter {
+		if reg.CompName == notDeleteName {
+			continue
+		}
+		db.Unscoped().Delete(&reg, "id = ?", reg.ID)
+	}
+
+	for _, res := range results {
+		if res.CompetitionName == notDeleteName {
+			continue
+		}
+		db.Unscoped().Delete(&res, "id = ?", res.ID)
 	}
 
 	// 录入前面的成绩

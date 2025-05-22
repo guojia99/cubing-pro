@@ -56,11 +56,12 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 			org_mid.CheckCompMiddleware(svc),
 		)
 		{
-			compId.GET("", organizers2.Comp(svc))             // 比赛详情
-			compId.POST("/apply", organizers2.ApplyComp(svc)) // 申请比赛
-			compId.DELETE("", organizers2.DeleteComp(svc))    // 删除比赛
-			compId.POST("", organizers2.UpdateComp(svc))      // 更新比赛
-			compId.POST("/end", organizers2.EndComp(svc))     // 结束比赛
+			compId.GET("", organizers2.Comp(svc))                        // 比赛详情
+			compId.POST("/apply", organizers2.ApplyComp(svc))            // 申请比赛
+			compId.POST("/update_name", organizers2.UpdateCompName(svc)) // 更新比赛名称
+			compId.DELETE("", organizers2.DeleteComp(svc))               // 删除比赛
+			compId.POST("", organizers2.UpdateComp(svc))                 // 更新比赛
+			compId.POST("/end", organizers2.EndComp(svc))                // 结束比赛
 
 			compId.GET("/all_players", users.Users(svc, 0))                               // 临时API， 用于获取所有的选手
 			compId.GET("/players", organizers2.CompPlayers(svc))                          // 比赛选手列表 包含需审核

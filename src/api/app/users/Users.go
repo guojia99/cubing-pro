@@ -7,6 +7,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -110,11 +112,15 @@ func UpdateUserName(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		curUser.Name = req.NewName
+		curUser.LastUpdateNameTime = utils.PtrNow()
 		if err := svc.DB.Save(&curUser).Error; err != nil {
 			exception.ErrDatabase.ResponseWithError(ctx, err)
 			return
 		}
-		
+
+		svc.DB.Model(&result.Results{}).Where("cube_id = ?", curUser.CubeID).Update("person_name", curUser.Name)
+		svc.DB.Model(&competition.Registration{}).Where("user_id = ?", curUser.ID).Update("user_name", curUser.Name)
+
 		exception.ResponseOK(ctx, nil)
 	}
 }

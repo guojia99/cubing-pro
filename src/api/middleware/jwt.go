@@ -35,8 +35,8 @@ func InitJWT(svc *svc.Svc) *Jwt {
 				&jwt.GinJWTMiddleware{
 					Realm:           "cubing-pro",
 					Key:             []byte("cubing-pro"),
-					Timeout:         time.Hour * 3 * 24,
-					MaxRefresh:      time.Hour * 3 * 24,
+					Timeout:         time.Hour * 14 * 24,
+					MaxRefresh:      time.Hour * 14 * 24,
 					IdentityKey:     IdentityKey,
 					SendCookie:      true,
 					PayloadFunc:     payloadFunc(svc),

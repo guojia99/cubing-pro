@@ -77,12 +77,12 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]PersonBe
 	errCh := make(chan error, len(WcaIDs))
 	var wg sync.WaitGroup
 
-	semaphore := make(chan struct{}, 8)
+	semaphore := make(chan struct{}, 1)
 
 	for _, wcaId := range WcaIDs {
 		wg.Add(1)
 		go func(id string) {
-			time.Sleep(time.Second * 2)
+			time.Sleep(time.Second * 1)
 			log.Printf("[apiGetAllResult] %+v\n", id)
 			semaphore <- struct{}{}
 			defer func() {

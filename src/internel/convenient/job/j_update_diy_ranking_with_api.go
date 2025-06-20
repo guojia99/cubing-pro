@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"sort"
 	"sync"
+	"time"
 
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 
@@ -78,15 +79,19 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]PersonBe
 	for _, wcaId := range WcaIDs {
 		wg.Add(1)
 		go func(id string) {
+			time.Sleep(time.Second * 2)
+			fmt.Printf("[apiGetAllResult] %+v\n", id)
 			semaphore <- struct{}{}
-			defer wg.Done()
+			defer func() {
+				wg.Done()
+				<-semaphore
+			}()
 			res, err := u.apiGetWCAResults(id)
 			if err != nil {
 				errCh <- err
 				return
 			}
 			resultsCh <- res
-			<-semaphore
 		}(wcaId)
 	}
 	wg.Wait()

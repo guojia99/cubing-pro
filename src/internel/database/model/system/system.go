@@ -3,6 +3,7 @@ package system
 import (
 	"encoding/json"
 	"sync"
+	"time"
 
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"gorm.io/gorm"
@@ -48,5 +49,13 @@ func SetKeyJSONValue(db *gorm.DB, key string, value interface{}, description str
 	}
 
 	kv.Value = string(data)
+
+	// 避免0值
+	now := time.Now()
+	if kv.CreatedAt.IsZero() {
+		kv.CreatedAt = now
+	}
+	kv.UpdatedAt = now
+
 	return db.Save(&kv).Error
 }

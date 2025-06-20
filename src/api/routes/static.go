@@ -19,10 +19,10 @@ func StaticRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	{
 		diyStatic.GET("/diy_rankings/:key", statistics.DiyRankings(svc)) // 自定义版单
 
-		diyStatic.GET("/diy_rankings", statistics.GetDiyRankingMaps(svc))                                                     // 获取所有列表
-		diyStatic.POST("/diy_rankings", middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.AddDiyRankingMap(svc)) // 添加版单
+		diyStatic.GET("/diy_rankings", statistics.GetDiyRankingMaps(svc))                                                                                        // 获取所有列表
+		diyStatic.POST("/diy_rankings", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.AddDiyRankingMap(svc)) // 添加版单
 
-		diyStatic.GET("/diy_rankings/:key/persons", middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.GetDiyRankingMapPersons(svc))
-		diyStatic.POST("/diy_rankings/:key/persons", middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.UpdateDiyRankingMapPersons(svc)) // 添加版单人
+		diyStatic.GET("/diy_rankings/:key/persons", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.GetDiyRankingMapPersons(svc))
+		diyStatic.POST("/diy_rankings/:key", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.UpdateDiyRankingMapPersons(svc)) // 添加版单人、修改需要全部数据，相当于全量更新
 	}
 }

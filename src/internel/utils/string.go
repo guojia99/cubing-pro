@@ -56,6 +56,7 @@ func RemoveEmptyLines(input string) string {
 	return strings.Join(nonEmptyLines, "\n")
 }
 
+// RemoveDuplicates 去重
 func RemoveDuplicates(input []string) []string {
 	seen := make(map[string]bool)
 	var result []string

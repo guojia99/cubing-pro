@@ -114,17 +114,14 @@ func (u *UpdateDiyRankings) updateCubingPro() error {
 func (u *UpdateDiyRankings) updateCubingProKey() {
 	var keys []string
 	_ = system.GetKeyJSONValue(u.DB, DiyRankingsKey, &keys)
-
-	if utils.ContainsString(DiyRankingsKey, keys...) {
-		return
-	}
 	keys = append(keys, DiyCubingProKey)
-	_ = system.SetKeyJSONValue(u.DB, DiyRankingsKey, keys, "网站成员榜单")
+	keys = utils.RemoveDuplicates(keys)
+
+	_ = system.SetKeyJSONValue(u.DB, DiyRankingsKey, keys, "自定义WCAID榜单列表")
 }
 
 func (u *UpdateDiyRankings) Run() error {
 	u.one.Do(u.updateCubingProKey)
-
 	_ = u.updateCubingPro()
 	return u.updateWCAResult()
 }

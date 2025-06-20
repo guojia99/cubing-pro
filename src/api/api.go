@@ -52,6 +52,7 @@ func NewAPI(svc *svc.Svc) *API {
 	routes.AdminRouters(group, svc)
 	routes.CompWithOrgRouters(group, svc)
 	routes.CompWithUserRouters(group, svc)
+	routes.UserRouters(group, svc)
 	routes.PostRouters(group, svc)
 	routes.PublicRouters(group, svc)
 	routes.StaticRouters(group, svc)

@@ -73,7 +73,11 @@ func UpdateDiyRankingMapPersons(svc *svc.Svc) gin.HandlerFunc {
 		defer diyRankingLock.Unlock()
 
 		var req UpdateDiyRankingMapPersonsReq
-		if err := ctx.ShouldBindJSON(&req); err != nil {
+		if err := ctx.ShouldBindUri(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+			return
+		}
+		if err := ctx.Bind(&req); err != nil {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
@@ -82,7 +86,11 @@ func UpdateDiyRankingMapPersons(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResultBeUse.ResponseWithError(ctx, fmt.Errorf("分组不存在"))
 			return
 		}
-		_ = system.SetKeyJSONValue(svc.DB, req.Key, req.Persons, req.Description)
+		err := system.SetKeyJSONValue(svc.DB, req.Key, req.Persons, req.Description)
+		if err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
 		exception.ResponseOK(ctx, nil)
 	}
 }

@@ -2,8 +2,10 @@ package job
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -26,6 +28,7 @@ type WCAResults struct {
 }
 
 func (u *UpdateDiyRankings) apiGetWCAResults(wcaID string) (*PersonBestResults, error) {
+	wcaID = strings.ToUpper(wcaID)
 	var resp []WCAResults
 	if err := utils2.HTTPRequestWithJSON(http.MethodGet, fmt.Sprintf(wcaUrlFormat, wcaID), nil, nil, nil, &resp); err != nil {
 		return nil, err
@@ -80,7 +83,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]PersonBe
 		wg.Add(1)
 		go func(id string) {
 			time.Sleep(time.Second * 2)
-			fmt.Printf("[apiGetAllResult] %+v\n", id)
+			log.Printf("[apiGetAllResult] %+v\n", id)
 			semaphore <- struct{}{}
 			defer func() {
 				wg.Done()
@@ -89,6 +92,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]PersonBe
 			res, err := u.apiGetWCAResults(id)
 			if err != nil {
 				errCh <- err
+				log.Printf("[apiGetAllResult] get wca %s error %+v\n", id, err)
 				return
 			}
 			resultsCh <- res

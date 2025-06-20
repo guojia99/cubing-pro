@@ -82,17 +82,20 @@ func (u *UpdateDiyRankings) updateWCAResult() error {
 	if err := system.GetKeyJSONValue(u.DB, DiyRankingsKey, &keys); err != nil {
 		return err
 	}
+	fmt.Println(keys)
 	for _, key := range keys {
+		fmt.Printf("[UpdateDiyRankings] 开始更新 %+v\n", key)
 		var wcaKeys []string
 		if err := system.GetKeyJSONValue(u.DB, key, &wcaKeys); err != nil {
+			fmt.Printf("[UpdateDiyRankings] error %+v\n", err)
 			continue
 		}
 
 		dataKey := path.Join(DiyRankingsKey, key, "data")
 		// 更换为WCA的逻辑代码
 		data := u.apiGetSortResult(wcaKeys)
-		_ = system.SetKeyJSONValue(u.DB, dataKey, data, "")
-		fmt.Printf("[UpdateDiyRankings] 更新数据 %s\n", key)
+		err := system.SetKeyJSONValue(u.DB, dataKey, data, "")
+		fmt.Printf("[UpdateDiyRankings] 更新数据 %s -> %+v\n", key, err)
 	}
 	return nil
 }

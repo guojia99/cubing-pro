@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"sort"
 	"strings"
-	"sync"
 	"time"
 
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
@@ -73,39 +72,21 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]PersonBe
 
 	WcaIDs = utils2.RemoveRepeatedElement(WcaIDs)
 
-	resultsCh := make(chan *PersonBestResults, len(WcaIDs))
-	errCh := make(chan error, len(WcaIDs))
-	var wg sync.WaitGroup
-
-	semaphore := make(chan struct{}, 1)
+	var resultsCh []*PersonBestResults
 
 	for _, wcaId := range WcaIDs {
-		wg.Add(1)
-		go func(id string) {
-			time.Sleep(time.Second * 1)
-			log.Printf("[apiGetAllResult] %+v\n", id)
-			semaphore <- struct{}{}
-			defer func() {
-				wg.Done()
-				<-semaphore
-			}()
-			res, err := u.apiGetWCAResults(id)
-			if err != nil {
-				errCh <- err
-				log.Printf("[apiGetAllResult] get wca %s error %+v\n", id, err)
-				return
-			}
-			resultsCh <- res
-		}(wcaId)
+		log.Printf("[apiGetAllResult] %+v\n", wcaId)
+		res, err := u.apiGetWCAResults(wcaId)
+		if err != nil {
+			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
+			continue
+		}
+		resultsCh = append(resultsCh, res)
+		time.Sleep(time.Second)
 	}
-	wg.Wait()
-	close(resultsCh)
-	close(errCh)
 
-	for res := range resultsCh {
+	for _, res := range resultsCh {
 		out[res.PersonName] = *res
-	}
-	for _ = range errCh {
 	}
 	return out
 }

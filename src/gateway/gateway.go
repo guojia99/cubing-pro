@@ -2,6 +2,7 @@ package gateway
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -34,12 +35,14 @@ func (g *Gateway) Run() error {
 	g.api.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedPaths([]string{"/v3/cube-api"})))
 	g.api.NoRoute(g.baseRoute())
 	//g.api.Static("/", g.cfg.Gateway.StaticPath)
-	g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
 
-	go g.api.Run(fmt.Sprintf(":%d", g.cfg.Gateway.HttpPort)) // 开启80
-
-	return g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
-		g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey) // 开启443
+	if g.cfg.Gateway.HTTPSPort > 0 {
+		g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
+		_ = g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
+			g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey) // 开启443
+		log.Println("http server listening on :", g.cfg.Gateway.HTTPSPort)
+	}
+	return g.api.Run(fmt.Sprintf(":%d", g.cfg.Gateway.HttpPort)) // 开启80
 }
 
 func (g *Gateway) baseRoute() gin.HandlerFunc {

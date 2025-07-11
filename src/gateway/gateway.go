@@ -35,8 +35,11 @@ func (g *Gateway) Run() error {
 	g.api.NoRoute(g.baseRoute())
 	//g.api.Static("/", g.cfg.Gateway.StaticPath)
 	g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
+
+	go g.api.Run(fmt.Sprintf(":%d", g.cfg.Gateway.HttpPort)) // 开启80
+
 	return g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
-		g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey)
+		g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey) // 开启443
 }
 
 func (g *Gateway) baseRoute() gin.HandlerFunc {

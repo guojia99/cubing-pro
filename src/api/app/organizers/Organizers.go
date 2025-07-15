@@ -103,3 +103,22 @@ func AllOrganizers(svc *svc.Svc) gin.HandlerFunc {
 		)
 	}
 }
+
+func PublicOrganizers(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var list []user2.Organizers
+		app_utils.GenerallyList(
+			ctx, svc.DB, list, app_utils.ListSearchParam{
+				Model:      &user2.Organizers{},
+				MaxSize:    100,
+				HasDeleted: false,
+				Select: []string{
+					"name", "id", "introduction", "status",
+				},
+				Omit: []string{
+					"leader_remark", "admin_msg", "ass_org_users", "leaderId",
+				},
+			},
+		)
+	}
+}

@@ -203,9 +203,9 @@ func (c *RecordUpdateJob) Run() error {
 	for _, group := range groups {
 		rs := c.getRecords(fmt.Sprintf("group_id = %d", group.ID), group.ID, result.RecordTypeWithGroup)
 		for _, record := range rs {
-			if _, ok := baseRecordsMap[record.Key()]; ok {
-				continue
-			}
+			//if _, ok := baseRecordsMap[record.Key()]; ok {
+			//	continue
+			//}
 			records = append(records, record)
 		}
 	}

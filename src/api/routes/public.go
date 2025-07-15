@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/comp"
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
 	"github.com/guojia99/cubing-pro/src/api/app/statistics"
@@ -23,6 +24,7 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		public.GET("/events", result.Events(svc))                                                 // 项目列表 TODO 加缓存
 		public.GET("/notify", notify.GetNotifyList(svc))                                          // 通知列表
 		public.GET("/forum", posts.GetForums(svc))                                                // 板块列表
+		public.GET("/orgs", organizers.PublicOrganizers(svc))
 	}
 
 	player := public.Group("/player") //middleware.CacheMiddleware(time.Minute),

@@ -5,6 +5,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
@@ -30,6 +31,8 @@ type ResultI interface {
 	SelectUserResultDetail(cubeId string, year *int) UserResultDetail                                      // 获取用户详细成绩信息
 	SelectCompsResult(id uint) map[EventID]map[int][]result.Results                                        // 比赛成绩 map[项目] map[轮次] 成绩列表
 	SelectPlayerEndYears(id uint, year int) (PlayerEndYears, error)                                        // 某一年的年终总结
+
+	SelectAllPlayerBestResultWithGroup(groupId uint) (best PlayerBestResult, all []PlayerBestResult) // 获取一个群组的比赛
 }
 
 type ResultIter struct {
@@ -523,4 +526,38 @@ func (c *ResultIter) SelectPlayerEndYears(id uint, year int) (PlayerEndYears, er
 	c.SelectUserResultDetail(playerBest.CubeId, &year)
 
 	return out, nil
+}
+
+func (c *ResultIter) SelectAllPlayerBestResultWithGroup(groupId uint) (best PlayerBestResult, all []PlayerBestResult) {
+	key := "SelectAllPlayerBestResultWithGroup_" + fmt.Sprint(groupId)
+
+	if value, ok := c.Cache.Get(key); ok {
+		data := value.([2]interface{})
+		return data[0].(PlayerBestResult), data[1].([]PlayerBestResult)
+	}
+
+	// 查分组、比赛列表和成绩列表
+	var group competition.CompetitionGroup
+	if c.DB.Where("id = ?", group).First(&group).Error != nil {
+		return
+	}
+	var comps []competition.Competition
+	if c.DB.Where("group_id = ?", groupId).Find(&comps).Error != nil {
+		return
+	}
+	var compIds []uint
+	for _, comp := range comps {
+		compIds = append(compIds, comp.ID)
+	}
+	var results []result.Results
+	if c.DB.Where("comp_id IN ?", compIds).Where("ban = ?", false).Find(&results).Error != nil {
+		return
+	}
+
+	var players []user.User
+	c.DB.Find(&players)
+
+	best, all = c.AllPlayerBestResult(results, players)
+	c.Cache.Set(key, [2]interface{}{best, all}, time.Minute*30)
+	return
 }

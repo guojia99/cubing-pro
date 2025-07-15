@@ -1,8 +1,6 @@
 package statistics
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
@@ -28,7 +26,6 @@ func Records(svc *svc.Svc) gin.HandlerFunc {
 		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
-		fmt.Println(req)
 
 		var records []result.Record
 		db := svc.DB.Model(&result.Record{}).Order("id DESC")

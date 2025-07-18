@@ -1,6 +1,7 @@
 package users
 
 import (
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -121,6 +122,34 @@ func UpdateUserName(svc *svc.Svc) gin.HandlerFunc {
 		svc.DB.Model(&result.Results{}).Where("cube_id = ?", curUser.CubeID).Update("person_name", curUser.Name)
 		svc.DB.Model(&competition.Registration{}).Where("user_id = ?", curUser.ID).Update("user_name", curUser.Name)
 
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+type UpdateUserWCAIDReq struct {
+	CubeID string `json:"cube_id"`
+	WcaID  string `json:"wca_id"`
+}
+
+func UpdateUserWCAID(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req UpdateUserWCAIDReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+
+		var curUser user.User
+
+		if err := svc.DB.Where("cube_id = ?", req.CubeID).First(&curUser).Error; err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		curUser.WcaID = strings.ToUpper(req.WcaID)
+		if err := svc.DB.Save(&curUser).Error; err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
 		exception.ResponseOK(ctx, nil)
 	}
 }

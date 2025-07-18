@@ -92,6 +92,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		user.POST("/", users.AdminUsers(svc))
 		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
 		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码
+		user.PUT("/update_wca_id", users.UpdateUserWCAID(svc))            // 更新用户WCAID
 	}
 
 	// 主办团队

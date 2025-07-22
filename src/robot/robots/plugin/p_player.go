@@ -49,7 +49,7 @@ func (c *PlayerPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 	out := "===== " + usr.Name + " =====\n"
 	out += fmt.Sprintf("CubeID: %s\n", usr.CubeID)
-	out += fmt.Sprintf("主页: https://cubing.pro/x/player/%s\n", usr.CubeID)
+	//out += fmt.Sprintf("主页: https://cubing.pro/x/player/%s\n", usr.CubeID)
 	out += "\n========================\n"
 
 	best := c.Svc.Cov.SelectBestResultsWithEventSortWithPlayer(usr.CubeID)

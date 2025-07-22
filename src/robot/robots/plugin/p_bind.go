@@ -39,7 +39,7 @@ func (b *BindPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 func (b *BindPlugin) getUser(message types.InMessage) (*types.OutMessage, error) {
 	usr, err := getUser(b.Svc, message)
 	if err == nil && usr.ID != 0 {
-		return message.NewOutMessagef("你的绑定用户为: %s\nCubeID: %s\n主页:https://mycube.club/x/player/%s", usr.Name, usr.CubeID, usr.CubeID), nil
+		return message.NewOutMessagef("你的绑定用户为: %s\nCubeID: %s\n主页:https://cubing.pro/x/player/%s", usr.Name, usr.CubeID, usr.CubeID), nil
 	}
 	return message.NewOutMessage("你还未绑定任何用户"), nil
 }

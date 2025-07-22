@@ -273,7 +273,7 @@ func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, 
 	if len(schedule.Scrambles) == 0 {
 		out := "无打乱\n"
 		//out += fmt.Sprintf("打乱网址: https://cubing.pro/x/competition/%d?comps_tabs=scrambles&scrambles_key=s_333\n", comp.ID)
-		return message.NewOutMessage("无打乱"), nil
+		return message.NewOutMessage(out), nil
 	}
 
 	var out = fmt.Sprintf("%s - %s - %s 打乱:\n", comp.Name, ev.Cn, schedule.Round)

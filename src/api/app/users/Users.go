@@ -153,3 +153,55 @@ func UpdateUserWCAID(svc *svc.Svc) gin.HandlerFunc {
 		exception.ResponseOK(ctx, nil)
 	}
 }
+
+type MergeUserReq struct {
+	BaseUserCubeId   string `json:"base_user_cube_id"`
+	MergedUserCubeId string `json:"merged_user_cube_id"`
+}
+
+func MergeUser(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req MergeUserReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+
+		if err := svc.Cov.MergeUser(req.BaseUserCubeId, req.MergedUserCubeId); err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+type UpdateAuthReq struct {
+	Set    bool      `json:"set"`
+	CubeId string    `json:"cube_id"`
+	Auth   user.Auth `json:"auth"`
+}
+
+func UpdateAuth(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req UpdateAuthReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+
+		var curUser user.User
+		if err := svc.DB.Where("cube_id = ?", req.CubeId).First(&curUser).Error; err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		if req.Set {
+			curUser.SetAuth(req.Auth)
+		} else {
+			curUser.UnSetAuth(req.Auth)
+		}
+		if err := svc.DB.Save(&curUser).Error; err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		exception.ResponseOK(ctx, nil)
+	}
+}

@@ -59,6 +59,10 @@ func (c *ResultIter) AllPlayerBestResult(results []result.Results, players []use
 		if res.DBest() || res.Best == 0 {
 			continue
 		}
+		if _, ok := cacheResult[res.UserID]; !ok {
+			continue
+		}
+
 		if single, ok := cacheResult[res.UserID].Single[res.EventID]; !ok || res.IsBest(single) {
 			cacheResult[res.UserID].Single[res.EventID] = res
 		}

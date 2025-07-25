@@ -79,7 +79,7 @@ func (t *TWca) Do(message types.InMessage) (*types.OutMessage, error) {
 	if pes.Total >= 2 {
 		out := fmt.Sprintf("查询到%d位选手, 请输入WcaID查询: \n", pes.Total)
 		for _, row := range pes.Rows {
-			out += fmt.Sprintf("%s %s", row.WcaId, row.Name)
+			out += fmt.Sprintf("%s %s\n", row.WcaId, row.Name)
 		}
 		return message.NewOutMessage(out), nil
 	}

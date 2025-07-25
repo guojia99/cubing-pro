@@ -32,7 +32,7 @@ func SecondTimeFormat(seconds float64, mbf bool) string {
 	return fmt.Sprintf("%d:%02d:%02d%s", hours, minutes, secondsInt, mmSecondsStr)
 }
 
-func get333MBFResult(in int) (solved, attempted int, seconds int, formattedTime string) {
+func Get333MBFResult(in int) (solved, attempted int, seconds int, formattedTime string) {
 	// https://www.worldcubeassociation.org/export/results
 	//difference    = 99 - DD
 	//timeInSeconds = TTTTT (99999 means unknown)
@@ -70,7 +70,7 @@ func ResultsTimeFormat(in int, event string) string {
 		}
 		return fmt.Sprintf("%d", in)
 	case "333mbf":
-		solved, attempted, _, formattedTime := get333MBFResult(in)
+		solved, attempted, _, formattedTime := Get333MBFResult(in)
 		return fmt.Sprintf("%d/%d %s", solved, attempted, formattedTime)
 	}
 	return SecondTimeFormat(float64(in)/100.0, false)
@@ -90,8 +90,8 @@ func IsBestResult(event string, a1, a2 int) bool {
 
 	switch event {
 	case "333mbf":
-		a1Solved, a1Attempted, a1Seconds, _ := get333MBFResult(a1)
-		a2Solved, a2Attempted, a2Seconds, _ := get333MBFResult(a2)
+		a1Solved, a1Attempted, a1Seconds, _ := Get333MBFResult(a1)
+		a2Solved, a2Attempted, a2Seconds, _ := Get333MBFResult(a2)
 
 		// 先比分数
 		a1Res := a1Solved - (a1Attempted - a1Solved)

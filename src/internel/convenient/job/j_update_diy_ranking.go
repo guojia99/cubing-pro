@@ -15,8 +15,6 @@ const (
 	DiyRankingsKey  = "diy_rankings"
 	DiyCubingProKey = "diy_rankings_cubing_pro"
 	urlFormat       = "https://www.worldcubeassociation.org/persons/%s" // 2017XUYO01
-
-	wcaUrlFormat = "https://www.worldcubeassociation.org/api/v0/persons/%s/results" // 2017XUYO01
 )
 
 type (
@@ -43,21 +41,6 @@ type (
 		Name  string `gorm:"column:name"`
 	}
 
-	Results struct {
-		EventId    string `json:"eventId"`
-		Best       int    `json:"best"`
-		BestStr    string `json:"bestStr"`
-		Average    int    `json:"average"`
-		AverageStr string `json:"averageStr"`
-		PersonName string `json:"personName"`
-		PersonId   string `json:"personId"`
-	}
-
-	PersonBestResults struct {
-		PersonName string             `json:"PersonName"`
-		Best       map[string]Results `json:"Best"`
-		Avg        map[string]Results `json:"Avg"`
-	}
 	WcaResult struct {
 		BestRank        int    `json:"BestRank"`
 		BestStr         string `json:"BestStr"`

@@ -5,26 +5,6 @@ import (
 	"testing"
 )
 
-func TestUpdateDiyRankings_apiGetWCAResults(t *testing.T) {
-	t.Run("test", func(t *testing.T) {
-		u := &UpdateDiyRankings{}
-		got, err := u.apiGetWCAResults("2017XUYO01")
-
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		for _, val := range got.Best {
-			fmt.Printf("best -> %s %+v\n", val.EventId, val.BestStr)
-		}
-
-		for _, val := range got.Avg {
-			fmt.Printf("avg -> %s %+v\n", val.EventId, val.AverageStr)
-		}
-	})
-
-}
-
 func TestUpdateDiyRankings_apiGetAllResult(t *testing.T) {
 	u := &UpdateDiyRankings{}
 

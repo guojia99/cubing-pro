@@ -5,6 +5,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
 	"github.com/guojia99/cubing-pro/src/robot/robots/tools"
 	"github.com/guojia99/cubing-pro/src/robot/types"
+	"github.com/patrickmn/go-cache"
 )
 
 func NewPlugins(svc *svc.Svc) []types.Plugin {
@@ -21,5 +22,7 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		&tools.TRandom{},
 		&tools.TAlgDB{Svc: svc},
 		&tools.TScramble{Svc: svc},
+
+		&tools.TWca{Cache: cache.New(cache.DefaultExpiration, cache.NoExpiration)},
 	}
 }

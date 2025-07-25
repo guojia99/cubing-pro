@@ -3,6 +3,7 @@ package tools
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/guojia99/cubing-pro/src/internel/algdb"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -13,6 +14,8 @@ type TAlgDB struct {
 	Svc    *svc.Svc
 	dbs    []algdb.AlgDB
 	dbsMap map[string]algdb.AlgDB
+
+	one sync.Once
 }
 
 func (t *TAlgDB) init() {
@@ -33,7 +36,7 @@ func (t *TAlgDB) init() {
 }
 
 func (t *TAlgDB) ID() []string {
-	t.init()
+	t.one.Do(t.init)
 	return []string{"alg", "公式"}
 }
 

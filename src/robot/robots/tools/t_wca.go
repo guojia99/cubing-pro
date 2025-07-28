@@ -22,6 +22,7 @@ func (t *TWca) ID() []string {
 
 	var out []string
 	for _, w := range wcaL {
+		out = append(out, w)
 		for _, p := range pk {
 			out = append(out, fmt.Sprintf("%s%s", w, p))
 		}

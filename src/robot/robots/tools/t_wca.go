@@ -5,14 +5,17 @@ import (
 	"log"
 	"strings"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/patrickmn/go-cache"
+	"gorm.io/gorm"
 )
 
 type TWca struct {
+	DB    *gorm.DB
 	Cache *cache.Cache
 }
 
@@ -97,7 +100,7 @@ func (t *TWca) Do(message types.InMessage) (*types.OutMessage, error) {
 	}
 }
 
-func (t *TWca) getPersonResult(msg string) (*wca.PersonBestResults, string, error) {
+func (t *TWca) getPersonResult(msg string) (*models.PersonBestResults, string, error) {
 	pes, err := wca.ApiSearchPersons(msg)
 	if err != nil {
 		log.Printf("wca api search persons err: %v", err)
@@ -115,7 +118,7 @@ func (t *TWca) getPersonResult(msg string) (*wca.PersonBestResults, string, erro
 	}
 	personWCAID := pes.Rows[0].WcaId
 
-	result, err := wca.ApiGetWCAResults(personWCAID)
+	result, err := wca.GetWcaResultWithDbAndAPI(t.DB, personWCAID)
 	if err != nil {
 		return nil, "", fmt.Errorf("选手%s成绩查询错误", personWCAID)
 	}
@@ -157,7 +160,7 @@ const (
 	starP2     = "★"
 )
 
-func (t *TWca) pk(p1 *wca.Results, p2 *wca.Results, best bool) (p1Count, p2Count int, msg string) {
+func (t *TWca) pk(p1 *models.Results, p2 *models.Results, best bool) (p1Count, p2Count int, msg string) {
 	if p1 == nil && p2 == nil {
 		return 0, 0, ""
 	}
@@ -248,8 +251,8 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutM
 	out += fmt.Sprintf("%s PK %s\n", person1Result.PersonName, person2Result.PersonName)
 
 	for _, ev := range wcaEventsList {
-		var p1BestResult *wca.Results
-		var p2BestResult *wca.Results
+		var p1BestResult *models.Results
+		var p2BestResult *models.Results
 		if v, ok := person1Result.Best[ev]; ok {
 			p1BestResult = &v
 		}
@@ -266,8 +269,8 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutM
 		person1Count += p1
 		person2Count += p2
 
-		var p1AvgResult *wca.Results
-		var p2AvgResult *wca.Results
+		var p1AvgResult *models.Results
+		var p2AvgResult *models.Results
 		if v, ok := person1Result.Avg[ev]; ok {
 			p1AvgResult = &v
 		}

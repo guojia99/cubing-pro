@@ -11,8 +11,8 @@ import (
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
-	"github.com/guojia99/cubing-pro/src/internel/wca"
 )
 
 var eventsList = []string{
@@ -153,21 +153,21 @@ func (u *UpdateDiyRankings) crawlerParserTimeToSeconds(t string) float64 {
 	return -1
 }
 
-func (u *UpdateDiyRankings) crawlerGetAllPersonBestResultsMap(allP []*PersonResult) map[string]wca.PersonBestResults {
-	var out = make(map[string]wca.PersonBestResults)
+func (u *UpdateDiyRankings) crawlerGetAllPersonBestResultsMap(allP []*PersonResult) map[string]models.PersonBestResults {
+	var out = make(map[string]models.PersonBestResults)
 
 	for _, p := range allP {
-		pbr := wca.PersonBestResults{
+		pbr := models.PersonBestResults{
 			PersonName: p.Name,
-			Best:       make(map[string]wca.Results),
-			Avg:        make(map[string]wca.Results),
+			Best:       make(map[string]models.Results),
+			Avg:        make(map[string]models.Results),
 		}
 
 		for _, val := range p.Events {
 			if !slices.Contains(eventsList, val.Event) {
 				continue
 			}
-			pbr.Best[val.Event] = wca.Results{
+			pbr.Best[val.Event] = models.Results{
 				EventId: val.Event,
 				//Best:       u.crawlerParserTimeToSeconds(val.Single),
 				BestStr:    val.Single,
@@ -175,7 +175,7 @@ func (u *UpdateDiyRankings) crawlerGetAllPersonBestResultsMap(allP []*PersonResu
 				PersonId:   p.WCA,
 			}
 			if val.Average != "" {
-				pbr.Avg[val.Event] = wca.Results{
+				pbr.Avg[val.Event] = models.Results{
 					EventId: val.Event,
 					//Average:    u.crawlerParserTimeToSeconds(val.Average),
 					AverageStr: val.Average,
@@ -189,7 +189,7 @@ func (u *UpdateDiyRankings) crawlerGetAllPersonBestResultsMap(allP []*PersonResu
 	return out
 }
 
-func (u *UpdateDiyRankings) crawlerGetAllResult(WcaIDs []string) map[string]wca.PersonBestResults {
+func (u *UpdateDiyRankings) crawlerGetAllResult(WcaIDs []string) map[string]models.PersonBestResults {
 	var allP []*PersonResult
 	WcaIDs = utils.RemoveRepeatedElement(WcaIDs)
 	resultsCh := make(chan *PersonResult, len(WcaIDs))
@@ -230,8 +230,8 @@ func (u *UpdateDiyRankings) crawlerGetSorAllResults(wcaIDs []string) map[string]
 	data := u.crawlerGetAllResult(wcaIDs)
 
 	for _, eid := range eventsList {
-		var bests []wca.Results
-		var avgs []wca.Results
+		var bests []models.Results
+		var avgs []models.Results
 
 		for _, r := range data {
 			if b, ok := r.Best[eid]; ok {

@@ -2,7 +2,7 @@ package wca
 
 import (
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
-	"github.com/guojia99/cubing-pro/src/internel/wca"
+	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	jsoniter "github.com/json-iterator/go"
 	"gorm.io/gorm"
 )
@@ -10,8 +10,8 @@ import (
 type WCAResult struct {
 	basemodel.Model
 
-	WcaID                   string                `gorm:"column:wca_id"`
-	PersonBestResults       wca.PersonBestResults `gorm:"-"`
+	WcaID                   string                   `gorm:"column:wca_id"`
+	PersonBestResults       models.PersonBestResults `gorm:"-"`
 	PersonBestResultsString string
 }
 

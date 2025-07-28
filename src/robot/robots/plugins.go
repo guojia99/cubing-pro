@@ -23,6 +23,6 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		&tools.TAlgDB{Svc: svc},
 		&tools.TScramble{Svc: svc},
 
-		&tools.TWca{Cache: cache.New(cache.DefaultExpiration, cache.NoExpiration)},
+		&tools.TWca{Cache: cache.New(cache.DefaultExpiration, cache.NoExpiration), DB: svc.DB},
 	}
 }

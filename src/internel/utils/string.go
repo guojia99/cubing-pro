@@ -90,7 +90,7 @@ func Split(s, sep string) []string {
 		if len(strings.TrimSpace(ss)) == 0 {
 			continue
 		}
-		out = append(out, ss)
+		out = append(out, strings.TrimSpace(ss))
 	}
 	return out
 }

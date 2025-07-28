@@ -33,7 +33,7 @@ func (t *TWca) ID() []string {
 
 func (t *TWca) Help() string {
 	out := `1. 输入 WCA {WcaID} 可查询选手成绩
-2. 输入 WCA-PK {WCAID-1} {WCAID-2} 可对比成绩
+2. 输入 WCA-PK {WCAID-1} {WCAID-2} 可对比成绩, 如果有复杂名字可: WCA-PK Max Park VS Feliks Zemdegs
 `
 	return out
 }
@@ -218,13 +218,18 @@ func (t *TWca) pk(p1 *wca.Results, p2 *wca.Results, best bool) (p1Count, p2Count
 func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutMessage, error) {
 	msg := types.RemoveID(message.Message, t.ID())
 	slices := utils2.Split(msg, " ")
-
-	if len(slices) != 2 {
+	var person1, person2 string
+	if len(slices) == 2 {
+		person1 = slices[0]
+		person2 = slices[1]
+	} else if strings.Contains(msg, "/") || strings.Contains(msg, "\\") || strings.Contains(msg, "VS") {
+		msg = utils2.ReplaceAll(msg, "VS", "/", "\\")
+		slices = utils2.Split(msg, "VS")
+		person1 = slices[0]
+		person2 = slices[1]
+	} else {
 		return message.NewOutMessage(t.Help()), nil
 	}
-
-	person1 := slices[0]
-	person2 := slices[1]
 
 	person1Result, _, err := t.getPersonResult(person1)
 	if err != nil {

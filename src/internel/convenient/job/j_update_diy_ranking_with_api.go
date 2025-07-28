@@ -8,8 +8,39 @@ import (
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca"
 
+	wca2 "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 )
+
+func (u *UpdateDiyRankings) getWcaResultWithDbAndAPI(wcaId string) (*wca.PersonBestResults, error) {
+	// 从db中查询
+	var dbResult wca2.WCAResult
+	if err := u.DB.Where("wca_id = ?", wcaId).First(&dbResult).Error; err == nil {
+		if time.Since(dbResult.UpdatedAt) <= time.Hour*6 {
+			return &dbResult.PersonBestResults, nil
+		}
+	}
+
+	// api真实查询
+	time.Sleep(time.Second)
+	res, err := wca.ApiGetWCAResults(wcaId)
+	if err != nil {
+		return nil, err
+	}
+
+	// 缓存到数据库
+	if dbResult.ID != 0 {
+		dbResult.PersonBestResults = *res
+		_ = u.DB.Save(&dbResult)
+		return res, nil
+	}
+	dbResult = wca2.WCAResult{
+		WcaID:             wcaId,
+		PersonBestResults: *res,
+	}
+	_ = u.DB.Create(&dbResult)
+	return res, nil
+}
 
 func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca.PersonBestResults {
 	var out = make(map[string]wca.PersonBestResults)
@@ -19,14 +50,17 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca.Pers
 	var resultsCh []*wca.PersonBestResults
 
 	for _, wcaId := range WcaIDs {
+		if len(wcaId) != 10 {
+			continue
+		}
 		log.Printf("[apiGetAllResult] %+v\n", wcaId)
-		res, err := wca.ApiGetWCAResults(wcaId)
+		res, err := u.getWcaResultWithDbAndAPI(wcaId)
 		if err != nil {
 			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
 			continue
 		}
+
 		resultsCh = append(resultsCh, res)
-		time.Sleep(time.Second)
 	}
 
 	for _, res := range resultsCh {

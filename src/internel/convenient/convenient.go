@@ -16,6 +16,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/sports"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
@@ -67,6 +68,10 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 	// 系统
 	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表
 	_ = db.AutoMigrate(&system.Image{})    // 系统图片表
+
+	// wca
+	_ = db.AutoMigrate(&wca.WCAResult{}) // wca 信息缓存表
+
 	cache := cache2.New(time.Minute*5, time.Minute*5)
 
 	out := &convenient{

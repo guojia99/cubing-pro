@@ -2,6 +2,7 @@ package root
 
 import (
 	"github.com/donnie4w/go-logger/logger"
+	"github.com/guojia99/cubing-pro/cmd/addGroup"
 	"github.com/guojia99/cubing-pro/cmd/admin"
 	"github.com/guojia99/cubing-pro/cmd/gateway"
 	"github.com/guojia99/cubing-pro/cmd/initer"
@@ -40,6 +41,7 @@ func NewRootCmd() *cobra.Command {
 		admin.NewCmd(&s),
 		initer.NewCmd(&s),
 		gateway.NewCmd(&s),
+		addGroup.NewCmd(&s),
 	)
 	return cmd
 }

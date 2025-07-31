@@ -1,4 +1,4 @@
-package addGroup
+package group
 
 import (
 	"errors"
@@ -20,7 +20,7 @@ type reqFlag struct {
 	QQGroupUid string `json:"qq_group_uid"`
 }
 
-func NewCmd(svc **svc2.Svc) *cobra.Command {
+func AddGroupNewCmd(svc **svc2.Svc) *cobra.Command {
 	var req reqFlag
 	cmd := &cobra.Command{
 		Use:   "add-group",

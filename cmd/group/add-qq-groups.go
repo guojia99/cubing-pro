@@ -28,6 +28,7 @@ func UpdateQQGroups(svc **svc2.Svc) *cobra.Command {
 	flags.IntVar(&req.GroupID, "group_id", 0, "group_id")
 	flags.StringVar(&req.QQGroups, "qq_groups", "", "qq_groups")
 	flags.StringVar(&req.QQGroupUid, "qq_group_uid", "", "qq_group_uid")
+	flags.StringVar(&req.AddAssOrganizerUsers, "add_ass_organizer_users", "", "add_ass_organizer_users")
 	return cmd
 }
 

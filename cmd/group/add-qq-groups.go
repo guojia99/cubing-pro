@@ -2,6 +2,7 @@ package group
 
 import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	svc2 "github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/spf13/cobra"
 )
@@ -9,8 +10,9 @@ import (
 type reqAddQQGroupsFlag struct {
 	GroupID int `json:"group_id"`
 
-	QQGroups   string `json:"qq_groups"`
-	QQGroupUid string `json:"qq_group_uid"`
+	QQGroups             string `json:"qq_groups"`
+	QQGroupUid           string `json:"qq_group_uid"`
+	AddAssOrganizerUsers string `json:"add_ass_organizer_users"`
 }
 
 func UpdateQQGroups(svc **svc2.Svc) *cobra.Command {
@@ -41,5 +43,14 @@ func runAddQQGroup(svc *svc2.Svc, req reqAddQQGroupsFlag) error {
 	if req.QQGroupUid != "" {
 		cg.QQGroupUid = req.QQGroupUid
 	}
+	if req.AddAssOrganizerUsers != "" {
+		var og user.Organizers
+		if err := svc.DB.Where("id = ?", cg.OrganizersID).Error; err != nil {
+			return err
+		}
+		og.SetUsersCubingID([]string{req.AddAssOrganizerUsers})
+		svc.DB.Save(&og)
+	}
+
 	return svc.DB.Save(&cg).Error
 }

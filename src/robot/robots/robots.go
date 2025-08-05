@@ -10,6 +10,7 @@ import (
 
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/guojia99/cubing-pro/src/robot/robots/pktimer"
 	"github.com/guojia99/cubing-pro/src/robot/robots/plugin"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
@@ -40,7 +41,7 @@ func withRandCopy(msg types.InMessage, pluginMap map[string]types.Plugin) (*type
 	return nil, nil
 }
 
-func RunRobot(ctx context.Context, r types.Robot, plugins []types.Plugin) {
+func RunRobot(ctx context.Context, r types.Robot, plugins []types.Plugin, pkTimerClient *pktimer.PkTimer) {
 	var inCh = make(chan types.InMessage, 128)
 
 	pluginMap := plugin.PluginsMap(plugins)
@@ -73,6 +74,10 @@ func RunRobot(ctx context.Context, r types.Robot, plugins []types.Plugin) {
 				case <-ctx.Done():
 					return
 				case msg := <-inCh:
+					inPkTimer := pkTimerClient.WithInPkTimer(msg)
+					if inPkTimer {
+						return
+					}
 					for _, fn := range withFns {
 						out, err := fn(msg, pluginMap)
 						if err != nil {

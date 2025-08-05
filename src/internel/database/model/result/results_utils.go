@@ -92,7 +92,7 @@ func (c *Results) updateBestAndAvg() error {
 	}
 
 	// 3. 计时项目
-	best, avg := getBestAndAvg(cache, c.EventRoute.RouteMap())
+	best, avg := GetBestAndAvg(cache, c.EventRoute.RouteMap())
 	c.Best = best
 	c.Average = avg
 	return nil
@@ -151,7 +151,7 @@ func sortRepeatedly(in []repeatedly) []repeatedly {
 	return in
 }
 
-func getBestAndAvg(results []float64, routeMap event.RouteMap) (best, avg float64) {
+func GetBestAndAvg(results []float64, routeMap event.RouteMap) (best, avg float64) {
 	best, avg = DNF, DNF
 
 	// DNF
@@ -326,6 +326,7 @@ func SortResult(in []Results) {
 
 func TimeParserS2F(t string) float64 {
 	t = strings.ReplaceAll(t, " ", "")
+	t = strings.ReplaceAll(t, "：", ":")
 
 	if t == "DNS" || strings.Contains(strings.ToLower(t), "s") {
 		return DNS
@@ -357,7 +358,7 @@ func TimeParserS2F(t string) float64 {
 		return hours*3600 + minutes*60 + seconds
 	}
 
-	return DNF
+	return UNT
 }
 
 func TimeParserF2S(in float64) string {
@@ -371,6 +372,10 @@ func TimeParserF2S(in float64) string {
 		return "DNP"
 	case DNT:
 		return "DNT"
+	case UNT:
+		return "UNT"
+	default:
+
 	}
 
 	// 判断是否超过2小时

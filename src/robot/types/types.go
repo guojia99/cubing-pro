@@ -28,6 +28,8 @@ type InMessage struct {
 	MsgID   string      `json:"MsgID"`   // 消息ID
 }
 
+func (i InMessage) GroupIDStr() string { return i.GroupID.(string) }
+
 func (i InMessage) NewOutMessage(message ...string) *OutMessage {
 	var msg []string
 	for _, m := range message {

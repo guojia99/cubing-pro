@@ -298,12 +298,12 @@ func Test_getBestAndAvg(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(
 			tt.name, func(t *testing.T) {
-				gotBest, gotAvg := getBestAndAvg(tt.results, tt.routeMap)
+				gotBest, gotAvg := GetBestAndAvg(tt.results, tt.routeMap)
 				if gotBest != tt.wantBest {
-					t.Errorf("getBestAndAvg() gotBest = %v, want %v", gotBest, tt.wantBest)
+					t.Errorf("GetBestAndAvg() gotBest = %v, want %v", gotBest, tt.wantBest)
 				}
 				if gotAvg != tt.wantAvg {
-					t.Errorf("getBestAndAvg() gotAvg = %v, want %v", gotAvg, tt.wantAvg)
+					t.Errorf("GetBestAndAvg() gotAvg = %v, want %v", gotAvg, tt.wantAvg)
 				}
 			},
 		)

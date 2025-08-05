@@ -14,6 +14,7 @@ const (
 	DNS                 // 未开始
 	DNP                 // 未晋级
 	DNT                 // 超时
+	UNT                 // 未知
 )
 
 type Penalty [][]float64

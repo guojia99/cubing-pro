@@ -11,6 +11,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/sports"
@@ -71,6 +72,8 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 
 	// wca
 	_ = db.AutoMigrate(&wca.WCAResult{}) // wca 信息缓存表
+
+	_ = db.AutoMigrate(&pktimer.PkTimerResult{}) // pk表
 
 	cache := cache2.New(time.Minute*5, time.Minute*5)
 

@@ -1,7 +1,5 @@
 github.com/2mf8/Better-Bot-Go v0.0.9-0.20250425125817-a049cae4a166 h1:eS00nTo22covL9Oe2bjN/As/4a9CqwbmNEzbFGs07jE=
 github.com/2mf8/Better-Bot-Go v0.0.9-0.20250425125817-a049cae4a166/go.mod h1:8ANZ42GDdTVsAaY+xZUE3lU0AunOtR8YGWsb2fZ1lrs=
-github.com/2mf8/Bot-Client-Go v0.0.0-20250106143344-76c70c98253a h1:/N9bpOot34g6SByFdVvZrPPasPRNHm/Ip4sKn2T6QZo=
-github.com/2mf8/Bot-Client-Go v0.0.0-20250106143344-76c70c98253a/go.mod h1:5mQMePntKqZPkTzhu1j9qItoBsea5M0w4wszlGRuSo4=
 github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
 github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
 github.com/PuerkitoBio/goquery v1.10.0 h1:6fiXdLuUvYs2OJSvNRqlNPoBm6YABE226xrbavY5Wv4=

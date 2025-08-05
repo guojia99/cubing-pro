@@ -3,6 +3,7 @@ package tools
 import (
 	"fmt"
 	"os"
+	"path"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -91,9 +92,9 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 			return message.NewOutMessage(out[0]), nil
 		}
 
-		filePath := fmt.Sprintf("/%s/_scramble_%d.jpg", os.TempDir(), time.Now().UnixNano())
+		filePath := path.Join(os.TempDir(), fmt.Sprintf("%d.jpg", time.Now().UnixNano()))
 		_ = os.WriteFile(filePath, []byte(img), 0644)
-		return message.NewOutMessageWithImage(filePath), nil
+		return message.NewOutMessageWithImage(out[0], filePath), nil
 	}
 
 	msg := ""

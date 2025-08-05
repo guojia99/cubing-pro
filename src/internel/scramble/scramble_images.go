@@ -243,5 +243,9 @@ func (s *scramble) SImageWith2mf8(str string, ev string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	if out.StatusCode != 200 {
+		return "", fmt.Errorf("bad status code %d", out.StatusCode)
+	}
 	return string(out.Body), err
 }

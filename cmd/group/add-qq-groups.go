@@ -46,7 +46,7 @@ func runAddQQGroup(svc *svc2.Svc, req reqAddQQGroupsFlag) error {
 	}
 	if req.AddAssOrganizerUsers != "" {
 		var og user.Organizers
-		if err := svc.DB.Where("id = ?", cg.OrganizersID).Error; err != nil {
+		if err := svc.DB.Where("id = ?", req.GroupID).First(&og).Error; err != nil {
 			return err
 		}
 		og.SetUsersCubingID([]string{req.AddAssOrganizerUsers})

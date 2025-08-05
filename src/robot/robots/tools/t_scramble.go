@@ -2,7 +2,6 @@ package tools
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -24,12 +23,13 @@ func (t *TScramble) ID() []string {
 		if !ev.IsComp {
 			continue
 		}
-		out = append(out, ev.ID)
+		out = append(out, ev.ID, ev.Name)
+		data := utils.Split(ev.OtherNames, ";")
+		out = append(out, data...)
 	}
 
 	out = append(out, "打乱调试")
-
-	return out
+	return utils.RemoveDuplicates(out)
 }
 
 func (t *TScramble) Help() string {
@@ -51,22 +51,35 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 		return message.NewOutMessage(t.Svc.Scramble.Test()), nil
 	}
 
-	var ev event.Event
-	if err := t.Svc.DB.Where("id = ?", m).First(&ev).Error; err != nil {
-		return message.NewOutMessage("打乱不存在\n" + t.helps()), err
+	var evs []event.Event
+	var curEv event.Event
+
+	t.Svc.DB.Where("is_comp = ?", true).Find(&evs)
+
+	// 检查
+	for _, e := range evs {
+		if e.ID == m || e.Name == m {
+			curEv = e
+			continue DONE
+		}
+
+		sl := utils.Split(e.OtherNames, ";")
+		for _, v := range sl {
+			if v == m {
+				curEv = e
+				continue DONE
+			}
+		}
+	}
+DONE:
+	if curEv.ID == "" {
+		return message.NewOutMessage("打乱指令不存在"), nil
 	}
 
-	ts := time.Now()
-	out := t.Svc.Scramble.Scramble(ev.ID, 1)
+	out := t.Svc.Scramble.Scramble(curEv.ID, 1)
 	if len(out) == 0 {
 		return message.NewOutMessagef("获取打乱错误, 长度0\n"), nil
 	}
-	use := time.Since(ts)
-	msg := ""
-	for idx, o := range out {
-		msg += fmt.Sprintf("%d. %s\n", idx+1, o)
-	}
-	msg += fmt.Sprintf("-------------\n耗时：%s\n", use)
 
-	return message.NewOutMessage(msg), nil
+	return message.NewOutMessage(out[0]), nil
 }

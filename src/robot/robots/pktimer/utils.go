@@ -57,7 +57,7 @@ func (p *PkTimer) getIniterMessage(results *pktimerDB.PkTimerResult) string {
 	out := fmt.Sprintf("%s开启了新一轮的群PK(把数: %d, 项目: %s)\n输入: “加入”参与本次群PK\n当前参与玩家:\n", results.StartPerson, results.PkResults.Count, results.PkResults.Event.Cn)
 
 	for idx, player := range results.PkResults.Players {
-		out += fmt.Sprintf("%d. %s", idx+1, player.UserName)
+		out += fmt.Sprintf("%d. %s\n", idx+1, player.UserName)
 	}
 	return out
 }

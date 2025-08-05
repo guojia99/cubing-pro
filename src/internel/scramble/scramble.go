@@ -1,6 +1,7 @@
 package scramble
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -8,17 +9,25 @@ import (
 
 type Scramble interface {
 	ScrambleWithComp(event event.Event) ([]string, error)
+	ScrambleWithEvent(event event.Event, number int) ([]string, error)
 	Scramble(ev string, num int) []string
 	Test() string
+	Image(scramble string, ev string) (string, error)
 }
 
-func NewScramble(scrambleType string, tNoodleEndpoint string) Scramble {
+func NewScramble(scrambleType string, tNoodleEndpoint string, scrambleDrawType string, scrambleUrl string) Scramble {
 	if scrambleType == "" {
 		scrambleType = scrambleTypeTNoodle
 	}
+	if scrambleDrawType == "" {
+		scrambleDrawType = scrambleTypeDrawType2Mf8
+	}
+
 	s := &scramble{
-		scrambleType:    scrambleType,
-		tNoodleEndpoint: tNoodleEndpoint,
+		scrambleType:     scrambleType,
+		tNoodleEndpoint:  tNoodleEndpoint,
+		scrambleDrawType: scrambleDrawType,
+		scrambleUrl:      scrambleUrl,
 	}
 	if s.scrambleType == scrambleTypeRustTwisty {
 		//go s.loopRustScrambleCache()
@@ -30,6 +39,9 @@ func NewScramble(scrambleType string, tNoodleEndpoint string) Scramble {
 type scramble struct {
 	scrambleType    string
 	tNoodleEndpoint string
+
+	scrambleDrawType string // 2mf8
+	scrambleUrl      string
 }
 
 func (s *scramble) Test() string {
@@ -48,9 +60,35 @@ const (
 )
 
 const (
-	scrambleTypeRustTwisty = "rust_twisty" // 狼的打乱
-	scrambleTypeTNoodle    = "tnoodle"
+	scrambleTypeRustTwisty   = "rust_twisty" // 狼的打乱
+	scrambleTypeTNoodle      = "tnoodle"
+	scrambleTypeDrawType2Mf8 = "2mf8"
 )
+
+func (s *scramble) ScrambleWithEvent(event event.Event, number int) ([]string, error) {
+	if event.IsWCA {
+		return s.Scramble(event.ID, number), nil
+	}
+
+	switch event.AutoScrambleKey {
+	case "FTO":
+		return s.autoScramble(FTOScrambleKey, 25, 30, number), nil
+	}
+
+	var evs []string
+	if event.ScrambleValue != "" {
+		evs = strings.Split(event.ScrambleValue, ",")
+	}
+
+	var out []string
+	for i := 0; i < event.BaseRouteType.RouteMap().Rounds; i++ {
+		for _, ev := range evs {
+			data := s.Scramble(ev, 1)
+			out = append(out, data...)
+		}
+	}
+	return out, nil
+}
 
 func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 	if event.IsWCA {
@@ -85,7 +123,7 @@ func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 			out = append(out, data...)
 		}
 	}
-	
+
 	return out, nil
 }
 
@@ -107,4 +145,13 @@ func (s *scramble) Scramble(ev string, num int) []string {
 	}
 
 	return data
+}
+
+func (s *scramble) Image(scramble string, ev string) (string, error) {
+	switch s.scrambleDrawType {
+	case scrambleTypeDrawType2Mf8:
+		return s.SImageWith2mf8(scramble, ev)
+	default:
+		return "", fmt.Errorf("scramble draw type %s not supported", s.scrambleDrawType)
+	}
 }

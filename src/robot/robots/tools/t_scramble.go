@@ -2,6 +2,8 @@ package tools
 
 import (
 	"fmt"
+	"os"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
@@ -75,12 +77,23 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 		return message.NewOutMessage("打乱指令不存在"), nil
 	}
 
-	out := t.Svc.Scramble.Scramble(curEv.ID, 1)
+	out, err := t.Svc.Scramble.ScrambleWithEvent(curEv, 1)
+	if err != nil {
+		return message.NewOutMessage(err.Error()), nil
+	}
 	if len(out) == 0 {
 		return message.NewOutMessagef("获取打乱错误, 长度0\n"), nil
 	}
+
 	if len(out) == 1 {
-		return message.NewOutMessage(out[0]), nil
+		img, err := t.Svc.Scramble.Image(out[0], curEv.ID)
+		if err != nil {
+			return message.NewOutMessage(out[0]), nil
+		}
+
+		filePath := fmt.Sprintf("/%s/_scramble_%d.jpg", os.TempDir(), time.Now().UnixNano())
+		_ = os.WriteFile(filePath, []byte(img), 0644)
+		return message.NewOutMessageWithImage(filePath), nil
 	}
 
 	msg := ""

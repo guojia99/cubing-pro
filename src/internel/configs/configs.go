@@ -21,6 +21,9 @@ type GlobalConfig struct {
 type Scramble struct {
 	Type     string `yaml:"type"` // lang, tnoodle
 	EndPoint string `yaml:"endpoint"`
+
+	ScrambleDrawType string `yaml:"scrambleDrawType"` // 2mf8
+	ScrambleUrl      string `yaml:"scramble"`
 }
 
 //type AlgPath struct {

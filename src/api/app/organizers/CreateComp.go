@@ -91,7 +91,7 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 				}
 				comps.CompJSON.Events[i].Schedule[j].Scrambles = make([][]string, 0)
 				for k := 0; k < ev.Schedule[j].ScrambleNums; k++ {
-					sc, err := svc.Scramble.ScrambleWithComp(eve)
+					sc, err := svc.Scramble.ScrambleWithComp(eve, -1)
 					if err != nil {
 						break
 					}

@@ -310,6 +310,18 @@ func (p *PkTimer) addResult(msg types.InMessage) error {
 		}
 	}
 	p.Svc.DB.Save(&pkTimerResult)
+
+	// 判断是否本轮所有玩家已经录入完成
+	var hasResult int
+	for _, pl := range pkTimerResult.PkResults.Players {
+		if len(pl.Results) == pkTimerResult.PkResults.CurCount {
+			hasResult += 1
+		}
+	}
+	if hasResult == len(pkTimerResult.PkResults.Players) {
+		return p.next(msg)
+	}
+
 	return nil
 }
 

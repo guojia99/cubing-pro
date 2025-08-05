@@ -79,7 +79,7 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 		return err
 	}
 
-	m := utils2.ReplaceAll(msg.Message, key, "")
+	m := utils2.ReplaceAll(msg.Message, "", key)
 	slice := utils2.Split(m, " ")
 	var count int
 	var ev string
@@ -249,7 +249,7 @@ func (p *PkTimer) endPKTimerMessage(res *pktimerDB.PkTimerResult) string {
 	})
 
 	for idx, pl := range res.PkResults.Players {
-		out += fmt.Sprintf(`%d. %s 成绩 (%s / %s)\n`, idx+1, pl.UserName, result.TimeParserF2S(pl.Best), result.TimeParserF2S(pl.Average))
+		out += fmt.Sprintf("%d. %s 成绩 (%s / %s)\n", idx+1, pl.UserName, result.TimeParserF2S(pl.Best), result.TimeParserF2S(pl.Average))
 	}
 	return out
 }

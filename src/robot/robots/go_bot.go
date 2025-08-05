@@ -20,6 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/robot/types"
+	"github.com/patrickmn/go-cache"
 )
 
 type QQBot struct {
@@ -30,12 +31,15 @@ type QQBot struct {
 	ch  chan<- types.InMessage
 
 	serverGin *gin.Engine
+
+	ReqCache *cache.Cache
 }
 
 func NewQQBot(cfg *configs.QQBotConfig, ctx context.Context) *QQBot {
 	return &QQBot{
-		cfg: cfg,
-		ctx: ctx,
+		cfg:      cfg,
+		ctx:      ctx,
+		ReqCache: cache.New(100*time.Minute, 100*time.Minute),
 	}
 }
 
@@ -141,11 +145,19 @@ func (q *QQBot) messageAtEventHandler(appid string, event *dto.WSPayload, data *
 }
 
 func (q *QQBot) SendMessage(out types.OutMessage) error {
+	var msgReq uint = 0
+	req, ok := q.ReqCache.Get(out.MsgID)
+	if ok {
+		msgReq = req.(uint)
+	}
+	msgReq += 1
+	q.ReqCache.Set(out.MsgID, msgReq, time.Minute*100)
+
 	//TODO implement me
 	newMsg := &dto.GroupMessageToCreate{
 		Content: "\n" + strings.Join(out.Message, ""),
 		MsgID:   out.MsgID,
-		MsgReq:  4,
+		MsgReq:  msgReq,
 		MsgType: dto.C2CMsgTypeText,
 	}
 

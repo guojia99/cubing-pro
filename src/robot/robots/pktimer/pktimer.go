@@ -1,10 +1,11 @@
 package pktimer
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )
 
@@ -32,7 +33,8 @@ func (p *PkTimer) WithInPkTimer(msg types.InMessage) bool {
 }
 
 func (p *PkTimer) sendMsgWithOutPkTimer(msg types.InMessage) (bool, error) {
-	if utils2.ReplaceAll(msg.Message, "", " ") == key {
+	if strings.Contains(msg.Message, key) {
+		fmt.Println("-------------- in pktimer ")
 		return true, p.initPkTimer(msg)
 	}
 	if !p.checkInPkTimer(msg) {

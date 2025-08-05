@@ -9,15 +9,25 @@ import (
 	"strings"
 	"time"
 
-	bot "github.com/2mf8/Better-Bot-Go"
-	"github.com/2mf8/Better-Bot-Go/dto"
-	"github.com/2mf8/Better-Bot-Go/openapi"
-	v1 "github.com/2mf8/Better-Bot-Go/openapi/v1"
-	"github.com/2mf8/Better-Bot-Go/token"
-	"github.com/2mf8/Better-Bot-Go/webhook"
-	"github.com/2mf8/Bot-Client-Go/safe_ws"
+	//bot "github.com/2mf8/Better-Bot-Go"
+	//"github.com/2mf8/Better-Bot-Go/dto"
+	//"github.com/2mf8/Better-Bot-Go/openapi"
+	//v1 "github.com/2mf8/Better-Bot-Go/openapi/v1"
+	//"github.com/2mf8/Better-Bot-Go/token"
+	//"github.com/2mf8/Better-Bot-Go/webhook"
+	//"github.com/2mf8/Bot-Client-Go/safe_ws"
+
+	bot "github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/dto"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/openapi"
+	v1 "github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/openapi/v1"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/token"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/webhook"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Bot-Client-Go/safe_ws"
+
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
+
 	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/patrickmn/go-cache"
@@ -158,6 +168,7 @@ func (q *QQBot) SendMessage(out types.OutMessage) error {
 		Content: "\n" + strings.Join(out.Message, ""),
 		MsgID:   out.MsgID,
 		MsgReq:  msgReq,
+		MsgSeq:  msgReq,
 		MsgType: dto.C2CMsgTypeText,
 	}
 

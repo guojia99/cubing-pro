@@ -60,18 +60,17 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 	for _, e := range evs {
 		if e.ID == m || e.Name == m {
 			curEv = e
-			continue DONE
+			break
 		}
 
 		sl := utils.Split(e.OtherNames, ";")
 		for _, v := range sl {
 			if v == m {
 				curEv = e
-				continue DONE
 			}
 		}
 	}
-DONE:
+
 	if curEv.ID == "" {
 		return message.NewOutMessage("打乱指令不存在"), nil
 	}

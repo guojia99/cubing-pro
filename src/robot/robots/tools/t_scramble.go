@@ -79,6 +79,13 @@ func (t *TScramble) Do(message types.InMessage) (*types.OutMessage, error) {
 	if len(out) == 0 {
 		return message.NewOutMessagef("获取打乱错误, 长度0\n"), nil
 	}
+	if len(out) == 1 {
+		return message.NewOutMessage(out[0]), nil
+	}
 
-	return message.NewOutMessage(out[0]), nil
+	msg := ""
+	for idx, o := range out {
+		msg += fmt.Sprintf("%d. %s\n", idx+1, o)
+	}
+	return message.NewOutMessage(msg), nil
 }

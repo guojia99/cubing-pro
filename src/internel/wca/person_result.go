@@ -60,7 +60,7 @@ func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*models.PersonBestResu
 	// 从db中查询
 	var dbResult wca2.WCAResult
 	if err := db.Where("wca_id = ?", wcaId).First(&dbResult).Error; err == nil {
-		if time.Since(dbResult.UpdatedAt) <= time.Hour*6 {
+		if time.Since(dbResult.UpdatedAt) <= time.Hour {
 			return &dbResult.PersonBestResults, nil
 		}
 	}

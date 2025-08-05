@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/url"
 	"slices"
-	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
@@ -217,6 +216,7 @@ var csTimerEventMap = map[string]string{
 	"pyram": "pyrm",
 	"skewb": "skb",
 	"sq-1":  "sq1pll",
+	"sq1":   "sq1pll",
 	"666":   "666wca",
 	"777":   "777wca",
 	"333bf": "333",
@@ -234,11 +234,9 @@ func (s *scramble) SImageWith2mf8(str string, ev string) (string, error) {
 		return "", fmt.Errorf("unknown event type %s", ev)
 	}
 
-	str = strings.ReplaceAll(str, "\n", " ")
-	str = strings.ReplaceAll(str, " ", "")
-
+	//str = strings.ReplaceAll(str, "\n", " ")
+	//str = strings.ReplaceAll(str, " ", "")
 	encodedStr := url.PathEscape(str)
-
 	out, err := utils.HTTPRequestFull(http.MethodGet, fmt.Sprintf(imageWith2mf8UrlFormal, ev, encodedStr), nil, nil, nil)
 	if err != nil {
 		return "", err

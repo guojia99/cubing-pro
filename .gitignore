@@ -27,8 +27,6 @@ cubing-pro
 .idea/
 static
 assets
-log
-*.log
 
 ./etc/曹神/
 *曹神*

@@ -40,7 +40,7 @@ func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 		Cache: cache.New(time.Minute*5, time.Minute*5),
 	}
 	if scr {
-		c.Scramble = scramble.NewScramble(cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint)
+		c.Scramble = scramble.NewScramble(cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint, cfg.GlobalConfig.Scramble.ScrambleDrawType, cfg.GlobalConfig.Scramble.ScrambleUrl)
 	}
 
 	if c.DB, err = newDB(cfg.GlobalConfig); err != nil {

@@ -50,7 +50,23 @@ func getIniterMessage(results *pktimerDB.PkTimerResult) string {
 	for idx, player := range results.PkResults.Players {
 		out += fmt.Sprintf("%d. %s\n", idx+1, player.UserName)
 	}
+	out += "----\n"
+	baseEps := 0.05
+	if o, ok := epsMap[results.PkResults.Event.ID]; ok {
+		baseEps = o
+	}
+	out += fmt.Sprintf("本次发货精度为: %2.f%%, 你们快去发货个\n", baseEps*100)
 	return out
+}
+
+var epsMap = map[string]float64{
+	"444":   0.03,
+	"555":   0.03,
+	"minx":  0.03,
+	"666":   0.015,
+	"777":   0.015,
+	"444bf": 0.03,
+	"555bf": 0.03,
 }
 
 func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []string) {
@@ -71,10 +87,18 @@ func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []st
 			}
 			pl.CurResult = curRes.Results[curNum-1]
 		}
+		if pl.CurResult == 0 {
+			continue
+		}
 		players = append(players, pl)
 	}
 
-	mp := groupPlayersBySimilarScore(players)
+	baseEps := 0.05 // 5%
+	if other, ok := epsMap[results.PkResults.Event.ID]; ok {
+		baseEps = other
+	}
+
+	mp := groupPlayersBySimilarScore(players, baseEps)
 	if len(mp) == 0 {
 		return
 	}
@@ -96,9 +120,9 @@ func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []st
 			curOut += fmt.Sprintf("%s以%s,", pl.UserName, result.TimeParserF2S(pl.CurResult))
 		}
 		if len(ca) == 2 {
-			curOut += "发货了！！！\n"
+			curOut += "发货个！！！\n"
 		} else {
-			curOut += "多人发货了！！！\n"
+			curOut += "多人发货个！！！\n"
 		}
 
 		n1, n2 := 0.0, 0.0
@@ -117,11 +141,11 @@ func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []st
 
 		pp := getDiffPercent(n1, n2)
 		if n1 == n2 {
-			curOut += fmt.Sprintf("完美发货！！！")
+			curOut += fmt.Sprintf("完美发货个！！！")
 		} else if pp <= 0.005 {
-			curOut += fmt.Sprintf("精度: %.2f%%精准发货!!!\n", pp*100)
+			curOut += fmt.Sprintf("精度: %.2f%%精准发货个!!!\n", pp*100)
 		} else {
-			curOut += fmt.Sprintf("精度: %.2f%%发货了!!!\n", pp*100)
+			curOut += fmt.Sprintf("精度: %.2f%%发货个!!!\n", pp*100)
 		}
 		curOut += "\n"
 

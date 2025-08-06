@@ -4,7 +4,7 @@ import (
 	"sort"
 )
 
-const eps = 0.015 // 1.5%
+//const eps = 0.015 // 1.5%
 
 type cachePlayer struct {
 	UserName  string
@@ -12,7 +12,7 @@ type cachePlayer struct {
 }
 
 // GroupPlayersBySimilarScore 将成绩在1%范围内的玩家聚合在一起
-func groupPlayersBySimilarScore(players []cachePlayer) map[int][]cachePlayer {
+func groupPlayersBySimilarScore(players []cachePlayer, eps float64) map[int][]cachePlayer {
 	result := make(map[int][]cachePlayer)
 	if len(players) == 0 {
 		return result
@@ -56,6 +56,17 @@ func isWithinOnePercent(a, b, eps float64) bool {
 		return true
 	}
 	return getDiffPercent(a, b) <= eps
+}
+
+func isDiffInEps(a, b, eps float64) bool {
+	if a == b {
+		return true
+	}
+	diff := a - b
+	if diff < 0 {
+		diff = -diff
+	}
+	return diff <= eps
 }
 
 func getDiffPercent(a, b float64) float64 {

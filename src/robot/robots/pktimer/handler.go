@@ -56,11 +56,29 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 		count = 20
 	}
 
+	var events []event.Event
+	p.Svc.DB.Find(&events)
 	var eve event.Event
-	if err = p.Svc.DB.Where("id = ?", ev).Or("name = ?", ev).First(&eve).Error; err != nil {
-		p.sendMessage(msg.NewOutMessagef("未找到项目 %s", ev))
-		return nil
+	for _, e := range events {
+		if !e.IsWCA {
+			continue
+		}
+		if e.ID == ev || e.Name == ev || e.Cn == ev {
+			eve = e
+			break
+		}
+		slices := utils2.Split(e.OtherNames, ";")
+		for _, v := range slices {
+			if v == ev {
+				eve = e
+				break
+			}
+		}
+		if eve.ID != "" {
+			break
+		}
 	}
+
 	if eve.BaseRouteType.RouteMap().Repeatedly || !eve.IsWCA {
 		p.sendMessage(msg.NewOutMessage("不支持的项目"))
 		return nil
@@ -148,12 +166,6 @@ func (p *PkTimer) endPKTimerMessage(res *pktimerDB.PkTimerResult) string {
 	// 计算每个人的成绩
 	// 跳过一把的不会有平均
 	rm := res.PkResults.Event.BaseRouteType.RouteMap()
-	for idx, pl := range res.PkResults.Players {
-		best, avg := result.GetBestAndAvg(pl.Results, rm)
-
-		res.PkResults.Players[idx].Best = best
-		res.PkResults.Players[idx].Average = avg
-	}
 
 	sort.Slice(res.PkResults.Players, func(i, j int) bool {
 		p1 := res.PkResults.Players[i]
@@ -190,6 +202,14 @@ func (p *PkTimer) endPKTimerMessage(res *pktimerDB.PkTimerResult) string {
 func (p *PkTimer) endPkTimer(msg types.InMessage) error {
 	pkTimerResult := p.getMessageDBPkTimer(msg)
 	pkTimerResult.Running = false
+	rm := pkTimerResult.PkResults.Event.BaseRouteType.RouteMap()
+	for idx, pl := range pkTimerResult.PkResults.Players {
+		best, avg := result.GetBestAndAvg(pl.Results, rm)
+
+		pkTimerResult.PkResults.Players[idx].Best = best
+		pkTimerResult.PkResults.Players[idx].Average = avg
+	}
+
 	p.sendMessage(msg.NewOutMessage(p.endPKTimerMessage(pkTimerResult)))
 	p.Svc.DB.Save(&pkTimerResult)
 	_ = p.sendPackerMessage(msg, false)

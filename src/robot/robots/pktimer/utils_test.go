@@ -121,7 +121,44 @@ func Test_getCurPackerMessage(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotOut := getCurPackerMessage(tt.args.results)
+			gotOut := getCurPackerMessage(tt.args.results, "cur")
+			t.Logf("gotOut:%v", gotOut)
+		})
+	}
+}
+
+func Test_getAllPackerMessage(t *testing.T) {
+	type args struct {
+		results *pktimerDB.PkTimerResult
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "avg",
+			args: args{
+				results: &pktimerDB.PkTimerResult{
+					PkResults: pktimerDB.PkResults{
+						Players: []pktimerDB.Player{
+							{
+								UserName: "嘉",
+								Average:  5.85,
+							},
+							{
+								UserName: "乔治",
+								Average:  5.81,
+							},
+						},
+						CurCount: 1,
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotOut := getAllPackerMessage(tt.args.results)
 			t.Logf("gotOut:%v", gotOut)
 		})
 	}

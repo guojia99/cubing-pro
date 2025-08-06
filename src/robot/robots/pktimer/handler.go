@@ -52,7 +52,7 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 
 	if strings.Contains(msg.Message, reload) {
 		var lastRunning pktimerDB.PkTimerResult
-		if err := p.Svc.DB.Order("createdAt DESC").Where("group_id = ?", msg.GroupIDStr()).First(&lastRunning).Error; err != nil {
+		if err := p.Svc.DB.Order("created_at DESC").Where("group_id = ?", msg.GroupIDStr()).First(&lastRunning).Error; err != nil {
 			p.sendMessage(msg.NewOutMessage(fmt.Sprintf("上一次pk不存在, 请创建后再进行")))
 			return nil
 		}

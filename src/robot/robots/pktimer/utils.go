@@ -45,28 +45,16 @@ func (p *PkTimer) getMsgUser(msg types.InMessage) (user.User, error) {
 }
 
 func getIniterMessage(results *pktimerDB.PkTimerResult) string {
-	out := fmt.Sprintf("%s开启了新一轮的群PK(把数: %d, 项目: %s)\n输入: “加入”参与本次群PK\n当前参与玩家:\n", results.StartPerson, results.PkResults.Count, results.PkResults.Event.Cn)
+	out := fmt.Sprintf("%s开启了新一轮的群PK(把数: %d, 项目: %s)\n当前参与玩家:\n", results.StartPerson, results.PkResults.Count, results.PkResults.Event.Cn)
 
 	for idx, player := range results.PkResults.Players {
 		out += fmt.Sprintf("%d. %s\n", idx+1, player.UserName)
 	}
 	out += "----\n"
-	baseEps := 0.05
-	if o, ok := epsMap[results.PkResults.Event.ID]; ok {
-		baseEps = o
-	}
-	out += fmt.Sprintf("本次发货精度为: %2.f%%, 你们快去发货个\n", baseEps*100)
+	out += fmt.Sprintf("本次发货精度为: %2.f%%, 你们快去发货个\n", results.Eps*100)
+	out += "输入: '加入' 参与本次群PK\n"
+	out += "输入: '开始' 启动本次群PK\n"
 	return out
-}
-
-var epsMap = map[string]float64{
-	"444":   0.03,
-	"555":   0.03,
-	"minx":  0.03,
-	"666":   0.015,
-	"777":   0.015,
-	"444bf": 0.03,
-	"555bf": 0.03,
 }
 
 func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []string) {
@@ -93,12 +81,7 @@ func getCurPackerMessage(results *pktimerDB.PkTimerResult, typ string) (out []st
 		players = append(players, pl)
 	}
 
-	baseEps := 0.05 // 5%
-	if other, ok := epsMap[results.PkResults.Event.ID]; ok {
-		baseEps = other
-	}
-
-	mp := groupPlayersBySimilarScore(players, baseEps)
+	mp := groupPlayersBySimilarScore(players, results.Eps)
 	if len(mp) == 0 {
 		return
 	}

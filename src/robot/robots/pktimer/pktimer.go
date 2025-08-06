@@ -22,6 +22,9 @@ const (
 	end   = "结束" // 强制结束pk
 	add   = "加入"
 	next  = "下一把" // 强制
+
+	reload = "再来一轮"
+	update = "修改"
 )
 
 func (p *PkTimer) WithInPkTimer(msg types.InMessage) bool {

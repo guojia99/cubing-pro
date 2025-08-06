@@ -6,6 +6,7 @@ import (
 	"path"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
@@ -18,6 +19,24 @@ import (
 
 func (p *PkTimer) checkInPkTimer(msg types.InMessage) bool {
 	return p.getMessageDBPkTimer(msg) != nil
+
+	// 	pk := p.getMessageDBPkTimer(msg)
+	//	if pk == nil {
+	//		return false
+	//	}
+	//
+	//	// 还没开始就全部不允许
+	//	if !pk.Start {
+	//		return true
+	//	}
+	//
+	//	// 开始了，就看这个人是否在PK
+	//	for _, pl := range pk.PkResults.Players {
+	//		if pl.QQBot == msg.QQBot {
+	//			return true
+	//		}
+	//	}
+	//	return true
 }
 
 func (p *PkTimer) initPkTimer(msg types.InMessage) error {
@@ -30,6 +49,44 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 		pkTimerResult.Running = false
 		p.Svc.DB.Save(&pkTimerResult)
 	}
+
+	if strings.Contains(msg.Message, reload) {
+		var lastRunning pktimerDB.PkTimerResult
+		if err := p.Svc.DB.Order("createdAt DESC").Where("group_id = ?", msg.GroupIDStr()).First(&lastRunning).Error; err != nil {
+			p.sendMessage(msg.NewOutMessage(fmt.Sprintf("上一次pk不存在, 请创建后再进行")))
+			return nil
+		}
+
+		var newPK = pktimerDB.PkTimerResult{
+			GroupID:     lastRunning.GroupID,
+			Running:     true,
+			Start:       false,
+			LastRunning: time.Now(),
+			StartPerson: lastRunning.StartPerson,
+			PkResults: pktimerDB.PkResults{
+				Players:      lastRunning.PkResults.Players,
+				Event:        lastRunning.PkResults.Event,
+				Count:        lastRunning.PkResults.Count,
+				CurCount:     0,
+				FirstMessage: msg,
+			},
+			Eps: lastRunning.Eps,
+		}
+
+		for idx, _ := range newPK.PkResults.Players {
+			newPK.PkResults.Players[idx].Results = make([]float64, 0)
+			newPK.PkResults.Players[idx].Average = result.DNF
+			newPK.PkResults.Players[idx].Best = result.DNF
+		}
+
+		p.Svc.DB.Save(&newPK)
+		p.sendMessage(msg.NewOutMessage(getIniterMessage(&newPK)))
+		return nil
+	}
+	return p.createNewPkTimer(msg)
+}
+
+func (p *PkTimer) createNewPkTimer(msg types.InMessage) error {
 
 	usr, err := p.getMsgUser(msg)
 	if err != nil {
@@ -56,6 +113,7 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 		count = 20
 	}
 
+	// 找项目
 	var events []event.Event
 	p.Svc.DB.Find(&events)
 	var eve event.Event
@@ -78,12 +136,12 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 			break
 		}
 	}
-
 	if eve.BaseRouteType.RouteMap().Repeatedly || !eve.IsWCA {
 		p.sendMessage(msg.NewOutMessage("不支持的项目"))
 		return nil
 	}
 
+	// 初始化玩家
 	player := pktimerDB.Player{
 		QQ:       msg.QQ,
 		QQBot:    msg.QQBot,
@@ -103,10 +161,25 @@ func (p *PkTimer) initPkTimer(msg types.InMessage) error {
 			CurCount:     0,
 			FirstMessage: msg,
 		},
+		Eps: 0.05,
 	}
 	newPKTimerResult.PkResults.Players = append(newPKTimerResult.PkResults.Players, player)
-	p.Svc.DB.Save(&newPKTimerResult)
 
+	// 初始化精度
+	var epsMap = map[string]float64{
+		"444":   0.03,
+		"555":   0.03,
+		"minx":  0.03,
+		"666":   0.015,
+		"777":   0.015,
+		"444bf": 0.03,
+		"555bf": 0.03,
+	}
+	if o, ok := epsMap[ev]; ok {
+		newPKTimerResult.Eps = o
+	}
+
+	p.Svc.DB.Save(&newPKTimerResult)
 	p.sendMessage(msg.NewOutMessage(getIniterMessage(&newPKTimerResult)))
 	return nil
 }
@@ -244,10 +317,19 @@ func (p *PkTimer) sendScrambleMessage(msg types.InMessage) {
 func (p *PkTimer) next(msg types.InMessage) error {
 	pkTimerResult := p.getMessageDBPkTimer(msg)
 
+	// 处理没有成绩的
+	for _, pl := range pkTimerResult.PkResults.Players {
+		if len(pl.Results) != pkTimerResult.PkResults.CurCount {
+			pl.Results = append(pl.Results, result.DNF)
+			p.sendMessage(msg.NewOutMessagef("将进行下一把, %s 本把成绩记录为DNS", pl.UserName))
+		}
+	}
+
 	// 结束了
 	if pkTimerResult.PkResults.Count == pkTimerResult.PkResults.CurCount {
 		return p.endPkTimer(msg)
 	}
+
 	_ = p.sendPackerMessage(msg, true)
 	p.sendScrambleMessage(msg)
 	return nil
@@ -320,13 +402,57 @@ func (p *PkTimer) sendPackerMessage(msg types.InMessage, inCur bool) error {
 	return nil
 }
 
+func (p *PkTimer) updateResult(msg types.InMessage) error {
+	message := utils2.ReplaceAll(msg.Message, "", update)
+	sl := utils2.Split(message, " ")
+
+	if len(sl) != 2 {
+		p.sendMessage(msg.NewOutMessage("修改成绩格式为: `修改 1 1.23`, 代表第一把修改成绩为1.23"))
+		return nil
+	}
+
+	num, _ := strconv.Atoi(sl[0])
+	if num <= 0 {
+		p.sendMessage(msg.NewOutMessage("修改成绩格式为: `修改 1 1.23`, 代表第一把修改成绩为1.23"))
+		return nil
+	}
+
+	usr, err := p.getMsgUser(msg)
+	if err != nil {
+		return err
+	}
+
+	pkTimerResult := p.getMessageDBPkTimer(msg)
+
+	if num > pkTimerResult.PkResults.CurCount {
+		p.sendMessage(msg.NewOutMessage("该轮次还未开始，无法修改"))
+		return nil
+	}
+
+	for idx, pl := range pkTimerResult.PkResults.Players {
+		if pl.UserId == usr.ID {
+			if num > len(pl.Results) {
+				p.sendMessage(msg.NewOutMessage("你还未录入过这一把的成绩"))
+				return nil
+			}
+
+			res := result.TimeParserS2F(sl[1])
+			pkTimerResult.PkResults.Players[idx].Results[num-1] = res
+			p.sendMessage(msg.NewOutMessagef("修改第%d把成绩成功, 成绩为: %s", num, result.TimeParserF2S(pkTimerResult.PkResults.Players[idx].Results[num-1])))
+			break
+		}
+	}
+	p.Svc.DB.Save(&pkTimerResult)
+	return nil
+}
+
 // pktimer指令
 // 1. 开启pktimer模式， 群聊将不再接受pktimer的之外的指令 pktimer 333 12 pktimer {项目} 把数
 // 2. 群员可以加入参与 指令： “加入”
 // 3. 开启者可以发送“开始”
 
 func (p *PkTimer) runMessage(msg types.InMessage) error {
-	switch msg.Message {
+	switch utils2.ReplaceAll(msg.Message, "", " ") {
 	case start:
 		return p.startPkTimer(msg)
 	case end:
@@ -336,6 +462,10 @@ func (p *PkTimer) runMessage(msg types.InMessage) error {
 	case next:
 		return p.next(msg)
 	default:
+		// 判断是否有修改
+		if strings.Contains(msg.Message, update) {
+			return p.updateResult(msg)
+		}
 		return p.addResult(msg)
 	}
 }

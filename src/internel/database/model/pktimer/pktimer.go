@@ -41,6 +41,10 @@ type PkTimerResult struct {
 
 	ResultsJSON string
 	PkResults   PkResults `json:"pkResults" gorm:"-"`
+	Eps         float64   `json:"eps"` // 发货精度
+
+	// 成功结束
+	//SuccessDone bool // 正常结束的
 }
 
 func (c *PkTimerResult) BeforeSave(*gorm.DB) error {

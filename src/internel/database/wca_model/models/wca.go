@@ -13,6 +13,7 @@ type (
 
 	PersonBestResults struct {
 		PersonName string             `json:"PersonName"`
+		WCAID      string             `json:"wcaId"`
 		Best       map[string]Results `json:"Best"`
 		Avg        map[string]Results `json:"Avg"`
 	}

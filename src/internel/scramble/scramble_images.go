@@ -237,7 +237,7 @@ func (s *scramble) SImageWith2mf8(str string, ev string) (string, error) {
 	//str = strings.ReplaceAll(str, "\n", " ")
 	//str = strings.ReplaceAll(str, " ", "")
 	encodedStr := url.PathEscape(str)
-	out, err := utils.HTTPRequestFull(http.MethodGet, fmt.Sprintf(imageWith2mf8UrlFormal, ev, encodedStr), nil, nil, nil)
+	out, err := utils.HTTPRequestFullWithTimeout(http.MethodGet, fmt.Sprintf(imageWith2mf8UrlFormal, ev, encodedStr), nil, nil, nil, 3)
 	if err != nil {
 		return "", err
 	}

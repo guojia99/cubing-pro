@@ -30,6 +30,7 @@ func ApiGetWCAResults(wcaID string) (*models.PersonBestResults, error) {
 
 	for _, v := range resp {
 		out.PersonName = v.Name
+		out.WCAID = v.WcaId
 
 		// 无数据的时候
 		if _, ok := out.Best[v.EventId]; (!ok && v.Best > 0) || (v.Best > 0 && ok && utils.IsBestResult(v.EventId, v.Best, out.Best[v.EventId].Best)) {
@@ -57,6 +58,11 @@ func ApiGetWCAResults(wcaID string) (*models.PersonBestResults, error) {
 }
 
 func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*models.PersonBestResults, error) {
+
+	if db == nil {
+		return ApiGetWCAResults(wcaId)
+	}
+
 	// 从db中查询
 	var dbResult wca2.WCAResult
 	if err := db.Where("wca_id = ?", wcaId).First(&dbResult).Error; err == nil {

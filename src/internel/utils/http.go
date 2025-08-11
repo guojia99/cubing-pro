@@ -104,10 +104,9 @@ type HTTPResponse struct {
 	Response   *http.Response
 }
 
-// HTTPRequestFull 支持任意 method、params、headers 和 body，返回完整响应信息
-func HTTPRequestFull(method, url string, params, headers map[string]interface{}, data interface{}) (*HTTPResponse, error) {
+func HTTPRequestFullWithTimeout(method, url string, params, headers map[string]interface{}, data interface{}, timeout int) (*HTTPResponse, error) {
 	client := &http.Client{}
-	client.Timeout = time.Duration(30) * time.Second
+	client.Timeout = time.Duration(timeout) * time.Second
 
 	// 构造 URL 参数
 	reqURL, err := urlWithParams(url, params)
@@ -152,6 +151,11 @@ func HTTPRequestFull(method, url string, params, headers map[string]interface{},
 		Body:       bodyBytes,
 		Response:   resp,
 	}, nil
+}
+
+// HTTPRequestFull 支持任意 method、params、headers 和 body，返回完整响应信息
+func HTTPRequestFull(method, url string, params, headers map[string]interface{}, data interface{}) (*HTTPResponse, error) {
+	return HTTPRequestFullWithTimeout(method, url, params, headers, data, 30)
 }
 
 // urlWithParams 将 map 参数拼接到 url

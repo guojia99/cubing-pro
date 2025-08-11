@@ -132,3 +132,15 @@ func ParserTimeToSeconds(t string) float64 {
 
 	return -1
 }
+
+func WCAResultIntToSeconds(wcaResult int, event string) float64 {
+	switch event {
+	case "333mbf":
+		return 0
+	case "333fm":
+		return float64(wcaResult)
+	default:
+	}
+
+	return float64(wcaResult) / 100.0
+}

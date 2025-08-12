@@ -20,6 +20,7 @@ import (
 func (p *PkTimer) checkInPkTimer(msg types.InMessage) bool {
 	_, err := p.getMsgUser(msg)
 	if err != nil {
+		p.sendMessage(msg.NewOutMessagef("用户`%d | %s`未绑定，请绑定Cubing Pro后再使用", msg.QQ, msg.QQBot))
 		return false
 	}
 

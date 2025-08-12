@@ -98,12 +98,12 @@ func (p *PkTimer) createNewPkTimer(msg types.InMessage) error {
 	slice := utils2.Split(m, " ")
 	var count int
 	var ev string
-	if len(slice) == 0 || len(slice) >= 3 {
-		p.sendMessage(msg.NewOutMessage("请输入: `pktimer 333 5`来代表pk5次3速"))
+	if len(slice) == 0 || len(slice) >= 4 {
+		p.sendMessage(msg.NewOutMessage("请输入: `pktimer 333 5 1`来代表pk5次3速,精度1%"))
 		return nil
 	}
 	ev = slice[0]
-	if len(slice) == 2 {
+	if len(slice) >= 2 {
 		count, _ = strconv.Atoi(slice[1])
 	}
 	if count <= 0 {
@@ -167,16 +167,21 @@ func (p *PkTimer) createNewPkTimer(msg types.InMessage) error {
 
 	// 初始化精度
 	var epsMap = map[string]float64{
-		"444":   0.03,
-		"555":   0.03,
-		"minx":  0.03,
-		"666":   0.015,
-		"777":   0.015,
+		"444":   0.018,
+		"555":   0.018,
+		"minx":  0.02,
+		"666":   0.01,
+		"777":   0.01,
 		"444bf": 0.03,
 		"555bf": 0.03,
 	}
 	if o, ok := epsMap[ev]; ok {
 		newPKTimerResult.Eps = o
+	}
+	// 补充精度
+	if len(slice) >= 3 {
+		eps, _ := strconv.Atoi(slice[2])
+		newPKTimerResult.Eps = float64(eps) / 100.0
 	}
 
 	p.Svc.DB.Save(&newPKTimerResult)
@@ -275,7 +280,7 @@ func (p *PkTimer) endPKTimerMessage(res *pktimerDB.PkTimerResult) string {
 
 func (p *PkTimer) endPkTimer(msg types.InMessage) error {
 	pkTimerResult := p.getMessageDBPkTimer(msg)
-	pkTimerResult.Running = false
+
 	rm := pkTimerResult.PkResults.Event.BaseRouteType.RouteMap()
 	for idx, pl := range pkTimerResult.PkResults.Players {
 		best, avg := result.GetBestAndAvg(pl.Results, rm)
@@ -283,12 +288,14 @@ func (p *PkTimer) endPkTimer(msg types.InMessage) error {
 		pkTimerResult.PkResults.Players[idx].Best = best
 		pkTimerResult.PkResults.Players[idx].Average = avg
 	}
-
+	// 亡语
 	p.sendMessage(msg.NewOutMessage(p.endPKTimerMessage(pkTimerResult)))
-	err := p.Svc.DB.Save(&pkTimerResult).Error
-	fmt.Println("end pk -> ", err)
-
+	p.Svc.DB.Save(&pkTimerResult)
 	_ = p.sendPackerMessage(msg, false)
+
+	// 真正结束
+	pkTimerResult.Running = false
+	p.Svc.DB.Save(&pkTimerResult)
 	return nil
 }
 

@@ -30,6 +30,12 @@ func (p *PkTimer) checkInPkTimer(msg types.InMessage) bool {
 	if !pk.Start {
 		return true
 	}
+	msgStr := utils2.ReplaceAll(msg.Message, "", " ")
+	switch msgStr {
+	case start, exit, end, add, next:
+		return true
+	}
+
 	// 开始了，就看这个人是否在PK
 	for _, pl := range pk.PkResults.Players {
 		if pl.QQBot == msg.QQBot && !pl.Exit {

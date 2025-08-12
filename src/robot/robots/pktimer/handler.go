@@ -18,25 +18,25 @@ import (
 )
 
 func (p *PkTimer) checkInPkTimer(msg types.InMessage) bool {
-	return p.getMessageDBPkTimer(msg) != nil
+	_, err := p.getMsgUser(msg)
+	if err != nil {
+		return false
+	}
 
-	// 	pk := p.getMessageDBPkTimer(msg)
-	//	if pk == nil {
-	//		return false
-	//	}
-	//
-	//	// 还没开始就全部不允许
-	//	if !pk.Start {
-	//		return true
-	//	}
-	//
-	//	// 开始了，就看这个人是否在PK
-	//	for _, pl := range pk.PkResults.Players {
-	//		if pl.QQBot == msg.QQBot {
-	//			return true
-	//		}
-	//	}
-	//	return true
+	pk := p.getMessageDBPkTimer(msg)
+	if pk == nil {
+		return false
+	}
+	if !pk.Start {
+		return true
+	}
+	// 开始了，就看这个人是否在PK
+	for _, pl := range pk.PkResults.Players {
+		if pl.QQBot == msg.QQBot && !pl.Exit {
+			return true
+		}
+	}
+	return false
 }
 
 func (p *PkTimer) initPkTimer(msg types.InMessage) error {

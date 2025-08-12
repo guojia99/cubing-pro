@@ -3,6 +3,8 @@ package pktimer
 import (
 	"testing"
 
+	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	pktimerDB "github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
 )
 
@@ -161,5 +163,39 @@ func Test_getAllPackerMessage(t *testing.T) {
 			gotOut := getAllPackerMessage(tt.args.results)
 			t.Logf("gotOut:%v", gotOut)
 		})
+	}
+}
+
+func Test_getAllPackerMessage1(t *testing.T) {
+	results := &pktimerDB.PkTimerResult{
+		PkResults: pktimerDB.PkResults{
+			Players: []pktimerDB.Player{
+				{
+					UserName: "Clansey",
+					Best:     16.25,
+					Average:  18.77,
+				},
+				{
+					UserName: "嘉",
+					Best:     17.00,
+					Average:  18.73,
+				},
+			},
+			Event: event.Event{
+				StringIDModel: basemodel.StringIDModel{
+					ID: "333oh",
+				},
+				Cn:            "三单",
+				BaseRouteType: 7,
+			},
+			Count:    5,
+			CurCount: 5,
+		},
+		Eps: 0.10,
+	}
+
+	out := getAllPackerMessage(results)
+	for _, v := range out {
+		t.Logf("%v\n", v)
 	}
 }

@@ -20,6 +20,10 @@ type Player struct {
 
 	Best    float64 `json:"best"`
 	Average float64 `json:"average"`
+
+	// 退出
+	Exit    bool `json:"exit"`
+	ExitNum int  `json:"exitNum"`
 }
 
 type PkResults struct {

@@ -222,6 +222,7 @@ func (p *PkTimer) in(msg types.InMessage) error {
 func (p *PkTimer) startPkTimer(msg types.InMessage) error {
 	pkTimerResult := p.getMessageDBPkTimer(msg)
 	if pkTimerResult.Start {
+		p.sendMessage(msg.NewOutMessage("本次pk已开始!!"))
 		return nil
 	}
 	pkTimerResult.Start = true
@@ -284,7 +285,9 @@ func (p *PkTimer) endPkTimer(msg types.InMessage) error {
 	}
 
 	p.sendMessage(msg.NewOutMessage(p.endPKTimerMessage(pkTimerResult)))
-	p.Svc.DB.Save(&pkTimerResult)
+	err := p.Svc.DB.Save(&pkTimerResult).Error
+	fmt.Println("end pk -> ", err)
+
 	_ = p.sendPackerMessage(msg, false)
 	return nil
 }
@@ -376,6 +379,10 @@ func (p *PkTimer) addResult(msg types.InMessage) error {
 	// 判断是否本轮所有玩家已经录入完成
 	var hasResult int
 	for _, pl := range pkTimerResult.PkResults.Players {
+		if pl.Exit {
+			hasResult += 1
+			continue
+		}
 		if len(pl.Results) == pkTimerResult.PkResults.CurCount {
 			hasResult += 1
 		}
@@ -431,6 +438,10 @@ func (p *PkTimer) updateResult(msg types.InMessage) error {
 
 	for idx, pl := range pkTimerResult.PkResults.Players {
 		if pl.UserId == usr.ID {
+			if pl.Exit {
+				p.sendMessage(msg.NewOutMessage("你已退出本次比赛"))
+				return nil
+			}
 			if num > len(pl.Results) {
 				p.sendMessage(msg.NewOutMessage("你还未录入过这一把的成绩"))
 				return nil
@@ -451,6 +462,40 @@ func (p *PkTimer) updateResult(msg types.InMessage) error {
 // 2. 群员可以加入参与 指令： “加入”
 // 3. 开启者可以发送“开始”
 
+func (p *PkTimer) exit(msg types.InMessage) error {
+	usr, err := p.getMsgUser(msg)
+	if err != nil {
+		return err
+	}
+
+	pkTimerResult := p.getMessageDBPkTimer(msg)
+
+	hasPlayer := 0
+	for _, pl := range pkTimerResult.PkResults.Players {
+		if pl.Exit {
+			continue
+		}
+		hasPlayer += 1
+	}
+
+	for idx, pl := range pkTimerResult.PkResults.Players {
+		if pl.UserId == usr.ID {
+			pkTimerResult.PkResults.Players[idx].Exit = true
+			pkTimerResult.PkResults.Players[idx].ExitNum = pkTimerResult.PkResults.CurCount
+			p.Svc.DB.Save(&pkTimerResult)
+			p.sendMessage(msg.NewOutMessagef("%s 退出成功", pl.UserName))
+
+			// 只剩一个的情况下
+			if hasPlayer == 1 {
+				return p.endPkTimer(msg)
+			}
+			return nil
+		}
+	}
+
+	return nil
+}
+
 func (p *PkTimer) runMessage(msg types.InMessage) error {
 	switch utils2.ReplaceAll(msg.Message, "", " ") {
 	case start:
@@ -461,6 +506,8 @@ func (p *PkTimer) runMessage(msg types.InMessage) error {
 		return p.in(msg)
 	case next:
 		return p.next(msg)
+	case exit:
+		return p.exit(msg)
 	default:
 		// 判断是否有修改
 		if strings.Contains(msg.Message, update) {

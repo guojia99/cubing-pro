@@ -19,6 +19,7 @@ const (
 	key = "pktimer"
 
 	start = "开始" // 开始pk
+	exit  = "退出"
 	end   = "结束" // 强制结束pk
 	add   = "加入"
 	next  = "下一把" // 强制

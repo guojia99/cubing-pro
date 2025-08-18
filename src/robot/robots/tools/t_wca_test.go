@@ -36,6 +36,34 @@ func TestTWca_Do(t *testing.T) {
 		}
 	})
 
+	t.Run("pk-notfull", func(t *testing.T) {
+		tt := &TWca{}
+
+		out, err := tt.Do(types.InMessage{
+			Message: "wca-pk 郭泽嘉-卢钦全",
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, msg := range out.Message {
+			fmt.Println(msg)
+		}
+	})
+
+	t.Run("pk-full", func(t *testing.T) {
+		tt := &TWca{}
+
+		out, err := tt.Do(types.InMessage{
+			Message: "wca-pkall 郭泽嘉-卢钦全",
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, msg := range out.Message {
+			fmt.Println(msg)
+		}
+	})
+
 	t.Run("pk2", func(t *testing.T) {
 		tt := &TWca{}
 

@@ -22,7 +22,8 @@ type TWca struct {
 
 func (t *TWca) ID() []string {
 	wcaL := []string{"Wca", "wca", "WCA"}
-	pk := []string{"pk", "PK", "-PK", "-pk"}
+	pk := []string{"pk", "PK", "-PK", "-pk",
+		"pkAll", "-pkAll", "PKAll", "-PKAll"}
 	cx := []string{"超炫", "out", "cx", "CX"}
 
 	var out []string
@@ -41,7 +42,7 @@ func (t *TWca) ID() []string {
 
 func (t *TWca) Help() string {
 	out := `1. 输入 WCA {WcaID} 可查询选手成绩
-2. 输入 WCA-PK {WCAID-1}-{WCAID-2} 可对比成绩, 如果有复杂名字可: WCA-PK Max Park VS Feliks Zemdegs
+2. 输入 WCA-PK {WCAID-1}-{WCAID-2} 可对比成绩（只有双方都有的项目), WCA-PKAll可展示全部项目
 3. 输入 WCA-超炫 {WCAID-1}-{WCAID-2} 可对比成绩后， 列出1超炫2需要进步多少
 `
 	return out
@@ -97,8 +98,10 @@ func (t *TWca) Do(message types.InMessage) (*types.OutMessage, error) {
 	key := slices[0]
 
 	switch key {
+	case "wca-pkall", "wcapkall":
+		return t.handlerPkDoublePersonResult(message, true)
 	case "wca-pk", "wcapk":
-		return t.handlerPkDoublePersonResult(message)
+		return t.handlerPkDoublePersonResult(message, false)
 	case "wca":
 		return t.handlerGetPersonResult(message)
 	case "wca超炫", "wcacx":
@@ -169,8 +172,13 @@ const (
 	starP2     = "★"
 )
 
-func (t *TWca) pk(p1 *models.Results, p2 *models.Results, best bool) (p1Count, p2Count int, msg string) {
+func (t *TWca) pk(p1 *models.Results, p2 *models.Results, best bool, full bool) (p1Count, p2Count int, msg string) {
 	if p1 == nil && p2 == nil {
+		return 0, 0, ""
+	}
+
+	// 两边都有成绩才对比
+	if !full && (p1 == nil || p2 == nil) {
 		return 0, 0, ""
 	}
 
@@ -254,7 +262,7 @@ func (t *TWca) getDoublePerson(message types.InMessage) (*models.PersonBestResul
 	return person1Result, person2Result, nil
 }
 
-func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutMessage, error) {
+func (t *TWca) handlerPkDoublePersonResult(message types.InMessage, full bool) (*types.OutMessage, error) {
 
 	// 对比两个人的
 	person1Count := 0
@@ -282,7 +290,11 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutM
 			continue
 		}
 
-		p1, p2, pkMsg := t.pk(p1BestResult, p2BestResult, true)
+		p1, p2, pkMsg := t.pk(p1BestResult, p2BestResult, true, full)
+		if pkMsg == "" {
+			continue
+		}
+
 		out += fmt.Sprintf("%s %s\n", wcaEventsCnMap[ev], pkMsg)
 		person1Count += p1
 		person2Count += p2
@@ -298,7 +310,10 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage) (*types.OutM
 		if p1AvgResult == nil && p2AvgResult == nil {
 			continue
 		}
-		p1, p2, pkMsg = t.pk(p1AvgResult, p2AvgResult, false)
+		p1, p2, pkMsg = t.pk(p1AvgResult, p2AvgResult, false, full)
+		if pkMsg == "" {
+			continue
+		}
 		out += fmt.Sprintf("%s %s\n", strings.Repeat(" ", len(wcaEventsCnMap[ev])/2), pkMsg)
 		person1Count += p1
 		person2Count += p2

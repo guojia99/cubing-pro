@@ -99,8 +99,8 @@ func (c *Results) updateBestAndAvg() error {
 }
 
 type repeatedly struct {
-	Reduction float64
-	Try       float64
+	Reduction float64 // 复原个数
+	Try       float64 // 尝试个数
 	Time      float64
 }
 
@@ -120,7 +120,7 @@ func (r repeatedly) D() bool {
 	if r.Reduction < 2 {
 		return true
 	}
-	return r.N() < 0
+	return r.N() < 0 && r.Reduction >= 2
 }
 
 // N  分数

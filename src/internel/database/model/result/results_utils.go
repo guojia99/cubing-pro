@@ -120,7 +120,7 @@ func (r repeatedly) D() bool {
 	if r.Reduction < 2 {
 		return true
 	}
-	return r.N() < 0 && r.Reduction >= 2
+	return r.N() < 0
 }
 
 // N  分数

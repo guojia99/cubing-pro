@@ -12,14 +12,16 @@ func TestApiGetWCAResults(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		fmt.Println(got.PersonName)
-		for _, val := range got.Best {
-			fmt.Printf("best -> %s %+v\n", val.EventId, val.BestStr)
-		}
+		fmt.Println(got.String())
+	})
 
-		for _, val := range got.Avg {
-			fmt.Printf("avg -> %s %+v\n", val.EventId, val.AverageStr)
+	t.Run("test_2", func(t *testing.T) {
+		got, err := GetWCAPersonResult("2013LINK01")
+
+		if err != nil {
+			t.Fatal(err)
 		}
+		fmt.Println(got.String())
 	})
 
 	t.Run("test_cn", func(t *testing.T) {
@@ -29,14 +31,6 @@ func TestApiGetWCAResults(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		fmt.Println(got.PersonName)
-
-		for _, val := range got.Best {
-			fmt.Printf("best -> %s %+v\n", val.EventId, val.BestStr)
-		}
-
-		for _, val := range got.Avg {
-			fmt.Printf("avg -> %s %+v\n", val.EventId, val.AverageStr)
-		}
+		fmt.Println(got)
 	})
 }

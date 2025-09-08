@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+
+	"github.com/guojia99/go-tables/table"
 )
 
 type WCAResults struct {
@@ -160,34 +162,55 @@ var WcaEventsCnMap = map[string]string{
 	"333mbf": "多盲",
 }
 
+type personBestResultsTable struct {
+	Ev   string `json:"ev"`
+	Best string `json:"best"`
+	LL   string `json:"ll"`
+	Avg  string `json:"avg"`
+}
+
 func (s *PersonBestResults) String() string {
 	out := "\n"
 	out += s.PersonName + "\n"
 	out += s.WCAID + "\n"
 	out += fmt.Sprintf("参赛次数: %d\n", s.CompetitionCount)
-	out += "\n================\n"
-
+	out += "================"
 	// 成绩
+	var tbs []personBestResultsTable
 	for _, ev := range WcaEventsList {
 		b, hasB := s.Best[ev]
 		if !hasB {
 			continue
 		}
+		tb := personBestResultsTable{
+			Ev:   WcaEventsCnMap[ev],
+			Best: b.BestString(),
+		}
+
 		a, hasA := s.Avg[ev]
 		if hasA {
-			out += fmt.Sprintf("%s %s || %s\n", WcaEventsCnMap[ev], b.BestString(), a.AvgString())
-		} else {
-			out += fmt.Sprintf("%s %s\n", WcaEventsCnMap[ev], b.BestString())
+			tb.LL = " || "
+			tb.Avg = a.AvgString()
 		}
+		tbs = append(tbs, tb)
 	}
 
+	tb, _ := table.SimpleTable(tbs, &table.Option{
+		ExpendID: false,
+		Align:    table.AlignLeft,
+		Contour:  table.EmptyContour,
+	})
+
+	tb.Headers = make(table.RowCell, 0)
+	out += tb.String()
+
 	if m := s.MedalCount.String(); m != "" {
-		out += "\n================\n"
+		out += "================"
 		out += m
 	}
 
 	if r := s.RecordCount.String(); r != "" {
-		out += "\n================\n"
+		out += "================"
 		out += r
 	}
 	return out

@@ -59,26 +59,27 @@ type (
 )
 
 func (r *Results) BestString() string {
-	if r.WorldRank < 100 {
+	if r.WorldRank <= 20 {
 		return fmt.Sprintf("(WR%d) %s", r.WorldRank, r.BestStr)
 	}
-	if r.ContinentRank < 50 {
+	if r.ContinentRank <= 20 {
 		return fmt.Sprintf("(CR%d) %s", r.ContinentRank, r.BestStr)
 	}
-	if r.CountryRank < 10 {
+	if r.CountryRank <= 50 {
 		return fmt.Sprintf("(NR%d) %s", r.CountryRank, r.BestStr)
 	}
 	return r.BestStr
 }
 
 func (r *Results) AvgString() string {
-	if r.WorldRank < 100 {
+
+	if r.WorldRank <= 20 {
 		return fmt.Sprintf("%s (WR%d)", r.AverageStr, r.WorldRank)
 	}
-	if r.ContinentRank < 50 {
+	if r.ContinentRank <= 20 {
 		return fmt.Sprintf("%s (CR%d)", r.AverageStr, r.ContinentRank)
 	}
-	if r.CountryRank < 10 {
+	if r.CountryRank <= 50 {
 		return fmt.Sprintf("%s (NR%d)", r.AverageStr, r.CountryRank)
 	}
 	return r.AverageStr
@@ -108,13 +109,13 @@ func (r *RecordCount) String() string {
 	}
 	out := "\n"
 	if r.World != 0 {
-		out += fmt.Sprintf("世界记录: %d\n", r.World)
+		out += fmt.Sprintf("🌍 世界记录: %d\n", r.World)
 	}
 	if r.Continental != 0 {
-		out += fmt.Sprintf("洲际记录: %d\n", r.Continental)
+		out += fmt.Sprintf("🌏 洲际记录: %d\n", r.Continental)
 	}
 	if r.National != 0 {
-		out += fmt.Sprintf("国家记录: %d\n", r.National)
+		out += fmt.Sprintf("🏳️ 国家记录: %d\n", r.National)
 	}
 	return out
 }
@@ -160,9 +161,11 @@ var WcaEventsCnMap = map[string]string{
 }
 
 func (s *PersonBestResults) String() string {
-	out := s.PersonName + "\n"
+	out := "\n"
+	out += s.PersonName + "\n"
 	out += s.WCAID + "\n"
 	out += fmt.Sprintf("参赛次数: %d\n", s.CompetitionCount)
+	out += "\n================\n"
 
 	// 成绩
 	for _, ev := range WcaEventsList {

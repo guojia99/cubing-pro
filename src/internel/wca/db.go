@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const dbVersion = "20250908-1518"
+const dbVersion = "20250908-1520"
 
 func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*models.PersonBestResults, error) {
 

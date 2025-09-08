@@ -178,7 +178,14 @@ func (s *PersonBestResults) String() string {
 		}
 	}
 
-	out += s.MedalCount.String()
-	out += s.RecordCount.String()
+	if m := s.MedalCount.String(); m != "" {
+		out += "\n================\n"
+		out += m
+	}
+
+	if r := s.RecordCount.String(); r != "" {
+		out += "\n================\n"
+		out += r
+	}
 	return out
 }

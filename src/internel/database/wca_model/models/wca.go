@@ -81,7 +81,7 @@ func (r *Results) AvgString() string {
 	if r.CountryRank < 10 {
 		return fmt.Sprintf("%s (NR%d)", r.AverageStr, r.CountryRank)
 	}
-	return r.BestStr
+	return r.AverageStr
 }
 
 func (m *MedalCount) String() string {

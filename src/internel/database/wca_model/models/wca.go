@@ -62,13 +62,13 @@ type (
 
 func (r *Results) BestString() string {
 	if r.WorldRank <= 20 {
-		return fmt.Sprintf("(WR%d) %s", r.WorldRank, r.BestStr)
+		return fmt.Sprintf("%s (WR%d)", r.BestStr, r.WorldRank)
 	}
 	if r.ContinentRank <= 20 {
-		return fmt.Sprintf("(CR%d) %s", r.ContinentRank, r.BestStr)
+		return fmt.Sprintf("%s (CR%d)", r.BestStr, r.ContinentRank)
 	}
 	if r.CountryRank <= 50 {
-		return fmt.Sprintf("(NR%d) %s", r.CountryRank, r.BestStr)
+		return fmt.Sprintf("%s (NR%d)", r.BestStr, r.CountryRank)
 	}
 	return r.BestStr
 }
@@ -174,8 +174,9 @@ func (s *PersonBestResults) String() string {
 	out += s.PersonName + "\n"
 	out += s.WCAID + "\n"
 	out += fmt.Sprintf("参赛次数: %d\n", s.CompetitionCount)
-	out += "================"
+	out += "================\n"
 	// 成绩
+
 	var tbs []personBestResultsTable
 	for _, ev := range WcaEventsList {
 		b, hasB := s.Best[ev]
@@ -186,7 +187,6 @@ func (s *PersonBestResults) String() string {
 			Ev:   WcaEventsCnMap[ev],
 			Best: b.BestString(),
 		}
-
 		a, hasA := s.Avg[ev]
 		if hasA {
 			tb.LL = " || "
@@ -197,7 +197,7 @@ func (s *PersonBestResults) String() string {
 
 	tb, _ := table.SimpleTable(tbs, &table.Option{
 		ExpendID: false,
-		Align:    table.AlignLeft,
+		Align:    table.AlignCenter,
 		Contour:  table.EmptyContour,
 	})
 

@@ -1,7 +1,6 @@
 package pktimer
 
 import (
-	"fmt"
 	"log"
 	"strings"
 
@@ -38,7 +37,6 @@ func (p *PkTimer) WithInPkTimer(msg types.InMessage) bool {
 
 func (p *PkTimer) sendMsgWithOutPkTimer(msg types.InMessage) (bool, error) {
 	if strings.Contains(msg.Message, key) {
-		fmt.Println("-------------- in pktimer ")
 		return true, p.initPkTimer(msg)
 	}
 	if !p.checkInPkTimer(msg) {

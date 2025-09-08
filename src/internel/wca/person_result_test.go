@@ -7,7 +7,7 @@ import (
 
 func TestApiGetWCAResults(t *testing.T) {
 	t.Run("test", func(t *testing.T) {
-		got, err := ApiGetWCAResults("2017XUYO01")
+		got, err := GetWCAPersonResult("2017XUYO01")
 
 		if err != nil {
 			t.Fatal(err)
@@ -23,7 +23,7 @@ func TestApiGetWCAResults(t *testing.T) {
 	})
 
 	t.Run("test_cn", func(t *testing.T) {
-		got, err := ApiGetWCAResults("徐永浩")
+		got, err := GetWCAPersonResult("徐永浩")
 
 		if err != nil {
 			t.Fatal(err)

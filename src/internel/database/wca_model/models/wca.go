@@ -81,7 +81,7 @@ func (r *Results) AvgString() string {
 	if r.ContinentRank <= 20 {
 		return fmt.Sprintf("%s (CR%d)", r.AverageStr, r.ContinentRank)
 	}
-	if r.CountryRank <= 50 {
+	if r.CountryRank <= 100 {
 		return fmt.Sprintf("%s (NR%d)", r.AverageStr, r.CountryRank)
 	}
 	return r.AverageStr
@@ -174,13 +174,18 @@ func (s *PersonBestResults) String() string {
 	out += s.PersonName + "\n"
 	out += s.WCAID + "\n"
 	out += fmt.Sprintf("参赛次数: %d\n", s.CompetitionCount)
-	out += "================\n"
 	// 成绩
 
+	var fullEven = true
 	var tbs []personBestResultsTable
 	for _, ev := range WcaEventsList {
 		b, hasB := s.Best[ev]
 		if !hasB {
+			fullEven = false
+			continue
+		}
+
+		if ev == "333mbf" {
 			continue
 		}
 		tb := personBestResultsTable{
@@ -191,10 +196,17 @@ func (s *PersonBestResults) String() string {
 		if hasA {
 			tb.LL = " || "
 			tb.Avg = a.AvgString()
+		} else {
+			fullEven = false
 		}
 		tbs = append(tbs, tb)
 	}
 
+	if fullEven {
+		out += fmt.Sprintf("⭐⭐⭐大满贯选手⭐⭐⭐\n")
+	}
+
+	out += "================\n"
 	tb, _ := table.SimpleTable(tbs, &table.Option{
 		ExpendID: false,
 		Align:    table.AlignCenter,

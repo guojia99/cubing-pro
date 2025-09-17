@@ -176,6 +176,8 @@ func (s *PersonBestResults) String() string {
 	out += fmt.Sprintf("参赛次数: %d\n", s.CompetitionCount)
 	// 成绩
 
+	mbfOut := ""
+
 	var fullEven = true
 	var tbs []personBestResultsTable
 	for _, ev := range WcaEventsList {
@@ -186,6 +188,7 @@ func (s *PersonBestResults) String() string {
 		}
 
 		if ev == "333mbf" {
+			mbfOut += fmt.Sprintf("   %s  %s\n", WcaEventsCnMap[ev], b.BestString())
 			continue
 		}
 		tb := personBestResultsTable{
@@ -215,6 +218,7 @@ func (s *PersonBestResults) String() string {
 
 	tb.Headers = make(table.RowCell, 0)
 	out += tb.String()
+	out += mbfOut
 
 	if m := s.MedalCount.String(); m != "" {
 		out += "================"

@@ -67,7 +67,7 @@ func (r *Results) BestString() string {
 	if r.ContinentRank <= 20 {
 		return fmt.Sprintf("%s (CR%d)", r.BestStr, r.ContinentRank)
 	}
-	if r.CountryRank <= 50 {
+	if r.CountryRank <= 100 {
 		return fmt.Sprintf("%s (NR%d)", r.BestStr, r.CountryRank)
 	}
 	return r.BestStr

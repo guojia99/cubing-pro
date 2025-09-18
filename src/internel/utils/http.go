@@ -2,9 +2,11 @@ package utils
 
 import (
 	"bytes"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/url"
 	"time"
@@ -105,8 +107,26 @@ type HTTPResponse struct {
 }
 
 func HTTPRequestFullWithTimeout(method, url string, params, headers map[string]interface{}, data interface{}, timeout int) (*HTTPResponse, error) {
-	client := &http.Client{}
-	client.Timeout = time.Duration(timeout) * time.Second
+	client := &http.Client{
+		Timeout: time.Duration(timeout) * time.Second,
+		Transport: &http.Transport{
+			// 控制连接建立超时
+			DialContext: (&net.Dialer{
+				Timeout:   10 * time.Second,
+				KeepAlive: time.Duration(timeout) * time.Second,
+			}).DialContext,
+			// 关键：TLS 握手超时不能太短！
+			TLSHandshakeTimeout: 15 * time.Second,
+			// 其他可选优化
+			MaxIdleConns:    100,
+			IdleConnTimeout: 90 * time.Second,
+			TLSClientConfig: &tls.Config{
+				// 可选：仅调试时开启
+				// InsecureSkipVerify: true, // ⚠️ 不要在线上跳过验证
+			},
+			ExpectContinueTimeout: 1 * time.Second,
+		},
+	}
 
 	// 构造 URL 参数
 	reqURL, err := urlWithParams(url, params)
@@ -138,7 +158,11 @@ func HTTPRequestFullWithTimeout(method, url string, params, headers map[string]i
 	if err != nil {
 		return nil, fmt.Errorf("请求发送失败: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if resp != nil && resp.Body != nil {
+			_ = resp.Body.Close()
+		}
+	}()
 
 	// 读取响应内容
 	bodyBytes, err := io.ReadAll(resp.Body)

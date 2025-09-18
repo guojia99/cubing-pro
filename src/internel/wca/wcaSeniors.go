@@ -14,10 +14,23 @@ const wcaSeniorsUrl = "https://wca-seniors.org/data/Senior_Rankings.js"
 const extendKey = "rankings ="
 const resetTime = time.Hour * 6
 
+func getHeaders() map[string]interface{} {
+	return map[string]interface{}{
+		"Cache-Control":   "no-cache",
+		"Content-Type":    "application/json; charset=utf-8",
+		"Pragma":          "no-cache",
+		"Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+		"Accept-Language": "zh-CN,zh-HK;q=0.9,zh;q=0.8,zh-TW;q=0.7,en;q=0.6",
+		"Priority":        "u=1, i",
+		"Referer":         wcaSeniorsUrl,
+		"user-agent":      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+	}
+}
+
 func getWcaSeniors() (*SeniorsData, error) {
 	var out *SeniorsData
 
-	resp, err := utils.HTTPRequestFull("GET", wcaSeniorsUrl, nil, nil, nil)
+	resp, err := utils.HTTPRequestFull("GET", wcaSeniorsUrl, nil, getHeaders(), nil)
 	if err != nil {
 		return out, err
 	}

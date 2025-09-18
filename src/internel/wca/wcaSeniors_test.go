@@ -21,4 +21,12 @@ func Test_getSeniorsPerson(t *testing.T) {
 		}
 		fmt.Println(out)
 	})
+	t.Run("2017CHEL02", func(t *testing.T) {
+		out, err := GetSeniorsPerson("2017CHEL02")
+		if err != nil {
+			t.Fatal(err)
+		}
+		fmt.Println(out)
+	})
+
 }

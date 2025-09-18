@@ -157,8 +157,8 @@ func updateCacheData() {
 }
 
 func init() {
-	updateCacheData()
 	go func() {
+		updateCacheData()
 		ticker := time.NewTicker(resetTime)
 		for {
 			select {

@@ -26,6 +26,8 @@ func (t *TWca) ID() []string {
 		"pkAll", "-pkAll", "PKAll", "-PKAll"}
 	cx := []string{"超炫", "out", "cx", "CX"}
 
+	senior := []string{"s", "senior", "-senior"}
+
 	var out []string
 	for _, w := range wcaL {
 		out = append(out, w)
@@ -34,6 +36,9 @@ func (t *TWca) ID() []string {
 		}
 		for _, c := range cx {
 			out = append(out, fmt.Sprintf("%s%s", w, c))
+		}
+		for _, s := range senior {
+			out = append(out, fmt.Sprintf("%s%s", w, s))
 		}
 	}
 
@@ -66,65 +71,52 @@ func (t *TWca) Do(message types.InMessage) (*types.OutMessage, error) {
 		return t.handlerGetPersonResult(message)
 	case "wca超炫", "wcacx":
 		return t.handlerCxDoublePersonResult(message)
+	case "wcas", "wca-senior", "wcasenior":
+		return t.handlerSeniorPersonResult(message)
 	default:
 		return message.NewOutMessage(t.Help()), nil
 	}
 }
 
-func (t *TWca) getPersonResult(msg string) (*models.PersonBestResults, string, error) {
+func (t *TWca) getPersonWCAID(msg string) (string, error) {
 	pes, err := wca.ApiSearchPersons(msg)
 	if err != nil {
 		log.Printf("wca api search persons err: %v", err)
-		return nil, "", fmt.Errorf("获取%s选手失败", msg)
+		return "", fmt.Errorf("获取%s选手失败", msg)
 	}
 	if pes.Total == 0 || len(pes.Rows) == 0 {
-		return nil, "", fmt.Errorf("查询不到选手%s", msg)
+		return "", fmt.Errorf("查询不到选手%s", msg)
 	}
 	if pes.Total >= 2 {
-		out := fmt.Sprintf("查询到%d位选手, 请输入WcaID查询: \n", pes.Total)
-		for _, row := range pes.Rows {
-			out += fmt.Sprintf("%s %s\n", row.WcaId, row.Name)
-		}
-		return nil, out, fmt.Errorf("查询到多位选手符合%s, 请使用WCAID查询", msg)
+		return "", fmt.Errorf("查询到多位选手符合%s, 请使用WCAID查询", msg)
 	}
 	personWCAID := pes.Rows[0].WcaId
+	return personWCAID, err
+}
+
+func (t *TWca) getPersonResult(msg string) (*models.PersonBestResults, error) {
+	personWCAID, err := t.getPersonWCAID(msg)
+	if err != nil {
+		return nil, err
+	}
 
 	result, err := wca.GetWcaResultWithDbAndAPI(t.DB, personWCAID)
 	if err != nil {
-		return nil, "", fmt.Errorf("选手%s成绩查询错误", personWCAID)
+		return nil, fmt.Errorf("选手%s成绩查询错误", personWCAID)
 	}
-	return result, "", nil
+	return result, nil
 }
 
 func (t *TWca) handlerGetPersonResult(message types.InMessage) (*types.OutMessage, error) {
 	msg := types.RemoveID(message.Message, t.ID())
 	msg = utils2.ReplaceAll(msg, "", " ")
 
-	result, mutilMsg, err := t.getPersonResult(msg)
+	result, err := t.getPersonResult(msg)
 	if err != nil {
-		if len(mutilMsg) > 0 {
-			return message.NewOutMessage(mutilMsg), nil
-		}
 		return message.NewOutMessage(err.Error()), nil
 	}
 
 	return message.NewOutMessage(result.String()), nil
-
-	//out := result.PersonName + "\n"
-	//out += result.WCAID + "\n"
-	//for _, ev := range wcaEventsList {
-	//	b, hasB := result.Best[ev]
-	//	if !hasB {
-	//		continue
-	//	}
-	//	a, hasA := result.Avg[ev]
-	//	if hasA {
-	//		out += fmt.Sprintf("%s %s | %s\n", wcaEventsCnMap[ev], b.BestStr, a.AverageStr)
-	//	} else {
-	//		out += fmt.Sprintf("%s %s\n", wcaEventsCnMap[ev], b.BestStr)
-	//	}
-	//}
-	//return message.NewOutMessage(out), nil
 }
 
 const (
@@ -213,11 +205,11 @@ func (t *TWca) getDoublePerson(message types.InMessage) (*models.PersonBestResul
 		return nil, nil, fmt.Errorf("%+v", t.Help())
 	}
 
-	person1Result, _, err := t.getPersonResult(person1)
+	person1Result, err := t.getPersonResult(person1)
 	if err != nil {
 		return nil, nil, err
 	}
-	person2Result, _, err := t.getPersonResult(person2)
+	person2Result, err := t.getPersonResult(person2)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -455,4 +447,20 @@ func (t *TWca) handlerCxDoublePersonResult(message types.InMessage) (*types.OutM
 	}
 
 	return message.NewOutMessage(out), nil
+}
+
+func (t *TWca) handlerSeniorPersonResult(message types.InMessage) (*types.OutMessage, error) {
+	msg := types.RemoveID(message.Message, t.ID())
+	msg = utils2.ReplaceAll(msg, "", " ")
+
+	personWCAID, err := t.getPersonWCAID(msg)
+	if err != nil {
+		return message.NewOutMessage(err.Error()), nil
+	}
+
+	out, err := wca.GetSeniorsPerson(personWCAID)
+	if err != nil {
+		return message.NewOutMessage("未查询到有该选手，请在wca seniors网站上登记该选手或检查该选手是否已满40周岁"), nil
+	}
+	return message.NewOutMessage(out.String()), nil
 }

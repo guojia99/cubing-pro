@@ -35,3 +35,4 @@ local/server_local.yaml
 local
 logs
 *.prun
+wca_seniors_cache.json

@@ -250,6 +250,7 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 					bestResult := best.Single[e.ID].Best + ((3600 - best.Single[e.ID].BestRepeatedlyTime) / 3600)
 					playerResult := s.Best + ((3600 - s.BestRepeatedlyTime) / 3600)
 					kr.Result = (playerResult / bestResult) * 100
+
 				} else if mp.WithBest {
 					kr.Result = (best.Single[e.ID].Best / s.Best) * 100
 				} else {
@@ -258,6 +259,15 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 					}
 				}
 				kr.IsBest = kr.Result == 100.0
+
+				if mp.Repeatedly {
+					kr.ResultString = fmt.Sprintf("%d/%d %s", int(best.Single[e.ID].BestRepeatedlyReduction), int(best.Single[e.ID].BestRepeatedlyTry), result.TimeParserF2S(best.Single[e.ID].BestRepeatedlyTime))
+				} else {
+					kr.ResultString = fmt.Sprintf("%s", result.TimeParserF2S(best.Single[e.ID].Best))
+					if _, ok2 := player.Avgs[e.ID]; ok2 {
+						kr.ResultString += fmt.Sprintf(" | %s", result.TimeParserF2S(best.Avgs[e.ID].Average))
+					}
+				}
 			}
 			k.Results = append(k.Results, kr)
 		}

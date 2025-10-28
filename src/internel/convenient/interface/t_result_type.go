@@ -28,6 +28,8 @@ type KinChSorResultWithEvent struct {
 	Event  string
 	Result float64
 	IsBest bool
+
+	ResultString string // 具体成绩
 }
 
 type KinChSorResult struct {

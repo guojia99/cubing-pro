@@ -1,10 +1,14 @@
 package wca_api
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -156,6 +160,7 @@ func fillSeniorPersonData(data *SeniorsData) *SeniorsData {
 }
 
 var cacheData *SeniorsData
+var cacheFilePath = "wca_seniors_cache.json"
 
 func updateCacheData() {
 	log.Infof("start update cache data")
@@ -166,11 +171,82 @@ func updateCacheData() {
 	}
 	log.Infof("cache data update ok %s", d.Refreshed)
 	cacheData = d
+
+	// 保存到本地文件
+	if err = saveCacheToFile(d); err != nil {
+		log.Errorf("failed to save cache to file: %v", err)
+	}
+}
+
+func loadCacheFromLocal() error {
+	file, err := ioutil.ReadFile(cacheFilePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			log.Info("cache file does not exist, will fetch from remote")
+			return err
+		}
+		log.Errorf("failed to read cache file: %v", err)
+		return err
+	}
+
+	var data SeniorsData
+	if err = json.Unmarshal(file, &data); err != nil {
+		log.Errorf("failed to unmarshal cache data: %v", err)
+		return err
+	}
+
+	// 检查时间是否超过1天
+	if isCacheExpired(data.Refreshed) {
+		log.Info("cache is expired, will fetch fresh data")
+		return err
+	}
+
+	cacheData = &data
+	log.Info("loaded cache from local file successfully")
+	return nil
+}
+
+func saveCacheToFile(data *SeniorsData) error {
+	jsonData, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	// 确保目录存在
+	dir := filepath.Dir(cacheFilePath)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(cacheFilePath, jsonData, 0644)
+}
+
+func isCacheExpired(refreshedTime string) bool {
+	if refreshedTime == "" {
+		return true
+	}
+
+	parsedTime, err := time.Parse("2006-01-02 15:04:05", refreshedTime)
+	if err != nil {
+		log.Errorf("failed to parse refreshed time: %v", err)
+		return true
+	}
+
+	// 检查是否超过1天
+	return time.Since(parsedTime) > 24*time.Hour
 }
 
 func init() {
+	// 启动定时更新
 	go func() {
-		updateCacheData()
+		// 先尝试从本地加载
+		loadCacheFromLocal()
+
+		// 如果本地加载失败或过期，则获取远程数据
+		if cacheData == nil || isCacheExpired(cacheData.Refreshed) {
+			updateCacheData()
+		}
+
 		ticker := time.NewTicker(resetTime)
 		for {
 			select {
@@ -180,7 +256,6 @@ func init() {
 		}
 	}()
 }
-
 func GetSeniorsPerson(wcaID string) (*SeniorPersonValue, error) {
 	if cacheData == nil {
 		return nil, errors.New("seniors cache data is empty")

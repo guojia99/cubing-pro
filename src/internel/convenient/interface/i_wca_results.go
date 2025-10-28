@@ -129,16 +129,11 @@ func seniorRankToResult(rank wca_api.SeniorRank, ev event.Event) result.Results 
 			}
 			out.BestRepeatedlyTime = result.TimeParserS2F(cut[1])
 			sps := strings.Split(cut[0], "/")
-			fmt.Println(sps)
-
 			a, b := strings.ReplaceAll(sps[0], " ", ""), strings.ReplaceAll(sps[1], " ", "")
-
 			out.BestRepeatedlyReduction, _ = strconv.ParseFloat(a, 64)
 			out.BestRepeatedlyTry, _ = strconv.ParseFloat(b, 64)
 
 			out.Best = out.BestRepeatedlyReduction - (out.BestRepeatedlyTry - out.BestRepeatedlyReduction)
-
-			fmt.Println(rank.Id, out.BestRepeatedlyReduction, out.BestRepeatedlyTry, out.BestRepeatedlyTime)
 		} else {
 			out.Best = result.TimeParserS2F(rank.Best)
 		}

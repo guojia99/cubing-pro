@@ -261,11 +261,11 @@ func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, playe
 				kr.IsBest = kr.Result == 100.0
 
 				if mp.Repeatedly {
-					kr.ResultString = fmt.Sprintf("%d/%d %s", int(best.Single[e.ID].BestRepeatedlyReduction), int(best.Single[e.ID].BestRepeatedlyTry), result.TimeParserF2S(best.Single[e.ID].BestRepeatedlyTime))
+					kr.ResultString = fmt.Sprintf("%d/%d %s", int(s.BestRepeatedlyReduction), int(s.BestRepeatedlyTry), result.TimeParserF2S(s.BestRepeatedlyTime))
 				} else {
-					kr.ResultString = fmt.Sprintf("%s", result.TimeParserF2S(best.Single[e.ID].Best))
+					kr.ResultString = fmt.Sprintf("%s", result.TimeParserF2S(s.Best))
 					if _, ok2 := player.Avgs[e.ID]; ok2 {
-						kr.ResultString += fmt.Sprintf(" | %s", result.TimeParserF2S(best.Avgs[e.ID].Average))
+						kr.ResultString += fmt.Sprintf(" | %s", result.TimeParserF2S(player.Avgs[e.ID].Average))
 					}
 				}
 			}

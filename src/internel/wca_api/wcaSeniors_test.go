@@ -1,8 +1,9 @@
-package wca
+package wca_api
 
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 func Test_getWcaSeniors(t *testing.T) {
@@ -29,4 +30,15 @@ func Test_getSeniorsPerson(t *testing.T) {
 		fmt.Println(out)
 	})
 
+}
+
+func TestGetSeniorsWithEventsAndGroup(t *testing.T) {
+	time.Sleep(time.Second * 5)
+	bs, out, err := GetSeniorsWithEventsAndGroup(40, []string{"333mbf"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Printf("%+v\n", bs.Single["333mbf"])
+	fmt.Printf("%+v\n", out)
 }

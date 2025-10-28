@@ -3,7 +3,7 @@ package job
 import (
 	"testing"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/email"
 )
 

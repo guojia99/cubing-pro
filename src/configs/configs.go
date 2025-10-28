@@ -18,6 +18,11 @@ type GlobalConfig struct {
 	AlgPath       string      `yaml:"algPath"`
 }
 
+type WcaDB struct {
+	SyncUrl  string `yaml:"syncUrl"`
+	SyncTime int    `yaml:"syncTime"` // 小时
+}
+
 type Scramble struct {
 	Type     string `yaml:"type"` // lang, tnoodle
 	EndPoint string `yaml:"endpoint"`

@@ -6,7 +6,7 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
-	"github.com/guojia99/cubing-pro/src/internel/wca"
+	"github.com/guojia99/cubing-pro/src/internel/wca_api"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 )
@@ -23,7 +23,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]models.P
 			continue
 		}
 		log.Printf("[apiGetAllResult] %+v\n", wcaId)
-		res, err := wca.GetWcaResultWithDbAndAPI(u.DB, wcaId)
+		res, err := wca_api.GetWcaResultWithDbAndAPI(u.DB, wcaId)
 		if err != nil {
 			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
 			continue

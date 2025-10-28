@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/crawler/cubing"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/email"

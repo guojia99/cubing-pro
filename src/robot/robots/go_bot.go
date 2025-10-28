@@ -17,6 +17,7 @@ import (
 	//"github.com/2mf8/Better-Bot-Go/webhook"
 	//"github.com/2mf8/Bot-Client-Go/safe_ws"
 
+	"github.com/guojia99/cubing-pro/src/configs"
 	bot "github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go"
 	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/dto"
 	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/openapi"
@@ -28,7 +29,6 @@ import (
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/patrickmn/go-cache"
 )

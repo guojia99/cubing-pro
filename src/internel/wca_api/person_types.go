@@ -1,4 +1,4 @@
-package wca
+package wca_api
 
 type PersonBasic struct {
 	Name           string        `json:"name"`
@@ -64,8 +64,8 @@ type RecordCount struct {
 
 type PersonProfile struct {
 	Person           PersonBasic               `json:"person"`
-	Country          Country                   `json:"-"` // 注意：原始数据中 country 在 person 内部，需提取
-	Avatar           Avatar                    `json:"-"` // 同上，avatar 也在 person 内部
+	Country          Country                   `json:"country"`
+	Avatar           Avatar                    `json:"avatar"`
 	CompetitionCount int                       `json:"competition_count"`
 	PersonalRecords  map[string]PersonalRecord `json:"personal_records"`
 	Medals           MedalCount                `json:"medals"`

@@ -14,7 +14,7 @@ import (
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/unrolled/secure"
 )

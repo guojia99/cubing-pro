@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/interface"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
@@ -115,4 +115,5 @@ type ConvenientI interface {
 	_interface.CompetitionI
 	_interface.UserI
 	_interface.ResultI
+	_interface.WCAResultI
 }

@@ -9,7 +9,7 @@ package svc
 import (
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"gorm.io/gorm/logger"

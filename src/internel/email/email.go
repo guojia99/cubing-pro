@@ -6,7 +6,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"gopkg.in/gomail.v2"
 )
 

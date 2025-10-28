@@ -1,0 +1,107 @@
+{
+  "magic": {
+    "eventID": "magic",
+    "DNF": 8230,
+    "number": 86498
+  },
+  "sq1": {
+    "eventID": "sq1",
+    "DNF": 30975,
+    "number": 776411
+  },
+  "pyram": {
+    "eventID": "pyram",
+    "DNF": 76519,
+    "number": 3005076
+  },
+  "666": {
+    "eventID": "666",
+    "DNF": 10461,
+    "number": 299542
+  },
+  "333": {
+    "eventID": "333",
+    "DNF": 169617,
+    "number": 8158528
+  },
+  "333bf": {
+    "eventID": "333bf",
+    "DNF": 301825,
+    "number": 476694
+  },
+  "333mbo": {
+    "eventID": "333mbo",
+    "DNF": 186,
+    "number": 591
+  },
+  "333ft": {
+    "eventID": "333ft",
+    "DNF": 4766,
+    "number": 56650
+  },
+  "777": {
+    "eventID": "777",
+    "DNF": 10541,
+    "number": 245624
+  },
+  "333mbf": {
+    "eventID": "333mbf",
+    "DNF": 19105,
+    "number": 46438
+  },
+  "444": {
+    "eventID": "444",
+    "DNF": 86002,
+    "number": 2369117
+  },
+  "clock": {
+    "eventID": "clock",
+    "DNF": 124167,
+    "number": 933703
+  },
+  "444bf": {
+    "eventID": "444bf",
+    "DNF": 45041,
+    "number": 61371
+  },
+  "555bf": {
+    "eventID": "555bf",
+    "DNF": 25706,
+    "number": 32544
+  },
+  "minx": {
+    "eventID": "minx",
+    "DNF": 35366,
+    "number": 872990
+  },
+  "333fm": {
+    "eventID": "333fm",
+    "DNF": 40661,
+    "number": 151131
+  },
+  "skewb": {
+    "eventID": "skewb",
+    "DNF": 47169,
+    "number": 1942746
+  },
+  "333oh": {
+    "eventID": "333oh",
+    "DNF": 68431,
+    "number": 2165785
+  },
+  "555": {
+    "eventID": "555",
+    "DNF": 37401,
+    "number": 1232008
+  },
+  "mmagic": {
+    "eventID": "mmagic",
+    "DNF": 1481,
+    "number": 41445
+  },
+  "222": {
+    "eventID": "222",
+    "DNF": 115668,
+    "number": 4631748
+  }
+}

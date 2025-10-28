@@ -1,10 +1,11 @@
-package wca
+package wca_api
 
 import (
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"sort"
 	"strings"
 	"time"
 
@@ -157,11 +158,13 @@ func fillSeniorPersonData(data *SeniorsData) *SeniorsData {
 var cacheData *SeniorsData
 
 func updateCacheData() {
+	log.Infof("start update cache data")
 	d, err := getWcaSeniors()
 	if err != nil {
 		log.Errorf("update wca seniors CacheData error: %v", err)
 		return
 	}
+	log.Infof("cache data update ok %s", d.Refreshed)
 	cacheData = d
 }
 
@@ -188,4 +191,58 @@ func GetSeniorsPerson(wcaID string) (*SeniorPersonValue, error) {
 		return nil, errors.New("seniors person not found")
 	}
 	return &p, nil
+}
+
+func GetSeniorsWithEventsAndGroup(age int, events []string) (BestSeniorValue, map[string][]SeniorPersonValue, error) {
+	if cacheData == nil {
+		return BestSeniorValue{}, nil, errors.New("seniors cache data is empty")
+	}
+
+	var ps = make(map[string][]SeniorPersonValue)
+
+	var bestSingleCache = make(map[string][]SeniorRank)
+	var bestAvgCache = make(map[string][]SeniorRank)
+	var bv = BestSeniorValue{
+		Single:  make(map[string]SeniorRank),
+		Average: make(map[string]SeniorRank),
+	}
+
+	for _, event := range events {
+		ps[event] = make([]SeniorPersonValue, 0)
+		bestSingleCache[event] = make([]SeniorRank, 0)
+		bestAvgCache[event] = make([]SeniorRank, 0)
+
+		for _, p := range cacheData.PersonMap {
+			if _, ok := p.Single[age]; !ok {
+				continue
+			}
+			if _, ok := p.Single[age][event]; !ok {
+				continue
+			}
+			ps[event] = append(ps[event], p)
+			bestSingleCache[event] = append(bestSingleCache[event], p.Single[age][event])
+			if _, ok := p.Average[age]; !ok {
+				continue
+			}
+			if _, ok := p.Average[age][event]; !ok {
+				continue
+			}
+			bestAvgCache[event] = append(bestAvgCache[event], p.Average[age][event])
+		}
+
+		sort.Slice(bestSingleCache[event], func(i, j int) bool {
+			return bestSingleCache[event][i].Rank < bestSingleCache[event][j].Rank
+		})
+		sort.Slice(bestAvgCache[event], func(i, j int) bool {
+			return bestAvgCache[event][i].Rank < bestAvgCache[event][j].Rank
+		})
+		if len(bestSingleCache[event]) > 0 {
+			bv.Single[event] = bestSingleCache[event][0]
+		}
+		if len(bestAvgCache[event]) > 0 {
+			bv.Average[event] = bestAvgCache[event][0]
+		}
+	}
+
+	return bv, ps, nil
 }

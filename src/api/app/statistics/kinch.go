@@ -9,8 +9,10 @@ import (
 )
 
 type KinChReq struct {
-	Page   int      `form:"page" json:"page" query:"page"`
-	Size   int      `form:"size" json:"size" query:"size"`
+	Page int `form:"page" json:"page" query:"page"`
+	Size int `form:"size" json:"size" query:"size"`
+
+	Age    int      `form:"age" query:"age"`
 	Events []string `json:"events" query:"events"`
 }
 
@@ -30,6 +32,27 @@ func KinCh(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		result, total := svc.Cov.SelectKinChSor(req.Page, req.Size, events)
+		exception.ResponseOK(ctx, app_utils.GenerallyListResp{
+			Items: result,
+			Total: int64(total),
+		})
+	}
+}
+
+func SeniorKinCh(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req KinChReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+		var events []event.Event
+		if len(req.Events) == 0 {
+			svc.DB.Find(&events, "is_wca = ?", true)
+		} else {
+			svc.DB.Find(&events, "is_wca = ? and id in ?", true, req.Events)
+		}
+
+		result, total := svc.Cov.SelectSeniorKinChSor(req.Page, req.Size, req.Age, events)
 		exception.ResponseOK(ctx, app_utils.GenerallyListResp{
 			Items: result,
 			Total: int64(total),

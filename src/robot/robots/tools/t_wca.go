@@ -9,7 +9,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
-	"github.com/guojia99/cubing-pro/src/internel/wca"
+	"github.com/guojia99/cubing-pro/src/internel/wca_api"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
@@ -79,7 +79,7 @@ func (t *TWca) Do(message types.InMessage) (*types.OutMessage, error) {
 }
 
 func (t *TWca) getPersonWCAID(msg string) (string, error) {
-	pes, err := wca.ApiSearchPersons(msg)
+	pes, err := wca_api.ApiSearchPersons(msg)
 	if err != nil {
 		log.Printf("wca api search persons err: %v", err)
 		return "", fmt.Errorf("获取%s选手失败", msg)
@@ -100,7 +100,7 @@ func (t *TWca) getPersonResult(msg string) (*models.PersonBestResults, error) {
 		return nil, err
 	}
 
-	result, err := wca.GetWcaResultWithDbAndAPI(t.DB, personWCAID)
+	result, err := wca_api.GetWcaResultWithDbAndAPI(t.DB, personWCAID)
 	if err != nil {
 		return nil, fmt.Errorf("选手%s成绩查询错误", personWCAID)
 	}
@@ -458,7 +458,7 @@ func (t *TWca) handlerSeniorPersonResult(message types.InMessage) (*types.OutMes
 		return message.NewOutMessage(err.Error()), nil
 	}
 
-	out, err := wca.GetSeniorsPerson(personWCAID)
+	out, err := wca_api.GetSeniorsPerson(personWCAID)
 	if err != nil {
 		return message.NewOutMessage("未查询到有该选手，请在wca seniors网站上登记该选手或检查该选手是否已满40周岁"), nil
 	}

@@ -1,4 +1,4 @@
-package wca
+package wca_api
 
 import (
 	"fmt"

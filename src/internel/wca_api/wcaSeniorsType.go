@@ -1,4 +1,4 @@
-package wca
+package wca_api
 
 import (
 	"fmt"
@@ -73,6 +73,11 @@ type SeniorCountry struct {
 type SeniorContinent struct {
 	ID   string `json:"ID"`
 	Name string `json:"name"`
+}
+
+type BestSeniorValue struct {
+	Single  map[string]SeniorRank `json:"single"`
+	Average map[string]SeniorRank `json:"average"`
 }
 
 type SeniorPersonValue struct {

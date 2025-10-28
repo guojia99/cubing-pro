@@ -6,6 +6,9 @@ import (
 
 type EventID = string
 type Player struct {
+	WcaID   string `json:"wca_id"`
+	WcaName string `json:"WcaName"`
+
 	PlayerId   uint   `json:"PlayerId"`
 	CubeId     string `json:"CubeId"`
 	PlayerName string `json:"PlayerName"`

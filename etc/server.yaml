@@ -17,6 +17,10 @@ global:
     from: "xxx@qq.com"
     fromName: cubingPro
     password: ""
+  wca_db:
+    syncUrl: 'https://www.worldcubeassociation.org/export/results/WCA_export.tsv'
+    syncTime: 1 # 小时
+
 
 
 apiGateway:

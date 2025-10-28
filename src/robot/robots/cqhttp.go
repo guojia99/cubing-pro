@@ -8,7 +8,7 @@ import (
 
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/gin-gonic/gin"
-	"github.com/guojia99/cubing-pro/src/internel/configs"
+	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
 )

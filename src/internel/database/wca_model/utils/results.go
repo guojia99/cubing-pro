@@ -2,31 +2,36 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func SecondTimeFormat(seconds float64, mbf bool) string {
-	intSeconds := int64(seconds)
-	decimalSeconds := int64(seconds*100) % 100
-	duration := time.Duration(intSeconds) * time.Second
+	if seconds <= 59.99 && !mbf {
+		return fmt.Sprintf("%.2f", seconds)
+	}
 
-	hours := int64(duration.Hours())
-	minutes := int64(duration.Minutes()) % 60
-	secondsInt := int64(duration.Seconds()) % 60
+	// 分离整数秒和小数秒
+	intSeconds := int64(seconds)
+	totalSeconds := intSeconds
+	decimalSeconds := int64(math.Round((seconds - float64(intSeconds)) * 100))
+
+	// 计算时分秒
+	hours := totalSeconds / 3600
+	minutes := (totalSeconds % 3600) / 60
+	secondsInt := totalSeconds % 60
 
 	mmSecondsStr := fmt.Sprintf(".%02d", decimalSeconds)
-	if decimalSeconds == 0 && (duration >= time.Hour || mbf) {
+	if decimalSeconds == 0 && (totalSeconds >= 3600 || mbf) {
 		mmSecondsStr = ""
 	}
-	//fmt.Println(fmt.Sprintf("%d:%02d:%02d%s", hours, minutes, secondsInt, mmSecondsStr))
-	//return strings.TrimLeft(fmt.Sprintf("%d:%02d:%02d%s", hours, minutes, secondsInt, mmSecondsStr), "0:")
-	if duration < time.Minute {
+
+	if totalSeconds < 60 {
 		return fmt.Sprintf("%d%s", secondsInt, mmSecondsStr)
 	}
-	if duration < time.Hour {
+	if totalSeconds < 3600 {
 		return fmt.Sprintf("%d:%02d%s", minutes, secondsInt, mmSecondsStr)
 	}
 	return fmt.Sprintf("%d:%02d:%02d%s", hours, minutes, secondsInt, mmSecondsStr)

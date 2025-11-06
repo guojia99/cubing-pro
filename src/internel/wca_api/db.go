@@ -11,7 +11,6 @@ import (
 const dbVersion = "20250908-1520"
 
 func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*models.PersonBestResults, error) {
-
 	if db == nil {
 		return GetWCAPersonResult(wcaId)
 	}

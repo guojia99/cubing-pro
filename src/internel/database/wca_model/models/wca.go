@@ -6,18 +6,18 @@ import (
 	"github.com/guojia99/go-tables/table"
 )
 
-type WCAResults struct {
-	Id            int    `json:"id"`
-	Best          int    `json:"best"`
-	Average       int    `json:"average"`
-	Name          string `json:"name"`
-	CompetitionId string `json:"competition_id"`
-	EventId       string `json:"event_id"`
-	WcaId         string `json:"wca_id"`
-	Attempts      []int  `json:"attempts"`
-	BestIndex     int    `json:"best_index"`
-	WorstIndex    int    `json:"worst_index"`
-}
+//type WCAResults struct {
+//	Id            int    `json:"id"`
+//	Best          int    `json:"best"`
+//	Average       int    `json:"average"`
+//	Name          string `json:"name"`
+//	CompetitionId string `json:"competition_id"`
+//	EventId       string `json:"event_id"`
+//	WcaId         string `json:"wca_id"`
+//	Attempts      []int  `json:"attempts"`
+//	BestIndex     int    `json:"best_index"`
+//	WorstIndex    int    `json:"worst_index"`
+//}
 
 type (
 	Results struct {

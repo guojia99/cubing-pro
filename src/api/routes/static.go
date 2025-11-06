@@ -17,7 +17,8 @@ func StaticRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	diyStatic := router.Group("diy_static")
 	{
-		diyStatic.GET("/diy_rankings/:key", statistics.DiyRankings(svc)) // 自定义版单
+		diyStatic.GET("/diy_rankings/:key", statistics.DiyRankings(svc))             // 自定义版单
+		diyStatic.POST("/diy_rankings/:key/kinch", statistics.DiyRankingsKinch(svc)) // 自定义版单kinch
 
 		diyStatic.GET("/diy_rankings", statistics.GetDiyRankingMaps(svc))                                                                                        // 获取所有列表
 		diyStatic.POST("/diy_rankings", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthAdmin), statistics.AddDiyRankingMap(svc)) // 添加版单

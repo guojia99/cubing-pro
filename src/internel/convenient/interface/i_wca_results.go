@@ -8,12 +8,16 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca_api"
+
+	wca_utils "github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 )
 
 type WCAResultI interface {
 	SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) // 获取sor
+	SelectKinchWithWcaIDs(wcaIds []string, page int, size int, events []event.Event) ([]KinChSorResult, int)
 }
 
 func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) {
@@ -100,7 +104,7 @@ func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []
 	for _, a := range allPlayer {
 		all = append(all, a)
 	}
-	data := c.KinChSor(bestResult, evs, all)
+	data := c.KinChSor(&bestResult, evs, all)
 
 	c.Cache.Set(keys, data, time.Minute*60)
 	return utils.Page[KinChSorResult](data, page, size)
@@ -139,6 +143,84 @@ func seniorRankToResult(rank wca_api.SeniorRank, ev event.Event) result.Results 
 		}
 	case "average":
 		out.Average = result.TimeParserS2F(rank.Best)
+	}
+
+	return out
+}
+
+func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, events []event.Event) ([]KinChSorResult, int) {
+
+	key, err := utils.MakeCacheKey(wcaIds, events)
+	if err == nil && key != "" {
+		value, ok := c.Cache.Get(key)
+		if ok {
+			data := value.([]KinChSorResult)
+			return utils.Page[KinChSorResult](data, page, size)
+		}
+	}
+
+	var dbWcaResults []wca.WCAResult
+	if err = c.DB.Where("wca_id in ?", wcaIds).Find(&dbWcaResults).Error; err != nil {
+		return nil, 0
+	}
+	var eventMap = make(map[string]event.Event)
+	for _, ev := range events {
+		eventMap[ev.ID] = ev
+	}
+
+	var all []PlayerBestResult
+	for _, a := range dbWcaResults {
+		all = append(all, wcaResultToPlayerBestResult(a, eventMap))
+	}
+	data := c.KinChSor(nil, events, all)
+
+	c.Cache.Set(key, data, time.Minute*60)
+	return utils.Page[KinChSorResult](data, page, size)
+}
+
+func wcaResultToPlayerBestResult(wcaResult wca.WCAResult, eventMap map[string]event.Event) PlayerBestResult {
+	out := PlayerBestResult{
+		Player: Player{
+			WcaID:      wcaResult.WcaID,
+			WcaName:    wcaResult.PersonBestResults.PersonName,
+			PlayerName: wcaResult.PersonBestResults.PersonName,
+		},
+		Single: make(map[EventID]result.Results),
+		Avgs:   make(map[EventID]result.Results),
+	}
+
+	for ev, best := range wcaResult.PersonBestResults.Best {
+		var newBest = result.Results{
+			Best:                    result.DNF,
+			Average:                 result.DNF,
+			BestRepeatedlyReduction: 0,
+			BestRepeatedlyTry:       0,
+			BestRepeatedlyTime:      0,
+			EventID:                 eventMap[ev].ID,
+			EventName:               eventMap[ev].Name,
+			EventRoute:              eventMap[ev].BaseRouteType,
+		}
+
+		avg, hasAvg := wcaResult.PersonBestResults.Avg[ev]
+
+		switch ev {
+		case "333mbf":
+			solved, attempted, seconds, _ := wca_utils.Get333MBFResult(best.Best)
+			newBest.BestRepeatedlyReduction = float64(solved)
+			newBest.BestRepeatedlyTry = float64(attempted)
+			newBest.BestRepeatedlyTime = float64(seconds)
+			newBest.Best = newBest.BestRepeatedlyReduction - (newBest.BestRepeatedlyTry - newBest.BestRepeatedlyReduction)
+		default:
+			newBest.Best = float64(best.Best) / 100.0
+			if hasAvg {
+				newBest.Average = float64(avg.Average) / 100.0
+			}
+		}
+
+		out.Single[ev] = newBest
+		if hasAvg {
+			out.Avgs[ev] = newBest
+		}
 	}
 
 	return out

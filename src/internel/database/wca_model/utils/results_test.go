@@ -23,6 +23,8 @@ func TestResultsTimeFormat(t *testing.T) {
 		{args: args{in: 360000, event: "333"}, want: "1:00:00"},
 		{args: args{in: 359999, event: "333"}, want: "59:59.99"},
 
+		{args: args{in: 427, event: "222"}, want: "4.27"},
+
 		// fm
 		{args: args{in: 20, event: "333fm"}, want: "20"},
 		{args: args{in: 2067, event: "333fm"}, want: "20.67"},

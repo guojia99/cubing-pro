@@ -20,7 +20,7 @@ type ResultI interface {
 	PlayerBestResult(playerId uint, events []string, year *int) (PlayerBestResult, error)                              // 获取玩家最佳成绩
 	PlayerNemesisWithID(playerId uint, events []string) (out []Nemesis)
 	PlayerNemesis(player PlayerBestResult, all []PlayerBestResult, events map[string]event.Event, com bool) []Nemesis
-	KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult
+	KinChSor(best *PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult
 	KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error)
 
 	// 以下都是带缓存的
@@ -213,7 +213,47 @@ func (c *ResultIter) PlayerNemesisWithID(playerId uint, events []string) (out []
 	return
 }
 
-func (c *ResultIter) KinChSor(best PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult {
+func (c *ResultIter) getAllPlayerBestResultBest(players []PlayerBestResult, events []event.Event) (best *PlayerBestResult) {
+	best = &PlayerBestResult{
+		Single: make(map[EventID]result.Results),
+		Avgs:   make(map[EventID]result.Results),
+	}
+
+	for _, ev := range events {
+		var bests []result.Results
+		var avgs []result.Results
+		for _, pl := range players {
+			if _, ok := pl.Single[ev.ID]; ok {
+				bests = append(bests, pl.Single[ev.ID])
+			}
+
+			if _, ok := pl.Avgs[ev.ID]; ok {
+				avgs = append(avgs, pl.Avgs[ev.ID])
+			}
+		}
+
+		sort.Slice(bests, func(i, j int) bool {
+			return bests[i].IsBest(bests[j])
+		})
+		sort.Slice(avgs, func(i, j int) bool {
+			return avgs[i].IsBestAvg(avgs[j])
+		})
+
+		if len(bests) > 0 {
+			best.Single[ev.ID] = bests[0]
+		}
+		if len(avgs) > 0 {
+			best.Avgs[ev.ID] = avgs[0]
+		}
+	}
+	return best
+}
+
+func (c *ResultIter) KinChSor(best *PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult {
+	if best == nil {
+		best = c.getAllPlayerBestResultBest(players, events)
+	}
+
 	var out []KinChSorResult
 
 	// 过滤有有效成绩的成绩
@@ -303,7 +343,7 @@ func (c *ResultIter) KinChSorWithPlayer(playerId uint, events []string) (KinChSo
 
 	best, all := c.AllPlayerBestResult(results, players)
 
-	sor := c.KinChSor(best, evs, all)
+	sor := c.KinChSor(&best, evs, all)
 	for _, s := range sor {
 		if s.PlayerId == playerId {
 			return s, nil
@@ -341,7 +381,7 @@ func (c *ResultIter) SelectKinChSor(page int, size int, events []event.Event) ([
 
 	best, all := c.AllPlayerBestResult(results, players)
 
-	data := c.KinChSor(best, evs, all)
+	data := c.KinChSor(&best, evs, all)
 
 	c.Cache.Set(keys, data, time.Minute*60)
 	return utils.Page[KinChSorResult](data, page, size)

@@ -3,6 +3,7 @@ package job
 import (
 	"log"
 	"sort"
+	"strings"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
@@ -19,6 +20,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]models.P
 	var resultsCh []*models.PersonBestResults
 
 	for _, wcaId := range WcaIDs {
+		wcaId = strings.ToUpper(wcaId)
 		if len(wcaId) != 10 {
 			continue
 		}

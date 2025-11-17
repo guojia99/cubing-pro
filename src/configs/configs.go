@@ -57,6 +57,9 @@ type GatewayConfig struct {
 	XFile      string `yaml:"xFile"`      // 其他特殊文件
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
+
+	TNoodlePort        int `yaml:"tNoodlePort"`        // 主机监听tNoodle
+	OutsizeTNoodlePort int `yaml:"outsizeTNoodlePort"` // 暴露的tNoodle port
 }
 
 type QQBotConfig struct {

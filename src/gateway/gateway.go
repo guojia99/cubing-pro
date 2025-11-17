@@ -21,7 +21,9 @@ import (
 
 type Gateway struct {
 	api *gin.Engine
-	cfg configs.Config
+
+	tNoodleApi *gin.Engine
+	cfg        configs.Config
 }
 
 func NewGateway(svc *svc.Svc) *Gateway {
@@ -31,11 +33,35 @@ func NewGateway(svc *svc.Svc) *Gateway {
 	}
 }
 
+func (g *Gateway) runTNoodleApi() {
+	if g.cfg.Gateway.OutsizeTNoodlePort == 0 {
+		return
+	}
+	log.Printf("start tNoodle api %d -> %d\n", g.cfg.Gateway.OutsizeTNoodlePort, g.cfg.Gateway.TNoodlePort)
+
+	g.tNoodleApi = gin.Default()
+	g.tNoodleApi.NoRoute(g.tNoodleRoute())
+	err := g.tNoodleApi.Run(fmt.Sprintf(":%d", g.cfg.Gateway.OutsizeTNoodlePort))
+	if err != nil {
+		log.Fatalf("failed to start tNoodle api: %v", err)
+	}
+}
+
+func (g *Gateway) tNoodleRoute() gin.HandlerFunc {
+	api, _ := url.Parse(fmt.Sprintf("http://localhost:%d", g.cfg.Gateway.TNoodlePort))
+	proxyTNoodleApi := httputil.NewSingleHostReverseProxy(api)
+
+	return func(ctx *gin.Context) {
+		proxyTNoodleApi.ServeHTTP(ctx.Writer, ctx.Request)
+	}
+}
+
 func (g *Gateway) Run() error {
 	g.api.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedPaths([]string{"/v3/cube-api"})))
 	g.api.NoRoute(g.baseRoute())
 	//g.api.Static("/", g.cfg.Gateway.StaticPath)
-
+	go g.runTNoodleApi()
+	// 监听cubing pro api
 	if g.cfg.Gateway.HTTPSPort > 0 {
 		g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
 		_ = g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),

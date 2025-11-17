@@ -1,7 +1,9 @@
 package gateway
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -49,10 +51,35 @@ func (g *Gateway) runTNoodleApi() {
 
 func (g *Gateway) tNoodleRoute() gin.HandlerFunc {
 	api, _ := url.Parse(fmt.Sprintf("http://localhost:%d", g.cfg.Gateway.TNoodlePort))
-	proxyTNoodleApi := httputil.NewSingleHostReverseProxy(api)
+
+	baseProxy := httputil.NewSingleHostReverseProxy(api)
+	jsProxy := httputil.NewSingleHostReverseProxy(api)
+
+	jsProxy.ModifyResponse = func(resp *http.Response) error {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+		resp.Body.Close()
+
+		newBody := bytes.ReplaceAll(body,
+			[]byte("http://localhost:2014"),
+			[]byte("http://cubing.pro:12014"))
+
+		resp.Body = io.NopCloser(bytes.NewReader(newBody))
+		resp.ContentLength = int64(len(newBody))
+		resp.Header.Set("Content-Length", fmt.Sprintf("%d", len(newBody)))
+		resp.Header.Del("Content-Encoding") // 防止 gzip 干扰
+		return nil
+	}
 
 	return func(ctx *gin.Context) {
-		proxyTNoodleApi.ServeHTTP(ctx.Writer, ctx.Request)
+		// 只有 .js 文件才需要替换内容
+		if strings.HasSuffix(ctx.Request.URL.Path, ".js") {
+			jsProxy.ServeHTTP(ctx.Writer, ctx.Request)
+			return
+		}
+		baseProxy.ServeHTTP(ctx.Writer, ctx.Request)
 	}
 }
 

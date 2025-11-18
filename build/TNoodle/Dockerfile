@@ -34,6 +34,4 @@ CMD java -server -XX:+UnlockExperimentalVMOptions -XX:InitialRAMFraction=2 -XX:M
 
 # build: docker build -t tnoodle:1.2.2 .
 # run: docker run -d --restart always -p 2014:2014 --name tnoodle tnoodle:1.2.2
-
-
-
+#docker run -d --restart always --cpus="1.0" --memory="1.2g" -p 2014:2014 --name tnoodle tnoodle:1.2.2

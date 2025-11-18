@@ -148,21 +148,29 @@ func (c *RecordUpdateJob) getRecords(where string, gid uint, typ string) []resul
 
 			// 最佳成绩
 			for key, val := range withEventBest {
-				// 不存在时
-				// 成绩比以前的好时
-				if b, ok3 := nowBest[key]; !ok3 || (b.EventRoute.RouteMap().Repeatedly && val[0].IsBest(b)) ||
-					(!b.EventRoute.RouteMap().Repeatedly && val[0].Best <= b.Best) {
+				if b, ok3 := nowBest[key]; !ok3 || val[0].IsBest(b) {
 					for _, v := range val {
 						addRecord(true, v, comp)
 					}
 					nowBest[val[0].EventID] = val[0]
 					continue
 				}
+				//
+				//// 不存在时
+				//// 成绩比以前的好时
+				//if b, ok3 := nowBest[key]; !ok3 || (b.EventRoute.RouteMap().Repeatedly && val[0].IsBest(b)) ||
+				//	(!b.EventRoute.RouteMap().Repeatedly && val[0].Best <= b.Best) {
+				//	for _, v := range val {
+				//		addRecord(true, v, comp)
+				//	}
+				//	nowBest[val[0].EventID] = val[0]
+				//	continue
+				//}
 			}
 
 			// 平均成绩
 			for key, val := range withEventAvg {
-				if _, ok3 := nowAvg[key]; !ok3 || val[0].Average <= nowAvg[key].Average {
+				if _, ok3 := nowAvg[key]; !ok3 || val[0].IsBestAvg(nowAvg[key]) {
 					for _, v := range val {
 						addRecord(false, v, comp)
 					}

@@ -210,6 +210,11 @@ func wcaResultToPlayerBestResult(wcaResult wca.WCAResult, eventMap map[string]ev
 			newBest.BestRepeatedlyTry = float64(attempted)
 			newBest.BestRepeatedlyTime = float64(seconds)
 			newBest.Best = newBest.BestRepeatedlyReduction - (newBest.BestRepeatedlyTry - newBest.BestRepeatedlyReduction)
+		case "333fm":
+			newBest.Best = float64(best.Best)
+			if hasAvg {
+				newBest.Average = float64(avg.Average)
+			}
 		default:
 			newBest.Best = float64(best.Best) / 100.0
 			if hasAvg {

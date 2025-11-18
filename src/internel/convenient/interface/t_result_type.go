@@ -25,10 +25,11 @@ type Nemesis struct {
 }
 
 type KinChSorResultWithEvent struct {
-	Event  string
-	Result float64
-	IsBest bool
-
+	Event        string
+	Result       float64
+	IsFull       bool   // 该成绩是满分成绩
+	IsBest       bool   // 该成绩分数在全部人中第一
+	UseSingle    bool   // 使用单次成绩
 	ResultString string // 具体成绩
 }
 

@@ -213,7 +213,7 @@ func wcaResultToPlayerBestResult(wcaResult wca.WCAResult, eventMap map[string]ev
 		case "333fm":
 			newBest.Best = float64(best.Best)
 			if hasAvg {
-				newBest.Average = float64(avg.Average)
+				newBest.Average = float64(avg.Average) / 100.0
 			}
 		default:
 			newBest.Best = float64(best.Best) / 100.0

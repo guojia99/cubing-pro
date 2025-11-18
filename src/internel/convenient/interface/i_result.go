@@ -2,6 +2,7 @@ package _interface
 
 import (
 	"fmt"
+	"slices"
 	"sort"
 	"time"
 
@@ -273,6 +274,9 @@ func (c *ResultIter) KinChSor(best *PlayerBestResult, events []event.Event, play
 		}
 	}
 
+	// 最佳分数，基于项目
+	var bestResultMap = make(map[string]float64)
+
 	for _, player := range players {
 		k := KinChSorResult{
 			Player:  player.Player,
@@ -282,32 +286,52 @@ func (c *ResultIter) KinChSor(best *PlayerBestResult, events []event.Event, play
 
 		for _, e := range hasResultEvents {
 			mp := e.BaseRouteType.RouteMap()
-			kr := KinChSorResultWithEvent{Event: e.ID}
+			kr := KinChSorResultWithEvent{Event: e.ID, UseSingle: true}
 			s, ok := player.Single[e.ID]
-			if ok {
-				if mp.Repeatedly {
-					// 多盲分+(60-用时)/60
-					bestResult := best.Single[e.ID].Best + ((3600 - best.Single[e.ID].BestRepeatedlyTime) / 3600)
-					playerResult := s.Best + ((3600 - s.BestRepeatedlyTime) / 3600)
-					kr.Result = (playerResult / bestResult) * 100
-
-				} else if mp.WithBest {
-					kr.Result = (best.Single[e.ID].Best / s.Best) * 100
-				} else {
-					if a, ok2 := player.Avgs[e.ID]; ok2 {
+			if !ok {
+				k.Results = append(k.Results, kr)
+				continue
+			}
+			if mp.Repeatedly {
+				// 多盲分+(60-用时)/60
+				bestResult := best.Single[e.ID].Best + ((3600 - best.Single[e.ID].BestRepeatedlyTime) / 3600)
+				playerResult := s.Best + ((3600 - s.BestRepeatedlyTime) / 3600)
+				kr.Result = (playerResult / bestResult) * 100
+				kr.ResultString = fmt.Sprintf("%d/%d %s", int(s.BestRepeatedlyReduction), int(s.BestRepeatedlyTry), result.TimeParserF2S(s.BestRepeatedlyTime))
+			} else {
+				kr.ResultString = fmt.Sprintf("%s", result.TimeParserF2S(s.Best))
+				if a, ok2 := player.Avgs[e.ID]; ok2 {
+					kr.ResultString += fmt.Sprintf(" | %s", result.TimeParserF2S(a.Average))
+					if _, ok3 := best.Avgs[e.ID]; ok3 { // 仅最佳有平均的情况下
 						kr.Result = (best.Avgs[e.ID].Average / a.Average) * 100
 					}
+					kr.UseSingle = false
 				}
-				kr.IsBest = kr.Result == 100.0
 
-				if mp.Repeatedly {
-					kr.ResultString = fmt.Sprintf("%d/%d %s", int(s.BestRepeatedlyReduction), int(s.BestRepeatedlyTry), result.TimeParserF2S(s.BestRepeatedlyTime))
-				} else {
-					kr.ResultString = fmt.Sprintf("%s", result.TimeParserF2S(s.Best))
-					if _, ok2 := player.Avgs[e.ID]; ok2 {
-						kr.ResultString += fmt.Sprintf(" | %s", result.TimeParserF2S(player.Avgs[e.ID].Average))
+				// 特殊项目
+				if slices.Contains([]string{"333bf", "444bf", "555bf", "333fm"}, e.ID) {
+					var sigResult = 0.0
+					var avgResult = 0.0
+					// 单次
+					sigResult = (best.Single[e.ID].Best / s.Best) * 100
+					// 平均
+					if _, ok2 := best.Avgs[e.ID]; ok2 {
+						if a1, ok3 := player.Avgs[e.ID]; ok3 {
+							avgResult = (best.Avgs[e.ID].Average / a1.Average) * 100
+						}
+					}
+					// 取最佳一个作为自己的成绩
+					kr.Result = sigResult
+					kr.UseSingle = true
+					if avgResult > sigResult {
+						kr.Result = avgResult
+						kr.UseSingle = false
 					}
 				}
+			}
+
+			if res, ok4 := bestResultMap[e.ID]; !ok4 || res < kr.Result {
+				bestResultMap[e.ID] = kr.Result
 			}
 			k.Results = append(k.Results, kr)
 		}
@@ -318,16 +342,32 @@ func (c *ResultIter) KinChSor(best *PlayerBestResult, events []event.Event, play
 		out = append(out, k)
 	}
 
+	for idx, o := range out {
+		for idj, kr := range o.Results {
+			bestResult, ok := bestResultMap[kr.Event]
+			if !ok {
+				continue
+			}
+			if bestResult == kr.Result {
+				out[idx].Results[idj].IsBest = true
+			}
+		}
+	}
+
 	sort.Slice(
 		out, func(i, j int) bool {
 			return out[i].Result > out[j].Result
 		},
 	)
 
+	var resp []KinChSorResult
 	for i := 0; i < len(out); i++ {
 		out[i].Rank = i + 1
+		if out[i].Result > 0 {
+			resp = append(resp, out[i])
+		}
 	}
-	return out
+	return resp
 }
 
 func (c *ResultIter) KinChSorWithPlayer(playerId uint, events []string) (KinChSorResult, error) {

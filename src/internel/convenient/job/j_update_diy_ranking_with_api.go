@@ -25,7 +25,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca_mode
 			continue
 		}
 		log.Printf("[apiGetAllResult] %+v\n", wcaId)
-		time.Sleep(time.Second)
+
 		res, err := wca_api.GetWcaResultWithDbAndAPI(u.DB, wcaId)
 		if err != nil {
 			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)

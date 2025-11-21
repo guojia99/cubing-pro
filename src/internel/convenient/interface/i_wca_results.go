@@ -290,7 +290,6 @@ func (c *ResultIter) SelectSorWithWcaIDs(wcaIds []string, page int, size int, op
 	}
 
 	// 给每个人设置分数
-	fmt.Println(opt)
 	var data []SorResult
 	for _, dbPlayer := range dbWcaResults {
 		var sorResult = SorResult{

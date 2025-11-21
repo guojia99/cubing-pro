@@ -25,6 +25,7 @@ func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*wca_model.PersonBestR
 	}
 
 	// api真实查询
+	time.Sleep(time.Second)
 	res, err := GetWCAPersonResult(wcaId)
 	if err != nil {
 		return nil, err

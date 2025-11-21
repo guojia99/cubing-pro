@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
+	"gorm.io/gorm"
 )
 
 type Scramble interface {
@@ -13,9 +15,13 @@ type Scramble interface {
 	Scramble(ev string, num int) []string
 	Test() string
 	Image(scramble string, ev string) (string, error)
+
+	// 一体整合式
+	CubingProScrambles(cj competition.CompetitionJson) (competition.CompetitionJson, error)
+	TNoodleScrambles(cj competition.CompetitionJson) (competition.CompetitionJson, error)
 }
 
-func NewScramble(scrambleType string, tNoodleEndpoint string, scrambleDrawType string, scrambleUrl string) Scramble {
+func NewScramble(db *gorm.DB, scrambleType string, tNoodleEndpoint string, scrambleDrawType string, scrambleUrl string) Scramble {
 	if scrambleType == "" {
 		scrambleType = scrambleTypeTNoodle
 	}
@@ -28,6 +34,7 @@ func NewScramble(scrambleType string, tNoodleEndpoint string, scrambleDrawType s
 		tNoodleEndpoint:  tNoodleEndpoint,
 		scrambleDrawType: scrambleDrawType,
 		scrambleUrl:      scrambleUrl,
+		db:               db,
 	}
 	if s.scrambleType == scrambleTypeRustTwisty {
 		//go s.loopRustScrambleCache()
@@ -42,6 +49,8 @@ type scramble struct {
 
 	scrambleDrawType string // 2mf8
 	scrambleUrl      string
+
+	db *gorm.DB
 }
 
 func (s *scramble) Test() string {
@@ -154,4 +163,37 @@ func (s *scramble) Image(scramble string, ev string) (string, error) {
 	default:
 		return "", fmt.Errorf("scramble draw type %s not supported", s.scrambleDrawType)
 	}
+}
+
+func (s *scramble) CubingProScrambles(cj competition.CompetitionJson) (competition.CompetitionJson, error) {
+	for i := 0; i < len(cj.Events); i++ {
+		ev := cj.Events[i]
+		if !ev.IsComp {
+			continue
+		}
+		var eve event.Event
+		if err := s.db.Where("id = ?", ev.EventID).First(&eve).Error; err != nil {
+			continue
+		}
+
+		for j := 0; j < len(ev.Schedule); j++ {
+			if ev.Schedule[j].NotScramble {
+				continue
+			}
+			cj.Events[i].Schedule[j].Scrambles = make([][]string, 0)
+			for k := 0; k < ev.Schedule[j].ScrambleNums; k++ {
+				sc, err := s.ScrambleWithComp(eve)
+				if err != nil {
+					break
+				}
+				cj.Events[i].Schedule[j].Scrambles = append(cj.Events[i].Schedule[j].Scrambles, sc)
+			}
+		}
+	}
+	return cj, nil
+}
+
+func (s *scramble) TNoodleScrambles(cj competition.CompetitionJson) (competition.CompetitionJson, error) {
+	//TODO implement me
+	panic("implement me")
 }

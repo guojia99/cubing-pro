@@ -8,7 +8,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -34,7 +33,8 @@ type CreateCompReq struct {
 	GroupID            uint                        `json:"GroupID"`
 	CanStartedAddEvent bool                        `json:"CanStartedAddEvent"`
 
-	Apply bool `json:"Apply"`
+	UseTNoodle bool `json:"UseTNoodle"` // 使用tNoodle打乱
+	Apply      bool `json:"Apply"`
 }
 
 func CreateComp(svc *svc.Svc) gin.HandlerFunc {
@@ -75,32 +75,19 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		// 更新comp JSON 打乱
-		for i := 0; i < len(comps.CompJSON.Events); i++ {
-			ev := comps.CompJSON.Events[i]
-
-			if !ev.IsComp {
-				continue
-			}
-			var eve event.Event
-			if err := svc.DB.Where("id = ?", ev.EventID).First(&eve).Error; err != nil {
-				continue
-			}
-			for j := 0; j < len(ev.Schedule); j++ {
-				if ev.Schedule[j].NotScramble {
-					continue
-				}
-				comps.CompJSON.Events[i].Schedule[j].Scrambles = make([][]string, 0)
-				for k := 0; k < ev.Schedule[j].ScrambleNums; k++ {
-					sc, err := svc.Scramble.ScrambleWithComp(eve)
-					if err != nil {
-						break
-					}
-					comps.CompJSON.Events[i].Schedule[j].Scrambles = append(comps.CompJSON.Events[i].Schedule[j].Scrambles, sc)
-				}
-			}
+		var err error
+		if req.UseTNoodle {
+			comps.CompJSON, err = svc.Scramble.TNoodleScrambles(comps.CompJSON)
+		} else {
+			comps.CompJSON, err = svc.Scramble.CubingProScrambles(comps.CompJSON)
 		}
 
-		if err := svc.DB.Create(&comps).Error; err != nil {
+		if err != nil {
+			exception.ErrResultCreate.ResponseWithError(ctx, err)
+			return
+		}
+		
+		if err = svc.DB.Create(&comps).Error; err != nil {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
 		}

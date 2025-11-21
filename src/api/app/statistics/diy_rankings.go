@@ -7,7 +7,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
+	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
+	_interface "github.com/guojia99/cubing-pro/src/internel/convenient/interface"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -132,5 +135,50 @@ func DiyRankings(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 		exception.ResponseOK(ctx, data)
+	}
+}
+
+type DiyRankingSorReq struct {
+	DiyRankingsReq
+	KinChReq
+
+	WithSingle bool `form:"withSingle" json:"withSingle" query:"withSingle"`
+	WithAvg    bool `form:"withAvg" json:"withAvg" query:"withAvg"`
+}
+
+func DiyRankingSor(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req DiyRankingSorReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+
+		opt := _interface.SelectSorWithWcaIDsOption{
+			Events:     req.Events,
+			WithSingle: req.WithSingle,
+			WithAvg:    req.WithAvg,
+		}
+		if !opt.WithSingle && !opt.WithAvg {
+			opt.WithAvg = true
+		}
+		if len(opt.Events) == 0 {
+			var allWcaEvents []event.Event
+			svc.DB.Where("is_wca = ?", true).Find(&allWcaEvents)
+			for _, ev := range allWcaEvents {
+				opt.Events = append(opt.Events, ev.ID)
+			}
+		}
+
+		var wcaIds []string
+		if err := system.GetKeyJSONValue(svc.DB, req.Key, &wcaIds); err != nil {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		result, total := svc.Cov.SelectSorWithWcaIDs(wcaIds, req.Page, req.Size, opt)
+		exception.ResponseOK(ctx, app_utils.GenerallyListResp{
+			Items: result,
+			Total: int64(total),
+		})
 	}
 }

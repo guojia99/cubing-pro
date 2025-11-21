@@ -116,12 +116,17 @@ type Log struct {
 	MaxSize int    `yaml:"maxSize"`
 }
 
+type JobConfig struct {
+	UnRunJobs []string `yaml:"unRunJobs"`
+}
+
 type Config struct {
 	Log          Log           `yaml:"log"`
 	GlobalConfig GlobalConfig  `yaml:"global"`
 	APIConfig    APIConfig     `yaml:"api"`
 	Robot        RobotConfig   `yaml:"robot"`
 	Gateway      GatewayConfig `yaml:"gateway"`
+	Job          JobConfig     `yaml:"job"`
 }
 
 func (c *Config) Load(file string) error {

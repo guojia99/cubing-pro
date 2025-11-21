@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 )
 
@@ -21,24 +21,24 @@ func ApiGetWCAPerson(wcaID string) (*PersonProfile, error) {
 	return resp, nil
 }
 
-func GetWCAPersonResult(wcaID string) (*models.PersonBestResults, error) {
+func GetWCAPersonResult(wcaID string) (*wca_model.PersonBestResults, error) {
 	pf, err := ApiGetWCAPerson(wcaID)
 	if err != nil {
 		return nil, err
 	}
 
-	var out = &models.PersonBestResults{
+	var out = &wca_model.PersonBestResults{
 		PersonName: pf.Person.Name,
 		WCAID:      pf.Person.WcaId,
-		Best:       make(map[string]models.Results),
-		Avg:        make(map[string]models.Results),
-		MedalCount: models.MedalCount{
+		Best:       make(map[string]wca_model.Results),
+		Avg:        make(map[string]wca_model.Results),
+		MedalCount: wca_model.MedalCount{
 			Gold:   pf.Medals.Gold,
 			Silver: pf.Medals.Silver,
 			Bronze: pf.Medals.Bronze,
 			Total:  pf.Medals.Total,
 		},
-		RecordCount: models.RecordCount{
+		RecordCount: wca_model.RecordCount{
 			National:    pf.Records.National,
 			Continental: pf.Records.Continental,
 			World:       pf.Records.World,
@@ -51,7 +51,7 @@ func GetWCAPersonResult(wcaID string) (*models.PersonBestResults, error) {
 		if val.Single.Id == 0 {
 			continue
 		}
-		out.Best[key] = models.Results{
+		out.Best[key] = wca_model.Results{
 			EventId:       val.Single.EventId,
 			Best:          val.Single.Best,
 			BestStr:       utils.ResultsTimeFormat(val.Single.Best, val.Single.EventId),
@@ -65,7 +65,7 @@ func GetWCAPersonResult(wcaID string) (*models.PersonBestResults, error) {
 		if val.Average.Id == 0 {
 			continue
 		}
-		out.Avg[key] = models.Results{
+		out.Avg[key] = wca_model.Results{
 			EventId:       val.Average.EventId,
 			Average:       val.Average.Best,
 			AverageStr:    utils.ResultsTimeFormat(val.Average.Best, val.Average.EventId),

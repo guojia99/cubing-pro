@@ -40,6 +40,21 @@ type KinChSorResult struct {
 	Results []KinChSorResultWithEvent
 }
 
+type SorResultWithEvent struct {
+	Event  string
+	IsBest bool // 单次成绩
+
+	ResultString string // 具体成绩
+	Rank         int
+}
+
+type SorResult struct {
+	Player
+	Rank    int
+	Sor     int
+	Results []SorResultWithEvent
+}
+
 type UserResultDetail struct {
 	RestoresNum  int `json:"RestoresNum"`  // 尝试次数
 	SuccessesNum int `json:"SuccessesNum"` // 成功还原次数

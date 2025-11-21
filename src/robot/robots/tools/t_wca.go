@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	resultDB "github.com/guojia99/cubing-pro/src/internel/database/model/result"
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca_api"
 	"github.com/guojia99/cubing-pro/src/robot/types"
@@ -94,7 +94,7 @@ func (t *TWca) getPersonWCAID(msg string) (string, error) {
 	return personWCAID, err
 }
 
-func (t *TWca) getPersonResult(msg string) (*models.PersonBestResults, error) {
+func (t *TWca) getPersonResult(msg string) (*wca_model.PersonBestResults, error) {
 	personWCAID, err := t.getPersonWCAID(msg)
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ const (
 	starP2     = "★"
 )
 
-func (t *TWca) pk(p1 *models.Results, p2 *models.Results, best bool, full bool) (p1Count, p2Count int, msg string) {
+func (t *TWca) pk(p1 *wca_model.Results, p2 *wca_model.Results, best bool, full bool) (p1Count, p2Count int, msg string) {
 	if p1 == nil && p2 == nil {
 		return 0, 0, ""
 	}
@@ -189,7 +189,7 @@ func (t *TWca) pk(p1 *models.Results, p2 *models.Results, best bool, full bool) 
 	return 0, 1, fmt.Sprintf("%s %s || %s %s", startEmpty, p1ResultStr, p2ResultStr, starP2)
 }
 
-func (t *TWca) getDoublePerson(message types.InMessage) (*models.PersonBestResults, *models.PersonBestResults, error) {
+func (t *TWca) getDoublePerson(message types.InMessage) (*wca_model.PersonBestResults, *wca_model.PersonBestResults, error) {
 	msg := types.RemoveID(message.Message, t.ID())
 	slices := utils2.Split(msg, "-")
 	var person1, person2 string
@@ -230,9 +230,9 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage, full bool) (
 	var out string
 	out += fmt.Sprintf("%s PK %s\n", person1Result.PersonName, person2Result.PersonName)
 
-	for _, ev := range models.WcaEventsList {
-		var p1BestResult *models.Results
-		var p2BestResult *models.Results
+	for _, ev := range wca_model.WcaEventsList {
+		var p1BestResult *wca_model.Results
+		var p2BestResult *wca_model.Results
 		if v, ok := person1Result.Best[ev]; ok {
 			p1BestResult = &v
 		}
@@ -249,12 +249,12 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage, full bool) (
 			continue
 		}
 
-		out += fmt.Sprintf("%s %s\n", models.WcaEventsCnMap[ev], pkMsg)
+		out += fmt.Sprintf("%s %s\n", wca_model.WcaEventsCnMap[ev], pkMsg)
 		person1Count += p1
 		person2Count += p2
 
-		var p1AvgResult *models.Results
-		var p2AvgResult *models.Results
+		var p1AvgResult *wca_model.Results
+		var p2AvgResult *wca_model.Results
 		if v, ok := person1Result.Avg[ev]; ok {
 			p1AvgResult = &v
 		}
@@ -268,7 +268,7 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage, full bool) (
 		if pkMsg == "" {
 			continue
 		}
-		out += fmt.Sprintf("%s %s\n", strings.Repeat(" ", len(models.WcaEventsCnMap[ev])/2), pkMsg)
+		out += fmt.Sprintf("%s %s\n", strings.Repeat(" ", len(wca_model.WcaEventsCnMap[ev])/2), pkMsg)
 		person1Count += p1
 		person2Count += p2
 	}
@@ -288,7 +288,7 @@ func (t *TWca) handlerPkDoublePersonResult(message types.InMessage, full bool) (
 	return message.NewOutMessage(out), nil
 }
 
-func (t *TWca) cx(p1 *models.Results, p2 *models.Results, best bool) (p1Wined, p1WillWin, notWin string) {
+func (t *TWca) cx(p1 *wca_model.Results, p2 *wca_model.Results, best bool) (p1Wined, p1WillWin, notWin string) {
 	if p1 == nil && p2 == nil {
 		return
 	}
@@ -305,7 +305,7 @@ func (t *TWca) cx(p1 *models.Results, p2 *models.Results, best bool) (p1Wined, p
 		if !best {
 			p1ResultStr = p1.AverageStr
 		}
-		return fmt.Sprintf("%s %s项目%s已经完全超炫他了! 你: %s", start, models.WcaEventsCnMap[p1.EventId], evs, p1ResultStr), "", ""
+		return fmt.Sprintf("%s %s项目%s已经完全超炫他了! 你: %s", start, wca_model.WcaEventsCnMap[p1.EventId], evs, p1ResultStr), "", ""
 	}
 
 	if p1 == nil {
@@ -313,7 +313,7 @@ func (t *TWca) cx(p1 *models.Results, p2 *models.Results, best bool) (p1Wined, p
 		if !best {
 			p2ResultStr = p2.AverageStr
 		}
-		return "", fmt.Sprintf("%s %s项目%s被他完全超炫! 他: %s", start, models.WcaEventsCnMap[p2.EventId], evs, p2ResultStr), ""
+		return "", fmt.Sprintf("%s %s项目%s被他完全超炫! 他: %s", start, wca_model.WcaEventsCnMap[p2.EventId], evs, p2ResultStr), ""
 	}
 
 	p1ResultStr, p1Result, p2ResultStr, p2Result := p1.BestStr, p1.Best, p2.BestStr, p2.Best
@@ -345,20 +345,20 @@ func (t *TWca) cx(p1 *models.Results, p2 *models.Results, best bool) (p1Wined, p
 	}
 
 	if p1Result == p2Result {
-		return "", fmt.Sprintf("%s %s%s你们打平手了, 你们:%s, 你只需要进步0.01秒", start, models.WcaEventsCnMap[p1.EventId], evs, p1ResultStr), ""
+		return "", fmt.Sprintf("%s %s%s你们打平手了, 你们:%s, 你只需要进步0.01秒", start, wca_model.WcaEventsCnMap[p1.EventId], evs, p1ResultStr), ""
 	}
 
 	if p1Result < p2Result {
 		if p1.EventId == "333mbf" {
-			return fmt.Sprintf("%s %s 你已经超炫了他, 你:%s, 他:%s", start, models.WcaEventsCnMap[p1.EventId], p1ResultStr, p2ResultStr), "", ""
+			return fmt.Sprintf("%s %s 你已经超炫了他, 你:%s, 他:%s", start, wca_model.WcaEventsCnMap[p1.EventId], p1ResultStr, p2ResultStr), "", ""
 		}
-		return fmt.Sprintf("%s %s%s, 你:%s, 他:%s, 你超炫了他%s", start, models.WcaEventsCnMap[p1.EventId], evs, p1ResultStr, p2ResultStr, resultDB.TimeParserF2S(wcaP2Result-wcaP1Result)), "", ""
+		return fmt.Sprintf("%s %s%s, 你:%s, 他:%s, 你超炫了他%s", start, wca_model.WcaEventsCnMap[p1.EventId], evs, p1ResultStr, p2ResultStr, resultDB.TimeParserF2S(wcaP2Result-wcaP1Result)), "", ""
 	}
 
 	if p2.EventId == "333mbf" {
-		return "", fmt.Sprintf("%s %s 你被他超炫了,你:%s, 他:%s", start, models.WcaEventsCnMap[p2.EventId], p1ResultStr, p2ResultStr), ""
+		return "", fmt.Sprintf("%s %s 你被他超炫了,你:%s, 他:%s", start, wca_model.WcaEventsCnMap[p2.EventId], p1ResultStr, p2ResultStr), ""
 	}
-	return "", fmt.Sprintf("%s %s%s你被他超炫, 你:%s, 他:%s, 你需要进步:%s", start, models.WcaEventsCnMap[p2.EventId], evs, p1ResultStr, p2ResultStr, resultDB.TimeParserF2S(wcaP1Result-wcaP2Result)), ""
+	return "", fmt.Sprintf("%s %s%s你被他超炫, 你:%s, 他:%s, 你需要进步:%s", start, wca_model.WcaEventsCnMap[p2.EventId], evs, p1ResultStr, p2ResultStr, resultDB.TimeParserF2S(wcaP1Result-wcaP2Result)), ""
 }
 
 func (t *TWca) handlerCxDoublePersonResult(message types.InMessage) (*types.OutMessage, error) {
@@ -371,10 +371,10 @@ func (t *TWca) handlerCxDoublePersonResult(message types.InMessage) (*types.OutM
 	var p1WillWinP2Results []string
 	var notWineds []string
 
-	for _, ev := range models.WcaEventsList {
+	for _, ev := range wca_model.WcaEventsList {
 		// 单次
-		var p1BestResult *models.Results
-		var p2BestResult *models.Results
+		var p1BestResult *wca_model.Results
+		var p2BestResult *wca_model.Results
 		if v, ok := person1Result.Best[ev]; ok {
 			p1BestResult = &v
 		}
@@ -397,8 +397,8 @@ func (t *TWca) handlerCxDoublePersonResult(message types.InMessage) (*types.OutM
 		}
 
 		// 平均
-		var p1AvgResult *models.Results
-		var p2AvgResult *models.Results
+		var p1AvgResult *wca_model.Results
+		var p2AvgResult *wca_model.Results
 		if v, ok := person1Result.Avg[ev]; ok {
 			p1AvgResult = &v
 		}

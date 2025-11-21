@@ -13,7 +13,7 @@ type KinChReq struct {
 	Page int `form:"page" json:"page" query:"page"`
 	Size int `form:"size" json:"size" query:"size"`
 
-	Age    int      `form:"age" query:"age"`
+	Age    int      `form:"age" query:"age" json:"age"`
 	Events []string `json:"events" query:"events"`
 }
 

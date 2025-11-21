@@ -39,14 +39,13 @@ func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 		Cfg:   cfg,
 		Cache: cache.New(time.Minute*5, time.Minute*5),
 	}
-	if scr {
-		c.Scramble = scramble.NewScramble(cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint, cfg.GlobalConfig.Scramble.ScrambleDrawType, cfg.GlobalConfig.Scramble.ScrambleUrl)
-	}
 
 	if c.DB, err = newDB(cfg.GlobalConfig); err != nil {
 		return nil, err
 	}
-
+	if scr {
+		c.Scramble = scramble.NewScramble(c.DB, cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint, cfg.GlobalConfig.Scramble.ScrambleDrawType, cfg.GlobalConfig.Scramble.ScrambleUrl)
+	}
 	// todo 多个程序时
 	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
 	return c, nil

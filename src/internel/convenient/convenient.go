@@ -2,6 +2,7 @@ package convenient
 
 import (
 	"context"
+	"slices"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
@@ -17,7 +18,8 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/sports"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/log"
 	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
@@ -71,21 +73,32 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 	_ = db.AutoMigrate(&system.Image{})    // 系统图片表
 
 	// wca
-	_ = db.AutoMigrate(&wca.WCAResult{}) // wca 信息缓存表
+	_ = db.AutoMigrate(&wca_model.WCAResult{}) // wca 信息缓存表
 
 	_ = db.AutoMigrate(&pktimer.PkTimerResult{}) // pk表
 
 	cache := cache2.New(time.Minute*5, time.Minute*5)
 
+	var baseJobs = []job.Job{
+		{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
+		{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 30},
+		{JobI: &job.UpdateCubingChinaComps{DB: db}, Time: time.Hour * 24},
+	}
+
+	var runJobs []job.Job
+	for _, jb := range baseJobs {
+		if slices.Contains(config.Job.UnRunJobs, jb.Name()) {
+			continue
+		}
+		runJobs = append(runJobs, jb)
+		log.Infof("will run job %s", jb.Name())
+	}
+
 	out := &convenient{
 		CompetitionIter: _interface.CompetitionIter{DB: db},
 		UserIter:        _interface.UserIter{DB: db},
 		ResultIter:      _interface.ResultIter{DB: db, Cache: cache},
-		Jobs: []job.Job{
-			{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
-			//{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Second * 3},
-			{JobI: &job.UpdateDiyRankings{DB: db}, Time: time.Minute * 30},
-		},
+		Jobs:            runJobs,
 	}
 	if runJob {
 		out.Jobs.RunLoop(context.Background())

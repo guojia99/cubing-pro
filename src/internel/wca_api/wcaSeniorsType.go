@@ -3,7 +3,7 @@ package wca_api
 import (
 	"fmt"
 
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/go-tables/table"
 )
 
@@ -134,8 +134,8 @@ func (p *SeniorPersonValue) String() string {
 		var tbs []personBestResultsTable
 		var mbfOut string
 
-		for _, ev := range models.WcaEventsList {
-			cn := models.WcaEventsCnMap[ev]
+		for _, ev := range wca_model.WcaEventsList {
+			cn := wca_model.WcaEventsCnMap[ev]
 			single, sOk := singleMap[ev]
 			if !sOk {
 				continue

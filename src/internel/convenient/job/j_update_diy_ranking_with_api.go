@@ -5,19 +5,18 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/models"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca_api"
-
-	"github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 )
 
-func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]models.PersonBestResults {
-	var out = make(map[string]models.PersonBestResults)
+func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca_model.PersonBestResults {
+	var out = make(map[string]wca_model.PersonBestResults)
 
 	WcaIDs = utils2.RemoveRepeatedElement(WcaIDs)
 
-	var resultsCh []*models.PersonBestResults
+	var resultsCh []*wca_model.PersonBestResults
 
 	for _, wcaId := range WcaIDs {
 		wcaId = strings.ToUpper(wcaId)
@@ -65,8 +64,8 @@ func (u *UpdateDiyRankings) apiGetSortResult(WcaIDs []string) map[string][]WcaRe
 	data := u.apiGetAllResult(WcaIDs)
 
 	for _, eid := range wcaEventsList {
-		var bests []models.Results
-		var avgs []models.Results
+		var bests []wca_model.Results
+		var avgs []wca_model.Results
 
 		for _, r := range data {
 			if b, ok := r.Best[eid]; ok {

@@ -8,16 +8,24 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
+	wca_utils "github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/internel/wca_api"
-
-	wca_utils "github.com/guojia99/cubing-pro/src/internel/database/wca_model/utils"
 )
+
+type SelectSorWithWcaIDsOption struct {
+	Events     []string //
+	WithSingle bool     // 使用单次成绩计算
+	WithAvg    bool     // 使用平均成绩
+}
 
 type WCAResultI interface {
 	SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) // 获取sor
 	SelectKinchWithWcaIDs(wcaIds []string, page int, size int, events []event.Event) ([]KinChSorResult, int)
+
+	// SelectSorWithWcaIDs with nr, asr, wr
+	SelectSorWithWcaIDs(wcaIds []string, page int, size int, opt SelectSorWithWcaIDsOption) ([]SorResult, int)
 }
 
 func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) {
@@ -159,7 +167,7 @@ func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, 
 		}
 	}
 
-	var dbWcaResults []wca.WCAResult
+	var dbWcaResults []wca_model.WCAResult
 	if err = c.DB.Where("wca_id in ?", wcaIds).Find(&dbWcaResults).Error; err != nil {
 		return nil, 0
 	}
@@ -178,7 +186,7 @@ func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, 
 	return utils.Page[KinChSorResult](data, page, size)
 }
 
-func wcaResultToPlayerBestResult(wcaResult wca.WCAResult, eventMap map[string]event.Event) PlayerBestResult {
+func wcaResultToPlayerBestResult(wcaResult wca_model.WCAResult, eventMap map[string]event.Event) PlayerBestResult {
 	out := PlayerBestResult{
 		Player: Player{
 			WcaID:      wcaResult.WcaID,
@@ -229,4 +237,111 @@ func wcaResultToPlayerBestResult(wcaResult wca.WCAResult, eventMap map[string]ev
 	}
 
 	return out
+}
+
+func (c *ResultIter) SelectSorWithWcaIDs(wcaIds []string, page int, size int, opt SelectSorWithWcaIDsOption) ([]SorResult, int) {
+	if (!opt.WithSingle && !opt.WithAvg) || len(opt.Events) == 0 {
+		return nil, 0
+	}
+
+	key, err := utils.MakeCacheKey(wcaIds, opt)
+	if err == nil && key != "" {
+		value, ok := c.Cache.Get(key)
+		if ok {
+			data := value.([]SorResult)
+			return utils.Page[SorResult](data, page, size)
+		}
+	}
+
+	var dbWcaResults []wca_model.WCAResult
+	if err = c.DB.Where("wca_id in ?", wcaIds).Find(&dbWcaResults).Error; err != nil {
+		return nil, 0
+	}
+
+	// 统计每一个项目的排名并排序
+	var singleEvents = make(map[string][]wca_model.Results)
+	var avgEvents = make(map[string][]wca_model.Results)
+	for _, ev := range opt.Events {
+		var s = make([]wca_model.Results, 0)
+		var a = make([]wca_model.Results, 0)
+
+		// 单次
+		for _, player := range dbWcaResults {
+			if res, ok := player.PersonBestResults.Best[ev]; ok {
+				s = append(s, res)
+			}
+			if res, ok := player.PersonBestResults.Avg[ev]; ok {
+				a = append(a, res)
+			}
+		}
+		RankByValue(s, func(md wca_model.Results) int { return md.WorldRank }, func(m *wca_model.Results, i int) { m.Rank = i }, false)
+		RankByValue(a, func(md wca_model.Results) int { return md.WorldRank }, func(m *wca_model.Results, i int) { m.Rank = i }, false)
+
+		if len(s) > 0 {
+			singleEvents[ev] = s
+		}
+		if len(a) > 0 {
+			avgEvents[ev] = a
+		}
+	}
+
+	// 给每个人设置分数
+	fmt.Println(opt)
+	var data []SorResult
+	for _, dbPlayer := range dbWcaResults {
+		var sorResult = SorResult{
+			Player: Player{
+				WcaID:      dbPlayer.WcaID,
+				WcaName:    dbPlayer.PersonBestResults.PersonName,
+				PlayerName: dbPlayer.PersonBestResults.PersonName,
+			},
+			Results: make([]SorResultWithEvent, 0),
+		}
+
+		for _, ev := range opt.Events {
+			if opt.WithSingle && len(singleEvents[ev]) != 0 {
+				var sorResultWithEvent = SorResultWithEvent{
+					Event:        ev,
+					IsBest:       true,
+					ResultString: "", // 默认无成绩
+					Rank:         len(singleEvents[ev]) + 1,
+				}
+				for _, res := range singleEvents[ev] {
+					if res.PersonId == dbPlayer.WcaID {
+						sorResultWithEvent.Rank = res.Rank
+						sorResultWithEvent.ResultString = res.BestStr
+						continue
+					}
+				}
+				sorResult.Sor += sorResultWithEvent.Rank
+				sorResult.Results = append(sorResult.Results, sorResultWithEvent)
+			}
+
+			if opt.WithAvg && len(avgEvents[ev]) != 0 {
+				var sorResultWithEvent = SorResultWithEvent{
+					Event:        ev,
+					IsBest:       false,
+					ResultString: "", // 默认无成绩
+					Rank:         len(avgEvents[ev]) + 1,
+				}
+				for _, res := range avgEvents[ev] {
+					if res.PersonId == dbPlayer.WcaID {
+						sorResultWithEvent.Rank = res.Rank
+						sorResultWithEvent.ResultString = res.AverageStr
+						continue
+					}
+				}
+				sorResult.Sor += sorResultWithEvent.Rank
+				sorResult.Results = append(sorResult.Results, sorResultWithEvent)
+			}
+		}
+
+		data = append(data, sorResult)
+	}
+
+	// 排序输出
+	RankByValue(data, func(s SorResult) int { return s.Sor }, func(s *SorResult, i int) { s.Rank = i }, false)
+
+	c.Cache.Set(key, data, time.Minute*60)
+	return utils.Page[SorResult](data, page, size)
 }

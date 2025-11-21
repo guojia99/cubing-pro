@@ -73,3 +73,68 @@ func (s *scramble) events() map[string]Event {
 	}
 	return out
 }
+
+type (
+	WcIfExtensionsData struct {
+		IsStaging          bool `json:"isStaging"`
+		IsManual           bool `json:"isManual"`
+		IsSignedBuild      bool `json:"isSignedBuild"`
+		IsAllowedVersion   bool `json:"isAllowedVersion"`
+		NumCopies          int  `json:"numCopies,omitempty"`
+		RequestedScrambles int  `json:"requestedScrambles,omitempty"`
+	}
+
+	WcIfExtension struct {
+		Id      string             `json:"id"`
+		SpecUrl string             `json:"specUrl"`
+		Data    WcIfExtensionsData `json:"data"`
+	}
+
+	WcIfSchedule struct {
+		NumberOfDays int           `json:"numberOfDays"`
+		Venues       []interface{} `json:"venues"`
+	}
+
+	WcIfRound struct {
+		Format           string `json:"format"`
+		Id               string `json:"id"`
+		ScrambleSetCount int    `json:"scrambleSetCount"`
+		Extensions       []struct {
+			Id      string `json:"id"`
+			SpecUrl string `json:"specUrl"`
+			Data    struct {
+				NumCopies          int `json:"numCopies,omitempty"`
+				RequestedScrambles int `json:"requestedScrambles,omitempty"`
+			} `json:"data"`
+		} `json:"extensions"`
+	}
+	WcIfEvent struct {
+		Id         string          `json:"id"`
+		Rounds     []WcIfRound     `json:"rounds"`
+		Extensions []WcIfExtension `json:"extensions"`
+	}
+
+	WcIf struct {
+		FormatVersion string          `json:"formatVersion"`
+		Name          string          `json:"name"`
+		ShortName     string          `json:"shortName"`
+		Id            string          `json:"id"`
+		Events        []WcIfEvent     `json:"events"`
+		Schedule      WcIfSchedule    `json:"schedule"`
+		Extensions    []WcIfExtension `json:"extensions"`
+	}
+
+	tNoodleGenerateScramblesRequest struct {
+		WcIf WcIf `json:"wcif"`
+	}
+
+	tNoodleGenerateScramblesRequestResp struct {
+		// 原始数据
+		ZipData []byte `json:"zipData"`
+		ZipPath string `json:"zipPath"`
+
+		//
+	}
+)
+
+func (s *scramble) GenerateScrambles() {}

@@ -4,7 +4,6 @@ import (
 	"log"
 	"sort"
 	"strings"
-	"time"
 
 	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"

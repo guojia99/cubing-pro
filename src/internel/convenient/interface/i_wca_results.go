@@ -168,6 +168,10 @@ func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, 
 	}
 
 	var dbWcaResults []wca_model.WCAResult
+	for idx := range wcaIds {
+		wcaIds[idx] = strings.ToUpper(wcaIds[idx])
+	}
+
 	if err = c.DB.Where("wca_id in ?", wcaIds).Find(&dbWcaResults).Error; err != nil {
 		return nil, 0
 	}

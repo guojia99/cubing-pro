@@ -1,15 +1,17 @@
 package wca_api
 
 import (
+	"strings"
 	"time"
 
 	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"gorm.io/gorm"
 )
 
-const dbVersion = "20250908-1520"
+const dbVersion = "20251121-1551"
 
 func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*wca_model.PersonBestResults, error) {
+	wcaId = strings.ToUpper(wcaId)
 	if db == nil {
 		return GetWCAPersonResult(wcaId)
 	}
@@ -23,7 +25,6 @@ func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*wca_model.PersonBestR
 	}
 
 	// api真实查询
-	time.Sleep(time.Second)
 	res, err := GetWCAPersonResult(wcaId)
 	if err != nil {
 		return nil, err
@@ -37,7 +38,7 @@ func GetWcaResultWithDbAndAPI(db *gorm.DB, wcaId string) (*wca_model.PersonBestR
 		return res, nil
 	}
 	dbResult = wca_model.WCAResult{
-		WcaID:             wcaId,
+		WcaID:             strings.ToUpper(wcaId),
 		PersonBestResults: *res,
 	}
 	_ = db.Create(&dbResult)

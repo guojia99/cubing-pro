@@ -9,9 +9,10 @@ type Player struct {
 	WcaID   string `json:"wca_id"`
 	WcaName string `json:"WcaName"`
 
-	PlayerId   uint   `json:"PlayerId"`
-	CubeId     string `json:"CubeId"`
-	PlayerName string `json:"PlayerName"`
+	PlayerId    uint   `json:"PlayerId"`
+	CubeId      string `json:"CubeId"`
+	PlayerName  string `json:"PlayerName"`
+	CountryIso2 string `json:"CountryIso2"`
 }
 
 type PlayerBestResult struct {

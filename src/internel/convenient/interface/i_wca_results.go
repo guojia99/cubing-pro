@@ -1,7 +1,6 @@
 package _interface
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -21,21 +20,31 @@ type SelectSorWithWcaIDsOption struct {
 }
 
 type WCAResultI interface {
-	SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) // 获取sor
+	SelectSeniorKinChSor(page int, size int, age int, country []string, events []event.Event) ([]KinChSorResult, int) // 获取sor
 	SelectKinchWithWcaIDs(wcaIds []string, page int, size int, events []event.Event) ([]KinChSorResult, int)
 
 	// SelectSorWithWcaIDs with nr, asr, wr
 	SelectSorWithWcaIDs(wcaIds []string, page int, size int, opt SelectSorWithWcaIDsOption) ([]SorResult, int)
 }
 
-func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []event.Event) ([]KinChSorResult, int) {
+func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, country []string, events []event.Event) ([]KinChSorResult, int) {
 	if len(events) == 0 {
 		return nil, 0
 	}
-	var keys = fmt.Sprintf("SelectSeniorKinChSor_age%d_", age)
+
+	keyStruct := map[string]interface{}{
+		"key":     "SelectSeniorKinChSor",
+		"age":     age,
+		"events":  events,
+		"country": country,
+	}
+	keys, err := utils.MakeCacheKey(keyStruct)
+	if err != nil {
+		return nil, 0
+	}
+
 	var eventIds []string
 	for _, ev := range events {
-		keys += fmt.Sprintf("_%s", ev.ID)
 		eventIds = append(eventIds, ev.ID)
 	}
 
@@ -52,7 +61,7 @@ func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []
 		evsMap[ev.ID] = ev
 	}
 
-	best, allSeniors, err := wca_api.GetSeniorsWithEventsAndGroup(age, eventIds)
+	best, allSeniors, err := wca_api.GetSeniorsWithEventsAndGroup(country, age, eventIds)
 	if err != nil {
 		return nil, 0
 	}
@@ -84,9 +93,10 @@ func (c *ResultIter) SelectSeniorKinChSor(page int, size int, age int, events []
 			if _, ok1 := allPlayer[a.Id]; !ok1 {
 				allPlayer[a.Id] = PlayerBestResult{
 					Player: Player{
-						WcaID:      a.Id,
-						WcaName:    a.Name,
-						PlayerName: a.Name,
+						WcaID:       a.Id,
+						WcaName:     a.Name,
+						PlayerName:  a.Name,
+						CountryIso2: a.Country,
 					},
 					Single: make(map[EventID]result.Results),
 					Avgs:   make(map[EventID]result.Results),

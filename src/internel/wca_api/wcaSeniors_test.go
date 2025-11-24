@@ -1,7 +1,9 @@
 package wca_api
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 )
@@ -34,11 +36,12 @@ func Test_getSeniorsPerson(t *testing.T) {
 
 func TestGetSeniorsWithEventsAndGroup(t *testing.T) {
 	time.Sleep(time.Second * 5)
-	bs, out, err := GetSeniorsWithEventsAndGroup(40, []string{"333mbf"})
+	bs, out, err := GetSeniorsWithEventsAndGroup([]string{"CN", "TW"}, 40, []string{"333mbf"})
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	d, _ := json.MarshalIndent(out, "", "   ")
 	fmt.Printf("%+v\n", bs.Single["333mbf"])
-	fmt.Printf("%+v\n", out)
+	_ = os.WriteFile("test.json", d, 0644)
 }

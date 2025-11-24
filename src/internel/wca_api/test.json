@@ -1,0 +1,1398 @@
+{
+   "333mbf": [
+      {
+         "id": "2015JIJI02",
+         "name": "Jingxiang Ji (吉井祥)",
+         "country": "CN",
+         "username": "",
+         "usernum": 0,
+         "age": 40,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333mbf",
+            "333oh",
+            "444bf"
+         ],
+         "countryName": "China",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 920,
+                  "id": "2015JIJI02",
+                  "best": "11.87",
+                  "competition": 3581,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 920,
+                  "cr": 86,
+                  "nr": 16
+               },
+               "333": {
+                  "rank": 964,
+                  "id": "2015JIJI02",
+                  "best": "28.62",
+                  "competition": 3581,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 964,
+                  "cr": 121,
+                  "nr": 19
+               },
+               "333bf": {
+                  "rank": 52,
+                  "id": "2015JIJI02",
+                  "best": "1:35.68",
+                  "competition": 3995,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 52,
+                  "cr": 16,
+                  "nr": 7
+               },
+               "333mbf": {
+                  "rank": 66,
+                  "id": "2015JIJI02",
+                  "best": "3/3 in 17:30",
+                  "competition": 3723,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 66,
+                  "cr": 14,
+                  "nr": 5
+               },
+               "333oh": {
+                  "rank": 167,
+                  "id": "2015JIJI02",
+                  "best": "37.57",
+                  "competition": 3616,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 167,
+                  "cr": 29,
+                  "nr": 4
+               },
+               "444bf": {
+                  "rank": 48,
+                  "id": "2015JIJI02",
+                  "best": "13:41.00",
+                  "competition": 3995,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 48,
+                  "cr": 12,
+                  "nr": 5
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 869,
+                  "id": "2015JIJI02",
+                  "best": "17.38",
+                  "competition": 3581,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 869,
+                  "cr": 86,
+                  "nr": 15
+               },
+               "333": {
+                  "rank": 855,
+                  "id": "2015JIJI02",
+                  "best": "32.42",
+                  "competition": 3616,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 855,
+                  "cr": 115,
+                  "nr": 18
+               },
+               "333bf": {
+                  "rank": 39,
+                  "id": "2015JIJI02",
+                  "best": "1:59.76",
+                  "competition": 3995,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 39,
+                  "cr": 12,
+                  "nr": 7
+               },
+               "333oh": {
+                  "rank": 189,
+                  "id": "2015JIJI02",
+                  "best": "49.92",
+                  "competition": 3616,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 189,
+                  "cr": 32,
+                  "nr": 3
+               }
+            }
+         }
+      },
+      {
+         "id": "2024GESH01",
+         "name": "Ge Shi (石歌)",
+         "country": "CN",
+         "username": "",
+         "usernum": 0,
+         "age": 40,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333fm",
+            "333mbf",
+            "333oh",
+            "444",
+            "444bf",
+            "555",
+            "555bf",
+            "666",
+            "777",
+            "clock",
+            "minx",
+            "pyram",
+            "skewb",
+            "sq1"
+         ],
+         "countryName": "China",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 218,
+                  "id": "2024GESH01",
+                  "best": "4.72",
+                  "competition": 13884,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 218,
+                  "cr": 26,
+                  "nr": 6
+               },
+               "333": {
+                  "rank": 407,
+                  "id": "2024GESH01",
+                  "best": "18.68",
+                  "competition": 14884,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 407,
+                  "cr": 73,
+                  "nr": 16
+               },
+               "333bf": {
+                  "rank": 34,
+                  "id": "2024GESH01",
+                  "best": "1:13.31",
+                  "competition": 15072,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 34,
+                  "cr": 9,
+                  "nr": 5
+               },
+               "333fm": {
+                  "rank": 42,
+                  "id": "2024GESH01",
+                  "best": "30",
+                  "competition": 14452,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 42,
+                  "cr": 9,
+                  "nr": 2
+               },
+               "333mbf": {
+                  "rank": 29,
+                  "id": "2024GESH01",
+                  "best": "8/8 in 50:14",
+                  "competition": 15097,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 29,
+                  "cr": 6,
+                  "nr": 3
+               },
+               "333oh": {
+                  "rank": 255,
+                  "id": "2024GESH01",
+                  "best": "48.14",
+                  "competition": 15713,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 255,
+                  "cr": 40,
+                  "nr": 5
+               },
+               "444": {
+                  "rank": 159,
+                  "id": "2024GESH01",
+                  "best": "1:07.36",
+                  "competition": 15876,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 159,
+                  "cr": 29,
+                  "nr": 6
+               },
+               "444bf": {
+                  "rank": 35,
+                  "id": "2024GESH01",
+                  "best": "10:32.00",
+                  "competition": 15097,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 35,
+                  "cr": 7,
+                  "nr": 4
+               },
+               "555": {
+                  "rank": 130,
+                  "id": "2024GESH01",
+                  "best": "2:20.34",
+                  "competition": 15876,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 130,
+                  "cr": 24,
+                  "nr": 4
+               },
+               "555bf": {
+                  "rank": 30,
+                  "id": "2024GESH01",
+                  "best": "27:30.00",
+                  "competition": 15588,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 30,
+                  "cr": 9,
+                  "nr": 4
+               },
+               "666": {
+                  "rank": 70,
+                  "id": "2024GESH01",
+                  "best": "4:19.73",
+                  "competition": 15876,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 70,
+                  "cr": 12,
+                  "nr": 2
+               },
+               "777": {
+                  "rank": 79,
+                  "id": "2024GESH01",
+                  "best": "7:10.71",
+                  "competition": 15876,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 79,
+                  "cr": 13,
+                  "nr": 2
+               },
+               "clock": {
+                  "rank": 64,
+                  "id": "2024GESH01",
+                  "best": "9.51",
+                  "competition": 14588,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 64,
+                  "cr": 9,
+                  "nr": 2
+               },
+               "minx": {
+                  "rank": 135,
+                  "id": "2024GESH01",
+                  "best": "2:52.28",
+                  "competition": 14542,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 135,
+                  "cr": 28,
+                  "nr": 3
+               },
+               "pyram": {
+                  "rank": 297,
+                  "id": "2024GESH01",
+                  "best": "9.30",
+                  "competition": 12580,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 297,
+                  "cr": 39,
+                  "nr": 8
+               },
+               "skewb": {
+                  "rank": 190,
+                  "id": "2024GESH01",
+                  "best": "9.26",
+                  "competition": 13792,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 190,
+                  "cr": 23,
+                  "nr": 8
+               },
+               "sq1": {
+                  "rank": 158,
+                  "id": "2024GESH01",
+                  "best": "1:02.54",
+                  "competition": 13884,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 158,
+                  "cr": 27,
+                  "nr": 3
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 163,
+                  "id": "2024GESH01",
+                  "best": "6.95",
+                  "competition": 13290,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 163,
+                  "cr": 23,
+                  "nr": 5
+               },
+               "333": {
+                  "rank": 390,
+                  "id": "2024GESH01",
+                  "best": "22.31",
+                  "competition": 15713,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 390,
+                  "cr": 70,
+                  "nr": 16
+               },
+               "333bf": {
+                  "rank": 24,
+                  "id": "2024GESH01",
+                  "best": "1:29.92",
+                  "competition": 15588,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 24,
+                  "cr": 7,
+                  "nr": 4
+               },
+               "333fm": {
+                  "rank": 29,
+                  "id": "2024GESH01",
+                  "best": "34.00",
+                  "competition": 15588,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 29,
+                  "cr": 3,
+                  "nr": 1
+               },
+               "333oh": {
+                  "rank": 252,
+                  "id": "2024GESH01",
+                  "best": "1:06.83",
+                  "competition": 14884,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 252,
+                  "cr": 40,
+                  "nr": 4
+               },
+               "444": {
+                  "rank": 164,
+                  "id": "2024GESH01",
+                  "best": "1:19.83",
+                  "competition": 14884,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 164,
+                  "cr": 29,
+                  "nr": 6
+               },
+               "444bf": {
+                  "rank": 18,
+                  "id": "2024GESH01",
+                  "best": "12:50.00",
+                  "competition": 14818,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 18,
+                  "cr": 3,
+                  "nr": 2
+               },
+               "555": {
+                  "rank": 136,
+                  "id": "2024GESH01",
+                  "best": "2:46.20",
+                  "competition": 15876,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 136,
+                  "cr": 26,
+                  "nr": 3
+               },
+               "666": {
+                  "rank": 71,
+                  "id": "2024GESH01",
+                  "best": "4:52.91",
+                  "competition": 15876,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 71,
+                  "cr": 15,
+                  "nr": 3
+               },
+               "777": {
+                  "rank": 65,
+                  "id": "2024GESH01",
+                  "best": "7:22.29",
+                  "competition": 15876,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 65,
+                  "cr": 13,
+                  "nr": 2
+               },
+               "clock": {
+                  "rank": 141,
+                  "id": "2024GESH01",
+                  "best": "14.59",
+                  "competition": 14588,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 141,
+                  "cr": 20,
+                  "nr": 3
+               },
+               "minx": {
+                  "rank": 120,
+                  "id": "2024GESH01",
+                  "best": "3:14.57",
+                  "competition": 14542,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 120,
+                  "cr": 28,
+                  "nr": 3
+               },
+               "pyram": {
+                  "rank": 144,
+                  "id": "2024GESH01",
+                  "best": "10.83",
+                  "competition": 14884,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 144,
+                  "cr": 28,
+                  "nr": 6
+               },
+               "skewb": {
+                  "rank": 134,
+                  "id": "2024GESH01",
+                  "best": "12.27",
+                  "competition": 14830,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 134,
+                  "cr": 20,
+                  "nr": 7
+               },
+               "sq1": {
+                  "rank": 130,
+                  "id": "2024GESH01",
+                  "best": "1:27.53",
+                  "competition": 13884,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 130,
+                  "cr": 25,
+                  "nr": 2
+               }
+            }
+         }
+      },
+      {
+         "id": "2009WUMI01",
+         "name": "Min Wu (吴民)",
+         "country": "CN",
+         "username": "",
+         "usernum": 0,
+         "age": 40,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333fm",
+            "333mbf",
+            "444",
+            "444bf",
+            "555",
+            "555bf",
+            "clock",
+            "pyram",
+            "skewb"
+         ],
+         "countryName": "China",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 623,
+                  "id": "2009WUMI01",
+                  "best": "7.85",
+                  "competition": 14528,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 623,
+                  "cr": 67,
+                  "nr": 13
+               },
+               "333": {
+                  "rank": 344,
+                  "id": "2009WUMI01",
+                  "best": "17.72",
+                  "competition": 15666,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 344,
+                  "cr": 63,
+                  "nr": 13
+               },
+               "333bf": {
+                  "rank": 20,
+                  "id": "2009WUMI01",
+                  "best": "56.51",
+                  "competition": 11904,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 20,
+                  "cr": 6,
+                  "nr": 2
+               },
+               "333fm": {
+                  "rank": 8,
+                  "id": "2009WUMI01",
+                  "best": "24",
+                  "competition": 14247,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 8,
+                  "cr": 3,
+                  "nr": 1
+               },
+               "333mbf": {
+                  "rank": 63,
+                  "id": "2009WUMI01",
+                  "best": "7/10 in 58:35",
+                  "competition": 12418,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 63,
+                  "cr": 12,
+                  "nr": 4
+               },
+               "444": {
+                  "rank": 312,
+                  "id": "2009WUMI01",
+                  "best": "1:27.48",
+                  "competition": 12269,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 312,
+                  "cr": 52,
+                  "nr": 10
+               },
+               "444bf": {
+                  "rank": 11,
+                  "id": "2009WUMI01",
+                  "best": "5:45.56",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 11,
+                  "cr": 4,
+                  "nr": 2
+               },
+               "555": {
+                  "rank": 274,
+                  "id": "2009WUMI01",
+                  "best": "3:14.75",
+                  "competition": 12269,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 274,
+                  "cr": 42,
+                  "nr": 5
+               },
+               "555bf": {
+                  "rank": 8,
+                  "id": "2009WUMI01",
+                  "best": "12:56.00",
+                  "competition": 12456,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 8,
+                  "cr": 3,
+                  "nr": 2
+               },
+               "clock": {
+                  "rank": 354,
+                  "id": "2009WUMI01",
+                  "best": "25.61",
+                  "competition": 14528,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 354,
+                  "cr": 37,
+                  "nr": 8
+               },
+               "pyram": {
+                  "rank": 320,
+                  "id": "2009WUMI01",
+                  "best": "9.71",
+                  "competition": 14528,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 320,
+                  "cr": 43,
+                  "nr": 9
+               },
+               "skewb": {
+                  "rank": 336,
+                  "id": "2009WUMI01",
+                  "best": "14.09",
+                  "competition": 14528,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 336,
+                  "cr": 39,
+                  "nr": 10
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 555,
+                  "id": "2009WUMI01",
+                  "best": "10.95",
+                  "competition": 12269,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 555,
+                  "cr": 68,
+                  "nr": 13
+               },
+               "333": {
+                  "rank": 242,
+                  "id": "2009WUMI01",
+                  "best": "19.51",
+                  "competition": 14528,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 242,
+                  "cr": 46,
+                  "nr": 9
+               },
+               "333bf": {
+                  "rank": 13,
+                  "id": "2009WUMI01",
+                  "best": "1:05.66",
+                  "competition": 14247,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 13,
+                  "cr": 5,
+                  "nr": 2
+               },
+               "333fm": {
+                  "rank": 32,
+                  "id": "2009WUMI01",
+                  "best": "34.33",
+                  "competition": 14247,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 32,
+                  "cr": 4,
+                  "nr": 2
+               },
+               "pyram": {
+                  "rank": 168,
+                  "id": "2009WUMI01",
+                  "best": "11.45",
+                  "competition": 14528,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 168,
+                  "cr": 30,
+                  "nr": 7
+               },
+               "skewb": {
+                  "rank": 196,
+                  "id": "2009WUMI01",
+                  "best": "15.11",
+                  "competition": 14528,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 196,
+                  "cr": 29,
+                  "nr": 10
+               }
+            }
+         }
+      },
+      {
+         "id": "2015HETI01",
+         "name": "Ting He (禾廷)",
+         "country": "CN",
+         "username": "",
+         "usernum": 0,
+         "age": 50,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333mbf",
+            "333oh",
+            "444bf",
+            "555bf"
+         ],
+         "countryName": "China",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 365,
+                  "id": "2015HETI01",
+                  "best": "5.75",
+                  "competition": 2490,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 365,
+                  "cr": 42,
+                  "nr": 11
+               },
+               "333": {
+                  "rank": 224,
+                  "id": "2015HETI01",
+                  "best": "15.58",
+                  "competition": 2958,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 224,
+                  "cr": 45,
+                  "nr": 7
+               },
+               "333bf": {
+                  "rank": 21,
+                  "id": "2015HETI01",
+                  "best": "57.31",
+                  "competition": 6133,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 21,
+                  "cr": 7,
+                  "nr": 3
+               },
+               "333mbf": {
+                  "rank": 9,
+                  "id": "2015HETI01",
+                  "best": "15/16 in 53:45",
+                  "competition": 6133,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 9,
+                  "cr": 2,
+                  "nr": 2
+               },
+               "333oh": {
+                  "rank": 99,
+                  "id": "2015HETI01",
+                  "best": "31.32",
+                  "competition": 2490,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 99,
+                  "cr": 19,
+                  "nr": 3
+               },
+               "444bf": {
+                  "rank": 14,
+                  "id": "2015HETI01",
+                  "best": "6:00.64",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 14,
+                  "cr": 5,
+                  "nr": 3
+               },
+               "555bf": {
+                  "rank": 12,
+                  "id": "2015HETI01",
+                  "best": "14:27.00",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 12,
+                  "cr": 4,
+                  "nr": 3
+               }
+            },
+            "50": {
+               "333bf": {
+                  "rank": 12,
+                  "id": "2015HETI01",
+                  "best": "1:28.70",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 50,
+                  "wr": 12,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333mbf": {
+                  "rank": 25,
+                  "id": "2015HETI01",
+                  "best": "12/20 in 1:00:00",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 50,
+                  "wr": 25,
+                  "cr": 4,
+                  "nr": 1
+               },
+               "444bf": {
+                  "rank": 7,
+                  "id": "2015HETI01",
+                  "best": "6:00.64",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 50,
+                  "wr": 7,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "555bf": {
+                  "rank": 8,
+                  "id": "2015HETI01",
+                  "best": "14:27.00",
+                  "competition": 15202,
+                  "type": "single",
+                  "age": 50,
+                  "wr": 8,
+                  "cr": 1,
+                  "nr": 1
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 287,
+                  "id": "2015HETI01",
+                  "best": "8.08",
+                  "competition": 2490,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 287,
+                  "cr": 39,
+                  "nr": 9
+               },
+               "333": {
+                  "rank": 174,
+                  "id": "2015HETI01",
+                  "best": "17.97",
+                  "competition": 3817,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 174,
+                  "cr": 39,
+                  "nr": 7
+               },
+               "333bf": {
+                  "rank": 14,
+                  "id": "2015HETI01",
+                  "best": "1:06.21",
+                  "competition": 6133,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 14,
+                  "cr": 6,
+                  "nr": 3
+               },
+               "444bf": {
+                  "rank": 6,
+                  "id": "2015HETI01",
+                  "best": "6:48.97",
+                  "competition": 11904,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 6,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "555bf": {
+                  "rank": 6,
+                  "id": "2015HETI01",
+                  "best": "18:10.00",
+                  "competition": 6133,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 6,
+                  "cr": 2,
+                  "nr": 1
+               }
+            }
+         }
+      },
+      {
+         "id": "2017CHEL02",
+         "name": "Liang Chen (陈樑)",
+         "country": "CN",
+         "username": "",
+         "usernum": 0,
+         "age": 40,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333fm",
+            "333mbf",
+            "444",
+            "444bf",
+            "555bf",
+            "clock",
+            "pyram",
+            "skewb"
+         ],
+         "countryName": "China",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 396,
+                  "id": "2017CHEL02",
+                  "best": "5.93",
+                  "competition": 11533,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 396,
+                  "cr": 47,
+                  "nr": 12
+               },
+               "333": {
+                  "rank": 400,
+                  "id": "2017CHEL02",
+                  "best": "18.63",
+                  "competition": 15009,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 400,
+                  "cr": 72,
+                  "nr": 15
+               },
+               "333bf": {
+                  "rank": 5,
+                  "id": "2017CHEL02",
+                  "best": "41.17",
+                  "competition": 14685,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 5,
+                  "cr": 4,
+                  "nr": 1
+               },
+               "333fm": {
+                  "rank": 88,
+                  "id": "2017CHEL02",
+                  "best": "39",
+                  "competition": 7308,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 88,
+                  "cr": 13,
+                  "nr": 3
+               },
+               "333mbf": {
+                  "rank": 1,
+                  "id": "2017CHEL02",
+                  "best": "21/23 in 53:12",
+                  "competition": 11904,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "444": {
+                  "rank": 161,
+                  "id": "2017CHEL02",
+                  "best": "1:07.51",
+                  "competition": 15009,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 161,
+                  "cr": 30,
+                  "nr": 7
+               },
+               "444bf": {
+                  "rank": 4,
+                  "id": "2017CHEL02",
+                  "best": "4:21.20",
+                  "competition": 14247,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 4,
+                  "cr": 2,
+                  "nr": 1
+               },
+               "555bf": {
+                  "rank": 3,
+                  "id": "2017CHEL02",
+                  "best": "10:25.00",
+                  "competition": 12418,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 3,
+                  "cr": 2,
+                  "nr": 1
+               },
+               "clock": {
+                  "rank": 192,
+                  "id": "2017CHEL02",
+                  "best": "14.48",
+                  "competition": 13016,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 192,
+                  "cr": 28,
+                  "nr": 5
+               },
+               "pyram": {
+                  "rank": 165,
+                  "id": "2017CHEL02",
+                  "best": "7.14",
+                  "competition": 7277,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 165,
+                  "cr": 24,
+                  "nr": 6
+               },
+               "skewb": {
+                  "rank": 80,
+                  "id": "2017CHEL02",
+                  "best": "6.08",
+                  "competition": 7277,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 80,
+                  "cr": 11,
+                  "nr": 5
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 367,
+                  "id": "2017CHEL02",
+                  "best": "8.89",
+                  "competition": 11533,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 367,
+                  "cr": 52,
+                  "nr": 12
+               },
+               "333": {
+                  "rank": 361,
+                  "id": "2017CHEL02",
+                  "best": "21.73",
+                  "competition": 15009,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 361,
+                  "cr": 68,
+                  "nr": 15
+               },
+               "333bf": {
+                  "rank": 4,
+                  "id": "2017CHEL02",
+                  "best": "50.07",
+                  "competition": 11533,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 4,
+                  "cr": 3,
+                  "nr": 1
+               },
+               "333fm": {
+                  "rank": 70,
+                  "id": "2017CHEL02",
+                  "best": "45.00",
+                  "competition": 7308,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 70,
+                  "cr": 14,
+                  "nr": 3
+               },
+               "clock": {
+                  "rank": 159,
+                  "id": "2017CHEL02",
+                  "best": "15.60",
+                  "competition": 13016,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 159,
+                  "cr": 22,
+                  "nr": 4
+               },
+               "pyram": {
+                  "rank": 282,
+                  "id": "2017CHEL02",
+                  "best": "13.66",
+                  "competition": 7277,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 282,
+                  "cr": 44,
+                  "nr": 10
+               },
+               "skewb": {
+                  "rank": 124,
+                  "id": "2017CHEL02",
+                  "best": "11.84",
+                  "competition": 7277,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 124,
+                  "cr": 18,
+                  "nr": 6
+               }
+            }
+         }
+      },
+      {
+         "id": "2007LUJI01",
+         "name": "Jia-Hong Lu (陸嘉宏)",
+         "country": "TW",
+         "username": "",
+         "usernum": 0,
+         "age": 40,
+         "events": [
+            "222",
+            "333",
+            "333bf",
+            "333fm",
+            "333mbf",
+            "444",
+            "444bf",
+            "555",
+            "555bf"
+         ],
+         "countryName": "Chinese Taipei",
+         "continent": "AS",
+         "single": {
+            "40": {
+               "222": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "1.42",
+                  "competition": 9384,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333": {
+                  "rank": 2,
+                  "id": "2007LUJI01",
+                  "best": "8.32",
+                  "competition": 9645,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 2,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333bf": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "22.76",
+                  "competition": 9149,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333fm": {
+                  "rank": 48,
+                  "id": "2007LUJI01",
+                  "best": "31",
+                  "competition": 11131,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 48,
+                  "cr": 10,
+                  "nr": 2
+               },
+               "333mbf": {
+                  "rank": 16,
+                  "id": "2007LUJI01",
+                  "best": "11/11 in 34:39",
+                  "competition": 10632,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 16,
+                  "cr": 4,
+                  "nr": 1
+               },
+               "444": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "35.76",
+                  "competition": 10632,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "444bf": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "2:16.22",
+                  "competition": 15657,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "555": {
+                  "rank": 2,
+                  "id": "2007LUJI01",
+                  "best": "1:14.97",
+                  "competition": 14602,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 2,
+                  "cr": 2,
+                  "nr": 1
+               },
+               "555bf": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "4:42.52",
+                  "competition": 15657,
+                  "type": "single",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               }
+            }
+         },
+         "average": {
+            "40": {
+               "222": {
+                  "rank": 16,
+                  "id": "2007LUJI01",
+                  "best": "4.86",
+                  "competition": 13288,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 16,
+                  "cr": 3,
+                  "nr": 1
+               },
+               "333": {
+                  "rank": 2,
+                  "id": "2007LUJI01",
+                  "best": "11.15",
+                  "competition": 14257,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 2,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333bf": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "27.32",
+                  "competition": 9149,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "333fm": {
+                  "rank": 34,
+                  "id": "2007LUJI01",
+                  "best": "35.00",
+                  "competition": 11131,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 34,
+                  "cr": 8,
+                  "nr": 2
+               },
+               "444": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "40.71",
+                  "competition": 8788,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               },
+               "555": {
+                  "rank": 2,
+                  "id": "2007LUJI01",
+                  "best": "1:22.19",
+                  "competition": 14602,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 2,
+                  "cr": 2,
+                  "nr": 1
+               },
+               "555bf": {
+                  "rank": 1,
+                  "id": "2007LUJI01",
+                  "best": "6:08.43",
+                  "competition": 11131,
+                  "type": "average",
+                  "age": 40,
+                  "wr": 1,
+                  "cr": 1,
+                  "nr": 1
+               }
+            }
+         }
+      }
+   ]
+}

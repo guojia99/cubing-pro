@@ -13,8 +13,9 @@ type KinChReq struct {
 	Page int `form:"page" json:"page" query:"page"`
 	Size int `form:"size" json:"size" query:"size"`
 
-	Age    int      `form:"age" query:"age" json:"age"`
-	Events []string `json:"events" query:"events"`
+	Age     int      `form:"age" query:"age" json:"age"`
+	Events  []string `json:"events" query:"events"`
+	Country []string `json:"country" query:"country"`
 }
 
 func KinCh(svc *svc.Svc) gin.HandlerFunc {
@@ -53,7 +54,7 @@ func SeniorKinCh(svc *svc.Svc) gin.HandlerFunc {
 			svc.DB.Find(&events, "is_wca = ? and id in ?", true, req.Events)
 		}
 
-		result, total := svc.Cov.SelectSeniorKinChSor(req.Page, req.Size, req.Age, events)
+		result, total := svc.Cov.SelectSeniorKinChSor(req.Page, req.Size, req.Age, req.Country, events)
 		exception.ResponseOK(ctx, app_utils.GenerallyListResp{
 			Items: result,
 			Total: int64(total),

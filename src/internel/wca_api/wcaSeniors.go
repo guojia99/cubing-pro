@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 	"time"
@@ -268,7 +269,7 @@ func GetSeniorsPerson(wcaID string) (*SeniorPersonValue, error) {
 	return &p, nil
 }
 
-func GetSeniorsWithEventsAndGroup(age int, events []string) (BestSeniorValue, map[string][]SeniorPersonValue, error) {
+func GetSeniorsWithEventsAndGroup(country []string, age int, events []string) (BestSeniorValue, map[string][]SeniorPersonValue, error) {
 	if cacheData == nil {
 		return BestSeniorValue{}, nil, errors.New("seniors cache data is empty")
 	}
@@ -282,12 +283,22 @@ func GetSeniorsWithEventsAndGroup(age int, events []string) (BestSeniorValue, ma
 		Average: make(map[string]SeniorRank),
 	}
 
+	var checkIsInCountry = func(iso2 string) bool {
+		if len(country) == 0 {
+			return true
+		}
+		return slices.Contains(country, iso2)
+	}
+
 	for _, event := range events {
 		ps[event] = make([]SeniorPersonValue, 0)
 		bestSingleCache[event] = make([]SeniorRank, 0)
 		bestAvgCache[event] = make([]SeniorRank, 0)
 
 		for _, p := range cacheData.PersonMap {
+			if !checkIsInCountry(p.Country) {
+				continue
+			}
 			if _, ok := p.Single[age]; !ok {
 				continue
 			}

@@ -172,7 +172,7 @@ var wcaEvents = []event.Event{
 		Icon:          "",
 		IconBase64:    "",
 		IsWCA:         true,
-		BaseRouteType: event.RouteType3roundsBest,
+		BaseRouteType: event.RouteType5roundsBest,
 	},
 	{
 		StringIDModel: basemodel.StringIDModel{
@@ -333,6 +333,20 @@ var otherEvents = []event.Event{
 		IconBase64:    "",
 		IsWCA:         false,
 		BaseRouteType: event.RouteType1rounds,
+	},
+	{
+		StringIDModel: basemodel.StringIDModel{
+			ID: "o333bf",
+		},
+		Name:          "o333bf",
+		OtherNames:    "旧三盲;经典三盲;o3bf",
+		Cn:            "经典三盲",
+		Class:         "wca",
+		IsComp:        true,
+		Icon:          "",
+		IconBase64:    "",
+		IsWCA:         false,
+		BaseRouteType: event.RouteType5roundsBest,
 	},
 }
 

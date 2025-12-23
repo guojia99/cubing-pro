@@ -44,7 +44,12 @@ func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 		return nil, err
 	}
 	if scr {
-		c.Scramble = scramble.NewScramble(c.DB, cfg.GlobalConfig.Scramble.Type, cfg.GlobalConfig.Scramble.EndPoint, cfg.GlobalConfig.Scramble.ScrambleDrawType, cfg.GlobalConfig.Scramble.ScrambleUrl)
+		c.Scramble = scramble.NewScramble(c.DB,
+			cfg.GlobalConfig.Scramble.Type,
+			cfg.GlobalConfig.Scramble.EndPoint,
+			cfg.GlobalConfig.Scramble.ScrambleDrawType,
+			cfg.GlobalConfig.Scramble.ScrambleUrl,
+		)
 	}
 	// todo 多个程序时
 	c.Cov = convenient.NewConvenient(c.DB, job, cfg)

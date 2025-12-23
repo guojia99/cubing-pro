@@ -250,6 +250,27 @@ func (c *ResultIter) getAllPlayerBestResultBest(players []PlayerBestResult, even
 	return best
 }
 
+/*
+KinChSor 计算每位选手在多个魔方项目中的综合表现分数（KinChSor 分数），
+并按总分从高到低排序，返回每位选手的得分明细及排名。
+
+算法：
+- 对每个有效项目（有成绩的项目），计算该选手在该项目中的“相对表现”（百分比）；
+- 单个项目kinch分 = 选手成绩 / 全体最佳成绩 × 100
+- 所有项目的kinch分取平均，作为该选手的总 KinChSor 分数；
+- 无该项目的分数时取0分。
+- 特殊规则： 多盲（Repeatedly）、盲拧（bf）和最少步（fm）等项目取单次和平均中最佳
+
+i：
+
+	best: 全体选手在各项目中的最佳成绩（单次/平均）。若为 nil，则自动计算。
+	events: 要参与评分的比赛项目列表。
+	players: 所有参赛选手及其各项目成绩。
+
+o：
+
+	按 KinChSor 总分降序排列的选手结果列表，包含每人每项的得分、是否为全场最佳、使用单次还是平均等信息。
+*/
 func (c *ResultIter) KinChSor(best *PlayerBestResult, events []event.Event, players []PlayerBestResult) []KinChSorResult {
 	if best == nil {
 		best = c.getAllPlayerBestResultBest(players, events)

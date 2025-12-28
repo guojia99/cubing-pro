@@ -8,10 +8,6 @@ import (
 )
 
 type WCA interface {
-	// Sync 同步数据库
-	Sync() error
-	SyncLoop()
-
 	// ExportToSqlite 导出
 	ExportToSqlite(sqlitePath string) error // 耗时较长，需要较多内存来存放数据，仅实验使用
 	ExportToTable(filePath string) error
@@ -21,7 +17,7 @@ type WCA interface {
 	GetCompetition(compId string) (types.Competition, error)
 
 	// 统计
-	//Get
+	GetPersonRankTimer(wcaId string) ([]types.StaticPersonRankWithTimer, error)
 }
 
 type wca struct {
@@ -69,10 +65,14 @@ func NewWCA(
 
 	if enableSync {
 		// 初始化后必须立即同步数据库
-		if err = w.Sync(); err != nil {
+		if err = w.sync(); err != nil {
 			return nil, err
 		}
-		go w.SyncLoop()
+		go w.syncLoop()
+	} else {
+		w.updateDb()
+		go w.updateDbLoop()
 	}
+
 	return w, nil
 }

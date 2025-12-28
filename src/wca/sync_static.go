@@ -31,6 +31,7 @@ func (s *syncer) syncStatics() error {
 			log.Infof("sync finished for key: %s", key)
 			continue
 		}
+		log.Infof("start sync for key: %s", key)
 		if err := syncFn(); err != nil {
 			log.Errorf("sync static person rank failed, key: %s, err: %v", key, err)
 			continue

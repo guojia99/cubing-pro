@@ -128,15 +128,10 @@ func (s *syncer) syncFileAndSyncToDb() error {
 
 	// Step 8: 更新索引
 	log.Printf("Starting to add indexes to %s...", s.currentDB)
-	if err = s.syncAddIndex(s.currentDB, syncWcaDbIndex); err != nil {
+	if err = s.syncAddIndex(targetDBName, syncWcaDbIndex); err != nil {
 		return fmt.Errorf("index creation failed: %w", err)
 	}
 
-	// Step 9: 更新 wca.txt
-	txtPath := filepath.Join(s.DbPath, "wca.txt")
-	if err = os.WriteFile(txtPath, []byte(targetDBName), 0644); err != nil {
-		return fmt.Errorf("failed to update wca.txt: %w", err)
-	}
 	s.currentDB = targetDBName
 
 	log.Printf("Successfully synced to database: %s", targetDBName)
@@ -158,12 +153,26 @@ func (s *syncer) sync() error {
 		return fmt.Errorf("init failed: %w", err)
 	}
 
-	if err := s.clean(); err != nil {
-		log.Printf("Warning: pre-sync clean failed: %v", err)
-	}
-
 	if err := s.syncFileAndSyncToDb(); err != nil {
 		return fmt.Errorf("sync failed: %w", err)
+	}
+
+	if _, _, err := s.getCurrentDatabase(); err != nil {
+		return err
+	}
+
+	// Step 9: 更新 wca.txt
+	txtPath := filepath.Join(s.DbPath, "wca.txt")
+	if err := os.WriteFile(txtPath, []byte(s.currentDB), 0644); err != nil {
+		return fmt.Errorf("failed to update wca.txt: %w", err)
+	}
+
+	if err := s.syncStatics(); err != nil {
+		log.Printf("failed to sync statics: %v", err)
+	}
+
+	if err := s.clean(); err != nil {
+		log.Printf("Warning: pre-sync clean failed: %v", err)
 	}
 
 	return nil
@@ -259,7 +268,7 @@ func (s *syncer) clean() error {
 				if base < cutoff {
 					path := filepath.Join(s.SyncPath, name)
 					log.Printf("Cleaning old zip: %s", path)
-					os.Remove(path) // ignore error
+					_ = os.Remove(path) // ignore error
 				}
 			}
 		}
@@ -276,7 +285,7 @@ func (s *syncer) clean() error {
 				if dir < cutoff {
 					path := filepath.Join(s.DbPath, dir)
 					log.Printf("Cleaning old extract dir: %s", path)
-					os.RemoveAll(path)
+					_ = os.RemoveAll(path)
 				}
 			}
 		}
@@ -308,7 +317,7 @@ func (s *syncer) clean() error {
 	}
 
 	for _, dbName := range dbs {
-		if strings.HasPrefix(dbName, "wca_") {
+		if strings.HasPrefix(dbName, "wca_") && dbName != s.currentDB {
 			datePart := strings.TrimPrefix(dbName, "wca_")
 			if len(datePart) == 8 && isDigitsOnly(datePart) {
 				if datePart < cutoff {
@@ -323,7 +332,7 @@ func (s *syncer) clean() error {
 }
 
 // Sync 执行完整同步流程
-func (w *wca) Sync() error {
+func (w *wca) sync() error {
 	w.syncMutex.Lock()
 	defer w.syncMutex.Unlock()
 
@@ -342,10 +351,6 @@ func (w *wca) Sync() error {
 		return fmt.Errorf("get current DB failed: %w", err)
 	}
 
-	if err = s.syncStatics(); err != nil {
-		log.Printf("failed to sync statics: %v", err)
-	}
-
 	w.db = db
 	w.dbName = dbName
 
@@ -355,13 +360,13 @@ func (w *wca) Sync() error {
 	return nil
 }
 
-func (w *wca) SyncLoop() {
+func (w *wca) syncLoop() {
 	sy := func() {
-		err := w.Sync()
+		err := w.sync()
 		if err != nil {
 			log.Printf("failed to sync WCA db: %v", err)
 		}
-
+		w.updateDb()
 	}
 	ticker := time.NewTicker(time.Hour * 12)
 	defer ticker.Stop()
@@ -369,6 +374,29 @@ func (w *wca) SyncLoop() {
 		select {
 		case <-ticker.C:
 			sy()
+		}
+	}
+}
+
+func (w *wca) updateDb() {
+	txtPath := filepath.Join(w.dbPath, "wca.txt")
+	wcaDbStr, err := os.ReadFile(txtPath)
+	if err != nil {
+		return
+	}
+	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
+	w.db = db
+}
+
+func (w *wca) updateDbLoop() {
+	ticker := time.NewTicker(time.Hour * 6)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			w.updateDb()
 		}
 	}
 }

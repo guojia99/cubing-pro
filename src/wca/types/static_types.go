@@ -56,6 +56,7 @@ import (
 //}
 
 type StaticPersonRank struct {
+	Results       map[string]int `json:"r"` // 成绩
 	CountryRank   map[string]int `json:"n"` // 国家排名
 	WorldRank     map[string]int `json:"w"` // 世界排名
 	ContinentRank map[string]int `json:"c"` // 大洲排名

@@ -316,11 +316,13 @@ func (s *syncer) getStaticPersonRankWithTimerUpdateStaticPersonRankWithTimer(
 			Continent: r.Continent,
 			Ranks: types.StaticPersonRankWithTimerRanks{
 				Single: &types.StaticPersonRank{
+					Results:       make(map[string]int),
 					CountryRank:   make(map[string]int), // 不同项目
 					WorldRank:     make(map[string]int),
 					ContinentRank: make(map[string]int),
 				},
 				Avg: &types.StaticPersonRank{
+					Results:       make(map[string]int),
 					CountryRank:   make(map[string]int),
 					WorldRank:     make(map[string]int),
 					ContinentRank: make(map[string]int),
@@ -354,6 +356,7 @@ func (s *syncer) getStaticPersonRankWithTimerUpdateStaticPersonRankWithTimer(
 
 		for _, r := range list {
 			p := outMap[r.PersonId]
+			p.Ranks.Single.Results[e] = r.Value
 
 			// WR 已由 sortEventRanks 设置，直接使用
 			p.Ranks.Single.WorldRank[e] = r.Rank
@@ -402,6 +405,7 @@ func (s *syncer) getStaticPersonRankWithTimerUpdateStaticPersonRankWithTimer(
 
 		for _, r := range list {
 			p := outMap[r.PersonId]
+			p.Ranks.Avg.Results[e] = r.Value
 
 			p.Ranks.Avg.WorldRank[e] = r.Rank
 

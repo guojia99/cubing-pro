@@ -18,11 +18,13 @@ func NewRootCmd() *cobra.Command {
 	var config string
 	var runJob bool
 	var runScramble bool = true
+	var syncWca = false
+
 	cmd := &cobra.Command{
 		Use:   "cubing-pro",
 		Short: "魔方赛事网",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			s, err = svc.NewAPISvc(config, runJob, runScramble)
+			s, err = svc.NewAPISvc(config, runJob, syncWca, runScramble)
 			if err != nil {
 				return err
 			}
@@ -34,6 +36,7 @@ func NewRootCmd() *cobra.Command {
 	flags := cmd.PersistentFlags()
 	flags.StringVarP(&config, "config", "c", "./etc/server.yaml", "配置文件")
 	flags.BoolVarP(&runJob, "job", "j", false, "运行定时任务")
+	flags.BoolVarP(&syncWca, "sync-wca", "w", false, "同步wca数据库")
 	//flags.BoolVarP(&runScramble, "scramble", "s", false, "运行打乱组件")
 	cmd.AddCommand(
 		api.NewCmd(&s),

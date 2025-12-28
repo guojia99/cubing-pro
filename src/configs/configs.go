@@ -16,11 +16,14 @@ type GlobalConfig struct {
 	EmailConfig   EmailConfig `yaml:"emailConfig"`
 	Scramble      Scramble    `yaml:"scramble"`
 	AlgPath       string      `yaml:"algPath"`
+	WcaDB         WcaDB       `yaml:"wcaDB"`
 }
 
 type WcaDB struct {
-	SyncUrl  string `yaml:"syncUrl"`
-	SyncTime int    `yaml:"syncTime"` // 小时
+	//SyncUrl string `yaml:"syncUrl"`
+	MysqlUrl string `yaml:"mysqlUrl"`
+	DbPath   string `yaml:"dbPath"`
+	SyncPath string `yaml:"syncPath"`
 }
 
 type Scramble struct {

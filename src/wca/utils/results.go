@@ -81,28 +81,6 @@ func ResultsTimeFormat(in int, event string) string {
 	return SecondTimeFormat(float64(in)/100.0, false)
 }
 
-// Get333MBOResult
-// 输入：编码后的整数（如 1051003600 表示 1 05 10 03600 → solved=5, attempted=10, time=3600）
-// 返回：solved, attempted, timeInSeconds, valid
-func Get333MBOResult(result int) (solved, attempted, timeInSeconds int, valid bool) {
-	if result <= 0 {
-		return 0, 0, 0, false // DNF or invalid
-	}
-	s := fmt.Sprintf("%011d", result)
-	if len(s) != 11 || s[0] != '1' {
-		return 0, 0, 0, false
-	}
-	ss, _ := strconv.Atoi(s[1:3])     // solved
-	aa, _ := strconv.Atoi(s[3:5])     // attempted
-	ttttt, _ := strconv.Atoi(s[5:10]) // time
-
-	// 验证合理性
-	if aa < ss || ss < 0 || aa > 99 {
-		return 0, 0, 0, false
-	}
-	return ss, aa, ttttt, true
-}
-
 func IsBestResult(event string, a1, a2 int) bool {
 	// DNF
 	if a1 < 0 && a2 < 0 {
@@ -126,27 +104,6 @@ func IsBestResult(event string, a1, a2 int) bool {
 
 		if a1Res != a2Res {
 			return a1Res > a2Res
-		}
-		return a1Seconds <= a2Seconds
-	case "333mbo":
-		a1Solved, a1Attempted, a1Seconds, _ := Get333MBOResult(a1)
-		a2Solved, a2Attempted, a2Seconds, _ := Get333MBOResult(a2)
-
-		a1Score := a1Solved - (a1Attempted - a1Solved) // = 2*a1Solved - a1Attempted
-		a2Score := a2Solved - (a2Attempted - a2Solved)
-
-		if a1Score != a2Score {
-			return a1Score > a2Score
-		}
-		// Handle unknown time (99999)
-		if a1Seconds == 99999 && a2Seconds == 99999 {
-			return true
-		}
-		if a1Seconds == 99999 {
-			return false
-		}
-		if a2Seconds == 99999 {
-			return true
 		}
 		return a1Seconds <= a2Seconds
 	default:

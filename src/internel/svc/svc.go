@@ -7,11 +7,13 @@
 package svc
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
+	"github.com/guojia99/cubing-pro/src/wca"
 	"gorm.io/gorm/logger"
 
 	"github.com/patrickmn/go-cache"
@@ -26,9 +28,11 @@ type Svc struct {
 	Cfg      configs.Config
 	Cov      convenient.ConvenientI
 	Scramble scramble.Scramble
+
+	Wca wca.WCA
 }
 
-func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
+func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 	var err error
 	var cfg configs.Config
 	if err = cfg.Load(file); err != nil {
@@ -53,6 +57,20 @@ func NewAPISvc(file string, job bool, scr bool) (*Svc, error) {
 	}
 	// todo 多个程序时
 	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
+
+	go func() {
+		w, err1 := wca.NewWCA(
+			c.Cfg.GlobalConfig.WcaDB.MysqlUrl,
+			c.Cfg.GlobalConfig.WcaDB.DbPath,
+			c.Cfg.GlobalConfig.WcaDB.SyncPath,
+			syncWca,
+		)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
+		c.Wca = w
+	}()
+
 	return c, nil
 }
 

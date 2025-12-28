@@ -32,7 +32,9 @@ func Test_wca_getStaticPersonRankWithTimer(t *testing.T) {
 	_, err := NewWCA(
 		"root@tcp(127.0.0.1:33306)/",
 		"/home/guojia/cubingPro/wca_db",
-		"/home/guojia/cubingPro/wca_db/sync_path")
+		"/home/guojia/cubingPro/wca_db/sync_path",
+		true)
+
 	if err != nil {
 		t.Fatal(err)
 	}

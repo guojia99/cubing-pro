@@ -59,6 +59,7 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
 
 	go func() {
+		time.Sleep(time.Second * 2)
 		w, err1 := wca.NewWCA(
 			c.Cfg.GlobalConfig.WcaDB.MysqlUrl,
 			c.Cfg.GlobalConfig.WcaDB.DbPath,

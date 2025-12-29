@@ -17,7 +17,7 @@ func (Championship) TableName() string { return "championships" }
 type Competition struct {
 	ID                    string `gorm:"column:id;primaryKey;not null" json:"id"`                     // 比赛唯一标识符（如 2025SHAN01）
 	Name                  string `gorm:"column:name;not null" json:"name"`                            // 比赛名称
-	CityName              string `gorm:"column:city_name;not null" json:"city_name"`                  // 举办城市名
+	CityName              string `gorm:"column:city_name;not null" json:"city"`                       // 举办城市名
 	CountryID             string `gorm:"column:country_id;not null" json:"country_id"`                // 所属国家 ID（关联 countries 表）
 	Information           string `gorm:"column:information" json:"information"`                       // 比赛补充信息（mediumtext）
 	Year                  uint16 `gorm:"column:year;not null" json:"year"`                            // 开始年份
@@ -40,7 +40,10 @@ type Competition struct {
 
 	//拓展参数
 	EventIds    []string `json:"event_ids" gorm:"-"`
-	CountryIso2 string   `json:"country_iso_2" gorm:"-"`
+	CountryIso2 string   `json:"country_iso2" gorm:"-"`
+
+	StartDate string `json:"start_date" gorm:"-"`
+	EndDate   string `json:"end_date" gorm:"-"`
 }
 
 func (Competition) TableName() string { return "competitions" }
@@ -99,11 +102,13 @@ func (Format) TableName() string { return "formats" }
 
 // Person 代表选手信息
 type Person struct {
-	WcaID     string `gorm:"column:wca_id;not null"`     // WCA 选手 ID（如 2020XXXX01）
-	SubID     int8   `gorm:"column:sub_id;not null"`     // 子账号 ID（用于区分同名选手，通常为 1）
-	Name      string `gorm:"column:name"`                // 选手姓名
-	CountryID string `gorm:"column:country_id;not null"` // 所属国家 ID
-	Gender    string `gorm:"column:gender"`              // 性别（M/F/U）
+	WcaID     string `gorm:"column:wca_id;not null" json:"wca_id"`         // WCA 选手 ID（如 2020XXXX01）
+	SubID     int8   `gorm:"column:sub_id;not null" json:"sub_id"`         // 子账号 ID（用于区分同名选手，通常为 1）
+	Name      string `gorm:"column:name" json:"name"`                      // 选手姓名
+	CountryID string `gorm:"column:country_id;not null" json:"country_id"` // 所属国家 ID
+	Gender    string `gorm:"column:gender" json:"gender"`                  // 性别（M/F/U）
+
+	Iso2 string `gorm:"-" json:"iso2"` //
 }
 
 func (Person) TableName() string { return "persons" }

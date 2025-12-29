@@ -15,6 +15,8 @@ type WCA interface {
 	ExportToTable(filePath string) error
 
 	// wca查询类
+	SearchPlayers(name string) []types.Person
+
 	GetPersonInfo(wcaId string) (types.PersonInfo, error)
 	GetPersonResult(wcaId string) ([]types.Result, error)
 	GetCompetition(compId string) (types.Competition, error)

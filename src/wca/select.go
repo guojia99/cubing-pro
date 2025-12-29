@@ -213,8 +213,11 @@ func (w *wca) GetPersonCompetition(wcaId string) ([]types.Competition, error) {
 	}
 
 	for idx := 0; idx < len(comps); idx++ {
+		cp := comps[idx]
 		comps[idx].CountryIso2 = countryMap[comps[idx].CountryID].ISO2
 		comps[idx].EventIds = strings.Split(comps[idx].EventSpecs, " ")
+		comps[idx].StartDate = time.Date(int(cp.Year), time.Month(cp.Month), int(cp.Day), 0, 0, 0, 0, time.UTC).Format("2006-01-02")
+		comps[idx].EndDate = time.Date(int(cp.EndYear), time.Month(cp.EndMonth), int(cp.EndDay), 0, 0, 0, 0, time.UTC).Format("2006-01-02")
 	}
 
 	sort.Slice(comps, func(i, j int) bool {
@@ -318,4 +321,46 @@ func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
 		out[idx].WorstIndex = worstIndex // 至少有一个元素，不会为 -1
 	}
 	return out, nil
+}
+
+func (w *wca) GetAllPersons() []types.Person {
+	if data, ok := w.cache.Get("GetAllPersons"); ok {
+		return data.([]types.Person)
+	}
+
+	var out []types.Person
+	if err := w.db.Find(&out).Error; err != nil {
+		return nil
+	}
+
+	country := w.GetAllCountry()
+	for idx := 0; idx < len(out); idx++ {
+		out[idx].Iso2 = country[out[idx].CountryID].ISO2
+	}
+	w.cache.Set("GetAllPersons", out, time.Hour)
+	return out
+}
+
+func (w *wca) SearchPlayers(query string) []types.Person {
+	query = strings.TrimSpace(query)
+	if query == "" {
+		return nil
+	}
+
+	allPersons := w.GetAllPersons()
+	if allPersons == nil {
+		return nil
+	}
+
+	wcaQuery := strings.ToUpper(query)
+	var out []types.Person
+	for _, p := range allPersons {
+		if strings.Contains(p.WcaID, wcaQuery) {
+			out = append(out, p)
+		}
+		if strings.Contains(p.Name, query) {
+			out = append(out, p)
+		}
+	}
+	return out
 }

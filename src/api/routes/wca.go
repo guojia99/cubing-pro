@@ -10,6 +10,8 @@ func WcaRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	w := router.Group("/wca")
 	{
+		w.GET("/players/:name", wca.Players(svc))
+
 		w.GET("/player/:wcaID", wca.PlayerPersonInfo(svc)) // 选手信息
 		w.GET("/player/:wcaID/results", wca.PlayerResults(svc))
 		w.GET("/player/:wcaID/competitions", wca.PlayerCompetitions(svc))

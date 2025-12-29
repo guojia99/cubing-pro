@@ -36,3 +36,5 @@ local
 logs
 *.prun
 wca_seniors_cache.json
+
+log

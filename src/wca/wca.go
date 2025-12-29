@@ -17,7 +17,7 @@ type WCA interface {
 	GetCompetition(compId string) (types.Competition, error)
 
 	// 统计
-	GetPersonRankTimer(wcaId string) ([]types.StaticPersonRankWithTimer, error)
+	GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error)
 }
 
 type wca struct {
@@ -62,7 +62,7 @@ func NewWCA(
 		syncPath: syncPath,
 		dbURL:    mysqlUrl,
 	}
-
+	w.updateDb()
 	if enableSync {
 		// 初始化后必须立即同步数据库
 		if err = w.sync(); err != nil {
@@ -70,7 +70,6 @@ func NewWCA(
 		}
 		go w.syncLoop()
 	} else {
-		w.updateDb()
 		go w.updateDbLoop()
 	}
 

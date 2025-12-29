@@ -384,14 +384,17 @@ func (w *wca) updateDb() {
 	if err != nil {
 		return
 	}
-	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
+	if len(wcaDbStr) == 0 {
+		return
+	}
 
+	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
 	w.db = db
 }
 
 func (w *wca) updateDbLoop() {
-	ticker := time.NewTicker(time.Hour * 6)
+	ticker := time.NewTicker(time.Hour * 12)
 	defer ticker.Stop()
 	for {
 		select {

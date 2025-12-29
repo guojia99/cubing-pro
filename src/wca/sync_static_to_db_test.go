@@ -40,3 +40,22 @@ func Test_wca_getStaticPersonRankWithTimer(t *testing.T) {
 	}
 
 }
+
+func Test_syncer_setStaticPersonRankWithTimer(t *testing.T) {
+	// 启动内存监控
+	mon := test_tool.NewMemMonitor()
+	mon.Start(time.Second * 3) // 每秒采样一次
+	defer mon.Stop()           // 确保测试结束时停止
+
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		currentDB: "wca_20251228",
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = s.setStaticPersonRankWithTimers(); err != nil {
+		t.Fatal(err)
+	}
+}

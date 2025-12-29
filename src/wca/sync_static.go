@@ -15,7 +15,7 @@ func (s *syncer) syncStatics() error {
 	_ = s.db.AutoMigrate(&staticSyncDone{})
 
 	var syncFns = map[string]func() error{
-		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimer,
+		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimers,
 	}
 
 	var sds []staticSyncDone

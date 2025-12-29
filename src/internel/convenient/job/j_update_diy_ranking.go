@@ -8,6 +8,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"github.com/guojia99/cubing-pro/src/wca"
 	"gorm.io/gorm"
 )
 
@@ -53,8 +54,8 @@ type (
 	}
 )
 type UpdateDiyRankings struct {
-	DB *gorm.DB
-
+	DB  *gorm.DB
+	Wca wca.WCA
 	one sync.Once
 }
 

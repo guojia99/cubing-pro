@@ -49,7 +49,7 @@ func (s *syncer) countryMap() map[string]types.Country {
 
 	var out = make(map[string]types.Country)
 	for _, v := range country {
-		out[v.Name] = v
+		out[v.ID] = v
 	}
 	return out
 }
@@ -265,6 +265,8 @@ func (s *syncer) getCurPersonsRankTimerSnapshots(
 		thisSnapshotsMap[r.WcaId] = p
 	}
 
+	countryState = make(map[string]rankingState)
+	continentState = make(map[string]rankingState)
 	// 平均数据
 	for _, r := range avgRanks {
 		p := thisSnapshotsMap[r.WcaId]

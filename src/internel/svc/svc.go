@@ -55,8 +55,6 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 			cfg.GlobalConfig.Scramble.ScrambleUrl,
 		)
 	}
-	// todo 多个程序时
-	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
 
 	go func() {
 		time.Sleep(time.Second * 2)
@@ -71,6 +69,9 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 		}
 		c.Wca = w
 	}()
+
+	// todo 多个程序时
+	c.Cov = convenient.NewConvenient(c.DB, job, cfg)
 
 	return c, nil
 }

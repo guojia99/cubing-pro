@@ -1,1 +1,321 @@
 package wca
+
+import (
+	"fmt"
+	"sort"
+	"strings"
+	"time"
+
+	"github.com/guojia99/cubing-pro/src/wca/types"
+	"github.com/guojia99/cubing-pro/src/wca/utils"
+)
+
+func (w *wca) GetAllCountry() map[string]types.Country {
+
+	data, ok := w.cache.Get("GetAllCountry")
+	if ok {
+		return data.(map[string]types.Country)
+	}
+
+	var out = make(map[string]types.Country)
+
+	var list []types.Country
+	w.db.Find(&list)
+
+	for _, country := range list {
+		out[country.ID] = country
+	}
+
+	w.cache.Set("GetAllCountry", out, time.Minute*120)
+	return out
+}
+
+func (w *wca) GetPersonInfo(wcaId string) (types.PersonInfo, error) {
+	var person types.Person
+	if err := w.db.Where("wca_id = ?", wcaId).First(&person).Error; err != nil {
+		return types.PersonInfo{}, fmt.Errorf("not found wca id %s", wcaId)
+	}
+
+	var results []types.Result
+	if err := w.db.Where("person_id = ?", wcaId).Find(&results).Error; err != nil {
+		return types.PersonInfo{}, err
+	}
+
+	var bestRanks []types.RanksSingle
+	var avgRanks []types.RanksAverage
+
+	if err := w.db.Where("person_id = ?", wcaId).Find(&bestRanks).Error; err != nil {
+		return types.PersonInfo{}, err
+	}
+	if err := w.db.Where("person_id = ?", wcaId).Find(&avgRanks).Error; err != nil {
+		return types.PersonInfo{}, err
+	}
+
+	var out = types.PersonInfo{
+		PersonName:       person.Name,
+		WcaID:            person.WcaID,
+		CountryID:        person.CountryID,
+		Gender:           person.Gender,
+		CompetitionCount: 0,
+		MedalCount: types.MedalCount{
+			Gold:   0,
+			Silver: 0,
+			Bronze: 0,
+			Total:  0,
+		},
+		RecordCount: types.RecordCount{
+			National:    0,
+			Continental: 0,
+			World:       0,
+			Total:       0,
+		},
+		PersonalRecords: make(map[string]types.PersonalRecord),
+	}
+
+	var compsMap = make(map[string]string)
+	for _, result := range results {
+		compsMap[result.CompetitionID] = result.CompetitionID
+		// 记录
+		if result.RegionalSingleRecord != "" {
+			switch result.RegionalSingleRecord {
+			case "WR":
+				out.RecordCount.World += 1
+			case "NR":
+				out.RecordCount.National += 1
+			case "AsR", "ER", "NAR", "OcR", "SAR", "AfR":
+				out.RecordCount.Continental += 1
+			}
+			out.RecordCount.Total += 1
+		}
+		if result.RegionalAverageRecord != "" {
+			switch result.RegionalAverageRecord {
+			case "WR":
+				out.RecordCount.World += 1
+			case "NR":
+				out.RecordCount.National += 1
+			case "AsR", "ER", "NAR", "OcR", "SAR", "AfR":
+				out.RecordCount.Continental += 1
+			}
+			out.RecordCount.Total += 1
+		}
+
+		// 排名
+		switch result.FormatID {
+		case "f", "c":
+			if result.Pos <= 3 {
+				out.MedalCount.Total += 1
+			}
+			if result.Pos == 1 {
+				out.MedalCount.Gold += 1
+			}
+			if result.Pos == 2 {
+				out.MedalCount.Silver += 1
+			}
+			if result.Pos == 3 {
+				out.MedalCount.Bronze += 1
+			}
+		}
+	}
+	out.CompetitionCount = len(compsMap)
+
+	for _, r := range bestRanks {
+		if _, ok := out.PersonalRecords[r.EventID]; !ok {
+			out.PersonalRecords[r.EventID] = types.PersonalRecord{
+				Best: nil,
+				Avg:  nil,
+			}
+		}
+
+		b := &types.PersonResult{
+			EventId:       r.EventID,
+			Best:          r.Best,
+			BestStr:       utils.ResultsTimeFormat(r.Best, r.EventID),
+			PersonName:    person.Name,
+			PersonId:      r.PersonID,
+			WorldRank:     r.WorldRank,
+			ContinentRank: r.ContinentRank,
+			CountryRank:   r.CountryRank,
+		}
+
+		cc := out.PersonalRecords[r.EventID]
+		cc.Best = b
+		out.PersonalRecords[r.EventID] = cc
+	}
+	for _, r := range avgRanks {
+		if _, ok := out.PersonalRecords[r.EventID]; !ok {
+			out.PersonalRecords[r.EventID] = types.PersonalRecord{
+				Best: nil,
+				Avg:  nil,
+			}
+		}
+
+		a := &types.PersonResult{
+			EventId:       r.EventID,
+			Best:          r.Best,
+			BestStr:       utils.ResultsTimeFormat(r.Best, r.EventID),
+			PersonName:    person.Name,
+			PersonId:      r.PersonID,
+			WorldRank:     r.WorldRank,
+			ContinentRank: r.ContinentRank,
+			CountryRank:   r.CountryRank,
+		}
+
+		cc := out.PersonalRecords[r.EventID]
+		cc.Avg = a
+		out.PersonalRecords[r.EventID] = cc
+	}
+
+	cts := w.GetAllCountry()
+
+	out.CountryIso2 = cts[person.CountryID].ISO2
+
+	return out, nil
+}
+
+func (w *wca) ExportToTable(filePath string) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (w *wca) GetCompetition(compId string) (types.Competition, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (w *wca) GetPersonCompetition(wcaId string) ([]types.Competition, error) {
+	var out []types.Result
+
+	if err := w.db.Where("person_id = ?", wcaId).Find(&out).Error; err != nil {
+		return nil, err
+	}
+
+	compIdsMap := make(map[string]bool)
+	var compIds []string
+	for _, result := range out {
+		if result.CompetitionID != "" {
+			if !compIdsMap[result.CompetitionID] {
+				compIdsMap[result.CompetitionID] = true
+				compIds = append(compIds, result.CompetitionID)
+			}
+		}
+	}
+
+	var comps []types.Competition
+	if err := w.db.Where("id IN (?)", compIds).Find(&comps).Error; err != nil {
+		return nil, err
+	}
+
+	var country []types.Country
+	w.db.Find(&country)
+	var countryMap = make(map[string]types.Country)
+	for _, r := range country {
+		countryMap[r.Name] = r
+	}
+
+	for idx := 0; idx < len(comps); idx++ {
+		comps[idx].CountryIso2 = countryMap[comps[idx].CountryID].ISO2
+		comps[idx].EventIds = strings.Split(comps[idx].EventSpecs, " ")
+	}
+
+	sort.Slice(comps, func(i, j int) bool {
+		if comps[i].EndYear != comps[j].EndYear {
+			return comps[i].EndYear < comps[j].EndYear
+		}
+		if comps[i].EndMonth != comps[j].EndMonth {
+			return comps[i].EndMonth < comps[j].EndMonth
+		}
+		return comps[i].EndDay < comps[j].EndDay
+	})
+
+	return comps, nil
+}
+
+func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
+	var out []types.Result
+
+	if err := w.db.Where("person_id = ?", wcaId).Find(&out).Error; err != nil {
+		return nil, err
+	}
+
+	if len(out) == 0 {
+		return nil, nil
+	}
+
+	var resultIDs []int64
+	for _, result := range out {
+		resultIDs = append(resultIDs, result.ID)
+	}
+
+	var resultAttemptMap = make(map[int64][]int64)
+
+	for i := 0; i < len(resultIDs); i += 5000 {
+		end := i + 5000
+		if end > len(resultIDs) {
+			end = len(resultIDs)
+		}
+		batchIDs := resultIDs[i:end]
+
+		var batchAtt []types.ResultAttempt
+		if err := w.db.Where("result_id IN ?", batchIDs).Find(&batchAtt).Error; err != nil {
+			return nil, err
+		}
+
+		for _, att := range batchAtt {
+			if _, ok := resultAttemptMap[att.ResultID]; !ok {
+				resultAttemptMap[att.ResultID] = make([]int64, 0)
+			}
+			resultAttemptMap[att.ResultID] = append(resultAttemptMap[att.ResultID], att.Value)
+		}
+	}
+
+	for idx := 0; idx < len(out); idx++ {
+		r := out[idx]
+		attempts := resultAttemptMap[r.ID]
+
+		out[idx].BestIndex = -1
+		out[idx].WorstIndex = -1
+		out[idx].Attempts = attempts
+
+		if len(out[idx].Attempts) != 5 {
+			continue
+		}
+
+		// 1. 找 BestIndex：最小的正数
+		bestIndex := -1
+		for i, v := range attempts {
+			if v > 0 {
+				if bestIndex == -1 || v < attempts[bestIndex] {
+					bestIndex = i
+				}
+			}
+		}
+
+		// 2. 找 WorstIndex：优先负数，否则最大正数
+		worstIndex := -1
+		for i, v := range attempts {
+			if worstIndex == -1 {
+				worstIndex = i
+				continue
+			}
+
+			curr := attempts[worstIndex]
+			// 如果当前 v 是无效（<0），而 curr 是有效（>=0），v 更差
+			if v < 0 && curr >= 0 {
+				worstIndex = i
+			} else if v >= 0 && curr < 0 {
+				// curr 已经是无效，v 是有效，不换
+				continue
+			} else if v < 0 {
+
+			} else {
+				// 都是有效，选更大的（更慢）
+				if v > curr {
+					worstIndex = i
+				}
+			}
+		}
+		out[idx].BestIndex = bestIndex   // 可能为 -1（全无效）
+		out[idx].WorstIndex = worstIndex // 至少有一个元素，不会为 -1
+	}
+	return out, nil
+}

@@ -5,18 +5,17 @@ import (
 	"sort"
 	"strings"
 
-	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
-	"github.com/guojia99/cubing-pro/src/internel/wca_api"
+	"github.com/guojia99/cubing-pro/src/wca/types"
 )
 
-func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca_model.PersonBestResults {
-	var out = make(map[string]wca_model.PersonBestResults)
+func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]types.PersonInfo {
+	var out = make(map[string]types.PersonInfo)
 
 	WcaIDs = utils2.RemoveRepeatedElement(WcaIDs)
 
-	var resultsCh []*wca_model.PersonBestResults
+	var resultsCh []types.PersonInfo
 
 	for _, wcaId := range WcaIDs {
 		wcaId = strings.ToUpper(wcaId)
@@ -24,8 +23,8 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca_mode
 			continue
 		}
 		log.Printf("[apiGetAllResult] %+v\n", wcaId)
-
-		res, err := wca_api.GetWcaResultWithDbAndAPI(u.DB, wcaId)
+		res, err := u.Wca.GetPersonInfo(wcaId)
+		//res, err := wca_api.GetWcaResultWithDbAndAPI(u.DB, wcaId)
 		if err != nil {
 			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
 			continue
@@ -35,7 +34,7 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]wca_mode
 	}
 
 	for _, res := range resultsCh {
-		out[res.PersonName] = *res
+		out[res.PersonName] = res
 	}
 	return out
 }
@@ -65,15 +64,19 @@ func (u *UpdateDiyRankings) apiGetSortResult(WcaIDs []string) map[string][]WcaRe
 	data := u.apiGetAllResult(WcaIDs)
 
 	for _, eid := range wcaEventsList {
-		var bests []wca_model.Results
-		var avgs []wca_model.Results
+		var bests []types.PersonResult
+		var avgs []types.PersonResult
 
 		for _, r := range data {
-			if b, ok := r.Best[eid]; ok {
-				bests = append(bests, b)
+			if _, ok := r.PersonalRecords[eid]; !ok {
+				continue
 			}
-			if a, ok := r.Avg[eid]; ok {
-				avgs = append(avgs, a)
+
+			if r.PersonalRecords[eid].Best != nil {
+				bests = append(bests, *r.PersonalRecords[eid].Best)
+			}
+			if r.PersonalRecords[eid].Avg != nil {
+				avgs = append(avgs, *r.PersonalRecords[eid].Avg)
 			}
 		}
 
@@ -82,7 +85,7 @@ func (u *UpdateDiyRankings) apiGetSortResult(WcaIDs []string) map[string][]WcaRe
 		})
 
 		sort.Slice(avgs, func(i, j int) bool {
-			return utils.IsBestResult(avgs[i].EventId, avgs[i].Average, avgs[j].Average)
+			return utils.IsBestResult(avgs[i].EventId, avgs[i].Best, avgs[j].Best)
 		})
 		var wrs []WcaResult
 		for idx, b := range bests {
@@ -102,11 +105,11 @@ func (u *UpdateDiyRankings) apiGetSortResult(WcaIDs []string) map[string][]WcaRe
 		for idx, a := range avgs {
 			var index = idx + 1
 
-			if idx >= 1 && wrs[idx-1].AvgStr == a.AverageStr {
+			if idx >= 1 && wrs[idx-1].AvgStr == a.BestStr {
 				index = wrs[idx-1].AvgRank
 			}
 			wrs[idx].AvgRank = index
-			wrs[idx].AvgStr = a.AverageStr
+			wrs[idx].AvgStr = a.BestStr
 			wrs[idx].AvgPersonName = a.PersonName
 			wrs[idx].AvgPersonWCAID = a.PersonId
 		}

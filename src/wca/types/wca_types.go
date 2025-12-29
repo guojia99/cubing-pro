@@ -15,28 +15,32 @@ func (Championship) TableName() string { return "championships" }
 
 // Competition 代表一场比赛（赛事）
 type Competition struct {
-	ID                    string `gorm:"column:id;primaryKey;not null"` // 比赛唯一标识符（如 2025SHAN01）
-	Name                  string `gorm:"column:name;not null"`          // 比赛名称
-	CityName              string `gorm:"column:city_name;not null"`     // 举办城市名
-	CountryID             string `gorm:"column:country_id;not null"`    // 所属国家 ID（关联 countries 表）
-	Information           string `gorm:"column:information"`            // 比赛补充信息（mediumtext）
-	Year                  uint16 `gorm:"column:year;not null"`          // 开始年份
-	Month                 uint16 `gorm:"column:month;not null"`         // 开始月份
-	Day                   uint16 `gorm:"column:day;not null"`           // 开始日期
-	EndYear               uint16 `gorm:"column:end_year;not null"`      // 结束年份
-	EndMonth              uint16 `gorm:"column:end_month;not null"`     // 结束月份
-	EndDay                uint16 `gorm:"column:end_day;not null"`       // 结束日期
-	Cancelled             int32  `gorm:"column:cancelled;not null"`     // 是否取消（0=未取消，1=已取消）
-	EventSpecs            string `gorm:"column:event_specs"`            // 赛事详细配置（JSON 或文本，longtext）
-	Delegates             string `gorm:"column:delegates"`              // WCA 代表列表（mediumtext）
-	Organizers            string `gorm:"column:organizers"`             // 组织者列表（mediumtext）
-	Venue                 string `gorm:"column:venue;not null"`         // 场馆名称
-	VenueAddress          string `gorm:"column:venue_address"`          // 场馆地址
-	VenueDetails          string `gorm:"column:venue_details"`          // 场馆内部详情（如房间号）
-	ExternalWebsite       string `gorm:"column:external_website"`       // 外部官网链接
-	CellName              string `gorm:"column:cell_name;not null"`     // 表格中显示的单元格名称（用于导出等）
-	LatitudeMicrodegrees  int32  `gorm:"column:latitude_microdegrees"`  // 纬度（微度，1度 = 1,000,000 微度）
-	LongitudeMicrodegrees int32  `gorm:"column:longitude_microdegrees"` // 经度（微度，1度 = 1,000,000 微度）
+	ID                    string `gorm:"column:id;primaryKey;not null" json:"id"`                     // 比赛唯一标识符（如 2025SHAN01）
+	Name                  string `gorm:"column:name;not null" json:"name"`                            // 比赛名称
+	CityName              string `gorm:"column:city_name;not null" json:"city_name"`                  // 举办城市名
+	CountryID             string `gorm:"column:country_id;not null" json:"country_id"`                // 所属国家 ID（关联 countries 表）
+	Information           string `gorm:"column:information" json:"information"`                       // 比赛补充信息（mediumtext）
+	Year                  uint16 `gorm:"column:year;not null" json:"year"`                            // 开始年份
+	Month                 uint16 `gorm:"column:month;not null" json:"month"`                          // 开始月份
+	Day                   uint16 `gorm:"column:day;not null" json:"day"`                              // 开始日期
+	EndYear               uint16 `gorm:"column:end_year;not null" json:"end_year"`                    // 结束年份
+	EndMonth              uint16 `gorm:"column:end_month;not null" json:"end_month"`                  // 结束月份
+	EndDay                uint16 `gorm:"column:end_day;not null" json:"end_day"`                      // 结束日期
+	Cancelled             int32  `gorm:"column:cancelled;not null" json:"cancelled"`                  // 是否取消（0=未取消，1=已取消）
+	EventSpecs            string `gorm:"column:event_specs" json:"event_specs"`                       // 赛事详细配置（JSON 或文本，longtext）
+	Delegates             string `gorm:"column:delegates" json:"delegates"`                           // WCA 代表列表（mediumtext）
+	Organizers            string `gorm:"column:organizers" json:"organizers"`                         // 组织者列表（mediumtext）
+	Venue                 string `gorm:"column:venue;not null" json:"venue"`                          // 场馆名称
+	VenueAddress          string `gorm:"column:venue_address" json:"venue_address"`                   // 场馆地址
+	VenueDetails          string `gorm:"column:venue_details" json:"venue_details"`                   // 场馆内部详情（如房间号）
+	ExternalWebsite       string `gorm:"column:external_website" json:"external_website"`             // 外部官网链接
+	CellName              string `gorm:"column:cell_name;not null" json:"cell_name"`                  // 表格中显示的单元格名称（用于导出等）
+	LatitudeMicrodegrees  int32  `gorm:"column:latitude_microdegrees" json:"latitude_microdegrees"`   // 纬度（微度，1度 = 1,000,000 微度）
+	LongitudeMicrodegrees int32  `gorm:"column:longitude_microdegrees" json:"longitude_microdegrees"` // 经度（微度，1度 = 1,000,000 微度）
+
+	//拓展参数
+	EventIds    []string `json:"event_ids" gorm:"-"`
+	CountryIso2 string   `json:"country_iso_2" gorm:"-"`
 }
 
 func (Competition) TableName() string { return "competitions" }
@@ -108,10 +112,10 @@ func (Person) TableName() string { return "persons" }
 type RanksAverage struct {
 	PersonID      string `gorm:"column:person_id;not null"`      // 选手 WCA ID
 	EventID       string `gorm:"column:event_id;not null"`       // 项目 ID
-	Best          int32  `gorm:"column:best;not null"`           // 最佳平均成绩（单位：百分之一秒）
-	WorldRank     int32  `gorm:"column:world_rank;not null"`     // 世界排名
-	ContinentRank int32  `gorm:"column:continent_rank;not null"` // 大洲排名
-	CountryRank   int32  `gorm:"column:country_rank;not null"`   // 国家排名
+	Best          int    `gorm:"column:best;not null"`           // 最佳平均成绩（单位：百分之一秒）
+	WorldRank     int    `gorm:"column:world_rank;not null"`     // 世界排名
+	ContinentRank int    `gorm:"column:continent_rank;not null"` // 大洲排名
+	CountryRank   int    `gorm:"column:country_rank;not null"`   // 国家排名
 }
 
 func (RanksAverage) TableName() string { return "ranks_average" }
@@ -120,10 +124,10 @@ func (RanksAverage) TableName() string { return "ranks_average" }
 type RanksSingle struct {
 	PersonID      string `gorm:"column:person_id;not null"`      // 选手 WCA ID
 	EventID       string `gorm:"column:event_id;not null"`       // 项目 ID
-	Best          int32  `gorm:"column:best;not null"`           // 最佳单次成绩（单位：百分之一秒）
-	WorldRank     int32  `gorm:"column:world_rank;not null"`     // 世界排名
-	ContinentRank int32  `gorm:"column:continent_rank;not null"` // 大洲排名
-	CountryRank   int32  `gorm:"column:country_rank;not null"`   // 国家排名
+	Best          int    `gorm:"column:best;not null"`           // 最佳单次成绩（单位：百分之一秒）
+	WorldRank     int    `gorm:"column:world_rank;not null"`     // 世界排名
+	ContinentRank int    `gorm:"column:continent_rank;not null"` // 大洲排名
+	CountryRank   int    `gorm:"column:country_rank;not null"`   // 国家排名
 }
 
 func (RanksSingle) TableName() string { return "ranks_single" }
@@ -142,19 +146,24 @@ func (ResultAttempt) TableName() string { return "result_attempts" }
 
 // Result 代表一次比赛中的某位选手在某个项目某轮的成绩汇总
 type Result struct {
-	ID                    int64  `gorm:"column:id;primaryKey;autoIncrement"` // 自增 ID
-	CompetitionID         string `gorm:"column:competition_id;not null"`     // 比赛 ID
-	EventID               string `gorm:"column:event_id;not null"`           // 项目 ID
-	RoundTypeID           string `gorm:"column:round_type_id;not null"`      // 轮次类型（如 f=决赛, s=半决赛）
-	Pos                   int16  `gorm:"column:pos;not null"`                // 排名位置（1 为第一名）
-	Best                  int    `gorm:"column:best;not null"`               // 最佳单次成绩
-	Average               int    `gorm:"column:average;not null"`            // 平均成绩
-	PersonName            string `gorm:"column:person_name"`                 // 选手姓名（冗余字段）
-	PersonID              string `gorm:"column:person_id;not null"`          // 选手 WCA ID
-	PersonCountryID       string `gorm:"column:person_country_id"`           // 选手所属国家（冗余）
-	FormatID              string `gorm:"column:format_id;not null"`          // 成绩格式 ID
-	RegionalSingleRecord  string `gorm:"column:regional_single_record"`      // 区域单次纪录（如 WR, CR, NR）
-	RegionalAverageRecord string `gorm:"column:regional_average_record"`     // 区域平均纪录（如 WR, CR, NR）
+	ID                    int64  `gorm:"column:id;primaryKey;autoIncrement" json:"id"`                  // 自增 ID
+	CompetitionID         string `gorm:"column:competition_id;not null" json:"competition_id"`          // 比赛 ID
+	EventID               string `gorm:"column:event_id;not null" json:"event_id"`                      // 项目 ID
+	RoundTypeID           string `gorm:"column:round_type_id;not null" json:"round_type_id"`            // 轮次类型（如 f=决赛, s=半决赛）
+	Pos                   int16  `gorm:"column:pos;not null" json:"pos"`                                // 排名位置（1 为第一名）
+	Best                  int    `gorm:"column:best;not null" json:"best"`                              // 最佳单次成绩
+	Average               int    `gorm:"column:average;not null" json:"average"`                        // 平均成绩
+	PersonName            string `gorm:"column:person_name" json:"name"`                                // 选手姓名（冗余字段）
+	PersonID              string `gorm:"column:person_id;not null" json:"wca_id"`                       // 选手 WCA ID
+	PersonCountryID       string `gorm:"column:person_country_id" json:"country_iso2"`                  // 选手所属国家（冗余）
+	FormatID              string `gorm:"column:format_id;not null" json:"format_id"`                    // 成绩格式 ID
+	RegionalSingleRecord  string `gorm:"column:regional_single_record" json:"regional_single_record"`   // 区域单次纪录（如 WR, CR, NR）
+	RegionalAverageRecord string `gorm:"column:regional_average_record" json:"regional_average_record"` // 区域平均纪录（如 WR, CR, NR）
+
+	// 拓展参数
+	Attempts   []int64 `gorm:"-" json:"attempts"`
+	BestIndex  int     `gorm:"-" json:"best_index"` // 最佳成绩在 attempts 中的索引（从 0 开始）
+	WorstIndex int     `gorm:"-" json:"worst_index"`
 }
 
 func (Result) TableName() string { return "results" }

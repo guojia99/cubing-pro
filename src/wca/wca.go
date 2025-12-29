@@ -2,8 +2,10 @@ package wca
 
 import (
 	"sync"
+	"time"
 
 	"github.com/guojia99/cubing-pro/src/wca/types"
+	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +16,9 @@ type WCA interface {
 
 	// wca查询类
 	GetPersonInfo(wcaId string) (types.PersonInfo, error)
+	GetPersonResult(wcaId string) ([]types.Result, error)
 	GetCompetition(compId string) (types.Competition, error)
+	GetPersonCompetition(wcaId string) ([]types.Competition, error)
 
 	// 统计
 	GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error)
@@ -33,21 +37,8 @@ type wca struct {
 	dbPath   string
 	syncPath string
 	dbURL    string
-}
 
-func (w *wca) GetPersonInfo(wcaId string) (types.PersonInfo, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (w *wca) ExportToTable(filePath string) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (w *wca) GetCompetition(compId string) (types.Competition, error) {
-	//TODO implement me
-	panic("implement me")
+	cache *cache.Cache
 }
 
 func NewWCA(
@@ -61,6 +52,7 @@ func NewWCA(
 		dbPath:   dbPath,
 		syncPath: syncPath,
 		dbURL:    mysqlUrl,
+		cache:    cache.New(5*time.Minute, 10*time.Minute),
 	}
 	w.updateDb()
 	if enableSync {

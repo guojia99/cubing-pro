@@ -26,7 +26,7 @@ func PlayerResults(svc *svc.Svc) gin.HandlerFunc {
 			if out[i].CompetitionID == out[j].CompetitionID {
 				return out[i].Pos < out[j].Pos
 			}
-			return out[i].ID > out[j].ID
+			return out[i].ID < out[j].ID
 		})
 		ctx.JSON(http.StatusOK, out)
 	}

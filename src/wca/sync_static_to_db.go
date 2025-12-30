@@ -437,3 +437,7 @@ func (s *syncer) setStaticPersonRankWithTimers() (err error) {
 	log.Printf("Monthly rank snapshot generation completed in %v", time.Since(startTime))
 	return
 }
+
+func (s *syncer) setFirstRankTimer() error {
+	return nil
+}

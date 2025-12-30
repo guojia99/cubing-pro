@@ -404,6 +404,9 @@ func (s *syncer) setStaticPersonRankWithTimers() (err error) {
 	if err != nil {
 		return
 	}
+
+	s.db.Delete(&types.StaticWithTimerRank{}, "1 = 1")
+
 	defer func() {
 		if err != nil {
 			s.db.Delete(&types.StaticWithTimerRank{}, "1 = 1")

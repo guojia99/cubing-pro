@@ -15,7 +15,8 @@ func (s *syncer) syncStatics() error {
 	_ = s.db.AutoMigrate(&staticSyncDone{})
 
 	var syncFns = map[string]func() error{
-		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimers,
+		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimers, // 历史成绩排名
+		"setFirstRankTimer":            s.setFirstRankTimer,             // 第一次参赛成绩排名
 	}
 
 	var sds []staticSyncDone

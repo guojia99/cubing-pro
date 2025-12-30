@@ -36,15 +36,12 @@ func Models() []interface{} {
 }
 
 func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI {
-	w, err := wca.NewWCA(
+	wcaClient := wca.NewWCA(
 		config.GlobalConfig.WcaDB.MysqlUrl,
 		config.GlobalConfig.WcaDB.DbPath,
 		config.GlobalConfig.WcaDB.SyncPath,
 		false,
 	)
-	if err != nil {
-		log.Infof("NewConvenient wca err: %v", err)
-	}
 
 	_ = db.AutoMigrate()
 	_ = db.AutoMigrate(&user.User{})       // 用户表
@@ -92,7 +89,7 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 
 	var baseJobs = []job.Job{
 		{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
-		{JobI: &job.UpdateDiyRankings{DB: db, Wca: w}, Time: time.Minute * 15},
+		{JobI: &job.UpdateDiyRankings{DB: db, Wca: wcaClient}, Time: time.Minute * 15},
 		{JobI: &job.UpdateCubingChinaComps{DB: db}, Time: time.Hour * 24},
 	}
 

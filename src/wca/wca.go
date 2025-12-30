@@ -4,6 +4,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/log"
 	"github.com/guojia99/cubing-pro/src/wca/types"
 	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
@@ -48,8 +49,7 @@ func NewWCA(
 	dbPath string,
 	syncPath string,
 	enableSync bool,
-) (WCA, error) {
-	var err error
+) WCA {
 	w := &wca{
 		dbPath:   dbPath,
 		syncPath: syncPath,
@@ -57,15 +57,14 @@ func NewWCA(
 		cache:    cache.New(5*time.Minute, 10*time.Minute),
 	}
 	w.updateDb()
+	if w.db == nil {
+		log.Errorf("sync wca db is faild")
+	}
 	if enableSync {
-		// 初始化后必须立即同步数据库
-		if err = w.sync(); err != nil {
-			return nil, err
-		}
 		go w.syncLoop()
 	} else {
 		go w.updateDbLoop()
 	}
 
-	return w, nil
+	return w
 }

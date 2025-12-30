@@ -7,7 +7,6 @@
 package svc
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
@@ -56,19 +55,12 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 		)
 	}
 
-	go func() {
-		time.Sleep(time.Second * 2)
-		w, err1 := wca.NewWCA(
-			c.Cfg.GlobalConfig.WcaDB.MysqlUrl,
-			c.Cfg.GlobalConfig.WcaDB.DbPath,
-			c.Cfg.GlobalConfig.WcaDB.SyncPath,
-			syncWca,
-		)
-		if err1 != nil {
-			fmt.Println(err1)
-		}
-		c.Wca = w
-	}()
+	c.Wca = wca.NewWCA(
+		c.Cfg.GlobalConfig.WcaDB.MysqlUrl,
+		c.Cfg.GlobalConfig.WcaDB.DbPath,
+		c.Cfg.GlobalConfig.WcaDB.SyncPath,
+		syncWca,
+	)
 
 	// todo 多个程序时
 	c.Cov = convenient.NewConvenient(c.DB, job, cfg)

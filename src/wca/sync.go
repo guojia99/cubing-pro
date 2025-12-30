@@ -368,6 +368,8 @@ func (w *wca) syncLoop() {
 		}
 		w.updateDb()
 	}
+
+	sy()
 	ticker := time.NewTicker(time.Hour * 6)
 	defer ticker.Stop()
 	for {

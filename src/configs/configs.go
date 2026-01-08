@@ -63,6 +63,8 @@ type GatewayConfig struct {
 
 	TNoodlePort        int `yaml:"tNoodlePort"`        // 主机监听tNoodle
 	OutsizeTNoodlePort int `yaml:"outsizeTNoodlePort"` // 暴露的tNoodle port
+
+	BldDBPort int `yaml:"blddbPort"`
 }
 
 type QQBotConfig struct {

@@ -102,7 +102,15 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 	api, _ := url.Parse(fmt.Sprintf("http://%s:%d", g.cfg.APIConfig.Host, g.cfg.APIConfig.Port))
 	proxyApi := httputil.NewSingleHostReverseProxy(api)
 
+	blddbApi, _ := url.Parse(fmt.Sprintf("http://localhost:%d", g.cfg.Gateway.BldDBPort))
+	bldDbProxy := httputil.NewSingleHostReverseProxy(blddbApi)
+
 	return func(ctx *gin.Context) {
+		if strings.Contains(ctx.Request.URL.Path, "/blddb") {
+			bldDbProxy.ServeHTTP(ctx.Writer, ctx.Request)
+			return
+		}
+
 		if strings.Contains(ctx.Request.URL.Path, "/v3/cube-api") {
 			proxyApi.ServeHTTP(ctx.Writer, ctx.Request)
 			return

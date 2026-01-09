@@ -104,6 +104,14 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 
 	blddbApi, _ := url.Parse(fmt.Sprintf("http://localhost:%d", g.cfg.Gateway.BldDBPort))
 	bldDbProxy := httputil.NewSingleHostReverseProxy(blddbApi)
+	// 反向代理 如果是 HTML 响应，且未指定 charset，则强制加上 utf-8
+	bldDbProxy.ModifyResponse = func(resp *http.Response) error {
+		contentType := resp.Header.Get("Content-Type")
+		if strings.HasPrefix(contentType, "text/html") && !strings.Contains(contentType, "charset") {
+			resp.Header.Set("Content-Type", "text/html; charset=utf-8")
+		}
+		return nil
+	}
 
 	return func(ctx *gin.Context) {
 		// blddb

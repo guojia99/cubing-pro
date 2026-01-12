@@ -47,7 +47,7 @@ func PlayerComps(svc *svc.Svc) gin.HandlerFunc {
 		var comps []competition.Competition
 		var err error
 		comps, err = app_utils.GenerallyList[competition.Competition](
-			ctx, svc.DB, comps, app_utils.ListSearchParam{
+			ctx, svc.DB, comps, app_utils.ListSearchParam[competition.Competition]{
 				Model:   &competition.Competition{},
 				MaxSize: 0,
 				Query:   "id in ?",

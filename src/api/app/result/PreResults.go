@@ -17,7 +17,7 @@ func PreResults(svc *svc.Svc) gin.HandlerFunc {
 
 		var out []result.PreResults
 		app_utils.GenerallyList(
-			ctx, svc.DB, out, app_utils.ListSearchParam{
+			ctx, svc.DB, out, app_utils.ListSearchParam[result.PreResults]{
 				Model:     &result.PreResults{},
 				MaxSize:   100,
 				Query:     "user_id = ?",

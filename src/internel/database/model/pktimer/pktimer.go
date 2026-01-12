@@ -11,8 +11,8 @@ import (
 )
 
 type Player struct {
-	QQ       int64  `json:"QQ"`
-	QQBot    string `json:"QQBot"`
+	QQ       int64  `json:"QQ,omitempty"`
+	QQBot    string `json:"QQBot,omitempty"`
 	UserName string `json:"userName"`
 	UserId   uint   `json:"userId"`
 
@@ -22,28 +22,29 @@ type Player struct {
 	Average float64 `json:"average"`
 
 	// 退出
-	Exit    bool `json:"exit"`
-	ExitNum int  `json:"exitNum"`
+	Exit    bool `json:"exit,omitempty"`
+	ExitNum int  `json:"exitNum,omitempty"`
 }
 
 type PkResults struct {
 	Players      []Player        `json:"players"`
 	Event        event.Event     `json:"event"`
-	Count        int             `json:"count"`        // 轮次
-	CurCount     int             `json:"curCount"`     // 当前轮次
-	FirstMessage types.InMessage `json:"firstMessage"` // 上次消息
+	Count        int             `json:"count"`                  // 轮次
+	CurCount     int             `json:"curCount"`               // 当前轮次
+	FirstMessage types.InMessage `json:"firstMessage,omitempty"` // 上次消息
 }
 
 type PkTimerResult struct {
 	basemodel.Model
 
-	GroupID     string    `json:"groupId"`
-	Running     bool      `json:"running"`
+	GroupID     string    `json:"groupId,omitempty"`
+	GroupName   string    `json:"groupName" gorm:"-"`
+	Running     bool      `json:"running,omitempty"`
 	Start       bool      // 开始比赛
-	LastRunning time.Time `json:"lastRunning"` // 上一次更新时间
-	StartPerson string    `json:"startPerson"` // 开启的
+	LastRunning time.Time `json:"lastRunning,omitempty"` // 上一次更新时间
+	StartPerson string    `json:"startPerson,omitempty"` // 开启的
 
-	ResultsJSON string
+	ResultsJSON string    `json:"-"`
 	PkResults   PkResults `json:"pkResults" gorm:"-"`
 	Eps         float64   `json:"eps"` // 发货精度
 

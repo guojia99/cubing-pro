@@ -37,7 +37,7 @@ func MeOrganizers(svc *svc.Svc) gin.HandlerFunc {
 
 		var list []user2.Organizers
 		dest, err := app_utils.GenerallyList(
-			ctx, svc.DB, list, app_utils.ListSearchParam{
+			ctx, svc.DB, list, app_utils.ListSearchParam[user2.Organizers]{
 				Model:   &user2.Organizers{},
 				MaxSize: 0,
 				Query:   "leaderId = ? OR ass_org_users like ?",
@@ -95,7 +95,7 @@ func AllOrganizers(svc *svc.Svc) gin.HandlerFunc {
 
 		var list []user2.Organizers
 		app_utils.GenerallyList(
-			ctx, svc.DB, list, app_utils.ListSearchParam{
+			ctx, svc.DB, list, app_utils.ListSearchParam[user2.Organizers]{
 				Model:      &user2.Organizers{},
 				MaxSize:    100,
 				HasDeleted: false,
@@ -108,7 +108,7 @@ func PublicOrganizers(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var list []user2.Organizers
 		app_utils.GenerallyList(
-			ctx, svc.DB, list, app_utils.ListSearchParam{
+			ctx, svc.DB, list, app_utils.ListSearchParam[user2.Organizers]{
 				Model:      &user2.Organizers{},
 				MaxSize:    100,
 				HasDeleted: false,

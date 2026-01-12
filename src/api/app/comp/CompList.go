@@ -11,7 +11,7 @@ func List(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var comps []competition.Competition
 		app_utils.GenerallyList(
-			ctx, svc.DB, comps, app_utils.ListSearchParam{
+			ctx, svc.DB, comps, app_utils.ListSearchParam[competition.Competition]{
 				Model:   &competition.Competition{},
 				MaxSize: 100,
 				Query:   "status = ?",

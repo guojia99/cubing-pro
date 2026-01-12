@@ -40,7 +40,7 @@ func GetPosts(svc *svc.Svc, delete bool, user bool) gin.HandlerFunc {
 
 		var posts []post.Posts
 		app_utils.GenerallyList(
-			ctx, svc.DB, posts, app_utils.ListSearchParam{
+			ctx, svc.DB, posts, app_utils.ListSearchParam[post.Posts]{
 				Model:      &post.Posts{},
 				MaxSize:    100,
 				Query:      strings.Join(query, "AND"),

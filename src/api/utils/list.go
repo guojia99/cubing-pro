@@ -28,7 +28,7 @@ type (
 	}
 )
 
-type ListSearchParam struct {
+type ListSearchParam[T any] struct {
 	Model            interface{}
 	MaxSize          int // 为0则代表全部
 	Query            string
@@ -41,11 +41,12 @@ type ListSearchParam struct {
 	NotAutoResp      bool     //  自动封装消息
 
 	SortFn func(i, j int) bool // 排序函数
+	NextFn func(T) T
 }
 
 //PrintSlice[T any](s []T)
 
-func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSearchParam) (out []T, err error) {
+func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSearchParam[T]) (out []T, err error) {
 	var req GenerallyListReq
 	if err = BindAll(ctx, &req); err != nil {
 		exception.ErrRequestBinding.ResponseWithError(ctx, err)
@@ -137,6 +138,12 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 
 	if param.SortFn != nil {
 		sort.Slice(dest, param.SortFn)
+	}
+
+	if param.NextFn != nil {
+		for idx := 0; idx < len(dest); idx++ {
+			dest[idx] = param.NextFn(dest[idx])
+		}
 	}
 
 	if !param.NotAutoResp {

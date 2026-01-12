@@ -148,44 +148,46 @@ func sortRepeatedly(in []repeatedly) []repeatedly {
 	return in
 }
 
-func GetBestAndAvg(results []float64, routeMap event.RouteMap) (best, avg float64) {
+func GetBestAndAvg(in []float64, routeMap event.RouteMap) (best, avg float64) {
 	best, avg = DNF, DNF
 
 	// DNF
 	d := 0
-	for i := 0; i < len(results); i++ {
-		if results[i] <= DNF {
+	for i := 0; i < len(in); i++ {
+		if in[i] <= DNF {
 			d++
 		}
 	}
-	if d == len(results) || len(results) == 0 {
+	if d == len(in) || len(in) == 0 {
 		return
 	}
 
 	// 排序
+	sortedResults := make([]float64, len(in))
+	copy(sortedResults, in)
 	sort.Slice(
-		results, func(i, j int) bool {
-			if results[i] <= DNF || results[j] <= DNF {
-				return results[j] <= DNF
+		sortedResults, func(i, j int) bool {
+			if sortedResults[i] <= DNF || sortedResults[j] <= DNF {
+				return sortedResults[j] <= DNF
 			}
-			return results[i] <= results[j]
+			return sortedResults[i] <= sortedResults[j]
 		},
 	)
 
 	// 最佳成绩
-	best = results[0]
-	if len(results) == 1 {
+	best = sortedResults[0]
+	if len(sortedResults) == 1 {
 		return
 	}
 
 	// 去头尾平均, 大于一半可以不要平均了
-	if d >= len(results)/2 || (len(results)-routeMap.HeadToTailNum*2) < 1 {
+	if d >= len(sortedResults)/2 || (len(sortedResults)-routeMap.HeadToTailNum*2) < 1 {
 		return
 	}
 	avg = 0
 	n := 0.0
-	for idx, val := range results {
-		if idx < routeMap.HeadToTailNum || idx >= len(results)-routeMap.HeadToTailNum {
+	for idx, val := range sortedResults {
+		if idx < routeMap.HeadToTailNum || idx >= len(sortedResults)-routeMap.HeadToTailNum {
 			continue
 		}
 		if val <= DNF {

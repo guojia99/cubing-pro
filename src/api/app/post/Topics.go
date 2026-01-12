@@ -15,8 +15,8 @@ func GetTopics(svc *svc.Svc) gin.HandlerFunc {
 
 		var out []post.Topic
 
-		app_utils.GenerallyList[post.Topic](
-			ctx, svc.DB, out, app_utils.ListSearchParam{
+		_, _ = app_utils.GenerallyList[post.Topic](
+			ctx, svc.DB, out, app_utils.ListSearchParam[post.Topic]{
 				Model:   &post.Topic{},
 				MaxSize: 20,
 				Query:   "ban = ?",

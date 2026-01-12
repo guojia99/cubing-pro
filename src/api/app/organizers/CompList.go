@@ -14,7 +14,7 @@ func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 		var list []competition.Competition
 		_, _ = app_utils.GenerallyList(
-			ctx, svc.DB, list, app_utils.ListSearchParam{
+			ctx, svc.DB, list, app_utils.ListSearchParam[competition.Competition]{
 				Model:   &competition.Competition{},
 				MaxSize: 0,
 				Query:   "orgId = ?",
@@ -52,7 +52,7 @@ func Comps(svc *svc.Svc) gin.HandlerFunc {
 
 		var list []competition.Competition
 		app_utils.GenerallyList(
-			ctx, svc.DB, list, app_utils.ListSearchParam{
+			ctx, svc.DB, list, app_utils.ListSearchParam[competition.Competition]{
 				Model:   &competition.Competition{},
 				MaxSize: 100,
 				Query:   "status = ?",

@@ -11,7 +11,7 @@ func GetAllTopics(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var posts []post.Topic
 		app_utils.GenerallyList(
-			ctx, svc.DB, posts, app_utils.ListSearchParam{
+			ctx, svc.DB, posts, app_utils.ListSearchParam[post.Topic]{
 				Model:      &post.Topic{},
 				MaxSize:    100,
 				HasDeleted: true,

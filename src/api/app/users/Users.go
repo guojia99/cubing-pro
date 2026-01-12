@@ -21,7 +21,7 @@ func Users(svc *svc.Svc, maxSize int) gin.HandlerFunc {
 
 		var out []user.User
 		app_utils.GenerallyList(
-			ctx, svc.DB, out, app_utils.ListSearchParam{
+			ctx, svc.DB, out, app_utils.ListSearchParam[user.User]{
 				Model:   &user.User{},
 				MaxSize: maxSize,
 				CanSearchAndLike: []string{
@@ -43,7 +43,7 @@ func AdminUsers(svc *svc.Svc) gin.HandlerFunc {
 
 		var out []user.User
 		_, _ = app_utils.GenerallyList(
-			ctx, svc.DB, out, app_utils.ListSearchParam{
+			ctx, svc.DB, out, app_utils.ListSearchParam[user.User]{
 				Model:   &user.User{},
 				MaxSize: 100,
 				CanSearchAndLike: []string{

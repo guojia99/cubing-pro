@@ -21,7 +21,7 @@ func Registers(svc *svc.Svc) gin.HandlerFunc {
 		var regs []competition.Registration
 
 		app_utils.GenerallyList(
-			ctx, svc.DB, regs, app_utils.ListSearchParam{
+			ctx, svc.DB, regs, app_utils.ListSearchParam[competition.Registration]{
 				Model:   &competition.Registration{},
 				MaxSize: 0,
 				Query:   "comp_id = ? and status = ?",

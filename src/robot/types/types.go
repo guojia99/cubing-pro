@@ -19,13 +19,13 @@ type Token string
 //}
 
 type InMessage struct {
-	QQ      int64       `json:"QQ"`
-	QQBot   string      `json:"QQBot"`
-	Name    string      `json:"Name"`
-	Message string      `json:"Message"`
-	Tokens  []Token     `json:"Tokens"`
-	GroupID interface{} `json:"GroupID"` // 群号
-	MsgID   string      `json:"MsgID"`   // 消息ID
+	QQ      int64       `json:"QQ,omitempty"`
+	QQBot   string      `json:"QQBot,omitempty"`
+	Name    string      `json:"Name,omitempty"`
+	Message string      `json:"Message,omitempty"`
+	Tokens  []Token     `json:"Tokens,omitempty"`
+	GroupID interface{} `json:"GroupID,omitempty"` // 群号
+	MsgID   string      `json:"MsgID,omitempty"`   // 消息ID
 }
 
 func (i InMessage) GroupIDStr() string { return i.GroupID.(string) }

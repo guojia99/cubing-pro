@@ -24,7 +24,7 @@ func GetNotifyList(svc *svc.Svc) gin.HandlerFunc {
 
 		var results []post.Notification
 		app_utils.GenerallyList(
-			ctx, svc.DB, results, app_utils.ListSearchParam{
+			ctx, svc.DB, results, app_utils.ListSearchParam[post.Notification]{
 				Model:       &post.Notification{},
 				MaxSize:     10,
 				NotAutoResp: true,

@@ -12,7 +12,7 @@ func ListSportResults(svc *svc.Svc) gin.HandlerFunc {
 		var results []sports.SportResult
 
 		app_utils.GenerallyList(
-			ctx, svc.DB, results, app_utils.ListSearchParam{
+			ctx, svc.DB, results, app_utils.ListSearchParam[sports.SportResult]{
 				Model:   &sports.SportResult{},
 				MaxSize: 100,
 				CanSearchAndLike: []string{

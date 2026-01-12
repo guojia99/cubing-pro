@@ -7,6 +7,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/comp"
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
+	"github.com/guojia99/cubing-pro/src/api/app/pktimer"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
 	"github.com/guojia99/cubing-pro/src/api/app/statistics"
@@ -26,6 +27,8 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		public.GET("/notify", notify.GetNotifyList(svc))                                          // 通知列表
 		public.GET("/forum", posts.GetForums(svc))                                                // 板块列表
 		public.GET("/orgs", organizers.PublicOrganizers(svc))
+
+		public.GET("/pkTimers", pktimer.GetPKtimer(svc))
 	}
 
 	player := public.Group("/player") //middleware.CacheMiddleware(time.Minute),

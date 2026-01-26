@@ -52,10 +52,6 @@ func groupPlayersBySimilarScore(players []cachePlayer, eps float64) map[int][]ca
 
 // isWithinOnePercent 判断 a 和 b 是否在 1% 相对误差范围内
 func isWithinOnePercent(a, b, eps float64) bool {
-	if a < -1 || b < -1 {
-		return false
-	}
-
 	if a == b {
 		return true
 	}
@@ -73,26 +69,17 @@ func isDiffInEps(a, b, eps float64) bool {
 	return diff <= eps
 }
 
-// getDiffPercent 计算两个数的相对误差百分比
 func getDiffPercent(a, b float64) float64 {
-	if a == b {
-		return 0
-	}
-
-	// 确保 a >= b
-	if a < b {
+	if a <= b {
 		a, b = b, a
 	}
-
-	diff := a - b
 	maxVal := a
 	if b > a {
 		maxVal = b
 	}
-
-	if maxVal == 0 {
-		return 0
+	diff := a - b
+	if diff < 0 {
+		diff = -diff
 	}
-
 	return diff / maxVal
 }

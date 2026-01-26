@@ -4,11 +4,67 @@ import (
 	"log"
 	"sort"
 	"strings"
+	"time"
 
+	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	utils2 "github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
 )
+
+func PersonBeWcaDBToCubingProDB(in types.PersonInfo) wca_model.PersonBestResults {
+	out := wca_model.PersonBestResults{
+		DBVersion:        time.Now().Format(time.DateTime),
+		PersonName:       in.PersonName,
+		WCAID:            in.WcaID,
+		Best:             make(map[string]wca_model.Results),
+		Avg:              make(map[string]wca_model.Results),
+		CompetitionCount: in.CompetitionCount,
+		MedalCount: wca_model.MedalCount{
+			Gold:   in.MedalCount.Gold,
+			Silver: in.MedalCount.Silver,
+			Bronze: in.MedalCount.Bronze,
+			Total:  in.MedalCount.Total,
+		},
+		RecordCount: wca_model.RecordCount{
+			National:    in.RecordCount.National,
+			Continental: in.RecordCount.Continental,
+			World:       in.RecordCount.World,
+			Total:       in.RecordCount.Total,
+		},
+	}
+
+	for ev, rcs := range in.PersonalRecords {
+		if rcs.Best != nil {
+			out.Best[ev] = wca_model.Results{
+				EventId:       ev,
+				Best:          rcs.Best.Best,
+				BestStr:       rcs.Best.BestStr,
+				PersonName:    rcs.Best.PersonName,
+				PersonId:      rcs.Best.PersonId,
+				WorldRank:     rcs.Best.WorldRank,
+				ContinentRank: rcs.Best.ContinentRank,
+				CountryRank:   rcs.Best.CountryRank,
+				Rank:          rcs.Best.Rank,
+			}
+		}
+		if rcs.Avg != nil {
+			out.Avg[ev] = wca_model.Results{
+				EventId:       ev,
+				Average:       rcs.Avg.Best,
+				AverageStr:    rcs.Avg.BestStr,
+				PersonName:    rcs.Best.PersonName,
+				PersonId:      rcs.Best.PersonId,
+				WorldRank:     rcs.Best.WorldRank,
+				ContinentRank: rcs.Best.ContinentRank,
+				CountryRank:   rcs.Best.CountryRank,
+				Rank:          rcs.Best.Rank,
+			}
+		}
+	}
+
+	return out
+}
 
 func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]types.PersonInfo {
 	var out = make(map[string]types.PersonInfo)
@@ -29,6 +85,18 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]types.Pe
 			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
 			continue
 		}
+
+		// 缓存到数据库
+		var dbResult wca_model.WCAResult
+		if err = u.DB.Where("wca_id = ?", wcaId).First(&dbResult).Error; err == nil {
+			dbResult.PersonBestResults = PersonBeWcaDBToCubingProDB(res)
+		} else {
+			dbResult = wca_model.WCAResult{
+				WcaID:             wcaId,
+				PersonBestResults: PersonBeWcaDBToCubingProDB(res),
+			}
+		}
+		u.DB.Save(&dbResult)
 
 		resultsCh = append(resultsCh, res)
 	}

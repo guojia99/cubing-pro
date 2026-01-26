@@ -11,6 +11,7 @@ import (
 )
 
 type Player struct {
+	Index    int    `json:"index"`
 	QQ       int64  `json:"QQ,omitempty"`
 	QQBot    string `json:"QQBot,omitempty"`
 	UserName string `json:"userName"`

@@ -13,6 +13,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/wca/types"
 )
 
 var diyRankingLock = sync.Mutex{}
@@ -116,6 +117,35 @@ func GetDiyRankingMapPersons(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrUserNotFound.ResponseWithError(ctx, err)
 			return
 		}
+		exception.ResponseOK(ctx, out)
+	}
+}
+
+func DiyRankingsPerson(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req DiyRankingsReq
+		if err := ctx.BindUri(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+			return
+		}
+
+		var wcaids []string
+		if err := system.GetKeyJSONValue(svc.DB, req.Key, &wcaids); err != nil {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		var out []types.PersonInfo
+		for _, wcaid := range wcaids {
+			wcaPersons, err := svc.Wca.GetPersonInfo(wcaid)
+			if err != nil {
+				continue
+			}
+			wcaPersons.PersonalRecords = nil
+
+			out = append(out, wcaPersons)
+		}
+
 		exception.ResponseOK(ctx, out)
 	}
 }

@@ -167,7 +167,6 @@ func seniorRankToResult(rank wca_api.SeniorRank, ev event.Event) result.Results 
 }
 
 func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, events []event.Event) ([]KinChSorResult, int) {
-
 	key, err := utils.MakeCacheKey(wcaIds, events)
 	if err == nil && key != "" {
 		value, ok := c.Cache.Get(key)
@@ -177,6 +176,7 @@ func (c *ResultIter) SelectKinchWithWcaIDs(wcaIds []string, page int, size int, 
 		}
 	}
 
+	// todo 改用wcaDB
 	var dbWcaResults []wca_model.WCAResult
 	for idx := range wcaIds {
 		wcaIds[idx] = strings.ToUpper(wcaIds[idx])

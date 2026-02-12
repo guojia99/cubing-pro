@@ -7,16 +7,17 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug         bool        `yaml:"debug"`
-	Dev           bool        `yaml:"dev"`
-	BaseHost      string      `yaml:"baseHost"`
-	ImageTempPath string      `yaml:"imageTempPath"`
-	BaseFontTTf   string      `yaml:"baseFontTTf"`
-	DB            DBConfig    `yaml:"db"`
-	EmailConfig   EmailConfig `yaml:"emailConfig"`
-	Scramble      Scramble    `yaml:"scramble"`
-	AlgPath       string      `yaml:"algPath"`
-	WcaDB         WcaDB       `yaml:"wcaDB"`
+	Debug           bool        `yaml:"debug"`
+	Dev             bool        `yaml:"dev"`
+	BaseHost        string      `yaml:"baseHost"`
+	ImageTempPath   string      `yaml:"imageTempPath"`
+	BaseFontTTf     string      `yaml:"baseFontTTf"`
+	DB              DBConfig    `yaml:"db"`
+	EmailConfig     EmailConfig `yaml:"emailConfig"`
+	Scramble        Scramble    `yaml:"scramble"`
+	AlgPath         string      `yaml:"algPath"`
+	WcaDB           WcaDB       `yaml:"wcaDB"`
+	AlgTrainersPath string      `yaml:"algTrainersPath"`
 }
 
 type WcaDB struct {

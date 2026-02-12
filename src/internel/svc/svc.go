@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
+	"github.com/guojia99/cubing-pro/src/internel/algs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"github.com/guojia99/cubing-pro/src/wca"
@@ -53,6 +54,12 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 			cfg.GlobalConfig.Scramble.ScrambleDrawType,
 			cfg.GlobalConfig.Scramble.ScrambleUrl,
 		)
+	}
+
+	if cfg.GlobalConfig.AlgTrainersPath != "" {
+		if err = algs.Init(cfg.GlobalConfig.AlgTrainersPath); err != nil {
+			return nil, err
+		}
 	}
 
 	c.Wca = wca.NewWCA(

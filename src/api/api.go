@@ -35,7 +35,7 @@ func NewAPI(svc *svc.Svc) *API {
 		gin.Recovery(),
 		middleware.CorsMiddleware(),
 	)
-	//a.engine.RedirectTrailingSlash = false
+	a.engine.RedirectTrailingSlash = false
 	//gin.SetMode(gin.ReleaseMode)
 
 	// init middleware

@@ -13,6 +13,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/statistics"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
+	pub "github.com/guojia99/cubing-pro/src/api/public"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
 
@@ -76,5 +77,11 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		sta.GET("/best-uncrowned-kings")   //无冕之王, 排在第二里面成绩最好
 		sta.GET("/best-podium-miss")       //老四之王，排在第四里面成绩最好
 		sta.GET("/all-events")             //大满贯
+	}
+
+	alg := public.Group("/algorithm")
+	{
+		alg.GET("/", pub.AlgorithmGroups(svc))                         // 获取列表和清单
+		alg.GET("/:cubeID/:classID", pub.AlgorithmGroupsWithCube(svc)) // 获取全部对应改cube的数据
 	}
 }

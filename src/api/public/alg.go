@@ -23,14 +23,7 @@ type AlgorithmGroupsResponse struct {
 }
 
 func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
-	var cache *AlgorithmGroupsResponse
-	var lastTime time.Time
 	return func(ctx *gin.Context) {
-		if time.Now().Sub(lastTime).Minutes() <= 5 && cache != nil {
-			ctx.JSON(http.StatusOK, cache)
-			return
-		}
-
 		resp := &AlgorithmGroupsResponse{
 			CubeKeys: algs.CubeKeyList,
 			ClassMap: make(map[string][]outputClass), // key with cube
@@ -44,8 +37,6 @@ func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 				resp.ClassMap[alg.Cube] = append(resp.ClassMap[alg.Cube], o)
 			}
 		}
-		cache = resp
-		lastTime = time.Now()
 		ctx.JSON(http.StatusOK, resp)
 	}
 }

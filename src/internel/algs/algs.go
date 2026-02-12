@@ -8,11 +8,12 @@ import (
 var baseAlgs = make(map[string]CubeAlgorithms)
 var CubeKeyList = []string{
 	"222",
+	"pyram",
+	"skewb",
 	"333",
 	"333oh",
 	"minx",
 	"sq1",
-	"skewb",
 }
 var algsDataKey = map[string][]string{
 	"222": {
@@ -21,6 +22,12 @@ var algsDataKey = map[string][]string{
 		"2x2-TEG-Trainer",
 		"2x2-FH-Trainer",
 		"2x2-LS-Trainer",
+	},
+	"pyram": {
+		"Pyraminx-L4E-Trainer",
+	},
+	"skewb": {
+		"Skewb-NS2-Trainer",
 	},
 	"333": {
 		"3x3-OLL-Trainer",
@@ -43,9 +50,6 @@ var algsDataKey = map[string][]string{
 		"Sq1-CPEP-Trainer",
 		"Sq1-OBL-Trainer",
 		"Sq1-PBL-Trainer",
-	},
-	"skewb": {
-		"Skewb-NS2-Trainer",
 	},
 }
 
@@ -74,7 +78,8 @@ var algsNameMap = map[string]string{
 	"Sq1-OBL-Trainer":  "OBL",
 	"Sq1-PBL-Trainer":  "PBL",
 
-	"Skewb-NS2-Trainer": "NS",
+	"Skewb-NS2-Trainer":    "NS",
+	"Pyraminx-L4E-Trainer": "L4E",
 }
 
 func Init(basePath string) error {

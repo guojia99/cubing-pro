@@ -3,6 +3,8 @@ package algs
 import (
 	"fmt"
 	"path"
+	"sort"
+	"strings"
 )
 
 var baseAlgs = make(map[string]CubeAlgorithms)
@@ -14,6 +16,7 @@ var CubeKeyList = []string{
 	"333oh",
 	"minx",
 	"sq1",
+	"555",
 }
 var algsDataKey = map[string][]string{
 	"222": {
@@ -51,6 +54,9 @@ var algsDataKey = map[string][]string{
 		"Sq1-OBL-Trainer",
 		"Sq1-PBL-Trainer",
 	},
+	"555": {
+		"5x5-L2E-Trainer",
+	},
 }
 
 var algsNameMap = map[string]string{
@@ -80,6 +86,8 @@ var algsNameMap = map[string]string{
 
 	"Skewb-NS2-Trainer":    "NS",
 	"Pyraminx-L4E-Trainer": "L4E",
+
+	"5x5-L2E-Trainer": "L2E",
 }
 
 func Init(basePath string) error {
@@ -114,6 +122,13 @@ func builderCubeAlgorithms(basePath string, keys []string) CubeAlgorithms {
 		out.ClassKeys = append(out.ClassKeys, algsNameMap[key])
 	}
 	return out
+}
+
+func bestScrambles(in []string) []string {
+	sort.Slice(in, func(i, j int) bool {
+		return len(strings.Split(in[i], " ")) < len(strings.Split(in[j], ""))
+	})
+	return in
 }
 
 // 例如EG为一个class
@@ -158,7 +173,7 @@ func fileAlgToAlgorithmClass(fileKey string, fileAlg *AlgorithmConfigWithTrainer
 					Name:      fmt.Sprintf("%+v", alg.Name),
 					Algs:      alg.Algs,
 					Image:     fileAlg.Images[algKey],
-					Scrambles: fileAlg.Scrambles[algKey],
+					Scrambles: bestScrambles(fileAlg.Scrambles[algKey]),
 				}
 				group.Algorithms = append(group.Algorithms, algorithm)
 			}

@@ -1,0 +1,317 @@
+{
+ "1": {
+  "a": [
+   "2R2 U2 2R2 Uw2 2R2 Uw2",
+   "Rw2' F2 U2 Rw2 R2' U2 F2 Rw2",
+   "Uw2 Rw2 U2 2R2 U2 Rw2 Uw2",
+   "2L2 U2 2L2 Uw2 2L2 Uw2",
+   "2R2 U2' 2R2 Uw2' 2R2 Uw2'",
+   "Uw2 2L2 Uw2 2L2 U2 2L2",
+   "2R2 U2 2R2 u2 2R2 u2",
+   "y r2 U2 r' U2 r2 U2 r2 U2 r' U2 r2",
+   "Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2'",
+   "Uw2' Rw2' U2' Rw2 R2' U2' Rw2 Uw2'",
+   "Uw2 Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2",
+   "2R2 U2 2R2 d2 2L2 d2",
+   "2R2 U2 2R2 d2 2L2 u2",
+   "2R2 U2 2R2 u2 2R2 d2",
+   "u2 2R2 u2 2R2 U2 2R2",
+   "u2 l2 U2 2L2 U2 l2 u2 U2",
+   "r2 R2 U2 r2 R2 u2 r2 R2 u2",
+   "Parity Alg (2R2)Parity Alg (2R2)Parity Alg (2R2)2R2 U2 2R2 Uw2 2R2 Uw2 2R2 U2 2R2 Uw2 2R2 Uw2 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "Parity Alg (2R2)R R'2R2 U2 2R2 Uw2 2R2 Uw2 R R'",
+   "Uw2 2R2 U2 2R2 U2 2R2 Uw2",
+   "Rw2 R2' U2 Rw2 R2' Uw2 Rw2 R2' Uw2"
+  ],
+  "name": "OPP Parity",
+  "group": "Edge Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "10": {
+  "a": [
+   "y R' U2 R U2 R' F R U R' U' R' F' Rw2 U2 2R2 Uw2 2R2 Uw2",
+   "Parity Alg (2R2)R U R' F' R U2 R' U2 R' F R U R U2 R'2R2 U2 2R2 Uw2 2R2 Uw2 R U R' F' R U2 R' U2 R' F R U R U2 R'",
+   "2R2 U2 2R2 u2 2R2 u2 R U' R' U' R U R D R' U' R D' R' U2 R'",
+   "y2 u2 2R2 u2 2R2 U2 2R2 U2 R U' R' U' R U R D R' U' R D' R' U2 R' U2"
+  ],
+  "name": "Cb",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "11": {
+  "a": [
+   "R' U L' U2 R U' 3Rw B Rw2 U2 Rw2 Uw2 2R2 Uw2 x'",
+   "y2 L' U R' U2 L U' L' U2 L R U' 2R2 U2 2R2 u2 2R2 u2",
+   "y F R U' R' U' 2R2 U2 2R2 u2 2R2 u2 R U R2 F' R U R U' R' U2",
+   "R' U L' U2 R U' R' U2 R L U'Parity Alg (2R2)R' U L' U2 R U' R' U2 R L U' 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "Da",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "12": {
+  "a": [
+   "R U R' F' R U R' U' R' F R2 U' R' u2 2R2 u2 2R2 U2 2R2",
+   "R U R' F' R U R' U' R' F R2 U' R'Parity Alg (2R2)R U R' F' R U R' U' R' F R2 U' R' 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "y R U' L U2 R' U 3Rw' F Rw2 U2 Rw2 Uw2 2R2 Uw2 x",
+   "R U R' F' R U R' U' R' F R2 U' R' 2R2 U2 2R2 u2 2R2 u2"
+  ],
+  "name": "Db",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "13": {
+  "a": [
+   "y 3Lw' U R' D2 R U' R' D2 x' Rw2 U2 2R2 Uw2 2R2 Uw2",
+   "Parity Alg (2R2)x R2 D2 R U R' D2 R U' R x'2R2 U2 2R2 Uw2 2R2 Uw2 x R2 D2 R U R' D2 R U' R x'",
+   "2R2 U2 2R2 u2 2R2 u2 y x' R U' R D2 R' U R D2 R2"
+  ],
+  "name": "Ka",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "14": {
+  "a": [
+   "r2 F2 U2 r2 R2 U2 x R' D' R U2 R' D R r2 x' U'",
+   "y' 3Rw U' L D2 L' U L D2 x' Lw2 U2 2L2 Uw2 2L2 Uw2",
+   "Parity Alg (2R2)U x R' U R' D2 R U' R' D2 R2 x'2R2 U2 2R2 Uw2 2R2 Uw2 U x R' U R' D2 R U' R' D2 R2 x'",
+   "y' 2R2 U2 2R2 u2 2R2 u2 x' R U' R D2 R' U R D2 R2 F'"
+  ],
+  "name": "Kb",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "15": {
+  "a": [
+   "y2 Rw2 F2 U2 2R2 U R' U' R U R' D R D' R F2 U Rw2",
+   "R U R' U' R' F R2 U' R' U' R U R' F'Parity Alg (2R2)R U R' U' R' F R2 U' R' U' R U R' F' 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "M",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "16": {
+  "a": [
+   "R U R' F' R U R' U' R' F R2 U' R' U' 2R2 U2 2R2 u2 2R2 u2",
+   "R U R' F' R U R' U' R' F R2 U' R' U'Parity Alg (2R2)R U R' F' R U R' U' R' F R2 U' R' U' 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "y R U' L U2 R' U 3Rw' Rw2 U2 Rw2 Uw2 2R2 Uw2 x",
+   "y2 U2 R U R' F' R U R' U' R' F R2 U' R' U'Parity Alg (2R2)y2 U2 R U R' F' R U R' U' R' F R2 U' R' U' 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "Pa",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "17": {
+  "a": [
+   "2R2 U2 2R2 u2 2R2 u2 R U R' F' R U R' U' R' F R2 U' R'",
+   "Parity Alg (2R2)R U R' F' R U R' U' R' F R2 U' R'2R2 U2 2R2 Uw2 2R2 Uw2 R U R' F' R U R' U' R' F R2 U' R'",
+   "y R' U L' U2 R U' 3Rw Rw2 U2 Rw2 Uw2 2R2 Uw2 x'"
+  ],
+  "name": "Pb",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "18": {
+  "a": [
+   "F R U' R' U' R U R' F' U' 2R2 U2 2R2 u2 2R2 u2 U' R U R' U' R' F R F'",
+   "2R U 2R' U' Rw' F Rw2 U' Rw' U' Rw U Rw' F' R U R' U' Rw' D' Rw U2 Rw' D Rw",
+   "F R U' R' U' R U R' F' U'Parity Alg (2R2)U' R U R' U' R' F R F'F R U' R' U' R U R' F' U' 2R2 U2 2R2 Uw2 2R2 Uw2 U' R U R' U' R' F R F'",
+   "F R U' R' U' R U R' F' U' 2L2 U2 2L2 Uw2 2L2 Uw2 U' R U R' U' R' F R F'",
+   "R' U' R U' R U R' U' R' F R2 U' R' U' R U R' F' U u2 r2 U2 2R2 U2 r2 u2 R' U R",
+   "U2 R U R' U' 2R2 U2 2R2 u2 2R2 u2 U' R U' R' U2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
+   "U2 R U R' U' 2R2 U2 2R2 u2 2R2 u2 U2 U R U' R' U2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
+   "F R U' R' U' R U R' F' r2 U2 r' U2 r2 U2 r2 U2 r' U2 r2 R U R' U' R' F R F'"
+  ],
+  "name": "Diag C",
+  "group": "Diag Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "19": {
+  "a": [
+   "z Rw2 Uw2' R2' Uw2' F R U R' U' R U R' U' R U R' U' F' U2' R2 Uw2' Rw2' z'",
+   "y x' R U' R' D R U R' D' R U R' D R U' R' D' x U' 2R2 U2 2R2 u2 2R2 u2",
+   "x' R U' R' D R U R' D' R U R' D R U' R' D' x UParity Alg (2R2)x' R U' R' D R U R' D' R U R' D R U' R' D' x U 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "z Rw2 Uw2 R2 Uw2 F R U R' U' R U R' U' R U R' U' F' U2 R2 Uw2 Rw2 z'"
+  ],
+  "name": "Q",
+  "group": "Diag Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "2": {
+  "a": [
+   "R' U R U' 2R2 U2' 2R2 Uw2' 2R2 Uw2' U' R' U' R",
+   "R' U R U'Parity Alg (2R2)U' R' U' RR' U R U' 2R2 U2 2R2 Uw2 2R2 Uw2 U' R' U' R",
+   "R U R' U'Parity Alg (2R2)U' R U' R'R U R' U' 2R2 U2 2R2 Uw2 2R2 Uw2 U' R U' R'",
+   "R U R' U' 2L2 U2 2L2 Uw2 2L2 Uw2 U' R U' R'",
+   "R U R' U' 2R2 U2' 2R2 Uw2' 2R2 Uw2' U' R U' R'",
+   "R U R' U Uw2 2L2 Uw2 2L2 U2 2L2 U R U' R'",
+   "U2 Rw U Rw' R U' Rw' U' Rw U Rw U' Rw' U' 2R' U Rw U R' U' R'",
+   "u' R U' R' u' r2 U2 2R2 U2 r2 u R U R' u",
+   "R' U R U' Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2' U R' U' R",
+   "R' U R U' 2L2 U2 2L2 Uw2 2L2 Uw2 U' R' U' R",
+   "R U R' U' u2 2R2 u2 2R2 U2 2R2 U' R U' R'",
+   "R U R' U' r2 F2 U2 r2 R2 U2 F2 r2 U R U' R'",
+   "R U R' U' 2R2 U2 2R2 u2 2R2 u2 U2 U R U' R'",
+   "R U R' U' 2R2 U2 2R2 u2 2R2 u2 U' R U' R'",
+   "R U R' U' Uw2 2R2 U2 2R2 U2 2R2 Uw2 U R U' R'",
+   "R U R' U'Parity Alg (Rw2 R2)U' R U' R'R U R' U' Rw2 R2 U2 Rw2 R2 Uw2 Rw2 R2 Uw2 U' R U' R'"
+  ],
+  "name": "Adj Parity",
+  "group": "Edge Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "20": {
+  "a": [
+   "F R U' R' U' R U R' F' R U R' U' R' F R F' U' 2R2 U2 2R2 u2 2R2 u2",
+   "F R U' R' U' R U R' F' R U R' U' R' F R F' U'Parity Alg (2R2)F R U' R' U' R U R' F' R U R' U' R' F R F' U' 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "Sa",
+  "group": "Diag Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "21": {
+  "a": [
+   "F R U' R' U' R U R' F' R U R' U' R' F R F' 2R2 U2 2R2 u2 2R2 u2",
+   "F R U' R' U' R U R' F' R U R' U' R' F R F'Parity Alg (2R2)F R U' R' U' R U R' F' R U R' U' R' F R F' 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "Sb",
+  "group": "Diag Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "22": {
+  "a": [
+   "Rw2 F2 U2 Rw2 F' U' R' U R U' R' U R U' R' U R F R2 U2 F2 Rw2",
+   "r2 B2 U2 r2 B R U R' U' R U R' U' R U R' U' B' R2 U2 B2 r2",
+   "x' R U' R' D R U R' D' R U R' D R U' R' D' x 2R2 U2 2R2 u2 2R2 u2",
+   "x' R U' R' D R U R' D' R U R' D R U' R' D' xParity Alg (2R2)x' R U' R' D R U R' D' R U R' D R U' R' D' x 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "X",
+  "group": "Diag Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "3": {
+  "a": [
+   "M2 U' M2 U' M' U2 M2 U2 M'Parity Alg (2R2)M2 U' M2 U' M' U2 M2 U2 M' 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "u2 2R2 u2 2R2 U2 2R2 U R' U' R U' R U R U' R' U R U R2 U' R'",
+   "M2 U M2 U M' U2 M2 U2 M' U 2L2 U2 2L2 Uw2 2L2 Uw2",
+   "M2 U' M2 U' M' U2 M2 U2 M' Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2'",
+   "Uw2 2L2 Uw2 2L2 U2 2R2 U M2 U M' U2 M2 U2 M'",
+   "M' U' M2 U' M2 U' M' U2 M2 u2 2R2 u2 2R2 U2 2R2",
+   "M U' M2 U' M2 U' M U2 M2 2R2 U2 2R2 u2 2R2 u2",
+   "M' U' M2 U' M2 U' M' U2 M2 r2 F2 U2 r2 R2 U2 F2 r2",
+   "M2' U2 M' U M2' U M2' U M' U 2R2 U2 2R2 u2 2R2 u2",
+   "M2' U2 M' U M2' U M2' U M' UParity Alg (2R2)M2' U2 M' U M2' U M2' U M' U 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "M2 U2 M U' M2 U' M2 U' MParity Alg (2R2)M2 U2 M U' M2 U' M2 U' M 2R2 U2 2R2 Uw2 2R2 Uw2"
+  ],
+  "name": "CwO",
+  "group": "Edge Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "4": {
+  "a": [
+   "Uw2 2L2 Uw2 2L2 U2 3Rw' Rw2 R' U2 M2 U2 M' U M2 U M2",
+   "u2 2R2 u2 2R2 U2 2R2 R' U' R U' R U R U' R' U R U R2 U' R'",
+   "M2' U2 M' U M2' U M2' U M' 2R2 U2 2R2 u2 2R2 u2",
+   "M2 U' M2 U' M' U2 M2 U2 M' U'Parity Alg (2R2)M2 U' M2 U' M' U2 M2 U2 M' U' 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "u2 2R2 u2 2R2 U2 2R2 M2 U' M2 U' M' U2 M2 U2 M'",
+   "M U' M2 U' M2 U' M U2 M2 U' 2R2 U2 2R2 u2 2R2 u2",
+   "M' U' M2 U' M2 U' M' U2 M2 U' r2 F2 U2 r2 R2 U2 F2 r2",
+   "M2 U M2 U M' U2 M2 U2 M' r2 F2 U2 r2 R2 U2 F2 r2",
+   "M2' U' M2' U' M' U2' M2' U2' M' U' Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2'",
+   "M2 U' M2 U' M' U2 M2 U2 M' U' Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2'"
+  ],
+  "name": "CcwO",
+  "group": "Edge Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "5": {
+  "a": [
+   "R' U R' U' R' U' R' U R U Rw2 U2 2R2 Uw2 2R2 Uw2",
+   "U' R U' R U R U R U' R' U' R2Parity Alg (2R2)U' R U' R U R U R U' R' U' R2 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "R' U R' U' R' U' R' U R U R2 Uw2' Rw2 U2 Lw2 3Lw2' U2 Rw2 Uw2'",
+   "y' R U' R U R U R U' R' U' R2 2R2 U2 2R2 u2 2R2 u2",
+   "y' R U' R U R U R U' R' U' r2 U2 2R2 u2 2R2 u2",
+   "R' U R' U' R' U' R3 U R U R2 2L2 U2 2L2 Uw2 2L2 Uw2",
+   "y' R U' R U R U R U' R' U' R2 u2 2R2 u2 2R2 U2 2R2",
+   "y2 R2 U R U R' U' R' U' R' U R' r2 F2 U2 r2 R2 U2 F2 r2",
+   "R' U R' U' R3 U' R' U R U Rw2 U2 2R2 Uw2 2R2 Uw2",
+   "y R U R' U'Parity Alg (2R2)R' U' R2 U' R' U R' U Ry R U R' U' 2R2 U2 2R2 Uw2 2R2 Uw2 R' U' R2 U' R' U R' U R",
+   "R' U R' U' R' U' R' U R U R2 2L2 U2 2L2 Uw2 2L2 Uw2"
+  ],
+  "name": "W",
+  "group": "Edge Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "6": {
+  "a": [
+   "R U R' U' R' F R2 U' R' U' R U R' F' U' 2L2 U2 2L2 Uw2 2L2 Uw2",
+   "R U R' U' R' F R2 U' R' U' R U R' F' U'Parity Alg (2R2)R U R' U' R' F R2 U' R' U' R U R' F' U' 2R2 U2 2R2 Uw2 2R2 Uw2",
+   "Rw' R2 U' R' U 2R U' R U2 R' U' 2R U 2R' U' Rw' F Rw2 U' Rw' U' Rw U Rw' F'",
+   "R U R' U' R' F R2 U' R' U' R U R' F' U' 2R2 U2 2R2 u2 2R2 u2",
+   "R U R' U' R' F R2 U' R' U' R U R' F' U u2 r2 U2 2R2 U2 r2 u2",
+   "R U R' Fw2 F' R2 U2' Fw2 F2 U2' R2' Fw2 R U R' U' R' F R2 U' R'",
+   "R U R' F' U'Parity Alg (2R2)U' R U R' U' R' F R2 U' R'R U R' F' U' 2R2 U2 2R2 Uw2 2R2 Uw2 U' R U R' U' R' F R2 U' R'",
+   "R U R' U' R' F R2 U' R' U' R U R' F' U 2L2 U2 2L2 Uw2 2L2 Uw2",
+   "Rw' R2 U' R' U Rw R' U' R U2' R' U' Rw R' U Rw' R U' Rw' F Rw2 U' Rw' U' Rw U Rw' F'",
+   "R' Uw2 2R2 Uw2 2R2 U2 2R2 U R U' R' U R U R2 F' R U R U' R' F U R",
+   "y'Parity Alg (2R2)U' R U R' U' R' F R2 U' R' U' R U R' F'y' 2R2 U2 2R2 Uw2 2R2 Uw2 U' R U R' U' R' F R2 U' R' U' R U R' F'"
+  ],
+  "name": "Pj",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "7": {
+  "a": [
+   "Uw2 2L2 Uw2 2L2 U2 2L2 U R U R' F' R U R' U' R' F R2 U' R'",
+   "x' Rw2 U2 Rw2 Uw2 2R2 Uw2 F 3Rw U' R U2 L' U R'",
+   "Parity Alg (2R2)U R U R' F' R U R' U' R' F R2 U' R'2R2 U2 2R2 Uw2 2R2 Uw2 U R U R' F' R U R' U' R' F R2 U' R'",
+   "2R2 U2 2R2 u2 2R2 u2 U R U R' F' R U R' U' R' F R2 U' R'"
+  ],
+  "name": "Ba",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "8": {
+  "a": [
+   "y x Rw2 U2 Rw2 Uw2 2R2 Uw2 B 3Rw' U R' U2 L U' R",
+   "y 2R2 U2 2R2 u2 2R2 u2 R' U L' U2 R U' R' U2 L R",
+   "R U R' U' R' F R2 U' R'Parity Alg (2R2)U R U R' F'R U R' U' R' F R2 U' R' 2R2 U2 2R2 Uw2 2R2 Uw2 U R U R' F'",
+   "y' 2R2 U2 2R2 u2 2R2 u2 L' U R' U2 L U' L' U2 L R U"
+  ],
+  "name": "Bb",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ },
+ "9": {
+  "a": [
+   "y2 Uw2 2R2 Uw2 2R2 U2 Rw2 F R U R U' R' F' R U2 R' U2 R",
+   "Parity Alg (2R2)U R' U2 R U2 R' F R U R' U' R' F' R22R2 U2 2R2 Uw2 2R2 Uw2 U R' U2 R U2 R' F R U R' U' R' F' R2",
+   "U2 2R2 U2 2R2 u2 2R2 u2 R2 F R U R U' R' F' R U2 R' U2 R U"
+  ],
+  "name": "Ca",
+  "group": "Adj Corner Swap",
+  "algset": "PLLP",
+  "scramble": ""
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "Front Right": [
+  "Front Right Free Pairs",
+  "Front Right Disconnected Pairs",
+  "Front Right Connected Pairs",
+  "Front Right Corner In Slot",
+  "Front Right Edge In Slot",
+  "Front Right Pieces In Slot"
+ ],
+ "Front Left": [
+  "Front Left Free Pairs",
+  "Front Left Disconnected Pairs",
+  "Front Left Connected Pairs",
+  "Front Left Corner In Slot",
+  "Front Left Edge In Slot",
+  "Front Left Pieces In Slot"
+ ],
+ "Back Left": [
+  "Back Left Free Pairs",
+  "Back Left Disconnected Pairs",
+  "Back Left Connected Pairs",
+  "Back Left Corner In Slot",
+  "Back Left Edge In Slot",
+  "Back Left Pieces In Slot"
+ ],
+ "Back Right": [
+  "Back Right Free Pairs",
+  "Back Right Disconnected Pairs",
+  "Back Right Connected Pairs",
+  "Back Right Corner In Slot",
+  "Back Right Edge In Slot",
+  "Back Right Pieces In Slot"
+ ]
+}

@@ -1,0 +1,1525 @@
+{
+ "1": {
+  "a": [
+   "/"
+  ],
+  "name": "Kite / Kite",
+  "group": "1 Slice",
+  "algset": "CS",
+  "scramble": "/"
+ },
+ "10": {
+  "a": [
+   "/-1,4/-3,0/"
+  ],
+  "name": "Left paw / Right paw",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,-4 /"
+ },
+ "100": {
+  "a": [
+   "/0,-1/0,2/1,2/-3,-3/"
+  ],
+  "name": "Muffin / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 0,-2 / 1,0 /"
+ },
+ "101": {
+  "a": [
+   "/1,0/-2,0/2,1/3,3/"
+  ],
+  "name": "Left paw / Muffin",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / -2,-1 / 2,0 / -1,0 /"
+ },
+ "102": {
+  "a": [
+   "/0,-1/0,2/-1,-2/-3,-3/"
+  ],
+  "name": "Muffin / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / 0,-2 / 0,1 /"
+ },
+ "103": {
+  "a": [
+   "/0,-1/2,-3/-1,-2/-3,0/"
+  ],
+  "name": "Left paw / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,3 / 0,1 /"
+ },
+ "104": {
+  "a": [
+   "/1,0/3,-2/2,1/0,3/"
+  ],
+  "name": "Shield / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / -3,2 / -1,0 /"
+ },
+ "105": {
+  "a": [
+   "/1,0/-2,3/-1,-2/-3,0/"
+  ],
+  "name": "Right paw / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,-3 / -1,0 /"
+ },
+ "106": {
+  "a": [
+   "/0,-1/-3,2/2,1/0,3/"
+  ],
+  "name": "Shield / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 3,-2 / 0,1 /"
+ },
+ "107": {
+  "a": [
+   "/-1,-2/0,2/-5,2/0,3/-1,1"
+  ],
+  "name": "Right fist / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / 5,-2 / 0,-2 / 1,2 /"
+ },
+ "108": {
+  "a": [
+   "/-1,-2/0,2/-5,2/0,3/-1,1"
+  ],
+  "name": "Shield / Right fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / 5,-2 / 0,-2 / 1,2 /"
+ },
+ "109": {
+  "a": [
+   "/-1,0/0,2/-5,2/0,3/-1,1"
+  ],
+  "name": "Left fist / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / 5,-2 / 0,-2 / 1,0 /"
+ },
+ "11": {
+  "a": [
+   "/-2,0/3,3/"
+  ],
+  "name": "Muffin / Muffin",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,0 /"
+ },
+ "110": {
+  "a": [
+   "/0,1/-2,0/-2,5/-3,0/-1,1"
+  ],
+  "name": "Shield / Left fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,-5 / 2,0 / 0,-1 /"
+ },
+ "111": {
+  "a": [
+   "/0,2/-3,4/1,2/0,3/-1,1"
+  ],
+  "name": "Muffin / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 3,-4 / 0,-2 /"
+ },
+ "112": {
+  "a": [
+   "/-2,0/-4,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Scallop / Muffin",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 4,-3 / 2,0 /"
+ },
+ "113": {
+  "a": [
+   "/1,0/0,-4/-1,4/0,-3/"
+  ],
+  "name": "Left fist / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,-4 / 0,4 / -1,0 /"
+ },
+ "114": {
+  "a": [
+   "/0,-1/4,0/-4,1/3,0/"
+  ],
+  "name": "Scallop / Left fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / 4,-1 / -4,0 / 0,1 /"
+ },
+ "115": {
+  "a": [
+   "/-1,0/0,4/1,-4/0,3/-1,1"
+  ],
+  "name": "Right fist / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,4 / 0,-4 / 1,0 /"
+ },
+ "116": {
+  "a": [
+   "/0,1/-4,0/4,-1/-3,0/-1,1"
+  ],
+  "name": "Scallop / Right fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / -4,1 / 4,0 / 0,-1 /"
+ },
+ "117": {
+  "a": [
+   "/3,2/-3,2/1,2/0,3/-1,1"
+  ],
+  "name": "Left paw / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 3,-2 / -3,-2 /"
+ },
+ "118": {
+  "a": [
+   "/-2,-3/-2,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Scallop / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 2,-3 / 2,3 /"
+ },
+ "119": {
+  "a": [
+   "/-3,-2/3,-2/-1,-2/0,-3/"
+  ],
+  "name": "Right paw / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / -3,2 / 3,2 /"
+ },
+ "12": {
+  "a": [
+   "/1,0/-3,-3/"
+  ],
+  "name": "Shield / Shield",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,0 /"
+ },
+ "120": {
+  "a": [
+   "/2,3/2,-3/2,1/3,0/"
+  ],
+  "name": "Scallop / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / -2,-1 / -2,3 / -2,-3 /"
+ },
+ "121": {
+  "a": [
+   "/0,2/0,-4/-1,-2/-3,-3/"
+  ],
+  "name": "Shield / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / 0,4 / 0,-2 /"
+ },
+ "122": {
+  "a": [
+   "/-2,0/4,0/2,1/3,3/"
+  ],
+  "name": "Scallop / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / -2,-1 / -4,0 / 2,0 /"
+ },
+ "123": {
+  "a": [
+   "/2,-1/-4,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Left paw / Barrel",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 4,-3 / -2,1 /"
+ },
+ "124": {
+  "a": [
+   "/1,-2/-3,4/1,2/0,3/-1,1"
+  ],
+  "name": "Barrel / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 3,-4 / -1,2 /"
+ },
+ "125": {
+  "a": [
+   "/2,-1/3,-4/1,2/0,3/-1,1"
+  ],
+  "name": "Right paw / Barrel",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / -3,4 / -2,1 /"
+ },
+ "126": {
+  "a": [
+   "/1,-2/4,-3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Barrel / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / -4,3 / -1,2 /"
+ },
+ "127": {
+  "a": [
+   "/-2,0/2,0/-1,0/-3,-3/"
+  ],
+  "name": "Shield / Barrel",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,0 / -2,0 / 2,0 /"
+ },
+ "128": {
+  "a": [
+   "/0,2/0,-2/0,1/3,3/"
+  ],
+  "name": "Barrel / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,-1 / 0,2 / 0,-2 /"
+ },
+ "129": {
+  "a": [
+   "/0,1/2,0/-1,0/-3,0/"
+  ],
+  "name": "Left paw / Kite",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,0 / 0,-1 /"
+ },
+ "13": {
+  "a": [
+   "/1,2/-3,-3/",
+   "/-2,-1/3,3/"
+  ],
+  "name": "Scallop / Scallop",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 /"
+ },
+ "130": {
+  "a": [
+   "/1,0/-1,-2/0,1/0,3/"
+  ],
+  "name": "Kite / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 1,2 / -1,0 /"
+ },
+ "131": {
+  "a": [
+   "/0,-2/-1,-2/0,1/0,3/"
+  ],
+  "name": "Shield / Kite",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 1,2 / 0,2 /"
+ },
+ "132": {
+  "a": [
+   "/-2,0/2,0/-1,0/-3,0/"
+  ],
+  "name": "Kite / Shield",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,0 / 2,0 /"
+ },
+ "133": {
+  "a": [
+   "/0,-1/2,1/-1,0/-3,0/"
+  ],
+  "name": "Right paw / Kite",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,-1 / 0,1 /"
+ },
+ "134": {
+  "a": [
+   "/-1,0/0,-2/0,1/0,3/"
+  ],
+  "name": "Kite / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,2 / 1,0 /"
+ },
+ "135": {
+  "a": [
+   "/-4,0/1,2/-2,0/-1,-2/-3,0/"
+  ],
+  "name": "Left fist / Square",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,0 / -1,-2 / 4,0 /"
+ },
+ "136": {
+  "a": [
+   "/0,4/-2,-1/0,2/2,1/0,3/"
+  ],
+  "name": "Square / Left fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,-2 / 2,1 / 0,-4 /"
+ },
+ "137": {
+  "a": [
+   "0,-1/0,1/4,0/-2,-1/2,0/-1,-2/-3,0/"
+  ],
+  "name": "Right fist / Square",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,0 / 2,1 / -4,0 / 0,-1"
+ },
+ "138": {
+  "a": [
+   "1,0/-1,0/0,-4/1,2/0,-2/2,1/0,3/"
+  ],
+  "name": "Square / Right fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,2 / -1,-2 / 0,4 / 1,0"
+ },
+ "139": {
+  "a": [
+   "/2,2/-2,-1/2,2/-1,0/-3,-3/"
+  ],
+  "name": "Barrel / Square",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,0 / -2,-2 / 2,1 / -2,-2 /"
+ },
+ "14": {
+  "a": [
+   "/-3,0/-3,0/"
+  ],
+  "name": "Barrel / Kite",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 3,0 /"
+ },
+ "140": {
+  "a": [
+   "/2,2/-1,2/2,2/0,-1/3,3/"
+  ],
+  "name": "Square / Barrel",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,1 / -2,-2 / 1,-2 / -2,-2 /"
+ },
+ "141": {
+  "a": [
+   "/-2,0/-2,-1/-3,2/-1,-2/0,-3/"
+  ],
+  "name": "Star / 7-1",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 3,-2 / 2,1 / 2,0 /"
+ },
+ "142": {
+  "a": [
+   "1,0/0,-2/-1,-2/ 2,-3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "7-1 / Star",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / -2,3 / 1,2 / 0,2 / -1,0"
+ },
+ "143": {
+  "a": [
+   "0,3/-4,0/-2,-1/-3,2/2,1/0,3/"
+  ],
+  "name": "Star / 5-3",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 3,-2 / 2,1 / 4,0 / 0,-3"
+ },
+ "144": {
+  "a": [
+   "/0,4/1,2/-2,3/-1,-2/-3,0/"
+  ],
+  "name": "5-3 / Star",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,-3 / -1,-2 / 0,-4 /"
+ },
+ "145": {
+  "a": [
+   "/6,-3/2,0/2,1/-1,0/-3,0/"
+  ],
+  "name": "2-2-2 / Parallel Edges",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,-1 / -2,0 / -6,3 /"
+ },
+ "146": {
+  "a": [
+   "/0,3/2,0/2,1/-1,0/-3,0/"
+  ],
+  "name": "Parallel Edges / 2-2-2",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,-1 / -2,0 / 0,-3 /"
+ },
+ "147": {
+  "a": [
+   "/-1,0/2,0/0,-2/0,1/0,3/"
+  ],
+  "name": "2-2-2 / Perpendicular Edges",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,2 / -2,0 / 1,0 /"
+ },
+ "148": {
+  "a": [
+   "/0,-1/0,2/2,1/-1,0/-3,0/"
+  ],
+  "name": "Perpendicular Edges / 2-2-2",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,-1 / 0,-2 / 0,1 /"
+ },
+ "149": {
+  "a": [
+   "/0,-2/0,2/0,-2/0,1/0,3/"
+  ],
+  "name": "Left fist / Left fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,2 / 0,-2 / 0,2 /"
+ },
+ "15": {
+  "a": [
+   "/0,3/0,3/"
+  ],
+  "name": "Kite / Barrel",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-3 /"
+ },
+ "150": {
+  "a": [
+   "/2,0/-2,0/2,0/-1,0/-3,0/"
+  ],
+  "name": "Right fist / Right fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,0 / 2,0 / -2,0 /"
+ },
+ "151": {
+  "a": [
+   "/4,0/-2,-1/2,0/-1,4/-3,0/"
+  ],
+  "name": "Right fist / Muffin",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,-4 / -2,0 / 2,1 / -4,0 /"
+ },
+ "152": {
+  "a": [
+   "/0,-4/1,2/0,-2/-4,1/0,3/"
+  ],
+  "name": "Muffin / Right fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 4,-1 / 0,2 / -1,-2 / 0,4 /"
+ },
+ "153": {
+  "a": [
+   "/4,0/0,-1/2,0/-1,4/-3,0/"
+  ],
+  "name": "Left fist / Muffin",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,-4 / -2,0 / 0,1 / -4,0 /"
+ },
+ "154": {
+  "a": [
+   "/0,-4/1,0/0,-2/-4,1/0,3/"
+  ],
+  "name": "Muffin / Left fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 4,-1 / 0,2 / -1,0 / 0,4 /"
+ },
+ "155": {
+  "a": [
+   "/-2,0/-1,0/2,0/1,2/-3,-3/"
+  ],
+  "name": "Right fist / Barrel",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / -2,0 / 1,0 / 2,0 /"
+ },
+ "156": {
+  "a": [
+   "/0,2/0,1/0,-2/-2,-1/3,3/"
+  ],
+  "name": "Barrel / Right fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 / 0,2 / 0,-1 / 0,-2 /"
+ },
+ "157": {
+  "a": [
+   "/2,0/1,0/-2,0/-1,-2/-3,-3/"
+  ],
+  "name": "Left fist / Barrel",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / 2,0 / -1,0 / -2,0 /"
+ },
+ "158": {
+  "a": [
+   "/0,-2/0,-1/0,2/2,1/3,3/"
+  ],
+  "name": "Barrel / Left fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / -2,-1 / 0,-2 / 0,1 / 0,2 /"
+ },
+ "159": {
+  "a": [
+   "/2,3/2,0/-2,0/1,0/3,0/-1,1"
+  ],
+  "name": "Muffin / Barrel",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / -3,0 / -1,0 / 2,0 / -2,0 / -2,-3 /"
+ },
+ "16": {
+  "a": [
+   "/-1,-2/-3,0/"
+  ],
+  "name": "Scallop / Kite",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 /"
+ },
+ "160": {
+  "a": [
+   "/-3,-2/0,-2/0,2/0,-1/0,-3/-1,1"
+  ],
+  "name": "Barrel / Muffin",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,3 / 0,1 / 0,-2 / 0,2 / 3,2 /"
+ },
+ "161": {
+  "a": [
+   "/-2,0/0,-1/2,0/-1,-2/-3,0/"
+  ],
+  "name": "Left fist / Kite",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,0 / 0,1 / 2,0 /"
+ },
+ "162": {
+  "a": [
+   "/0,2/1,0/0,-2/-1,-2/0,-3/"
+  ],
+  "name": "Kite / Left fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 0,2 / -1,0 / 0,-2 /"
+ },
+ "163": {
+  "a": [
+   "/-2,0/0,-1/2,0/-1,-2/-3,0/"
+  ],
+  "name": "Right fist / Kite",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,0 / 0,1 / 2,0 /"
+ },
+ "164": {
+  "a": [
+   "/0,2/1,0/0,-2/2,1/0,3/"
+  ],
+  "name": "Kite / Right fist",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,2 / -1,0 / 0,-2 /"
+ },
+ "165": {
+  "a": [
+   "/2,3/-2,0/2,0/-1,0/-3,-3/"
+  ],
+  "name": "Muffin / Kite",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,0 / -2,0 / 2,0 / -2,-3 /"
+ },
+ "166": {
+  "a": [
+   "/3,2/0,-2/0,2/0,-1/3,3/"
+  ],
+  "name": "Kite / Muffin",
+  "group": "6 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,1 / 0,-2 / 0,2 / -3,-2 /"
+ },
+ "167": {
+  "a": [
+   "/-1,0/2,0/-2,0/2,0/-1,0/-3,0/"
+  ],
+  "name": "Kite / Square",
+  "group": "7 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,0 / 2,0 / -2,0 / 1,0 /"
+ },
+ "168": {
+  "a": [
+   "/0,1/0,-2/0,2/0,-2/0,1/0,3/"
+  ],
+  "name": "Square / Kite",
+  "group": "7 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,2 / 0,-2 / 0,2 / 0,-1 /"
+ },
+ "169": {
+  "a": [],
+  "name": "Square / Square",
+  "group": "Solved",
+  "algset": "CS",
+  "scramble": ""
+ },
+ "17": {
+  "a": [
+   "/2,1/0,3/"
+  ],
+  "name": "Kite / Scallop",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 /"
+ },
+ "18": {
+  "a": [
+   "/2,4/-4,1/0,3/"
+  ],
+  "name": "Star / 6-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 4,-1 / -2,-4 /"
+ },
+ "19": {
+  "a": [
+   "/-4,-2/-1,4/-3,0/"
+  ],
+  "name": "6-2 / Star",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,-4 / 4,2 /"
+ },
+ "2": {
+  "a": [
+   "/3,0/-1,1",
+   "/-3,0/-1,1"
+  ],
+  "name": "Left fist / Right fist",
+  "group": "2 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / -3,0 /"
+ },
+ "20": {
+  "a": [
+   "/-4,-2/1,2/-3,-3/"
+  ],
+  "name": "Star / 8",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 4,2 /"
+ },
+ "21": {
+  "a": [
+   "/2,4/-2,-1/3,3/"
+  ],
+  "name": "8 / Star",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 / -2,-4 /"
+ },
+ "22": {
+  "a": [
+   "/-2,-2/1,0/-3,-3/"
+  ],
+  "name": "Star / 4-4",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,0 / 2,2 /"
+ },
+ "23": {
+  "a": [
+   "/2,2/0,-1/3,3/"
+  ],
+  "name": "4-4 / Star",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,1 / -2,-2 /"
+ },
+ "24": {
+  "a": [
+   "/2,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Left 4-2 / Parallel Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / -2,-3 /"
+ },
+ "25": {
+  "a": [
+   "/3,2/-1,-2/0,-3/"
+  ],
+  "name": "Parallel Edges / Left 4-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / -3,-2 /"
+ },
+ "26": {
+  "a": [
+   "/-2,-3/-1,-2/-3,0/"
+  ],
+  "name": "Right 4-2 / Parallel Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,3 /"
+ },
+ "27": {
+  "a": [
+   "/4,0/2,-3/-1,-2/-3,0/"
+  ],
+  "name": "Parallel Edges / Right 4-2 ",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,3 / -4,0 /"
+ },
+ "28": {
+  "a": [
+   "/0,-4/2,1/0,3/"
+  ],
+  "name": "Right 5-1 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,4 /"
+ },
+ "29": {
+  "a": [
+   "/-4,0/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Perpendicular Edges / Right 5-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 4,0 /"
+ },
+ "3": {
+  "a": [
+   "/3,0/",
+   "/-3,0/"
+  ],
+  "name": "Right fist / Left fist",
+  "group": "2 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 /"
+ },
+ "30": {
+  "a": [
+   "/0,4/1,2/0,3/-1,1"
+  ],
+  "name": "Left 5-1 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 0,-4 /"
+ },
+ "31": {
+  "a": [
+   "/4,0/-1,-2/-3,0/"
+  ],
+  "name": "Perpendicular Edges / Left 5-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -4,0 /"
+ },
+ "32": {
+  "a": [
+   "/2,0/-1,-2/-3,0/"
+  ],
+  "name": "4-1-1 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -2,0 /"
+ },
+ "33": {
+  "a": [
+   "/0,-2/2,1/0,3/"
+  ],
+  "name": "Perpendicular Edges / 4-1-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,2 /"
+ },
+ "34": {
+  "a": [
+   "/0,-2/0,1/0,3/"
+  ],
+  "name": "3-2-1 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,2 /"
+ },
+ "35": {
+  "a": [
+   "/2,1/-1,0/-3,0/"
+  ],
+  "name": "Perpendicular Edges / 3-2-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,-1 /"
+ },
+ "36": {
+  "a": [
+   "/-1,-2/0,1/0,3/"
+  ],
+  "name": "3-1-2 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 1,2 /"
+ },
+ "37": {
+  "a": [
+   "/2,0/-1,0/-3,0/"
+  ],
+  "name": "Perpendicular Edges / 3-1-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -2,0 /"
+ },
+ "38": {
+  "a": [
+   "/0,-2/-1,4/-3,0/"
+  ],
+  "name": "3-3 / Perpendicular Edges",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,-4 / 0,2 /"
+ },
+ "39": {
+  "a": [
+   "/-2,0/-5,2/0,3/-1,1"
+  ],
+  "name": "Perpendicular Edges / 3-3",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / 5,-2 / 2,0 /"
+ },
+ "4": {
+  "a": [
+   "/3,3/",
+   "/-3,-3/"
+  ],
+  "name": "Barrel / Barrel",
+  "group": "2 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 /"
+ },
+ "40": {
+  "a": [
+   "/3,-2/-1,-2/0,-3/"
+  ],
+  "name": "Right 5-1 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / -3,2 /"
+ },
+ "41": {
+  "a": [
+   "/-2,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Pair / Right 5-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 2,-3 /"
+ },
+ "42": {
+  "a": [
+   "/-3,2/-2,-1/0,-3/-1,1"
+  ],
+  "name": "Left 5-1 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,3 / 2,1 / 3,-2 /"
+ },
+ "43": {
+  "a": [
+   "/-2,3/-2,-1/-3,0 /-1,1"
+  ],
+  "name": "Pair / Left 5-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 2,-3 /"
+ },
+ "44": {
+  "a": [
+   "/0,4/4,-1/-3,0/-1,1"
+  ],
+  "name": "4-1-1 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / -4,1 / 0,-4 /"
+ },
+ "45": {
+  "a": [
+   "/-4,0/4,-1/-3,0/-1,1"
+  ],
+  "name": "Pair / 4-1-1",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / -4,1 / 4,0 /"
+ },
+ "46": {
+  "a": [
+   "/-2,0/0,1/3,3/"
+  ],
+  "name": "2-2-2 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,-1 / 2,0 /"
+ },
+ "47": {
+  "a": [
+   "/0,2/-1,0/-3,-3/"
+  ],
+  "name": "Pair / 2-2-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,0 / 0,-2 /"
+ },
+ "48": {
+  "a": [
+   "/2,0/-2,-1/3,3/"
+  ],
+  "name": "Left 4-2 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 / -2,0 /"
+ },
+ "49": {
+  "a": [
+   "/0,2/2,1/3,3/"
+  ],
+  "name": "Pair / Left 4-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / -2,-1 / 0,-2 /"
+ },
+ "5": {
+  "a": [
+   "/2,0/3,0/"
+  ],
+  "name": "Muffin / Square",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / -2,0 /"
+ },
+ "50": {
+  "a": [
+   "/0,4/1,0/-3,-3/"
+  ],
+  "name": "Right 4-2 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,0 / 0,-4 /"
+ },
+ "51": {
+  "a": [
+   "/-2,0/1,2/-3,-3/"
+  ],
+  "name": "Pair / Right 4-2",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 2,0 /"
+ },
+ "52": {
+  "a": [
+   "/0,4/1,2/-3,-3/"
+  ],
+  "name": "6 / Pair",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 0,-4 /"
+ },
+ "53": {
+  "a": [
+   "/-4,0/-2,-1/3,3/"
+  ],
+  "name": "Pair / 6",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 / 4,0 /"
+ },
+ "54": {
+  "a": [
+   "/0,-4/0,1/0,3/"
+  ],
+  "name": "Right fist / Left paw",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,4 /"
+ },
+ "55": {
+  "a": [
+   "/4,0/-1,0/-3,0/"
+  ],
+  "name": "Left paw / Right fist",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -4,0 /"
+ },
+ "56": {
+  "a": [
+   "/-1,0/0,1/0,3/"
+  ],
+  "name": "Left fist / Right paw",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 1,0 /"
+ },
+ "57": {
+  "a": [
+   "/0,1/-1,0/-3,0/"
+  ],
+  "name": "Right paw / Left fist",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / 0,-1 /"
+ },
+ "58": {
+  "a": [
+   "/-1,2/2,2/0,-1/3,3/"
+  ],
+  "name": "Right paw / Right paw",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,1 / -2,-2 / 1,-2 /"
+ },
+ "59": {
+  "a": [
+   "/3,0/-1,-2/0,-3/"
+  ],
+  "name": "Muffin / Shield",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / -3,0 /"
+ },
+ "6": {
+  "a": [
+   "/0,-2/0,-3/"
+  ],
+  "name": "Square / Muffin",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 0,2 /"
+ },
+ "60": {
+  "a": [
+   "/0,-3/2,1/3,0/"
+  ],
+  "name": "Shield / Muffin",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / -2,-1 / 0,3 /"
+ },
+ "61": {
+  "a": [
+   "/4,0/-1,0/-3,-3/"
+  ],
+  "name": "Scallop / Barrel",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,0 / -4,0 /"
+ },
+ "62": {
+  "a": [
+   "/0,-4/0,1/3,3/"
+  ],
+  "name": "Barrel / Scallop",
+  "group": "4 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,-1 / 0,4 /"
+ },
+ "63": {
+  "a": [
+   "0,-1/1,0/-2,0/-1,-2/-3,0/"
+  ],
+  "name": "Right paw / Square",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,0 / -1,0 / 0,1"
+ },
+ "64": {
+  "a": [
+   "1,0/0,-1/0,2/2,1/0,3/"
+  ],
+  "name": "Square / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,-2 / 0,1 / -1,0"
+ },
+ "65": {
+  "a": [
+   "/2,-3/-2,0/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Left paw / Square",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 2,0 / -2,3 /"
+ },
+ "66": {
+  "a": [
+   "/3,-2/0,2/1,2/0,3/-1,1"
+  ],
+  "name": "Square / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 0,-2 / -3,2 /"
+ },
+ "67": {
+  "a": [
+   "/2,0/-4,0/1,2/3,0/-1,1"
+  ],
+  "name": "Scallop / Square",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / -3,0 / -1,-2 / 4,0 / -2,0 /"
+ },
+ "68": {
+  "a": [
+   "/0,-2/0,4/-2,-1/0,-3/-1,1"
+  ],
+  "name": "Square / Scallop",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,3 / 2,1 / 0,-4 / 0,2 /"
+ },
+ "69": {
+  "a": [
+   "/3,-2/0,4/1,2/0,3/-1,1"
+  ],
+  "name": "4-1-1 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 0,-4 / -3,2 /"
+ },
+ "7": {
+  "a": [
+   "/-1,0/-3,0/"
+  ],
+  "name": "Shield / Square",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 /"
+ },
+ "70": {
+  "a": [
+   "/-2,3/4,0/-1,-2/-3,0/"
+  ],
+  "name": "Parallel Edges / 4-1-1",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -4,0 / 2,-3 /"
+ },
+ "71": {
+  "a": [
+   "/3,2/2,4/1,2/-3,-3/"
+  ],
+  "name": "6 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / -2,-4 / -3,-2 /"
+ },
+ "72": {
+  "a": [
+   "/3,2/2,4/1,2/-3,-3/"
+  ],
+  "name": "Parallel Edges / 6",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / -2,-4 / -3,-2 /"
+ },
+ "73": {
+  "a": [
+   "/4,0/2,-3/-1,-2/-3,0/"
+  ],
+  "name": "3-2-1 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / -4,0 / 2,3 /"
+ },
+ "74": {
+  "a": [
+   "/-3,-2/1,2/0,3/-1,1"
+  ],
+  "name": "Parallel Edges / 3-2-1",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / -2,0 / -4,1 /"
+ },
+ "75": {
+  "a": [
+   "/2,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "3-1-2 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 2,0 / 4,-1 /"
+ },
+ "76": {
+  "a": [
+   "/3,2/-1,-2/0,-3/"
+  ],
+  "name": "Parallel Edges / 3-1-2",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / 0,-1 / -2,-3 /"
+ },
+ "77": {
+  "a": [
+   "/-2,1/-2,0/1,2/-3,-3/"
+  ],
+  "name": "3-3 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / -1,-2 / 2,0 / 2,-1 /"
+ },
+ "78": {
+  "a": [
+   "/1,-2/0,-2/-1,-2/-3,-3/"
+  ],
+  "name": "Parallel Edges / 3-3",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / 0,2 / -1,2 /"
+ },
+ "79": {
+  "a": [
+   "/-3,0/0,-4/-1,-2/0,-3/"
+  ],
+  "name": "Left 5-1 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 0,4 / 3,0 /"
+ },
+ "8": {
+  "a": [
+   "/0,1/0,3/"
+  ],
+  "name": "Square / Shield",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 /"
+ },
+ "80": {
+  "a": [
+   "/-4,1/0,-4/0,-1/3,3/"
+  ],
+  "name": "Parallel Edges / Left 5-1",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 0,1 / 0,4 / 4,-1 /"
+ },
+ "81": {
+  "a": [
+   "/3,0/0,4/1,2/0,3/-1,1"
+  ],
+  "name": "Right 5-1 / Parallel Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 0,-3 / -1,-2 / 0,-4 / -3,0 /"
+ },
+ "82": {
+  "a": [
+   "/0,3/4,0/-1,-2/-3,0/"
+  ],
+  "name": "Parallel Edges / Right 5-1",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / -4,0 / 0,-3 /"
+ },
+ "83": {
+  "a": [
+   "/-4,3/-3,2/-1,-2/0,-3/"
+  ],
+  "name": "Right 4-2 / Perpendicular Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 3,-2 / 4,-3 /"
+ },
+ "84": {
+  "a": [
+   "/-4,3/-3,2/-1,-2/0,-3/"
+  ],
+  "name": "Perpendicular Edges / Right 4-2",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 3,-2 / 4,-3 /"
+ },
+ "85": {
+  "a": [
+   "/0,-3/-4,3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Perpendicular Edges / Left 4-2",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / 4,-3 / 0,3 /"
+ },
+ "86": {
+  "a": [
+   "/-3,-4/-2,3/-1,-2/-3,0/"
+  ],
+  "name": "6 / Perpendicular Edges",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,2 / 2,-3 / 3,4 /"
+ },
+ "87": {
+  "a": [
+   "/-3,-2/2,-3/-2,-1/-3,0/-1,1"
+  ],
+  "name": "Perpendicular Edges / 6",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "1,-1 / 3,0 / 2,1 / -2,3 / 3,2 /"
+ },
+ "88": {
+  "a": [
+   "/0,5/-3,2/-1,-2/0,-3/"
+  ],
+  "name": "3-2-1 / Pair",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 3,-2 / 0,-5 /"
+ },
+ "89": {
+  "a": [
+   "/-5,0/-2,3/2,1/3,0/"
+  ],
+  "name": "Pair / 3-2-1",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / -2,-1 / 2,-3 / 5,0 /"
+ },
+ "9": {
+  "a": [
+   "/-4,1/3,0/"
+  ],
+  "name": "Right paw / Left paw",
+  "group": "3 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / -5,2 /"
+ },
+ "90": {
+  "a": [
+   "/0,-5/-3,4/-1,-2/0,-3/"
+  ],
+  "name": "3-1-2 / Pair",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / 3,-4 / 0,5 /"
+ },
+ "91": {
+  "a": [
+   "0,2/-2,2/0,-4/2,1/0,3/"
+  ],
+  "name": "Pair / 3-1-2",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,-1 / 0,4 / 2,-2 / 0,-2"
+ },
+ "92": {
+  "a": [
+   "/0,-2/3,0/-1,-2/0,-3/"
+  ],
+  "name": "3-3 / Pair",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,3 / 1,2 / -3,0 / 0,2 /"
+ },
+ "93": {
+  "a": [
+   "/2,0/0,-3/2,1/3,0/"
+  ],
+  "name": "Pair / 3-3",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,0 / -2,-1 / 0,3 / -2,0 /"
+ },
+ "94": {
+  "a": [
+   "/1,0/-2,-2/-1,-2/-3,-3/"
+  ],
+  "name": "Left paw / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,3 / 1,2 / 2,2 / -1,0 /"
+ },
+ "95": {
+  "a": [
+   "/0,2/0,-4/5,-2/-3,0/"
+  ],
+  "name": "Left fist / Left paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / -5,2 / 0,4 / 0,-2 /"
+ },
+ "96": {
+  "a": [
+   "/-2,0/4,0/2,-5/0,3/"
+  ],
+  "name": "Left paw / Left fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / -2,5 / -4,0 / 2,0 /"
+ },
+ "97": {
+  "a": [
+   "/-2,0/-1,0/-3,0/"
+  ],
+  "name": "Right fist / Right paw",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 3,0 / 1,0 / 2,0 /"
+ },
+ "98": {
+  "a": [
+   "/0,2/0,1/0,3/"
+  ],
+  "name": "Right paw / Right fist",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ 0,-3 / 0,-1 / 0,-2 /"
+ },
+ "99": {
+  "a": [
+   "/-1,0/2,0/-2,-1/3,3/"
+  ],
+  "name": "Right paw / Muffin",
+  "group": "5 Slices",
+  "algset": "CS",
+  "scramble": "/ -3,-3 / 2,1 / -2,0 / 1,0 /"
+ }
+}

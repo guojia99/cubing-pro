@@ -1,0 +1,214 @@
+{
+ "Back Left Connected Pairs": [
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  23,
+  24
+ ],
+ "Back Left Corner In Slot": [
+  25,
+  26,
+  27,
+  28,
+  29,
+  30
+ ],
+ "Back Left Disconnected Pairs": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  19,
+  20,
+  21,
+  22
+ ],
+ "Back Left Edge In Slot": [
+  31,
+  32,
+  33,
+  34,
+  35,
+  36
+ ],
+ "Back Left Free Pairs": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "Back Left Pieces In Slot": [
+  37,
+  38,
+  39,
+  40,
+  41
+ ],
+ "Back Right Connected Pairs": [
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  23,
+  24
+ ],
+ "Back Right Corner In Slot": [
+  25,
+  26,
+  27,
+  28,
+  29,
+  30
+ ],
+ "Back Right Disconnected Pairs": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  19,
+  20,
+  21,
+  22
+ ],
+ "Back Right Edge In Slot": [
+  31,
+  32,
+  33,
+  34,
+  35,
+  36
+ ],
+ "Back Right Free Pairs": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "Back Right Pieces In Slot": [
+  37,
+  38,
+  39,
+  40,
+  41
+ ],
+ "Front Left Connected Pairs": [
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  23,
+  24
+ ],
+ "Front Left Corner In Slot": [
+  25,
+  26,
+  27,
+  28,
+  29,
+  30
+ ],
+ "Front Left Disconnected Pairs": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  19,
+  20,
+  21,
+  22
+ ],
+ "Front Left Edge In Slot": [
+  31,
+  32,
+  33,
+  34,
+  35,
+  36
+ ],
+ "Front Left Free Pairs": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "Front Left Pieces In Slot": [
+  37,
+  38,
+  39,
+  40,
+  41
+ ],
+ "Front Right Connected Pairs": [
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  23,
+  24
+ ],
+ "Front Right Corner In Slot": [
+  25,
+  26,
+  27,
+  28,
+  29,
+  30
+ ],
+ "Front Right Disconnected Pairs": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  19,
+  20,
+  21,
+  22
+ ],
+ "Front Right Edge In Slot": [
+  31,
+  32,
+  33,
+  34,
+  35,
+  36
+ ],
+ "Front Right Free Pairs": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "Front Right Pieces In Slot": [
+  37,
+  38,
+  39,
+  40,
+  41
+ ]
+}

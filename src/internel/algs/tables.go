@@ -18,6 +18,8 @@ var algsDataKey = map[string][]string{
 		"Skewb-NS2-Trainer",
 		"Megaminx-OLL-Trainer",
 		"Megaminx-PLL-Trainer",
+		"Octaminx-L3T-Trainer",
+		"Octaminx-TCP-Trainer",
 	},
 	"333": {
 		"3x3-F2L-Trainer",
@@ -71,9 +73,6 @@ var algsNameMap = map[string]string{
 	"3x3-OH-PLL-Trainer":  "PLL",
 	"3x3-OH-ZBLL-Trainer": "ZBLL",
 
-	"Megaminx-OLL-Trainer": "OLL",
-	"Megaminx-PLL-Trainer": "PLL",
-
 	"SQ1-CS-Trainer":   "CS",
 	"SQ1-CO-Trainer":   "CO",
 	"SQ1-EO-Trainer":   "EO",
@@ -81,8 +80,12 @@ var algsNameMap = map[string]string{
 	"Sq1-OBL-Trainer":  "OBL",
 	"Sq1-PBL-Trainer":  "PBL",
 
-	"Skewb-NS2-Trainer":    "NS",
-	"Pyraminx-L4E-Trainer": "L4E",
+	"Megaminx-OLL-Trainer": "Megaminx OLL",
+	"Megaminx-PLL-Trainer": "Megaminx PLL",
+	"Skewb-NS2-Trainer":    "Skewb NS",
+	"Pyraminx-L4E-Trainer": "Pyraminx L4E",
+	"Octaminx-L3T-Trainer": "FTO L3T",
+	"Octaminx-TCP-Trainer": "FTO TCP",
 
 	"5x5-L2E-Trainer":  "L2E",
 	"4x4-PLLP-Trainer": "PLLP",

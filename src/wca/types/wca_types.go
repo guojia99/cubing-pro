@@ -59,10 +59,10 @@ func (Continent) TableName() string { return "continents" }
 
 // Country 代表国家信息
 type Country struct {
-	ID          string `gorm:"column:id;primaryKey;not null"` // 国家唯一标识（如 China, USA）
-	Name        string `gorm:"column:name;not null"`          // 国家名称
-	ContinentID string `gorm:"column:continent_id;not null"`  // 所属大洲 ID
-	ISO2        string `gorm:"column:iso2"`                   // ISO 3166-1 alpha-2 两位国家代码（如 CN, US）
+	ID          string `gorm:"column:id;primaryKey;not null" json:"id"`          // 国家唯一标识（如 China, USA）
+	Name        string `gorm:"column:name;not null" json:"name"`                 // 国家名称
+	ContinentID string `gorm:"column:continent_id;not null" json:"continent_id"` // 所属大洲 ID
+	ISO2        string `gorm:"column:iso2" json:"iso2"`                          // ISO 3166-1 alpha-2 两位国家代码（如 CN, US）
 }
 
 func (Country) TableName() string { return "countries" }

@@ -17,6 +17,7 @@ type WCA interface {
 
 	// wca查询类
 	SearchPlayers(name string) []types.Person
+	CountryList() []types.Country
 
 	GetPersonInfo(wcaId string) (types.PersonInfo, error)
 	GetPersonResult(wcaId string) ([]types.Result, error)

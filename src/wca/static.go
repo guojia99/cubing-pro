@@ -1,6 +1,8 @@
 package wca
 
 import (
+	"time"
+
 	"github.com/guojia99/cubing-pro/src/wca/types"
 )
 
@@ -12,8 +14,25 @@ func (w *wca) GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, err
 	return out, nil
 }
 
+func getMaxMonth(year int) int {
+	now := time.Now()
+	currentYear := now.Year()
+	currentMonth := now.Month() // time.Month 是从 1（January）到 12（December）
+
+	if year == currentYear {
+		// 如果是今年，则 maxMonth 是上个月
+		if currentMonth == time.January {
+			// 特殊情况：当前是1月，上个月是去年的12月
+			return 12
+		}
+		return int(currentMonth - 1)
+	}
+	// 默认返回12
+	return 12
+}
+
 func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error) {
-	maxMonth := 12 // 默认值
+	maxMonth := getMaxMonth(year) // 默认值
 
 	// 然后查询该年该月的所有记录
 	var results []types.StaticWithTimerRank
@@ -22,6 +41,11 @@ func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg boo
 		Where("event_id = ? AND year = ? AND month = ?", eventId, year, maxMonth)
 
 	if country != "" {
+		var dbCountry types.Country
+		if err := w.db.Where("iso2 = ?", country).First(&dbCountry).Error; err != nil {
+			return nil, 0, err
+		}
+		country = dbCountry.ID
 		query = query.Where("country = ?", country)
 	}
 

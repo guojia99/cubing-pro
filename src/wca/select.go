@@ -10,6 +10,12 @@ import (
 	"github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
+func (w *wca) CountryList() []types.Country {
+	var out []types.Country
+	w.db.Find(&out)
+	return out
+}
+
 func (w *wca) GetAllCountry() map[string]types.Country {
 
 	data, ok := w.cache.Get("GetAllCountry")

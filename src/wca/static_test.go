@@ -1,0 +1,23 @@
+package wca
+
+import (
+	"encoding/json"
+	"testing"
+)
+
+func Test_wca_GetEventRankWithTimer(t *testing.T) {
+	w := NewWCA(
+		"root@tcp(127.0.0.1:33306)/",
+		"/home/guojia/cubingPro/wca_db",
+		"/home/guojia/cubingPro/wca_db/sync_path",
+		false)
+
+	out, count, err := w.GetEventRankWithTimer("333", "China", 2023, true, 1, 10)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("count: %d", count)
+
+	dd, _ := json.MarshalIndent(out, "", "\t")
+	t.Logf("out: %s", dd)
+}

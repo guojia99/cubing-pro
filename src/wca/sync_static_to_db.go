@@ -78,7 +78,20 @@ func getEndCompsTimer(t time.Time) time.Time {
 }
 
 const setStaticPersonRankWithTimerIndex = `
+-- 必需的基础索引
 CREATE INDEX idx_wca_id ON static_with_timer_ranks (wca_id);
+
+-- 查询最终排名数据所需索引
+CREATE INDEX idx_event_year_month_country ON static_with_timer_ranks (event_id, year, month, country);
+
+-- 排名查询所需索引 (平均值排名)
+CREATE INDEX idx_avg_rankings ON static_with_timer_ranks (event_id, year, month, avg_country_rank, avg_world_rank);
+
+-- 排名查询所需索引 (单次排名)
+CREATE INDEX idx_single_rankings ON static_with_timer_ranks (event_id, year, month, single_country_rank, single_world_rank);
+
+-- 组合索引用于完整查询场景
+CREATE INDEX idx_full_query ON static_with_timer_ranks (event_id, year, month, country, single_world_rank, avg_world_rank);
 `
 
 func (s *syncer) getResultMapWithEvent(eventId string) map[string][]types.Result {
@@ -206,6 +219,7 @@ func (s *syncer) getCurPersonsRankTimerSnapshots(
 			Week:    (curTIme.Day() / 7) + 1,
 			Single:  r.Single,
 			Average: r.Average,
+			Country: r.Country,
 		}
 
 		if r.Single > 0 {
@@ -379,7 +393,7 @@ func (s *syncer) setStaticPersonRankWithTimersWithEvent(eventID string, comps []
 			// 获取当前单次排名
 			snapshots := s.getCurPersonsRankTimerSnapshots(eventID, monthEnd, curAllPersonValue)
 			// 写入数据库
-			if err := s.db.CreateInBatches(snapshots, 5000).Error; err != nil {
+			if err := s.db.CreateInBatches(snapshots, 4500).Error; err != nil {
 				return err
 			}
 			snapshots = nil

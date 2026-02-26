@@ -7,7 +7,7 @@ import (
 )
 
 func Test_wca_GetPersonInfo(t *testing.T) {
-	w, _ := NewWCA(
+	w := NewWCA(
 		"root@tcp(127.0.0.1:33306)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",

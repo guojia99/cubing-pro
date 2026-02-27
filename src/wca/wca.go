@@ -27,6 +27,8 @@ type WCA interface {
 	// 统计
 	GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error)
 	GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error)
+
+	GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error)
 }
 
 type wca struct {

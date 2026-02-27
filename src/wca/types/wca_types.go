@@ -166,9 +166,10 @@ type Result struct {
 	RegionalAverageRecord string `gorm:"column:regional_average_record" json:"regional_average_record"` // 区域平均纪录（如 WR, CR, NR）
 
 	// 拓展参数
-	Attempts   []int64 `gorm:"-" json:"attempts"`
-	BestIndex  int     `gorm:"-" json:"best_index"` // 最佳成绩在 attempts 中的索引（从 0 开始）
-	WorstIndex int     `gorm:"-" json:"worst_index"`
+	Attempts        []int64 `gorm:"-" json:"attempts"`
+	CompetitionName string  `gorm:"-" json:"competition_name"`
+	BestIndex       int     `gorm:"-" json:"best_index"` // 最佳成绩在 attempts 中的索引（从 0 开始）
+	WorstIndex      int     `gorm:"-" json:"worst_index"`
 }
 
 func (Result) TableName() string { return "results" }

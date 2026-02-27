@@ -1,8 +1,10 @@
 package wca
 
 import (
+	"sort"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
 )
 
@@ -31,6 +33,18 @@ func getMaxMonth(year int) int {
 	return 12
 }
 
+func (w *wca) getCountryID(country string) string {
+	if country == "" {
+		return ""
+	}
+	var dbCountry types.Country
+	if err := w.db.Where("iso2 = ?", country).First(&dbCountry).Error; err != nil {
+		return country
+	}
+	country = dbCountry.ID
+	return country
+}
+
 func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error) {
 	maxMonth := getMaxMonth(year) // 默认值
 
@@ -41,11 +55,7 @@ func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg boo
 		Where("event_id = ? AND year = ? AND month = ?", eventId, year, maxMonth)
 
 	if country != "" {
-		var dbCountry types.Country
-		if err := w.db.Where("iso2 = ?", country).First(&dbCountry).Error; err != nil {
-			return nil, 0, err
-		}
-		country = dbCountry.ID
+		country = w.getCountryID(country)
 		query = query.Where("country = ?", country)
 	}
 
@@ -110,4 +120,56 @@ func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg boo
 	}
 
 	return results, total, nil
+}
+
+func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error) {
+	query := w.db.Model(&types.Result{}).Where("event_id = ?", eventId)
+	if country != "" {
+		country = w.getCountryID(country)
+		query = query.Where("person_country_id = ?", country)
+	}
+
+	if size > 100 {
+		size = 100
+	}
+
+	var pagedResults []types.Result
+	var total int64
+	// 分项目, 333mbf全部查
+	if eventId == "333mbf" {
+		var results []types.Result
+		query.Find(&results)
+		sort.Slice(results, func(i, j int) bool {
+			a := results[i].Best
+			b := results[j].Best
+			return utils.IsBestResult(eventId, a, b)
+		})
+		total = int64(len(results))
+		start := (page - 1) * size
+		end := start + size
+		if start > int(total) {
+			start = int(total)
+		}
+		if end > int(total) {
+			end = int(total)
+		}
+		pagedResults = results[start:end]
+	} else {
+		if isAvg {
+			query = query.Where("average > ?", 0)
+			query = query.Order("average")
+		} else {
+			query = query.Where("best > ?", 0)
+			query = query.Order("best")
+		}
+		query.Count(&total)
+		query = query.Offset((page - 1) * size).Limit(size)
+		query.Find(&pagedResults)
+	}
+
+	// 拓展参数
+	pagedResults = w.setResultAttempts(pagedResults)
+	pagedResults = w.setCompetitionName(pagedResults)
+
+	return pagedResults, total, nil
 }

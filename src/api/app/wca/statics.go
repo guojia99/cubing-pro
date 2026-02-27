@@ -58,8 +58,6 @@ func GetEventRankWithTimer(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d", request.EventID, request.Country, request.IsAvg, request.Page, request.Size, request.Year)
-		fmt.Println(key)
-
 		getData, ok := cacheData.Get(key)
 		if ok {
 			ctx.JSON(http.StatusOK, getData)
@@ -80,6 +78,62 @@ func GetEventRankWithTimer(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		resp := GetEventRankWithTimerResp{
+			Data:  out,
+			Total: total,
+		}
+		cacheData.Set(key, resp, cache.DefaultExpiration)
+
+		ctx.JSON(http.StatusOK, resp)
+	}
+}
+
+type GetEventRankWithFullNowRequest struct {
+	GetEventRankWithTimerReq
+}
+
+type GetEventRankWithFullNowResp struct {
+	Data  []types.Result `json:"data"`
+	Total int64          `json:"total"`
+}
+
+func GetEventRankWithFullNow(svc *svc.Svc) gin.HandlerFunc {
+	cacheData := cache.New(5*time.Minute, 10*time.Minute)
+
+	return func(ctx *gin.Context) {
+		var request GetEventRankWithFullNowRequest
+		if err := ctx.ShouldBindUri(&request); err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{})
+			return
+		}
+		if err := ctx.ShouldBindJSON(&request); err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{})
+			return
+		}
+
+		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d", request.EventID, request.Country, request.IsAvg, request.Page, request.Size, request.Year)
+		getData, ok := cacheData.Get(key)
+		if ok {
+			ctx.JSON(http.StatusOK, getData)
+			return
+		}
+		if len(request.EventID) > 7 || request.EventID == "" {
+			ctx.JSON(http.StatusNotFound, gin.H{})
+			return
+		}
+		
+		out, total, err := svc.Wca.GetEventRankWithFullNow(
+			request.EventID,
+			request.Country,
+			request.IsAvg,
+			request.Page,
+			request.Size,
+		)
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{})
+			return
+		}
+
+		resp := GetEventRankWithFullNowResp{
 			Data:  out,
 			Total: total,
 		}

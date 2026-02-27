@@ -18,6 +18,9 @@ func WcaRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		w.GET("/player/:wcaID/rank_timers", wca.GetPersonRankTimer(svc))
 
 		w.GET("/country", wca.Country(svc))
-		w.POST("/ranks/:eventID", wca.GetEventRankWithTimer(svc))
+		w.POST("/ranks/historical/:eventID", wca.GetEventRankWithTimer(svc))
+
+		w.POST("/ranks/full/:eventID", wca.GetEventRankWithFullNow(svc))
+
 	}
 }

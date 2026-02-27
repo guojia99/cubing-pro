@@ -239,24 +239,13 @@ func (w *wca) GetPersonCompetition(wcaId string) ([]types.Competition, error) {
 	return comps, nil
 }
 
-func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
-	var out []types.Result
-
-	if err := w.db.Where("person_id = ?", wcaId).Find(&out).Error; err != nil {
-		return nil, err
-	}
-
-	if len(out) == 0 {
-		return nil, nil
-	}
-
+func (w *wca) getResultAttemptMap(results []types.Result) map[int64][]int64 {
 	var resultIDs []int64
-	for _, result := range out {
+	for _, result := range results {
 		resultIDs = append(resultIDs, result.ID)
 	}
 
 	var resultAttemptMap = make(map[int64][]int64)
-
 	for i := 0; i < len(resultIDs); i += 5000 {
 		end := i + 5000
 		if end > len(resultIDs) {
@@ -266,7 +255,7 @@ func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
 
 		var batchAtt []types.ResultAttempt
 		if err := w.db.Where("result_id IN ?", batchIDs).Find(&batchAtt).Error; err != nil {
-			return nil, err
+			continue
 		}
 
 		for _, att := range batchAtt {
@@ -277,15 +266,21 @@ func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
 		}
 	}
 
-	for idx := 0; idx < len(out); idx++ {
-		r := out[idx]
+	return resultAttemptMap
+}
+
+func (w *wca) setResultAttempts(results []types.Result) []types.Result {
+	resultAttemptMap := w.getResultAttemptMap(results)
+
+	for idx := 0; idx < len(results); idx++ {
+		r := results[idx]
 		attempts := resultAttemptMap[r.ID]
 
-		out[idx].BestIndex = -1
-		out[idx].WorstIndex = -1
-		out[idx].Attempts = attempts
+		results[idx].BestIndex = -1
+		results[idx].WorstIndex = -1
+		results[idx].Attempts = attempts
 
-		if len(out[idx].Attempts) != 5 {
+		if len(results[idx].Attempts) != 5 {
 			continue
 		}
 
@@ -323,9 +318,45 @@ func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
 				}
 			}
 		}
-		out[idx].BestIndex = bestIndex   // 可能为 -1（全无效）
-		out[idx].WorstIndex = worstIndex // 至少有一个元素，不会为 -1
+		results[idx].BestIndex = bestIndex   // 可能为 -1（全无效）
+		results[idx].WorstIndex = worstIndex // 至少有一个元素，不会为 -1
 	}
+	return results
+}
+
+func (w *wca) setCompetitionName(results []types.Result) []types.Result {
+	var compID []string
+
+	for _, result := range results {
+		compID = append(compID, result.CompetitionID)
+	}
+
+	var comps []types.Competition
+	w.db.Where("id in ?", compID).Find(&comps)
+	var mp = make(map[string]string)
+	for _, comp := range comps {
+		mp[comp.ID] = comp.Name
+	}
+
+	for idx := range results {
+		results[idx].CompetitionName = mp[results[idx].CompetitionID]
+	}
+	return results
+}
+
+func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
+	var out []types.Result
+
+	if err := w.db.Where("person_id = ?", wcaId).Find(&out).Error; err != nil {
+		return nil, err
+	}
+
+	if len(out) == 0 {
+		return nil, nil
+	}
+	out = w.setResultAttempts(out)
+	out = w.setCompetitionName(out)
+
 	return out, nil
 }
 

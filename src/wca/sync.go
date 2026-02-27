@@ -212,6 +212,12 @@ CREATE INDEX idx_result_id ON result_attempts (result_id);
 CREATE INDEX idx_comp_id ON results (competition_id);
 CREATE INDEX idx_person_id ON results (person_id);
 CREATE INDEX idx_event_id ON results (event_id);
+
+CREATE INDEX idx_event_best ON results (event_id, best);
+CREATE INDEX idx_event_avg ON results (event_id, average);
+CREATE INDEX idx_event_country_best ON results (event_id, person_country_id, best);
+CREATE INDEX idx_event_country_avg ON results (event_id, person_country_id, average);
+
 `
 
 func (s *syncer) syncAddIndex(dbName string, indexData string) error {
@@ -391,7 +397,8 @@ func (w *wca) updateDb() {
 	}
 
 	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
+	//db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	w.db = db
 }
 

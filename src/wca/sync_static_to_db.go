@@ -473,11 +473,38 @@ func (s *syncer) getAttemptMap() map[int64][]int64 {
 	return attemptMap
 }
 
-func (s *syncer) setStaticSuccessRateResultWithEvent(eventID string, attemptMap map[int64][]int64) error {
-	var personData = make(map[string]*types.StaticSuccessRateResult)
+func (s *syncer) setStaticSuccessRateResultWithEvent(eventID string) error {
 	var results []types.Result
 	s.db.Select("id", "person_id", "person_country_id", "person_name").Where("event_id = ?", eventID).Find(&results)
 
+	attemptMap := make(map[int64][]int64)
+	for i := 0; i < len(results); i += 10000 {
+		end := i + 10000
+		if end > len(results) {
+			end = len(results)
+		}
+
+		batch := results[i:end]
+
+		// 提取 ID 列表
+		ids := make([]int64, len(batch))
+		for j, r := range batch {
+			ids[j] = r.ID
+		}
+		// 一次性查询该批次所有 attempts
+		var attempts []types.ResultAttempt
+		s.db.Select("value", "result_id").Where("result_id IN ?", ids).Find(&attempts)
+
+		// 构建 map
+		for _, at := range attempts {
+			if _, ok := attemptMap[at.ResultID]; !ok {
+				attemptMap[at.ResultID] = make([]int64, 0)
+			}
+			attemptMap[at.ResultID] = append(attemptMap[at.ResultID], at.Value)
+		}
+	}
+
+	var personData = make(map[string]*types.StaticSuccessRateResult)
 	for _, result := range results {
 		if _, ok := personData[result.PersonID]; !ok {
 			personData[result.PersonID] = &types.StaticSuccessRateResult{
@@ -538,13 +565,11 @@ func (s *syncer) setStaticSuccessRateResult() (err error) {
 	}()
 	log.Printf("get attempt start")
 	events := []string{
-		"333bf", "444bf", "555bf", "333fm",
+		"333bf", "444bf", "555bf", "333fm", "clock",
 	}
-	attemptMap := s.getAttemptMap()
-	log.Printf("get attempt end")
 	for _, event := range events {
 		log.Printf("start sync with event %s", event)
-		err = s.setStaticSuccessRateResultWithEvent(event, attemptMap)
+		err = s.setStaticSuccessRateResultWithEvent(event)
 		if err != nil {
 			return err
 		}

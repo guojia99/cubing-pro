@@ -153,9 +153,9 @@ func (s *syncer) sync() error {
 		return fmt.Errorf("init failed: %w", err)
 	}
 	//
-	//if err := s.syncFileAndSyncToDb(); err != nil {
-	//	return fmt.Errorf("sync failed: %w", err)
-	//}
+	if err := s.syncFileAndSyncToDb(); err != nil {
+		return fmt.Errorf("sync failed: %w", err)
+	}
 
 	if _, _, err := s.getCurrentDatabase(); err != nil {
 		return err

@@ -292,7 +292,7 @@ func (w *wca) GetEventSuccessRateResult(eventId, countryID string, minAttempted,
 		}
 		return out[i].Percentage > out[j].Percentage
 	})
-	var count = int64(len(results))
+	var count = int64(len(out))
 	start := (page - 1) * size
 	end := start + size
 	if start > int(count) {

@@ -9,7 +9,7 @@ api_j:
 	go run -v main.go api --config ./local/server_local_dev.yaml -j
 
 api_w:
-	go run -v main.go api --config ./local/server_local_dev.yaml -j -w
+	go run -v main.go api --config ./local/server_local_dev.yaml -w
 
 robot:
 	go run -v main.go robot --config ./local/server_local_dev.yaml

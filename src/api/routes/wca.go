@@ -18,9 +18,9 @@ func WcaRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		w.GET("/player/:wcaID/rank_timers", wca.GetPersonRankTimer(svc))
 
 		w.GET("/country", wca.Country(svc))
-		w.POST("/ranks/historical/:eventID", wca.GetEventRankWithTimer(svc))
-
-		w.POST("/ranks/full/:eventID", wca.GetEventRankWithFullNow(svc))
-
+		w.POST("/ranks/historical/full/:eventID", wca.BaseStaticsWithKey(svc, "GetEventRankWithTimer")) // 截止某年
+		w.POST("/ranks/full/:eventID", wca.BaseStaticsWithKey(svc, "GetEventRankWithFullNow"))
+		w.POST("/ranks/historical/:eventID", wca.BaseStaticsWithKey(svc, "GetEventRankWithOnlyYear")) // 全年排名
+		w.POST("/ranks/success_rate/:eventID", wca.BaseStaticsWithKey(svc, "GetEventSuccessRateResult"))
 	}
 }

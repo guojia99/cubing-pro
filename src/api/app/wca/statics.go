@@ -7,7 +7,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/guojia99/cubing-pro/src/wca/types"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -27,7 +26,7 @@ func GetPersonRankTimer(svc *svc.Svc) gin.HandlerFunc {
 	}
 }
 
-type GetEventRankWithTimerReq struct {
+type BaseStaticsRequest struct {
 	EventID string `uri:"eventID"`
 
 	Year    int    `json:"year"`
@@ -35,110 +34,58 @@ type GetEventRankWithTimerReq struct {
 	IsAvg   bool   `json:"is_avg"`
 	Page    int    `json:"page"`
 	Size    int    `json:"size"`
+
+	MinAttempted int `json:"min_attempted"`
 }
 
-type GetEventRankWithTimerResp struct {
-	Data  []types.StaticWithTimerRank `json:"data"`
-	Total int64                       `json:"total"`
+type BaseStaticsResponse struct {
+	Data  interface{} `json:"data"`
+	Total int64       `json:"total"`
 }
 
-func GetEventRankWithTimer(svc *svc.Svc) gin.HandlerFunc {
-
+func BaseStaticsWithKey(svc *svc.Svc, funcKey string) gin.HandlerFunc {
 	cacheData := cache.New(5*time.Minute, 10*time.Minute)
-
 	return func(ctx *gin.Context) {
-		var request GetEventRankWithTimerReq
-		if err := ctx.ShouldBindUri(&request); err != nil {
+		var req BaseStaticsRequest
+		if err := ctx.ShouldBindUri(&req); err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})
 			return
 		}
-		if err := ctx.ShouldBindJSON(&request); err != nil {
+		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})
 			return
 		}
-
-		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d", request.EventID, request.Country, request.IsAvg, request.Page, request.Size, request.Year)
+		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d_%d", req.EventID, req.Country, req.IsAvg, req.Page, req.Size, req.Year, req.MinAttempted)
 		getData, ok := cacheData.Get(key)
 		if ok {
 			ctx.JSON(http.StatusOK, getData)
 			return
 		}
 
-		out, total, err := svc.Wca.GetEventRankWithTimer(
-			request.EventID,
-			request.Country,
-			request.Year,
-			request.IsAvg,
-			request.Page,
-			request.Size,
-		)
+		var out interface{}
+		var count int64
+		var err error
+
+		switch funcKey {
+		case "GetEventRankWithTimer":
+			out, count, err = svc.Wca.GetEventRankWithTimer(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
+		case "GetEventRankWithFullNow":
+			out, count, err = svc.Wca.GetEventRankWithFullNow(req.EventID, req.Country, req.IsAvg, req.Page, req.Size)
+		case "GetEventRankWithOnlyYear":
+			out, count, err = svc.Wca.GetEventRankWithOnlyYear(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
+		case "GetEventSuccessRateResult":
+			out, count, err = svc.Wca.GetEventSuccessRateResult(req.EventID, req.Country, req.MinAttempted, req.Page, req.Size)
+		}
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})
 			return
 		}
 
-		resp := GetEventRankWithTimerResp{
+		resp := BaseStaticsResponse{
 			Data:  out,
-			Total: total,
+			Total: count,
 		}
 		cacheData.Set(key, resp, cache.DefaultExpiration)
-
-		ctx.JSON(http.StatusOK, resp)
-	}
-}
-
-type GetEventRankWithFullNowRequest struct {
-	GetEventRankWithTimerReq
-}
-
-type GetEventRankWithFullNowResp struct {
-	Data  []types.Result `json:"data"`
-	Total int64          `json:"total"`
-}
-
-func GetEventRankWithFullNow(svc *svc.Svc) gin.HandlerFunc {
-	cacheData := cache.New(5*time.Minute, 10*time.Minute)
-
-	return func(ctx *gin.Context) {
-		var request GetEventRankWithFullNowRequest
-		if err := ctx.ShouldBindUri(&request); err != nil {
-			ctx.JSON(http.StatusNotFound, gin.H{})
-			return
-		}
-		if err := ctx.ShouldBindJSON(&request); err != nil {
-			ctx.JSON(http.StatusNotFound, gin.H{})
-			return
-		}
-
-		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d", request.EventID, request.Country, request.IsAvg, request.Page, request.Size, request.Year)
-		getData, ok := cacheData.Get(key)
-		if ok {
-			ctx.JSON(http.StatusOK, getData)
-			return
-		}
-		if len(request.EventID) > 7 || request.EventID == "" {
-			ctx.JSON(http.StatusNotFound, gin.H{})
-			return
-		}
-		
-		out, total, err := svc.Wca.GetEventRankWithFullNow(
-			request.EventID,
-			request.Country,
-			request.IsAvg,
-			request.Page,
-			request.Size,
-		)
-		if err != nil {
-			ctx.JSON(http.StatusNotFound, gin.H{})
-			return
-		}
-
-		resp := GetEventRankWithFullNowResp{
-			Data:  out,
-			Total: total,
-		}
-		cacheData.Set(key, resp, cache.DefaultExpiration)
-
 		ctx.JSON(http.StatusOK, resp)
 	}
 }

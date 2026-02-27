@@ -6,6 +6,7 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
+	"gorm.io/gorm"
 )
 
 func (w *wca) GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error) {
@@ -122,16 +123,7 @@ func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg boo
 	return results, total, nil
 }
 
-func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error) {
-	query := w.db.Model(&types.Result{}).Where("event_id = ?", eventId)
-	if country != "" {
-		country = w.getCountryID(country)
-		query = query.Where("person_country_id = ?", country)
-	}
-
-	if size > 100 {
-		size = 100
-	}
+func (w *wca) findResultWithQuery(eventId string, page, size int, query *gorm.DB) ([]types.Result, int64, error) {
 
 	var pagedResults []types.Result
 	var total int64
@@ -155,13 +147,6 @@ func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page,
 		}
 		pagedResults = results[start:end]
 	} else {
-		if isAvg {
-			query = query.Where("average > ?", 0)
-			query = query.Order("average")
-		} else {
-			query = query.Where("best > ?", 0)
-			query = query.Order("best")
-		}
 		query.Count(&total)
 		query = query.Offset((page - 1) * size).Limit(size)
 		query.Find(&pagedResults)
@@ -170,6 +155,152 @@ func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page,
 	// 拓展参数
 	pagedResults = w.setResultAttempts(pagedResults)
 	pagedResults = w.setCompetitionName(pagedResults)
-
 	return pagedResults, total, nil
+}
+
+func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error) {
+	query := w.db.Model(&types.Result{}).Where("event_id = ?", eventId)
+	if country != "" {
+		country = w.getCountryID(country)
+		query = query.Where("person_country_id = ?", country)
+	}
+
+	if size > 100 {
+		size = 100
+	}
+	if eventId == "333mbf" {
+		isAvg = false
+	}
+	if isAvg {
+		query = query.Where("average > ?", 0)
+		query = query.Order("average")
+	} else {
+		query = query.Where("best > ?", 0)
+		query = query.Order("best")
+	}
+
+	out, total, err := w.findResultWithQuery(eventId, page, size, query)
+	return out, total, err
+}
+
+func (w *wca) getYearCompIDs(year int) []string {
+	var comps []types.Competition
+	w.db.Where("year = ?", year).Find(&comps)
+
+	var out []string
+	for _, comp := range comps {
+		out = append(out, comp.ID)
+	}
+	return out
+}
+
+func (w *wca) GetEventRankWithOnlyYear(eventId, countryID string, year int, isAvg bool, page, size int) ([]types.Result, int64, error) {
+	query := w.db.Model(&types.Result{}).Where("event_id = ?", eventId)
+	comps := w.getYearCompIDs(year)
+	if len(comps) == 0 {
+		return nil, 0, nil
+	}
+	query.Where("competition_id in (?)", comps)
+	if countryID != "" {
+		query = query.Where("person_country_id = ?", w.getCountryID(countryID))
+	}
+
+	if eventId == "333mbf" {
+		isAvg = false
+	}
+	if isAvg {
+		query = query.Where("average > ?", 0)
+	} else {
+		query = query.Where("best > ?", 0)
+	}
+
+	var results []types.Result
+	query.Find(&results)
+
+	var sortMap = make(map[string]types.Result)
+	for _, result := range results {
+		if _, ok := sortMap[result.PersonID]; !ok {
+			sortMap[result.PersonID] = result
+			continue
+		}
+		old := sortMap[result.PersonID]
+		var bestToOld bool
+		if isAvg {
+			bestToOld = utils.IsBestResult(eventId, result.Average, old.Average)
+		} else {
+			bestToOld = utils.IsBestResult(eventId, result.Best, old.Best)
+		}
+
+		if bestToOld {
+			sortMap[result.PersonID] = result
+		}
+	}
+
+	var allResults []types.Result
+	for _, result := range sortMap {
+		allResults = append(allResults, result)
+	}
+
+	sort.Slice(allResults, func(i, j int) bool {
+		a := allResults[i].Best
+		b := allResults[j].Best
+		if isAvg {
+			a = allResults[i].Average
+			b = allResults[j].Average
+		}
+		return utils.IsBestResult(eventId, a, b)
+	})
+	total := int64(len(allResults))
+	start := (page - 1) * size
+	end := start + size
+	if start > int(total) {
+		start = int(total)
+	}
+	if end > int(total) {
+		end = int(total)
+	}
+	pagedResults := allResults[start:end]
+	pagedResults = w.setResultAttempts(pagedResults)
+	pagedResults = w.setCompetitionName(pagedResults)
+
+	return pagedResults, int64(len(allResults)), nil
+}
+
+func (w *wca) GetEventSuccessRateResult(eventId, countryID string, minAttempted, page, size int) ([]types.StaticSuccessRateResult, int64, error) {
+	query := w.db.Model(&types.StaticSuccessRateResult{}).Where("event_id = ?", eventId)
+	if countryID != "" {
+		query = query.Where("country = ?", w.getCountryID(countryID))
+	}
+	if size > 100 {
+		size = 100
+	}
+
+	var results []types.StaticSuccessRateResult
+	query.Find(&results)
+
+	var out []types.StaticSuccessRateResult
+	for idx := range results {
+		results[idx].Percentage = float64(results[idx].Solved) / float64(results[idx].Attempted)
+		if results[idx].Attempted >= minAttempted {
+			out = append(out, results[idx])
+		}
+	}
+
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].Percentage == out[j].Percentage {
+			return out[i].Attempted >= out[j].Attempted
+		}
+		return out[i].Percentage > out[j].Percentage
+	})
+	var count = int64(len(results))
+	start := (page - 1) * size
+	end := start + size
+	if start > int(count) {
+		start = int(count)
+	}
+	if end > int(count) {
+		end = int(count)
+	}
+	pagedResults := out[start:end]
+	return pagedResults, count, nil
 }

@@ -152,10 +152,10 @@ func (s *syncer) sync() error {
 	if err := s.init(); err != nil {
 		return fmt.Errorf("init failed: %w", err)
 	}
-
-	if err := s.syncFileAndSyncToDb(); err != nil {
-		return fmt.Errorf("sync failed: %w", err)
-	}
+	//
+	//if err := s.syncFileAndSyncToDb(); err != nil {
+	//	return fmt.Errorf("sync failed: %w", err)
+	//}
 
 	if _, _, err := s.getCurrentDatabase(); err != nil {
 		return err
@@ -213,6 +213,7 @@ CREATE INDEX idx_comp_id ON results (competition_id);
 CREATE INDEX idx_person_id ON results (person_id);
 CREATE INDEX idx_event_id ON results (event_id);
 
+--- 成绩表 用于全部成绩计算
 CREATE INDEX idx_event_best ON results (event_id, best);
 CREATE INDEX idx_event_avg ON results (event_id, average);
 CREATE INDEX idx_event_country_best ON results (event_id, person_country_id, best);

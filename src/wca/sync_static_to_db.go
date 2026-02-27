@@ -455,3 +455,104 @@ func (s *syncer) setStaticPersonRankWithTimers() (err error) {
 func (s *syncer) setFirstRankTimer() error {
 	return nil
 }
+
+func (s *syncer) getAttemptMap() map[int64][]int64 {
+	var attemptMap = make(map[int64][]int64)
+
+	var att []types.ResultAttempt
+	s.db.Select("value", "result_id").Find(&att)
+
+	for _, at := range att {
+		if _, ok := attemptMap[at.ResultID]; !ok {
+			attemptMap[at.ResultID] = make([]int64, 0)
+		}
+		attemptMap[at.ResultID] = append(attemptMap[at.ResultID], at.Value)
+	}
+	att = nil // GC
+	runtime.GC()
+	return attemptMap
+}
+
+func (s *syncer) setStaticSuccessRateResultWithEvent(eventID string, attemptMap map[int64][]int64) error {
+	var personData = make(map[string]*types.StaticSuccessRateResult)
+	var results []types.Result
+	s.db.Select("id", "person_id", "person_country_id", "person_name").Where("event_id = ?", eventID).Find(&results)
+
+	for _, result := range results {
+		if _, ok := personData[result.PersonID]; !ok {
+			personData[result.PersonID] = &types.StaticSuccessRateResult{
+				WcaID:      result.PersonID,
+				WcaName:    result.PersonName,
+				Country:    result.PersonCountryID,
+				EventID:    eventID,
+				Solved:     0,
+				Attempted:  0,
+				Percentage: 0,
+			}
+		}
+
+		attempts, ok := attemptMap[result.ID]
+		if !ok {
+			continue
+		}
+		for _, attempt := range attempts {
+			personData[result.PersonID].Attempted += 1
+			if attempt > 0 {
+				personData[result.PersonID].Solved += 1
+			}
+		}
+		if personData[result.PersonID].Attempted >= 1 {
+			personData[result.PersonID].Percentage = float64(personData[result.PersonID].Solved) / float64(personData[result.PersonID].Attempted)
+		}
+	}
+
+	var saveData []types.StaticSuccessRateResult
+	for _, result := range personData {
+		saveData = append(saveData, *result)
+	}
+
+	log.Printf("save event %s (%d) count", eventID, len(saveData))
+	if err := s.db.CreateInBatches(saveData, 5000).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+const setSuccessRateResultWithEventIndex = `
+-- 必需的基础索引
+CREATE INDEX idx_event ON static_success_rate_results (event_id);
+CREATE INDEX idx_event_country ON static_success_rate_results (event_id, country);
+`
+
+func (s *syncer) setStaticSuccessRateResult() (err error) {
+	startTime := time.Now()
+	err = s.db.AutoMigrate(&types.StaticSuccessRateResult{})
+	if err != nil {
+		return
+	}
+	s.db.Delete(&types.StaticSuccessRateResult{}, "1 = 1")
+	defer func() {
+		if err != nil {
+			s.db.Delete(&types.StaticSuccessRateResult{}, "1 = 1")
+		}
+	}()
+	log.Printf("get attempt start")
+	events := []string{
+		"333bf", "444bf", "555bf", "333fm",
+	}
+	attemptMap := s.getAttemptMap()
+	log.Printf("get attempt end")
+	for _, event := range events {
+		log.Printf("start sync with event %s", event)
+		err = s.setStaticSuccessRateResultWithEvent(event, attemptMap)
+		if err != nil {
+			return err
+		}
+	}
+	log.Println("Adding index for StaticSuccessRateResult...")
+	if err = s.syncAddIndex(s.currentDB, setSuccessRateResultWithEventIndex); err != nil {
+		return err
+	}
+	log.Printf("Monthly rank snapshot generation completed in %v", time.Since(startTime))
+	return nil
+}

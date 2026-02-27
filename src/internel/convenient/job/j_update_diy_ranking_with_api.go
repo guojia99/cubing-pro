@@ -1,7 +1,6 @@
 package job
 
 import (
-	"log"
 	"sort"
 	"strings"
 	"time"
@@ -78,11 +77,11 @@ func (u *UpdateDiyRankings) apiGetAllResult(WcaIDs []string) map[string]types.Pe
 		if len(wcaId) != 10 {
 			continue
 		}
-		log.Printf("[apiGetAllResult] %+v\n", wcaId)
+		//log.Printf("[apiGetAllResult] %+v\n", wcaId)
 		res, err := u.Wca.GetPersonInfo(wcaId)
 		//res, err := wca_api.GetWcaResultWithDbAndAPI(u.DB, wcaId)
 		if err != nil {
-			log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
+			//log.Printf("[apiGetAllResult] get wca %s error %+v\n", wcaId, err)
 			continue
 		}
 

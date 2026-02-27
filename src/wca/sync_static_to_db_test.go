@@ -10,7 +10,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-const curTestDb = "wca_20251228"
+const curTestDb = "wca_20260226"
 
 func Test_getEndCompsTimer(t *testing.T) {
 	now := time.Date(2023, 1, 1, 10, 0, 0, 0, time.UTC)
@@ -114,4 +114,16 @@ func Test_getCurPersonsRankTimerSnapshots(t *testing.T) {
 		}
 	}
 
+}
+
+func Test_syncer_getAttemptMap(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+	s.getAttemptMap()
 }

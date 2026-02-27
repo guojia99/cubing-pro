@@ -16,7 +16,7 @@ func (s *syncer) syncStatics() error {
 
 	var syncFns = map[string]func() error{
 		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimers, // 历史成绩排名
-		//"setFirstRankTimer":            s.setFirstRankTimer,             // 第一次参赛成绩排名
+		"setStaticSuccessRateResult":   s.setStaticSuccessRateResult,
 	}
 
 	var sds []staticSyncDone

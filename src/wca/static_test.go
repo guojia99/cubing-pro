@@ -39,3 +39,21 @@ func Test_wca_GetEventRankWithFullNow(t *testing.T) {
 	dd, _ := json.MarshalIndent(out, "", "\t")
 	t.Logf("out: %s", dd)
 }
+
+func Test_wca_GetEventRankWithOnlyYear(t *testing.T) {
+	w := NewWCA(
+		"root@tcp(127.0.0.1:33306)/",
+		"/home/guojia/cubingPro/wca_db",
+		"/home/guojia/cubingPro/wca_db/sync_path",
+		false)
+
+	out, count, err := w.GetEventRankWithOnlyYear(
+		"333", "CN", 2019, false, 1, 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("count: %d", count)
+
+	dd, _ := json.MarshalIndent(out, "", "\t")
+	t.Logf("out: %s", dd)
+}

@@ -51,3 +51,33 @@ func TestResultsTimeFormat(t *testing.T) {
 		)
 	}
 }
+
+func TestIsBestResult(t *testing.T) {
+	type args struct {
+		event string
+		a1    int
+		a2    int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "333mbf",
+			args: args{
+				event: "333mbf",
+				a1:    500356604,
+				a2:    380350302,
+			},
+			want: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsBestResult(tt.args.event, tt.args.a1, tt.args.a2); got != tt.want {
+				t.Errorf("IsBestResult() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

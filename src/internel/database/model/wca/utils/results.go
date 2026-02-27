@@ -124,10 +124,10 @@ func IsBestResult(event string, a1, a2 int) bool {
 		a1Res := a1Solved - (a1Attempted - a1Solved)
 		a2Res := a2Solved - (a2Attempted - a2Solved)
 
-		if a1Res != a2Res {
-			return a1Res > a2Res
+		if a1Res == a2Res {
+			return a1Seconds <= a2Seconds
 		}
-		return a1Seconds <= a2Seconds
+		return a1Res >= a2Res
 	case "333mbo":
 		a1Solved, a1Attempted, a1Seconds, _ := Get333MBOResult(a1)
 		a2Solved, a2Attempted, a2Seconds, _ := Get333MBOResult(a2)

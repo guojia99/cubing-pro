@@ -28,7 +28,12 @@ type WCA interface {
 	GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error)
 	GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error)
 
+	// GetEventRankWithFullNow 给出现在成绩的排序
 	GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error)
+	// GetEventRankWithOnlyYear 只计算当年成绩的排序
+	GetEventRankWithOnlyYear(eventId, countryID string, year int, isAvg bool, page, size int) ([]types.Result, int64, error)
+	// GetEventSuccessRateResult 成功率
+	GetEventSuccessRateResult(eventId, country string, minAttempted, page, size int) ([]types.StaticSuccessRateResult, int64, error)
 }
 
 type wca struct {

@@ -168,6 +168,7 @@ type Result struct {
 	// 拓展参数
 	Attempts        []int64 `gorm:"-" json:"attempts"`
 	CompetitionName string  `gorm:"-" json:"competition_name"`
+	CompetitionTime string  `gorm:"-" json:"competition_time"`
 	BestIndex       int     `gorm:"-" json:"best_index"` // 最佳成绩在 attempts 中的索引（从 0 开始）
 	WorstIndex      int     `gorm:"-" json:"worst_index"`
 }

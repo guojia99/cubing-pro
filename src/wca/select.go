@@ -334,12 +334,15 @@ func (w *wca) setCompetitionName(results []types.Result) []types.Result {
 	var comps []types.Competition
 	w.db.Where("id in ?", compID).Find(&comps)
 	var mp = make(map[string]string)
+	var tmp = make(map[string]string)
 	for _, comp := range comps {
 		mp[comp.ID] = comp.Name
+		tmp[comp.ID] = fmt.Sprintf("%d-%d-%d", comp.Year, int(comp.Month), int(comp.Day))
 	}
 
 	for idx := range results {
 		results[idx].CompetitionName = mp[results[idx].CompetitionID]
+		results[idx].CompetitionTime = tmp[results[idx].CompetitionID]
 	}
 	return results
 }

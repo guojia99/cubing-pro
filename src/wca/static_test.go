@@ -65,7 +65,7 @@ func Test_wca_GetPersonBestRanks(t *testing.T) {
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
 
-	out, err := w.GetPersonBestRanks("2018GUOZ01")
+	out, err := w.GetPersonBestRanks("2018SHEN07")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -45,7 +45,16 @@ type PersonInfo struct {
 	RecordCount      RecordCount               `json:"recordCount"`
 }
 
-type PersonBestRanks struct {
-	Best map[string]PersonResult `json:"best"`
-	Avg  map[string]PersonResult `json:"average"`
-}
+type (
+	PersonBestRank struct {
+		Best map[string]PersonResult `json:"best"`
+		Avg  map[string]PersonResult `json:"average"`
+	}
+
+	PersonBestRanks struct {
+		//All    PersonBestRank `json:"all"`
+		WithNR PersonBestRank `json:"withNR"`
+		WithCR PersonBestRank `json:"withCR"`
+		WithWR PersonBestRank `json:"withWR"`
+	}
+)

@@ -318,40 +318,66 @@ func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
 	}
 
 	var out = types.PersonBestRanks{
-		Best: make(map[string]types.PersonResult),
-		Avg:  make(map[string]types.PersonResult),
+		WithCR: types.PersonBestRank{
+			Best: make(map[string]types.PersonResult),
+			Avg:  make(map[string]types.PersonResult),
+		},
+		WithNR: types.PersonBestRank{
+			Best: make(map[string]types.PersonResult),
+			Avg:  make(map[string]types.PersonResult),
+		},
+		WithWR: types.PersonBestRank{
+			Best: make(map[string]types.PersonResult),
+			Avg:  make(map[string]types.PersonResult),
+		},
+	}
+
+	buildResult := func(in types.StaticWithTimerRank, avg bool) types.PersonResult {
+		personResult := types.PersonResult{
+			EventId:       in.EventID,
+			Best:          in.Single,
+			PersonName:    in.WcaName,
+			PersonId:      in.WcaID,
+			WorldRank:     in.SingleWorldRank,
+			ContinentRank: in.SingleContinentRank,
+			CountryRank:   in.SingleCountryRank,
+			Times:         fmt.Sprintf("%d-%d", in.Year, in.Month),
+		}
+
+		if avg {
+			personResult.Best = in.Average
+			personResult.WorldRank = in.AvgWorldRank
+			personResult.ContinentRank = in.AvgContinentRank
+			personResult.CountryRank = in.AvgCountryRank
+		}
+
+		return personResult
 	}
 
 	for _, result := range results {
 		// 单次
 		if result.Single > 0 {
-			if _, ok := out.Best[result.EventID]; !ok || result.SingleWorldRank < out.Best[result.EventID].WorldRank {
-				out.Best[result.EventID] = types.PersonResult{
-					EventId:       result.EventID,
-					Best:          result.Single,
-					PersonName:    result.WcaName,
-					PersonId:      result.WcaID,
-					WorldRank:     result.SingleWorldRank,
-					ContinentRank: result.SingleContinentRank,
-					CountryRank:   result.SingleCountryRank,
-					Times:         fmt.Sprintf("%d-%d", result.Year, result.Month),
-				}
+			if _, ok := out.WithWR.Best[result.EventID]; !ok || result.SingleWorldRank < out.WithWR.Best[result.EventID].WorldRank {
+				out.WithWR.Best[result.EventID] = buildResult(result, false)
+			}
+			if _, ok := out.WithCR.Best[result.EventID]; !ok || result.SingleContinentRank < out.WithCR.Best[result.EventID].ContinentRank {
+				out.WithCR.Best[result.EventID] = buildResult(result, false)
+			}
+			if _, ok := out.WithNR.Best[result.EventID]; !ok || result.SingleCountryRank < out.WithNR.Best[result.EventID].CountryRank {
+				out.WithNR.Best[result.EventID] = buildResult(result, false)
 			}
 		}
 
 		// 平均
 		if result.Average > 0 {
-			if _, ok := out.Avg[result.EventID]; !ok || result.AvgWorldRank < out.Avg[result.EventID].WorldRank {
-				out.Avg[result.EventID] = types.PersonResult{
-					EventId:       result.EventID,
-					Best:          result.Average,
-					PersonName:    result.WcaName,
-					PersonId:      result.WcaID,
-					WorldRank:     result.AvgWorldRank,
-					ContinentRank: result.AvgContinentRank,
-					CountryRank:   result.AvgCountryRank,
-					Times:         fmt.Sprintf("%d-%d", result.Year, result.Month),
-				}
+			if _, ok := out.WithWR.Avg[result.EventID]; !ok || result.AvgWorldRank < out.WithWR.Avg[result.EventID].WorldRank {
+				out.WithWR.Avg[result.EventID] = buildResult(result, true)
+			}
+			if _, ok := out.WithCR.Avg[result.EventID]; !ok || result.AvgContinentRank < out.WithCR.Avg[result.EventID].ContinentRank {
+				out.WithCR.Avg[result.EventID] = buildResult(result, true)
+			}
+			if _, ok := out.WithNR.Avg[result.EventID]; !ok || result.AvgCountryRank < out.WithNR.Avg[result.EventID].CountryRank {
+				out.WithNR.Avg[result.EventID] = buildResult(result, true)
 			}
 		}
 	}

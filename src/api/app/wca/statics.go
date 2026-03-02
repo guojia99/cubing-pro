@@ -43,7 +43,7 @@ type BaseStaticsResponse struct {
 	Total int64       `json:"total"`
 }
 
-func BaseStaticsWithKey(svc *svc.Svc, funcKey string) gin.HandlerFunc {
+func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFunc {
 	cacheData := cache.New(5*time.Minute, 10*time.Minute)
 	return func(ctx *gin.Context) {
 		var req BaseStaticsRequest

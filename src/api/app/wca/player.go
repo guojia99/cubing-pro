@@ -53,3 +53,23 @@ func PlayerPersonInfo(svc *svc.Svc) gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, out)
 	}
 }
+
+func BaseGetPlayerWithKey(svc *svc.Svc, key string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		p := ctx.Param("wcaID")
+		var out interface{}
+		var err error
+
+		switch key {
+		case "GetPersonInfo":
+			out, err = svc.Wca.GetPersonInfo(p)
+		case "GetPersonBestRanks":
+			out, err = svc.Wca.GetPersonBestRanks(p)
+		}
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{})
+			return
+		}
+		ctx.JSON(http.StatusOK, out)
+	}
+}

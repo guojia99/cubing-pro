@@ -24,7 +24,8 @@ type PersonResult struct {
 	ContinentRank int    `json:"continent_rank"`
 	CountryRank   int    `json:"country_rank"`
 
-	Rank int `json:"rank"` // diy rank
+	Rank  int    `json:"rank"` // diy rank
+	Times string `json:"times,omitempty"`
 }
 
 type PersonalRecord struct {
@@ -42,4 +43,9 @@ type PersonInfo struct {
 	CompetitionCount int                       `json:"competition_count"`
 	MedalCount       MedalCount                `json:"medalCount"`
 	RecordCount      RecordCount               `json:"recordCount"`
+}
+
+type PersonBestRanks struct {
+	Best map[string]PersonResult `json:"best"`
+	Avg  map[string]PersonResult `json:"average"`
 }

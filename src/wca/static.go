@@ -1,6 +1,7 @@
 package wca
 
 import (
+	"fmt"
 	"sort"
 	"time"
 
@@ -303,4 +304,58 @@ func (w *wca) GetEventSuccessRateResult(eventId, countryID string, minAttempted,
 	}
 	pagedResults := out[start:end]
 	return pagedResults, count, nil
+}
+
+func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
+	key := fmt.Sprintf("GetPersonBestRanks_%s", wcaID)
+	if out, ok := w.cache.Get(key); ok {
+		return out.(types.PersonBestRanks), nil
+	}
+
+	var results []types.StaticWithTimerRank
+	if err := w.db.Model(&types.StaticWithTimerRank{}).Where("wca_id = ?", wcaID).Find(&results).Error; err != nil {
+		return types.PersonBestRanks{}, err
+	}
+
+	var out = types.PersonBestRanks{
+		Best: make(map[string]types.PersonResult),
+		Avg:  make(map[string]types.PersonResult),
+	}
+
+	for _, result := range results {
+		// 单次
+		if result.Single > 0 {
+			if _, ok := out.Best[result.EventID]; !ok || result.SingleWorldRank < out.Best[result.EventID].WorldRank {
+				out.Best[result.EventID] = types.PersonResult{
+					EventId:       result.EventID,
+					Best:          result.Single,
+					PersonName:    result.WcaName,
+					PersonId:      result.WcaID,
+					WorldRank:     result.SingleWorldRank,
+					ContinentRank: result.SingleContinentRank,
+					CountryRank:   result.SingleCountryRank,
+					Times:         fmt.Sprintf("%d-%d", result.Year, result.Month),
+				}
+			}
+		}
+
+		// 平均
+		if result.Average > 0 {
+			if _, ok := out.Avg[result.EventID]; !ok || result.AvgWorldRank < out.Avg[result.EventID].WorldRank {
+				out.Avg[result.EventID] = types.PersonResult{
+					EventId:       result.EventID,
+					Best:          result.Average,
+					PersonName:    result.WcaName,
+					PersonId:      result.WcaID,
+					WorldRank:     result.AvgWorldRank,
+					ContinentRank: result.AvgContinentRank,
+					CountryRank:   result.AvgCountryRank,
+					Times:         fmt.Sprintf("%d-%d", result.Year, result.Month),
+				}
+			}
+		}
+	}
+
+	w.cache.Set(key, out, time.Minute*30)
+	return out, nil
 }

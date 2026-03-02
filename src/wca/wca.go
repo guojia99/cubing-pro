@@ -34,6 +34,9 @@ type WCA interface {
 	GetEventRankWithOnlyYear(eventId, countryID string, year int, isAvg bool, page, size int) ([]types.Result, int64, error)
 	// GetEventSuccessRateResult 成功率
 	GetEventSuccessRateResult(eventId, country string, minAttempted, page, size int) ([]types.StaticSuccessRateResult, int64, error)
+
+	// GetPersonBestRanks 获取选手最佳成绩排行
+	GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error)
 }
 
 type wca struct {

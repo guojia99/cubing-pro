@@ -3,6 +3,7 @@ package wca
 import (
 	"fmt"
 	"runtime"
+	"slices"
 	"sort"
 	"time"
 
@@ -11,6 +12,8 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
 )
+
+const MapEventNum = 17
 
 type personBest struct {
 	PersonId  string
@@ -579,5 +582,186 @@ func (s *syncer) setStaticSuccessRateResult() (err error) {
 		return err
 	}
 	log.Printf("Monthly rank snapshot generation completed in %v", time.Since(startTime))
+	return nil
+}
+
+func (s *syncer) extendAllEventAvgPersonResults(ps types.AllEventAvgPersonResults, compMap map[string]types.Competition) types.AllEventAvgPersonResults {
+	var person types.Person
+	if err := s.db.Where("wca_id = ? ", ps.WcaID).First(&person).Error; err != nil {
+		return ps
+	}
+
+	ps.Name = person.Name
+	if ps.LackNum != 0 {
+		return ps
+	}
+
+	var results []types.Result
+	s.db.Where("person_id = ?", ps.WcaID).Find(&results)
+
+	newPs := types.AllEventAvgPersonResults{
+		WcaID:         ps.WcaID,
+		Name:          person.Name,
+		Country:       person.CountryID,
+		DoneEventList: ps.DoneEventList,
+		LackNum:       0,
+		IsDone:        true,
+	}
+
+	var checkList []string
+
+	var checkResultsMap = make(map[string]bool)
+	var useCompMap = make(map[string]bool)
+	for _, result := range results {
+		if !slices.Contains(wcaEventsList, result.EventID) {
+			continue
+		}
+
+		if _, ok := checkResultsMap[result.EventID]; !ok {
+			switch result.EventID {
+			case "333mbf":
+				if result.Best > 0 {
+					checkList = append(checkList, result.EventID)
+					checkResultsMap[result.EventID] = true
+				}
+			default:
+				if result.Average > 0 {
+					checkList = append(checkList, result.EventID)
+					checkResultsMap[result.EventID] = true
+				}
+			}
+			useCompMap[result.CompetitionID] = true
+		}
+
+		if len(checkResultsMap) == 1 && newPs.StartTime == nil {
+			cp := compMap[result.CompetitionID]
+			ts := time.Date(int(cp.Year), time.Month(cp.Month), int(cp.Day), 0, 0, 0, 0, time.UTC)
+			newPs.StartTime = &ts
+		}
+
+		if len(checkResultsMap) == MapEventNum {
+			newPs.CompID = result.CompetitionID
+			cp := compMap[result.CompetitionID]
+			newPs.CompName = cp.Name
+			ts := time.Date(int(cp.EndYear), time.Month(cp.EndMonth), int(cp.EndDay), 0, 0, 0, 0, time.UTC)
+			newPs.EndTime = &ts
+			newPs.UseCompNum = len(useCompMap)
+
+			duration := newPs.EndTime.Sub(*newPs.StartTime)
+			newPs.UseDate = int(duration/(24*time.Hour)) + 1
+
+			break
+		}
+	}
+	return newPs
+}
+
+func (s *syncer) getCompMap() map[string]types.Competition {
+	var cps []types.Competition
+	var out = make(map[string]types.Competition)
+
+	s.db.Select("id", "name", "year", "month", "day", "end_year", "end_month", "end_day").Find(&cps)
+
+	for _, cp := range cps {
+		out[cp.ID] = cp
+	}
+	return out
+}
+
+var wcaEventsList = []string{
+	"333",
+	"222",
+	"444",
+	"555",
+	"666",
+	"777",
+	"333bf",
+	"333fm",
+	"333oh",
+	"clock",
+	"minx",
+	"pyram",
+	"skewb",
+	"sq1",
+	"444bf",
+	"555bf",
+	"333mbf",
+}
+
+func (s *syncer) setStaticAllEventAvg() (err error) {
+	err = s.db.AutoMigrate(&types.AllEventAvgPersonResults{})
+	if err != nil {
+		return
+	}
+	s.db.Delete(&types.AllEventAvgPersonResults{}, "1 = 1")
+	defer func() {
+		if err != nil {
+			s.db.Delete(&types.AllEventAvgPersonResults{}, "1 = 1")
+		}
+	}()
+
+	var allPersonResultsMap = make(map[string]*types.AllEventAvgPersonResults)
+
+	var RanksSingleWith333Mbfs []types.RanksSingle // 只有多盲需要单次
+	var RanksAvgs []types.RanksAverage
+	s.db.Where("event_id = ?", "333mbf").Find(&RanksSingleWith333Mbfs)
+	s.db.Find(&RanksAvgs)
+
+	lackNum := MapEventNum
+
+	for _, single := range RanksSingleWith333Mbfs {
+		if _, ok := allPersonResultsMap[single.PersonID]; !ok {
+			allPersonResultsMap[single.PersonID] = &types.AllEventAvgPersonResults{
+				WcaID:         single.PersonID,
+				LackNum:       lackNum,
+				DoneEventList: []string{},
+				IsDone:        false,
+			}
+		}
+
+		findP, _ := allPersonResultsMap[single.PersonID]
+		if slices.Contains(findP.DoneEventList, "333mbf") {
+			continue
+		}
+		findP.DoneEventList = append(findP.DoneEventList, "333mbf")
+		findP.LackNum -= 1
+		allPersonResultsMap[single.PersonID] = findP
+	}
+
+	for _, avg := range RanksAvgs {
+		if !slices.Contains(wcaEventsList, avg.EventID) {
+			continue
+		}
+
+		if _, ok := allPersonResultsMap[avg.PersonID]; !ok {
+			allPersonResultsMap[avg.PersonID] = &types.AllEventAvgPersonResults{
+				WcaID:         avg.PersonID,
+				LackNum:       lackNum,
+				DoneEventList: []string{},
+				IsDone:        false,
+			}
+		}
+
+		findP, _ := allPersonResultsMap[avg.PersonID]
+		if slices.Contains(findP.DoneEventList, avg.EventID) {
+			continue
+		}
+		findP.DoneEventList = append(findP.DoneEventList, avg.EventID)
+		findP.LackNum -= 1
+		allPersonResultsMap[avg.PersonID] = findP
+	}
+
+	compMap := s.getCompMap()
+
+	var cutNumEventResults []types.AllEventAvgPersonResults
+	for _, res := range allPersonResultsMap {
+		if res.LackNum <= 4 {
+			cutNumEventResults = append(cutNumEventResults, s.extendAllEventAvgPersonResults(*res, compMap))
+		}
+	}
+
+	if err = s.db.CreateInBatches(cutNumEventResults, 5000).Error; err != nil {
+		log.Printf("create in batch failed, err:%v", err)
+	}
 	return nil
 }

@@ -385,3 +385,25 @@ func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
 	w.cache.Set(key, out, time.Minute*30)
 	return out, nil
 }
+
+func (w *wca) GetAllEventsAchievement(lackNum int, country string, size int, page int) ([]types.AllEventAvgPersonResults, int64, error) {
+	var out []types.AllEventAvgPersonResults
+
+	query := w.db.Model(&types.AllEventAvgPersonResults{}).Where("lack_num = ?", lackNum)
+
+	if country != "" {
+		query = query.Where("country = ?", w.getCountryID(country))
+	}
+
+	if lackNum == 0 {
+		query.Order("use_date ASC")
+	} else {
+		query.Order("lack_num ASC")
+	}
+
+	var count int64
+	query.Count(&count)
+	query.Offset((page - 1) * size).Limit(size).Find(&out)
+
+	return out, count, nil
+}

@@ -2,6 +2,9 @@ package types
 
 import (
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
+	"gorm.io/gorm"
 )
 
 type StaticWithTimerRank struct {
@@ -39,20 +42,34 @@ type StaticSuccessRateResult struct {
 
 // AllEventAvgPersonResults 全项目有平均 -- 粗饼"大满贯"
 type AllEventAvgPersonResults struct {
+	// 个人信息
 	WcaID   string `gorm:"type:varchar(10)" json:"wcaId"`
 	Name    string `gorm:"type:varchar(255)" json:"name"`
 	Country string `gorm:"type:varchar(255)" json:"country"`
 
 	// 完成项目的列表, 用逗号隔开
-	DoneEventList string `gorm:"type:varchar(255)" json:"doneEventList"`
-	LackNum       int    `gorm:"type:int" json:"lackNum"` // 缺少某些项目的数量
+	DoneEventList []string `gorm:"-" json:"doneEventList"`
+	DoneEventJSON string   `json:"doneEventJSON"`
+
+	LackNum int `gorm:"type:int" json:"lackNum"` // 缺少项目的数量
 
 	// 完成的开始时间时间
-	IsDone    bool      `gorm:"type:bool" json:"isDone"`
-	StartTime time.Time `gorm:"type:datetime" json:"startTime"`
-	EndTime   time.Time `gorm:"type:datetime" json:"endTime"`
+	IsDone    bool       `gorm:"type:bool" json:"isDone"`
+	StartTime *time.Time `gorm:"type:datetime" json:"startTime"`
+	EndTime   *time.Time `gorm:"type:datetime" json:"endTime"`
+	UseDate   int        `gorm:"type:int" json:"useDate"`
 
 	// 完成的那场比赛名
-	CompID   string `gorm:"type:varchar(255)" json:"allEventCompId"`
-	CompName string `gorm:"type:varchar(255)" json:"allEventCompName"`
+	CompID     string `gorm:"type:varchar(255)" json:"allEventCompId"`
+	CompName   string `gorm:"type:varchar(255)" json:"allEventCompName"`
+	UseCompNum int    `gorm:"type:int" json:"useCompNum"` // 使用比赛数
+}
+
+func (c *AllEventAvgPersonResults) BeforeSave(*gorm.DB) error {
+	c.DoneEventJSON, _ = jsoniter.MarshalToString(c.DoneEventList)
+	return nil
+}
+func (c *AllEventAvgPersonResults) AfterFind(*gorm.DB) error {
+	_ = jsoniter.UnmarshalFromString(c.DoneEventJSON, &c.DoneEventList)
+	return nil
 }

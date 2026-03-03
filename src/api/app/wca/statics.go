@@ -36,6 +36,8 @@ type BaseStaticsRequest struct {
 	Size    int    `json:"size"`
 
 	MinAttempted int `json:"min_attempted"`
+
+	LackNum int `json:"lackNum"`
 }
 
 type BaseStaticsResponse struct {
@@ -55,7 +57,7 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 			ctx.JSON(http.StatusNotFound, gin.H{})
 			return
 		}
-		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d_%d", req.EventID, req.Country, req.IsAvg, req.Page, req.Size, req.Year, req.MinAttempted)
+		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d_%d_%d", req.EventID, req.Country, req.IsAvg, req.Page, req.Size, req.Year, req.MinAttempted, req.LackNum)
 		getData, ok := cacheData.Get(key)
 		if ok {
 			ctx.JSON(http.StatusOK, getData)
@@ -75,6 +77,9 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 			out, count, err = svc.Wca.GetEventRankWithOnlyYear(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
 		case "GetEventSuccessRateResult":
 			out, count, err = svc.Wca.GetEventSuccessRateResult(req.EventID, req.Country, req.MinAttempted, req.Page, req.Size)
+		case "GetAllEventsAchievement":
+			out, count, err = svc.Wca.GetAllEventsAchievement(req.LackNum, req.Country, req.Size, req.Page)
+
 		}
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})

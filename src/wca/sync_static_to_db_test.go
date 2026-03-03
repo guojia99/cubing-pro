@@ -127,3 +127,34 @@ func Test_syncer_getAttemptMap(t *testing.T) {
 	}
 	s.getAttemptMap()
 }
+
+func Test_syncer_setStaticAllEventAvg(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_ = s.setStaticAllEventAvg()
+
+}
+
+func Test_syncer_extendAllEventAvgPersonResults(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	out := s.extendAllEventAvgPersonResults(types.AllEventAvgPersonResults{
+		WcaID: "2023XUZI01",
+	}, s.getCompMap())
+	d, _ := jsoniter.MarshalIndent(out, "", "    ")
+	fmt.Println(string(d))
+}

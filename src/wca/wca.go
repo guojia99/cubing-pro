@@ -37,6 +37,9 @@ type WCA interface {
 
 	// GetPersonBestRanks 获取选手最佳成绩排行
 	GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error)
+
+	// GetAllEventsAchievement 全项目达成check
+	GetAllEventsAchievement(lackNum int, country string, size int, page int) ([]types.AllEventAvgPersonResults, int64, error)
 }
 
 type wca struct {

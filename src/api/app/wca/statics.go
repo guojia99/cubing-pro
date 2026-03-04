@@ -94,3 +94,16 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 		ctx.JSON(http.StatusOK, resp)
 	}
 }
+
+func GetGrandSlam(svc *svc.Svc) gin.HandlerFunc {
+	cacheData := cache.New(5*time.Minute, 10*time.Minute)
+	return func(ctx *gin.Context) {
+		if val, ok := cacheData.Get("grandslam"); ok {
+			ctx.JSON(http.StatusOK, val)
+			return
+		}
+		data := svc.Wca.GetGrandSlam()
+		ctx.JSON(http.StatusOK, data)
+		cacheData.Set("grandslam", data, cache.DefaultExpiration)
+	}
+}

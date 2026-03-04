@@ -155,7 +155,7 @@ func (w *wca) findResultWithQuery(eventId string, page, size int, query *gorm.DB
 
 	// 拓展参数
 	pagedResults = w.setResultAttempts(pagedResults)
-	pagedResults = w.setCompetitionName(pagedResults)
+	pagedResults = w.setCompetitionNameAndSort(pagedResults)
 	return pagedResults, total, nil
 }
 
@@ -262,7 +262,7 @@ func (w *wca) GetEventRankWithOnlyYear(eventId, countryID string, year int, isAv
 	}
 	pagedResults := allResults[start:end]
 	pagedResults = w.setResultAttempts(pagedResults)
-	pagedResults = w.setCompetitionName(pagedResults)
+	pagedResults = w.setCompetitionNameAndSort(pagedResults)
 
 	return pagedResults, int64(len(allResults)), nil
 }

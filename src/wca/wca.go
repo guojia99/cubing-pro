@@ -24,6 +24,9 @@ type WCA interface {
 	GetCompetition(compId string) (types.Competition, error)
 	GetPersonCompetition(wcaId string) ([]types.Competition, error)
 
+	// 大满贯列表
+	GetGrandSlam() []types.AllEventChampionshipsPodium
+
 	// 统计
 	GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error)
 	GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error)

@@ -158,3 +158,16 @@ func Test_syncer_extendAllEventAvgPersonResults(t *testing.T) {
 	d, _ := jsoniter.MarshalIndent(out, "", "    ")
 	fmt.Println(string(d))
 }
+
+func Test_syncer_setStaticAllEventChampionshipsPodium(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_ = s.setStaticAllEventChampionshipsPodium()
+}

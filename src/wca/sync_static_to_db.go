@@ -13,17 +13,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/wca/types"
 )
 
-const MapEventNum = 17
-
-type personBest struct {
-	PersonId  string
-	Country   string
-	Continent string
-	Single    int
-	Avg       int
-	Rank      int
-}
-
 func (s *syncer) selectComps() (comps []types.Competition, err error) {
 	// 只选择需要的字段
 	err = s.db.Select("id", "country_id", "year", "month", "day", "end_year", "end_month", "end_day").
@@ -592,6 +581,7 @@ func (s *syncer) extendAllEventAvgPersonResults(ps types.AllEventAvgPersonResult
 	}
 
 	ps.Name = person.Name
+	ps.Country = person.CountryID
 	if ps.LackNum != 0 {
 		return ps
 	}
@@ -666,26 +656,6 @@ func (s *syncer) getCompMap() map[string]types.Competition {
 		out[cp.ID] = cp
 	}
 	return out
-}
-
-var wcaEventsList = []string{
-	"333",
-	"222",
-	"444",
-	"555",
-	"666",
-	"777",
-	"333bf",
-	"333fm",
-	"333oh",
-	"clock",
-	"minx",
-	"pyram",
-	"skewb",
-	"sq1",
-	"444bf",
-	"555bf",
-	"333mbf",
 }
 
 func (s *syncer) setStaticAllEventAvg() (err error) {
@@ -763,5 +733,286 @@ func (s *syncer) setStaticAllEventAvg() (err error) {
 	if err = s.db.CreateInBatches(cutNumEventResults, 5000).Error; err != nil {
 		log.Printf("create in batch failed, err:%v", err)
 	}
+	return nil
+}
+
+const (
+	WorldType     = "world"
+	ContinentType = "continent"
+	CountryType   = "country"
+)
+
+func (s *syncer) getChampionshipMap() (map[string][]types.Championship, map[string]types.Competition) {
+	var championships []types.Championship
+	s.db.Find(&championships)
+
+	// 锦标赛
+	var championshipMap = map[string][]types.Championship{
+		WorldType:     make([]types.Championship, 0),
+		ContinentType: make([]types.Championship, 0),
+		CountryType:   make([]types.Championship, 0),
+	}
+	var compIds []string
+	for _, championship := range championships {
+		compIds = append(compIds, championship.CompetitionID)
+		if championship.ChampionshipType == "world" {
+			championshipMap[WorldType] = append(championshipMap[WorldType], championship)
+			continue
+		}
+
+		if championship.ChampionshipType[0] == '_' {
+			championshipMap[ContinentType] = append(championshipMap[ContinentType], championship)
+			continue
+		}
+
+		//// cn 特殊处理, 重复了
+		//if championship.CompetitionID == "AsianChampionship2016" && championship.ChampionshipType == "greater_china" {
+		//	continue
+		//}
+
+		championshipMap[CountryType] = append(championshipMap[CountryType], championship)
+	}
+
+	// 比赛
+	var compsMap = make(map[string]types.Competition)
+	var comps []types.Competition
+	s.db.Where("id in ?", compIds).Find(&comps)
+	for _, comp := range comps {
+		compsMap[comp.ID] = comp
+	}
+
+	for key := range championshipMap {
+
+		list := championshipMap[key]
+
+		sort.Slice(list, func(i, j int) bool {
+			compA := compsMap[list[i].CompetitionID]
+			compB := compsMap[list[j].CompetitionID]
+			// 比较年
+			if compA.EndYear != compB.EndYear {
+				return compA.EndYear < compB.EndYear
+			}
+			// 比较月
+			if compA.EndMonth != compB.EndMonth {
+				return compA.EndMonth < compB.EndMonth
+			}
+			// 比较日
+			if compA.EndDay != compB.EndDay {
+				return compA.EndDay < compB.EndDay
+			}
+			return compA.ID < compB.ID
+		})
+		championshipMap[key] = list
+	}
+
+	return championshipMap, compsMap
+}
+
+func (s *syncer) getCompsResultAndCutPosTop3Map(compIDs ...string) map[string][]types.Result {
+	var results []types.Result
+	s.db.Where("competition_id in ?", compIDs).Find(&results)
+
+	var out = make(map[string][]types.Result)
+
+	for _, result := range results {
+		if !(result.RoundTypeID == "f" || result.RoundTypeID == "c") {
+			continue
+		}
+		if result.Pos >= 4 {
+			continue
+		}
+		if result.Best <= 0 {
+			continue
+		}
+		if _, ok := out[result.EventID]; !ok {
+			out[result.EventID] = make([]types.Result, 0)
+		}
+
+		out[result.EventID] = append(out[result.EventID], result)
+	}
+
+	return out
+}
+
+func (s *syncer) getCountryContinentMap() map[string]string {
+	var countrys []types.Country
+	s.db.Find(&countrys)
+
+	var out = make(map[string]string)
+	for _, country := range countrys {
+		out[country.ID] = country.ContinentID
+	}
+	return out
+}
+
+func (s *syncer) setStaticAllEventChampionshipsPodium() (err error) {
+
+	err = s.db.AutoMigrate(&types.AllEventChampionshipsPodium{})
+	if err != nil {
+		return
+	}
+	s.db.Delete(&types.AllEventChampionshipsPodium{}, "1 = 1")
+	defer func() {
+		if err != nil {
+			s.db.Delete(&types.AllEventChampionshipsPodium{}, "1 = 1")
+		}
+	}()
+
+	// 1. 先找世锦赛选手, 再依据世锦赛前三找洲际赛, 然后是国家赛
+	// 2. 统计出合适的选手再插该选手在该三场比赛的成绩
+	// 3. 记录全部成绩并写入
+	championshipMap, compMap := s.getChampionshipMap()
+
+	var cache = make(map[string]map[string]types.AllEventChampionshipsPodium) // key1 event, key2 personID
+
+	// world
+	var worldCompsID []string
+	for _, wc := range championshipMap[WorldType] {
+		worldCompsID = append(worldCompsID, wc.CompetitionID)
+	}
+	for _, wcs := range s.getCompsResultAndCutPosTop3Map(worldCompsID...) {
+		for _, res := range wcs {
+			if _, ok := cache[res.EventID]; !ok {
+				cache[res.EventID] = make(map[string]types.AllEventChampionshipsPodium)
+			}
+
+			if _, ok := cache[res.EventID][res.PersonID]; !ok {
+				cache[res.EventID][res.PersonID] = types.AllEventChampionshipsPodium{
+					WcaID:                    res.PersonID,
+					WcaName:                  res.PersonName,
+					Country:                  res.PersonCountryID,
+					EventID:                  res.EventID,
+					WorldChampionshipID:      res.CompetitionID,
+					WorldChampionshipName:    compMap[res.CompetitionID].Name,
+					WorldChampionshipRank:    int(res.Pos),
+					WorldChampionshipBest:    res.Best,
+					WorldChampionshipAverage: res.Average,
+				}
+			}
+
+			cur := cache[res.EventID][res.PersonID]
+
+			if cur.WorldChampionshipID != "" && int(res.Pos) > cur.WorldChampionshipRank {
+				continue
+			}
+
+			cur.WorldChampionshipID = res.CompetitionID
+			cur.WorldChampionshipName = compMap[res.CompetitionID].Name
+			cur.WorldChampionshipRank = int(res.Pos)
+			cur.WorldChampionshipBest = res.Best
+			cur.WorldChampionshipAverage = res.Average
+		}
+	}
+
+	countryContinentMap := s.getCountryContinentMap()
+	compContinentMap := make(map[string]string)
+	// 洲
+	var continentCompsID []string
+	for _, wc := range championshipMap[ContinentType] {
+		continentCompsID = append(continentCompsID, wc.CompetitionID)
+		compContinentMap[wc.CompetitionID] = countryContinentMap[compMap[wc.CompetitionID].CountryID]
+	}
+
+	for _, ccs := range s.getCompsResultAndCutPosTop3Map(continentCompsID...) {
+		for _, res := range ccs {
+			// 没有的项目直接剔除
+			if _, ok := cache[res.EventID]; !ok {
+				continue
+			}
+
+			// 没有的选手直接剔除
+			if _, ok := cache[res.EventID][res.PersonID]; !ok {
+				continue
+			}
+
+			cur := cache[res.EventID][res.PersonID]
+
+			// 限制所在洲
+			personContinent := countryContinentMap[res.PersonCountryID]
+			compContinent := compContinentMap[res.CompetitionID]
+			if personContinent != compContinent {
+				continue
+			}
+
+			if cur.ContinentChampionshipID != "" && int(res.Pos) >= cur.ContinentChampionshipRank {
+				continue
+			}
+
+			// 后续限制自己的洲
+			cur.ContinentChampionshipID = res.CompetitionID
+			cur.ContinentChampionshipName = compMap[res.CompetitionID].Name
+			cur.ContinentChampionshipRank = int(res.Pos)
+			cur.ContinentChampionshipBest = res.Best
+			cur.ContinentChampionshipAverage = res.Average
+			cache[res.EventID][res.PersonID] = cur
+		}
+	}
+
+	// 国家级
+	var countryCompsID []string
+	for _, wc := range championshipMap[CountryType] {
+		countryCompsID = append(countryCompsID, wc.CompetitionID)
+	}
+	for _, ncs := range s.getCompsResultAndCutPosTop3Map(countryCompsID...) {
+		for _, res := range ncs {
+			if _, ok := cache[res.EventID]; !ok {
+				continue
+			}
+			if _, ok := cache[res.EventID][res.PersonID]; !ok {
+				continue
+			}
+			cur := cache[res.EventID][res.PersonID]
+			if cur.CountryChampionshipID != "" {
+				continue
+			}
+			if compMap[res.CompetitionID].CountryID != res.PersonCountryID {
+				continue
+			}
+
+			if cur.CountryChampionshipID != "" && int(res.Pos) >= cur.CountryChampionshipRank {
+				continue
+			}
+
+			cur.CountryChampionshipID = res.CompetitionID
+			cur.CountryChampionshipName = compMap[res.CompetitionID].Name
+			cur.CountryChampionshipRank = int(res.Pos)
+			cur.CountryChampionshipBest = res.Best
+			cur.CountryChampionshipAverage = res.Average
+			cache[res.EventID][res.PersonID] = cur
+		}
+	}
+
+	var data []types.AllEventChampionshipsPodium
+	for _, ev := range cache {
+		for _, res := range ev {
+			if res.CountryChampionshipID == "" || res.ContinentChampionshipID == "" {
+				continue
+			}
+			data = append(data, res)
+		}
+	}
+	for idx, val := range data {
+		// 最佳成绩
+		var bestRank types.RanksSingle
+		var avgRank types.RanksAverage
+
+		s.db.Where("event_id = ? and person_id = ?", val.EventID, val.WcaID).First(&bestRank)
+		s.db.Where("event_id = ? and person_id = ?", val.EventID, val.WcaID).First(&avgRank)
+
+		data[idx].Best = bestRank.Best
+		data[idx].Average = avgRank.Best
+
+		// 检查WR
+		var results []types.Result
+		s.db.Where("event_id = ?", val.EventID).Where("person_id = ?", val.WcaID).Find(&results)
+		for _, result := range results {
+			if result.RegionalSingleRecord == "WR" || result.RegionalAverageRecord == "WR" {
+				data[idx].HasWR = true
+				break
+			}
+		}
+	}
+
+	s.db.CreateInBatches(data, 1000)
 	return nil
 }

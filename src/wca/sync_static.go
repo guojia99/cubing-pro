@@ -15,9 +15,10 @@ func (s *syncer) syncStatics() error {
 	_ = s.db.AutoMigrate(&staticSyncDone{})
 
 	var syncFns = map[string]func() error{
-		"setStaticPersonRankWithTimer": s.setStaticPersonRankWithTimers, // 历史成绩排名
-		"setStaticSuccessRateResult":   s.setStaticSuccessRateResult,    // 达成比例
-		"setStaticAllEventAvg":         s.setStaticAllEventAvg,          // 达成大满贯统计
+		"setStaticPersonRankWithTimer":         s.setStaticPersonRankWithTimers,        // 历史成绩排名
+		"setStaticSuccessRateResult":           s.setStaticSuccessRateResult,           // 达成比例
+		"setStaticAllEventAvg":                 s.setStaticAllEventAvg,                 // 达成大满贯统计
+		"setStaticAllEventChampionshipsPodium": s.setStaticAllEventChampionshipsPodium, // 达成某个项目大满贯
 	}
 
 	var sds []staticSyncDone

@@ -10,6 +10,18 @@ import (
 	"github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
+func (w *wca) getRoundTypeMap() map[string]types.RoundType {
+	var out = make(map[string]types.RoundType)
+
+	var rounds []types.RoundType
+	w.db.Find(&rounds)
+
+	for _, round := range rounds {
+		out[round.ID] = round
+	}
+	return out
+}
+
 func (w *wca) CountryList() []types.Country {
 	var out []types.Country
 	w.db.Find(&out)
@@ -324,8 +336,9 @@ func (w *wca) setResultAttempts(results []types.Result) []types.Result {
 	return results
 }
 
-func (w *wca) setCompetitionName(results []types.Result) []types.Result {
+func (w *wca) setCompetitionNameAndSort(results []types.Result) []types.Result {
 	var compID []string
+	var compMap = make(map[string]types.Competition)
 
 	for _, result := range results {
 		compID = append(compID, result.CompetitionID)
@@ -333,6 +346,11 @@ func (w *wca) setCompetitionName(results []types.Result) []types.Result {
 
 	var comps []types.Competition
 	w.db.Where("id in ?", compID).Find(&comps)
+	for _, comp := range comps {
+		compMap[comp.ID] = comp
+	}
+
+	// 填充名字
 	var mp = make(map[string]string)
 	var tmp = make(map[string]string)
 	for _, comp := range comps {
@@ -344,6 +362,53 @@ func (w *wca) setCompetitionName(results []types.Result) []types.Result {
 		results[idx].CompetitionName = mp[results[idx].CompetitionID]
 		results[idx].CompetitionTime = tmp[results[idx].CompetitionID]
 	}
+
+	eventOrder := buildEventOrderMap()
+	roundOrder := w.getRoundTypeMap()
+	// 基于比赛时间排序和项目进行排序
+	sort.Slice(results, func(i, j int) bool {
+		a, b := results[i], results[j]
+
+		// 比赛时间排序
+		compA := compMap[a.CompetitionID]
+		compB := compMap[b.CompetitionID]
+
+		// 比较年
+		if compA.EndYear != compB.EndYear {
+			return compA.EndYear < compB.EndYear
+		}
+		// 比较月
+		if compA.EndMonth != compB.EndMonth {
+			return compA.EndMonth < compB.EndMonth
+		}
+		// 比较日
+		if compA.EndDay != compB.EndDay {
+			return compA.EndDay < compB.EndDay
+		}
+
+		//项目排序
+		orderA := eventOrder[a.EventID]
+		orderB := eventOrder[b.EventID]
+		if _, exists := eventOrder[a.EventID]; !exists {
+			orderA = len(wcaEventsList)
+		}
+		if _, exists := eventOrder[b.EventID]; !exists {
+			orderB = len(wcaEventsList)
+		}
+		if orderA != orderB {
+			return orderA < orderB
+		}
+
+		// 项目轮次排序
+		roundA := roundOrder[a.RoundTypeID]
+		roundB := roundOrder[b.RoundTypeID]
+		if roundA != roundB {
+			return roundA.Rank < roundB.Rank
+		}
+
+		// 最后ID排序
+		return a.ID < b.ID
+	})
 	return results
 }
 
@@ -358,7 +423,7 @@ func (w *wca) GetPersonResult(wcaId string) ([]types.Result, error) {
 		return nil, nil
 	}
 	out = w.setResultAttempts(out)
-	out = w.setCompetitionName(out)
+	out = w.setCompetitionNameAndSort(out)
 
 	return out, nil
 }
@@ -402,5 +467,11 @@ func (w *wca) SearchPlayers(query string) []types.Person {
 			out = append(out, p)
 		}
 	}
+	return out
+}
+
+func (w *wca) GetGrandSlam() []types.AllEventChampionshipsPodium {
+	var out []types.AllEventChampionshipsPodium
+	w.db.Find(&out)
 	return out
 }

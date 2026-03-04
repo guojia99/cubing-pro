@@ -73,3 +73,38 @@ func (c *AllEventAvgPersonResults) AfterFind(*gorm.DB) error {
 	_ = jsoniter.UnmarshalFromString(c.DoneEventJSON, &c.DoneEventList)
 	return nil
 }
+
+// AllEventChampionshipsPodium 大满贯领奖台成绩
+type AllEventChampionshipsPodium struct {
+	// 个人信息
+	WcaID   string `json:"wcaID"`
+	WcaName string `json:"wcaName"`
+	Country string `json:"country"`
+
+	// 项目
+	EventID string `json:"eventID"`
+	Best    int    `json:"best"`
+	Average int    `json:"average"`
+
+	// 只记录首场成绩
+	WorldChampionshipID      string `json:"worldChampionshipID"`
+	WorldChampionshipName    string `json:"worldChampionshipName"`
+	WorldChampionshipRank    int    `json:"worldChampionshipRank"` // 决赛排名
+	WorldChampionshipBest    int    `json:"worldChampionshipBest"`
+	WorldChampionshipAverage int    `json:"worldChampionshipAverage"`
+
+	ContinentChampionshipID      string `json:"continentChampionshipID"`
+	ContinentChampionshipName    string `json:"continentChampionshipName"`
+	ContinentChampionshipRank    int    `json:"continentChampionshipRank"`
+	ContinentChampionshipBest    int    `json:"continentChampionshipBest"`
+	ContinentChampionshipAverage int    `json:"continentChampionshipAverage"`
+
+	CountryChampionshipID      string `json:"countryChampionshipID"`
+	CountryChampionshipName    string `json:"countryChampionshipName"`
+	CountryChampionshipRank    int    `json:"countryChampionshipRank"`
+	CountryChampionshipBest    int    `json:"countryChampionshipBest"`
+	CountryChampionshipAverage int    `json:"countryChampionshipAverage"`
+
+	// WR记录
+	HasWR bool `json:"hasWR"`
+}

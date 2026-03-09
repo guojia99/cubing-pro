@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/acknowledgments"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
@@ -60,12 +61,16 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	// 系统配置
 	systemResult := admin.Group("/system_result")
 	{
-		systemResult.GET("/", systemResults.GetSystemResult(svc))         // 获取系统相关配置
-		systemResult.PUT("/title", systemResults.SetSystemTitle(svc))     // 设置网站标题
-		systemResult.PUT("/welcome", systemResults.SetSystemWelcome(svc)) // 设置欢迎词
-		systemResult.PUT("/footer", systemResults.SetSystemFooter(svc))   // 设置网站脚注
-		systemResult.PUT("/logo", systemResults.SetSystemLogo(svc))       // 设置网站logo
-		systemResult.PUT("/:key", systemResults.SetSystemKeyValue(svc))   // 设置系统配置 key value
+
+		systemResult.GET("/", systemResults.GetSystemResult(svc))           // 获取系统相关配置
+		systemResult.PUT("/title", systemResults.SetSystemTitle(svc))       // 设置网站标题
+		systemResult.PUT("/welcome", systemResults.SetSystemWelcome(svc))   // 设置欢迎词
+		systemResult.PUT("/footer", systemResults.SetSystemFooter(svc))     // 设置网站脚注
+		systemResult.PUT("/logo", systemResults.SetSystemLogo(svc))         // 设置网站logo
+		systemResult.PUT("/key/:key", systemResults.SetSystemKeyValue(svc)) // 设置系统配置 key value
+
+		systemResult.PUT("/acknowledgments", acknowledgments.SetAcknowledgments(svc)) // 赞助列表设置
+		systemResult.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
 	}
 
 	// 帖子管理

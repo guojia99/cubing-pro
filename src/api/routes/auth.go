@@ -19,7 +19,7 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		//}
 
 		// 验证码
-		//authG.GET("/code", middleware.Code().CodeRouter()) // 校验码 todo 限流
+		authG.GET("/code", middleware.Code().CodeRouter()) // 校验码 todo 限流
 
 		// 用户生命周期
 		authG.POST("/login", middleware.JWT().LoginHandler)     // 用户登录 / 获取权限token

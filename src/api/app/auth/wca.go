@@ -235,7 +235,7 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 			now := time.Now()
 			dbUser = user.User{
 				WcaID:             wcaUser.WCAID,
-				CubeID:            wcaUser.WCAID,
+				CubeID:            svc.Cov.GetCubeID(wcaUser.Name),
 				Name:              wcaUser.Name,
 				Email:             wcaUser.Email,
 				Avatar:            avatarURL,

@@ -16,8 +16,8 @@ const (
 type UserKV struct {
 	basemodel.Model
 
-	UserId uint   `gorm:"uniqueIndex:idx_user_key"` // 联合唯一索引名：idx_user_key
-	Key    string `gorm:"uniqueIndex:idx_user_key"` // 相同索引名，表示是同一个组合索引
+	UserId uint   `gorm:"uniqueIndex:idx_user_key"`              // 联合唯一索引名：idx_user_key
+	Key    string `gorm:"uniqueIndex:idx_user_key;size:191"`    // MySQL 索引需指定长度，避免 longtext
 
 	Value string     `gorm:"column:value"`
 	Type  UserKVType `gorm:"column:type"`

@@ -18,6 +18,16 @@ type GlobalConfig struct {
 	AlgPath         string      `yaml:"algPath"`
 	WcaDB           WcaDB       `yaml:"wcaDB"`
 	AlgTrainersPath string      `yaml:"algTrainersPath"`
+	WcaAuth2        WcaAuth2    `yaml:"wcaAuth2"`
+}
+
+type WcaAuth2 struct {
+	AppID        string   `yaml:"appId"`
+	AppSecret    string   `yaml:"appSecret"`
+	RedirectBase string   `yaml:"redirectBase"` // OAuth 回调根地址，如 https://cubing.pro 或 http://localhost:8000
+	FrontendBase string   `yaml:"frontendBase"` // 登录成功后跳回的前端域名，如 https://cubing.pro
+	AuthsPath    []string `yaml:"authsPath"`
+	Auths        []string `yaml:"auths"` // scopes: public, dob, email, openid, profile
 }
 
 type WcaDB struct {

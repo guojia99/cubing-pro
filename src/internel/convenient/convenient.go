@@ -45,6 +45,7 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 
 	_ = db.AutoMigrate()
 	_ = db.AutoMigrate(&user.User{})       // 用户表
+	_ = db.AutoMigrate(&user.OAuthState{}) // OAuth state 表（WCA 登录防 CSRF）
 	_ = db.AutoMigrate(&user.CheckCode{})  // check code表
 	_ = db.AutoMigrate(&user.Organizers{}) // 主办表
 	_ = db.AutoMigrate(&user.UserKV{})     // 用户业务数据表

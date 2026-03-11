@@ -1,6 +1,6 @@
 module github.com/guojia99/cubing-pro
 
-go 1.23.4
+go 1.25.0
 
 require (
 	github.com/2mf8/Better-Bot-Go v0.0.9-0.20250425125817-a049cae4a166
@@ -35,6 +35,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	github.com/xuri/excelize/v2 v2.9.1
 	golang.org/x/image v0.25.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/protobuf v1.34.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/yaml.v3 v3.0.1

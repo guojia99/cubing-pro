@@ -20,8 +20,13 @@ global:
   wca_db:
     syncUrl: 'https://www.worldcubeassociation.org/export/results/WCA_export.tsv'
     syncTime: 1 # 小时
-
-
+  # WCA OAuth2 登录配置
+  wcaAuth2:
+    appId: ""        # WCA OAuth 应用的 Client ID
+    appSecret: ""    # WCA OAuth 应用的 Client Secret
+    redirectBase: "http://localhost:8000"   # 回调根地址，生产环境用 https://cubing.pro
+    frontendBase: "http://localhost:3000"   # 登录成功后跳回的前端地址
+    auths: ["public", "dob", "email", "openid", "profile"]
 
 apiGateway:
   pem: "/https/cube-cert.pem"

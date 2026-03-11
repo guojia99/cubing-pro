@@ -43,6 +43,10 @@ func AuthRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		authG.PUT("/reset/password", middleware.JWT().MiddlewareFunc(), middleware.Code().VerifyCodeMiddlewareFn(svc), auth.ResetPassword(svc)) // 用户重置密码
 		authG.GET("/current", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), auth.Current(svc))
 
+		// WCA OAuth 登录
+		authG.GET("/wca", auth.WcaAuthInit(svc))           // 发起 WCA 登录，跳转到 WCA 授权页
+		authG.GET("/wca/callback", auth.WcaAuthCallback(svc)) // WCA 回调
+		authG.GET("/wca/me", middleware.JWT().MiddlewareFunc(), middleware.CheckAuthMiddlewareFunc(user.AuthPlayer), auth.WcaAuthMe(svc)) // 调试：携带 token 获取用户信息
 	}
 
 	usr := authG.Group("/user",

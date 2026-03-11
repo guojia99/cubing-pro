@@ -91,7 +91,7 @@ func newDB(cfg configs.GlobalConfig) (*gorm.DB, error) {
 	case "mysql":
 		db, err = gorm.Open(
 			mysql.New(mysql.Config{DSN: cfg.DB.DSN}), &gorm.Config{
-				Logger: dbLog,
+				//Logger: dbLog,
 			},
 		)
 	}

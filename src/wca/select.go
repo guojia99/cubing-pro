@@ -269,6 +269,9 @@ func (w *wca) getResultAttemptMap(results []types.Result) map[int64][]int64 {
 		if err := w.db.Where("result_id IN ?", batchIDs).Find(&batchAtt).Error; err != nil {
 			continue
 		}
+		sort.Slice(batchAtt, func(i, j int) bool {
+			return batchAtt[i].AttemptNumber <= batchAtt[j].AttemptNumber
+		})
 
 		for _, att := range batchAtt {
 			if _, ok := resultAttemptMap[att.ResultID]; !ok {

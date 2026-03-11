@@ -1,8 +1,10 @@
 package wca
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/guojia99/cubing-pro/src/wca/types"
 	jsoniter "github.com/json-iterator/go"
 )
 
@@ -38,4 +40,20 @@ func Test_wca_GetPersonCompetition(t *testing.T) {
 
 	d, _ := jsoniter.MarshalIndent(out, "", "    ")
 	t.Log(string(d))
+}
+
+func Test_wca_getResultAttemptMap(t *testing.T) {
+	w := NewWCA(
+		"root@tcp(127.0.0.1:33306)/",
+		"/home/guojia/cubingPro/wca_db",
+		"/home/guojia/cubingPro/wca_db/sync_path",
+		false)
+
+	ww := w.(*wca)
+	out := ww.getResultAttemptMap([]types.Result{
+		{
+			ID: 6346720,
+		},
+	})
+	fmt.Println(out)
 }

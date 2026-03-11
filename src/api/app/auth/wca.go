@@ -214,7 +214,7 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 				} `json:"avatar"`
 			} `json:"me"`
 		}
-		if err := json.NewDecoder(resp.Body).Decode(&wcaResp); err != nil {
+		if err = json.NewDecoder(resp.Body).Decode(&wcaResp); err != nil {
 			exception.ErrInternalServer.ResponseWithError(ctx, "failed to parse WCA user")
 			return
 		}
@@ -235,15 +235,16 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 			now := time.Now()
 			dbUser = user.User{
 				WcaID:             wcaUser.WCAID,
+				CubeID:            wcaUser.WCAID,
 				Name:              wcaUser.Name,
 				Email:             wcaUser.Email,
 				Avatar:            avatarURL,
 				Nationality:       wcaUser.Country,
-				Auth:              user.AuthPlayer,
 				WcaLoginAt:        &now,
 				WcaAccessToken:    token.AccessToken,
 				WcaTokenExpiresAt: nil,
 			}
+			dbUser.SetAuth(user.AuthPlayer)
 			if token.Expiry.IsZero() {
 				exp := time.Now().Add(2 * time.Hour)
 				dbUser.WcaTokenExpiresAt = &exp

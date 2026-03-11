@@ -139,7 +139,7 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 		}
 
 		ext := path.Ext(ctx.Request.URL.Path)
-		if slices.Contains([]string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico", ".json"}, ext) {
+		if slices.Contains([]string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico", ".json", ".md"}, ext) {
 			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
 			ctx.Header("Cache-Control", "public, max-age=2592000")
 			ctx.File(staticFilePath)

@@ -56,7 +56,8 @@ func getWcaOAuthConfig(cfg configs.WcaAuth2, redirectURI string) *oauth2.Config 
 	}
 }
 
-func isValidRedirectURI(redirect, frontendBase string) bool {
+// isValidRedirectURI 校验 redirect 是否落在任一允许的 base 下
+func isValidRedirectURI(redirect string, allowedBases []string) bool {
 	if redirect == "" || redirect == "debug" {
 		return true
 	}
@@ -64,7 +65,31 @@ func isValidRedirectURI(redirect, frontendBase string) bool {
 	if err != nil {
 		return false
 	}
-	return u.Scheme+"://"+u.Host == frontendBase || strings.HasPrefix(redirect, frontendBase+"/")
+	redirectOrigin := u.Scheme + "://" + u.Host
+	for _, base := range allowedBases {
+		if base == "" {
+			continue
+		}
+		base = strings.TrimSuffix(base, "/")
+		if redirectOrigin == base || strings.HasPrefix(redirect, base+"/") {
+			return true
+		}
+	}
+	return false
+}
+
+func getAllowedRedirectBases(cfg configs.WcaAuth2) []string {
+	if len(cfg.RedirectURLs) > 0 {
+		return cfg.RedirectURLs
+	}
+	var bases []string
+	if cfg.FrontendBase != "" {
+		bases = append(bases, cfg.FrontendBase)
+	}
+	if cfg.RedirectBase != "" && cfg.RedirectBase != cfg.FrontendBase {
+		bases = append(bases, cfg.RedirectBase)
+	}
+	return bases
 }
 
 // redirectToWcaAuth 重定向到 WCA 授权页（用于 code 过期时重新授权）
@@ -98,11 +123,8 @@ func WcaAuthInit(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		redirect := ctx.Query("redirect")
-		frontendBase := cfg.FrontendBase
-		if frontendBase == "" {
-			frontendBase = cfg.RedirectBase
-		}
-		if !isValidRedirectURI(redirect, frontendBase) {
+		allowedBases := getAllowedRedirectBases(cfg)
+		if !isValidRedirectURI(redirect, allowedBases) {
 			exception.ErrInvalidInput.ResponseWithError(ctx, "invalid redirect URI")
 			return
 		}
@@ -315,12 +337,24 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 
 		// 正常模式：跳转到前端并附带 token
 		target := payload.Redirect
-		frontendBase := cfg.FrontendBase
-		if frontendBase == "" {
-			frontendBase = cfg.RedirectBase
+		allowedBases := getAllowedRedirectBases(cfg)
+		fallbackBase := cfg.FrontendBase
+		if fallbackBase == "" {
+			fallbackBase = cfg.RedirectBase
 		}
 		if target == "" {
-			target = frontendBase
+			if len(allowedBases) > 0 {
+				target = allowedBases[0]
+			} else {
+				target = fallbackBase
+			}
+		} else if !isValidRedirectURI(target, allowedBases) {
+			// 二次校验，防止配置变更或异常 state
+			if len(allowedBases) > 0 {
+				target = allowedBases[0]
+			} else {
+				target = fallbackBase
+			}
 		}
 		finalURL := target
 		if strings.Contains(target, "?") {

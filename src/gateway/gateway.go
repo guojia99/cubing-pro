@@ -21,6 +21,16 @@ import (
 	"github.com/unrolled/secure"
 )
 
+// defaultStaticFileExts 基础静态文件扩展名，配置为空时使用
+var defaultStaticFileExts = []string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico", ".json", ".md"}
+
+func getStaticFileExts(cfg configs.GatewayConfig) []string {
+	if len(cfg.StaticFileExts) > 0 {
+		return cfg.StaticFileExts
+	}
+	return defaultStaticFileExts
+}
+
 type Gateway struct {
 	api *gin.Engine
 
@@ -139,7 +149,7 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 		}
 
 		ext := path.Ext(ctx.Request.URL.Path)
-		if slices.Contains([]string{".css", ".js", ".svg", ".webp", ".woff", ".png", ".jpeg", ".jpg", ".ico", ".json", ".md"}, ext) {
+		if slices.Contains(getStaticFileExts(g.cfg.Gateway), ext) {
 			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
 			ctx.Header("Cache-Control", "public, max-age=2592000")
 			ctx.File(staticFilePath)

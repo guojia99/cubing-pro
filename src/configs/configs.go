@@ -26,6 +26,7 @@ type WcaAuth2 struct {
 	AppSecret    string   `yaml:"appSecret"`
 	RedirectBase string   `yaml:"redirectBase"` // OAuth 回调根地址，如 https://cubing.pro 或 http://localhost:8000
 	FrontendBase string   `yaml:"frontendBase"` // 登录成功后跳回的前端域名，如 https://cubing.pro
+	RedirectURLs []string `yaml:"redirectURLs"`
 	AuthsPath    []string `yaml:"authsPath"`
 	Auths        []string `yaml:"auths"` // scopes: public, dob, email, openid, profile
 }
@@ -71,6 +72,9 @@ type GatewayConfig struct {
 	XFile      string `yaml:"xFile"`      // 其他特殊文件
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
+
+	// StaticFileExts 走静态文件缓存策略的扩展名，空则用代码默认值
+	StaticFileExts []string `yaml:"staticFileExts"`
 
 	TNoodlePort        int `yaml:"tNoodlePort"`        // 主机监听tNoodle
 	OutsizeTNoodlePort int `yaml:"outsizeTNoodlePort"` // 暴露的tNoodle port

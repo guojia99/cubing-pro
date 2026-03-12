@@ -151,7 +151,8 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 		ext := path.Ext(ctx.Request.URL.Path)
 		if slices.Contains(getStaticFileExts(g.cfg.Gateway), ext) {
 			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
-			ctx.Header("Cache-Control", "public, max-age=2592000")
+			// 只有非json采用缓存
+			ctx.Header("Cache-Control", "public, max-age=1800")
 			ctx.File(staticFilePath)
 			return
 		}

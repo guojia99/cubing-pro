@@ -12,7 +12,7 @@ require (
 	github.com/fogleman/gg v1.3.0
 	github.com/gin-contrib/gzip v1.0.1
 	github.com/gin-gonic/gin v1.10.0
-	github.com/go-resty/resty/v2 v2.6.0
+	github.com/go-resty/resty/v2 v2.11.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.6.0
@@ -32,7 +32,6 @@ require (
 	github.com/t-tomalak/logrus-easy-formatter v0.0.0-20190827215021-c074f06c5816
 	github.com/tidwall/gjson v1.17.0
 	github.com/unrolled/secure v1.14.0
-	github.com/vmihailenco/msgpack/v5 v5.4.1
 	github.com/xuri/excelize/v2 v2.9.1
 	golang.org/x/image v0.25.0
 	golang.org/x/oauth2 v0.36.0
@@ -60,7 +59,7 @@ require (
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
 	github.com/gookit/color v1.5.0 // indirect
@@ -88,14 +87,13 @@ require (
 	github.com/tiendc/go-deepcopy v1.6.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	github.com/xuri/efp v0.0.1 // indirect
 	github.com/xuri/nfp v0.0.1 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/crypto v0.38.0 // indirect
-	golang.org/x/net v0.40.0 // indirect
-	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 )

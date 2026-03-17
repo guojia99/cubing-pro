@@ -1016,3 +1016,7 @@ func (s *syncer) setStaticAllEventChampionshipsPodium() (err error) {
 	s.db.CreateInBatches(data, 1000)
 	return nil
 }
+
+//func (s *syncer) setStaticDiyEventRanks() (err error) {
+//
+//}

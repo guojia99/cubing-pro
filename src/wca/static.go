@@ -111,7 +111,7 @@ func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg boo
 		wcaIDs = append(wcaIDs, result.WcaID)
 	}
 	var ps []types.Person
-	w.db.Where("wca_id in (?)", wcaIDs).Find(&ps)
+	w.db.Where("wca_id in (?)", wcaIDs).Where("sub_id = 1").Find(&ps)
 	var personMap = make(map[string]types.Person)
 	for _, person := range ps {
 		personMap[person.WcaID] = person

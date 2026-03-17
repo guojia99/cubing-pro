@@ -10,8 +10,11 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strings"
 	"time"
+
+	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/log"
 )
 
 // copyFile 复制文件（用于跨文件系统的情况）
@@ -299,8 +302,19 @@ func isDigitsOnly(s string) bool {
 }
 
 // cleanSQLWithSed 执行: sed -i 's|/\*M![^*]*\*/||g' <sqlFile>
+// 兼容 macOS (-i 后需跟空字符串) 和 Linux
 func cleanSQLWithSed(sqlFile string) error {
-	cmd := exec.Command("sed", "-i", `s|/\*M![^*]*\*/||g`, sqlFile)
+	var args []string
+	if runtime.GOOS == "darwin" {
+		// macOS 需要空字符串
+		args = []string{"-i", "", `s|/\*M![^*]*\*/||g`, sqlFile}
+	} else {
+		// Linux/Windows 等不需要
+		args = []string{"-i", `s|/\*M![^*]*\*/||g`, sqlFile}
+	}
+
+	cmd := exec.Command("sed", args...)
+	log.Infof("running sed: %s", cmd.String())
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("sed command failed: %w, output: %s", err, string(out))

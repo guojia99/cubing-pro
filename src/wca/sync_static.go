@@ -19,6 +19,8 @@ func (s *syncer) syncStatics() error {
 		"setStaticSuccessRateResult":           s.setStaticSuccessRateResult,           // 达成比例
 		"setStaticAllEventAvg":                 s.setStaticAllEventAvg,                 // 达成大满贯统计
 		"setStaticAllEventChampionshipsPodium": s.setStaticAllEventChampionshipsPodium, // 达成某个项目大满贯
+
+		//"setStaticDiyEventRanks": s.setStaticDiyEventRanks, // 各种组合的event前1000
 	}
 
 	var sds []staticSyncDone

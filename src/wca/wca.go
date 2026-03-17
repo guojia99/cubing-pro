@@ -43,6 +43,8 @@ type WCA interface {
 
 	// GetAllEventsAchievement 全项目达成check
 	GetAllEventsAchievement(lackNum int, country string, size int, page int) ([]types.AllEventAvgPersonResults, int64, error)
+
+	//GetPersonBestDiyEventRanks(wcaID string)
 }
 
 type wca struct {
@@ -76,8 +78,10 @@ func NewWCA(
 	}
 	w.updateDb()
 	if w.db == nil {
-		log.Errorf("sync wca db is faild")
+		log.Errorf("sync wca db is failed")
 	}
+
+	log.Infof("sync wca db and start loop: %+v", enableSync)
 	if enableSync {
 		go w.syncLoop()
 	} else {

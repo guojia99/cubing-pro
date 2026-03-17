@@ -10,7 +10,7 @@ import (
 
 func Test_wca_GetPersonResult(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
@@ -27,7 +27,7 @@ func Test_wca_GetPersonResult(t *testing.T) {
 
 func Test_wca_GetPersonCompetition(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
@@ -44,7 +44,7 @@ func Test_wca_GetPersonCompetition(t *testing.T) {
 
 func Test_wca_getResultAttemptMap(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)

@@ -108,3 +108,10 @@ type AllEventChampionshipsPodium struct {
 	// WR记录
 	HasWR bool `json:"hasWR"`
 }
+
+type DiyEventRanks struct {
+	EventIndex string `json:"eventIndex"` // event 列表唯一idx
+	IsAvg      bool   `json:"isAvg"`      // 是否是平均
+	WcaID      string `json:"wcaID"`
+	Value      int    `json:"value"` //排名总和
+}

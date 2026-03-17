@@ -437,7 +437,7 @@ func (w *wca) GetAllPersons() []types.Person {
 	}
 
 	var out []types.Person
-	if err := w.db.Find(&out).Error; err != nil {
+	if err := w.db.Where("sub_id = 1").Find(&out).Error; err != nil {
 		return nil
 	}
 

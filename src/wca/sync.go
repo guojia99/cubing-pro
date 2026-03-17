@@ -12,7 +12,6 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 const syncUrl = "https://www.worldcubeassociation.org/export/results/v2/sql"
@@ -143,7 +142,7 @@ func (s *syncer) getCurrentDatabase() (*gorm.DB, string, error) {
 		return nil, "", fmt.Errorf("no current database set")
 	}
 	dsn := s.DbURL + s.currentDB + mysqlOtherSet
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	s.db = db
 	return db, s.currentDB, err
 }

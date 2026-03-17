@@ -7,7 +7,7 @@ import (
 
 func Test_wca_GetEventRankWithTimer(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
@@ -24,7 +24,7 @@ func Test_wca_GetEventRankWithTimer(t *testing.T) {
 
 func Test_wca_GetEventRankWithFullNow(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
@@ -42,7 +42,7 @@ func Test_wca_GetEventRankWithFullNow(t *testing.T) {
 
 func Test_wca_GetEventRankWithOnlyYear(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)
@@ -60,7 +60,7 @@ func Test_wca_GetEventRankWithOnlyYear(t *testing.T) {
 
 func Test_wca_GetPersonBestRanks(t *testing.T) {
 	w := NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		false)

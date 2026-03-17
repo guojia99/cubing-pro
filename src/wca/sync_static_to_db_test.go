@@ -10,7 +10,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-const curTestDb = "wca_20260226"
+const curTestDb = "wca_20260317"
 
 func Test_getEndCompsTimer(t *testing.T) {
 	now := time.Date(2023, 1, 1, 10, 0, 0, 0, time.UTC)
@@ -33,7 +33,7 @@ func Test_wca_getStaticPersonRankWithTimer(t *testing.T) {
 	mon.Start(time.Second) // 每秒采样一次
 	defer mon.Stop()       // 确保测试结束时停止
 	_ = NewWCA(
-		"root@tcp(127.0.0.1:33306)/",
+		"root@tcp(127.0.0.1:33036)/",
 		"/home/guojia/cubingPro/wca_db",
 		"/home/guojia/cubingPro/wca_db/sync_path",
 		true)
@@ -47,7 +47,7 @@ func Test_syncer_setStaticPersonRankWithTimer(t *testing.T) {
 	defer mon.Stop()           // 确保测试结束时停止
 
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 	_, _, err := s.getCurrentDatabase()
@@ -66,7 +66,7 @@ func Test_syncer_getResultMapWithEvent(t *testing.T) {
 	defer mon.Stop()           // 确保测试结束时停止
 
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 
@@ -84,7 +84,7 @@ func Test_syncer_getResultMapWithEvent(t *testing.T) {
 
 func Test_getCurPersonsRankTimerSnapshots(t *testing.T) {
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 
@@ -118,7 +118,7 @@ func Test_getCurPersonsRankTimerSnapshots(t *testing.T) {
 
 func Test_syncer_getAttemptMap(t *testing.T) {
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 	_, _, err := s.getCurrentDatabase()
@@ -130,7 +130,7 @@ func Test_syncer_getAttemptMap(t *testing.T) {
 
 func Test_syncer_setStaticAllEventAvg(t *testing.T) {
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 	_, _, err := s.getCurrentDatabase()
@@ -144,7 +144,7 @@ func Test_syncer_setStaticAllEventAvg(t *testing.T) {
 
 func Test_syncer_extendAllEventAvgPersonResults(t *testing.T) {
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 	_, _, err := s.getCurrentDatabase()
@@ -161,7 +161,7 @@ func Test_syncer_extendAllEventAvgPersonResults(t *testing.T) {
 
 func Test_syncer_setStaticAllEventChampionshipsPodium(t *testing.T) {
 	s := &syncer{
-		DbURL:     "root@tcp(127.0.0.1:33306)/",
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
 		currentDB: curTestDb,
 	}
 	_, _, err := s.getCurrentDatabase()

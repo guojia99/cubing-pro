@@ -9,8 +9,8 @@ import (
 func Test_wca_GetPersonInfo(t *testing.T) {
 	w := NewWCA(
 		"root@tcp(127.0.0.1:33036)/",
-		"/home/guojia/cubingPro/wca_db",
-		"/home/guojia/cubingPro/wca_db/sync_path",
+		"/Users/guojia/data/cubingPro/wca_db",
+		"/Users/guojia/data/cubingPro/wca_db/sync_path",
 		false)
 
 	out, err := w.GetPersonInfo("2018GUOZ01")

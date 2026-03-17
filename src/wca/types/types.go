@@ -58,3 +58,19 @@ type (
 		WithWR PersonBestRank `json:"withWR"`
 	}
 )
+
+type RankWithEventsStatic struct {
+	WcaID string `json:"wcaId"`
+	Name  string `json:"name"`
+	Rank  int
+	Count int // 排名总和
+}
+
+type RankWithEventsGrouptatic struct {
+	WcaID  string   `json:"wcaId"`
+	Name   string   `json:"name"`
+	Events []string `json:"events"`
+
+	Rank  int
+	Count int
+}

@@ -29,13 +29,13 @@ func GetPersonRankTimer(svc *svc.Svc) gin.HandlerFunc {
 type BaseStaticsRequest struct {
 	EventID string `uri:"eventID"`
 
-	Year    int    `json:"year"`
-	Country string `json:"country"`
-	IsAvg   bool   `json:"is_avg"`
-	Page    int    `json:"page"`
-	Size    int    `json:"size"`
-
-	MinAttempted int `json:"min_attempted"`
+	Year         int      `json:"year"`
+	Country      string   `json:"country"`
+	IsAvg        bool     `json:"is_avg"`
+	Page         int      `json:"page"`
+	Size         int      `json:"size"`
+	Events       []string `json:"events"`
+	MinAttempted int      `json:"min_attempted"`
 
 	LackNum int `json:"lackNum"`
 }
@@ -79,7 +79,8 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 			out, count, err = svc.Wca.GetEventSuccessRateResult(req.EventID, req.Country, req.MinAttempted, req.Page, req.Size)
 		case "GetAllEventsAchievement":
 			out, count, err = svc.Wca.GetAllEventsAchievement(req.LackNum, req.Country, req.Size, req.Page)
-
+		case "GetRankWithEvents":
+			out, count, err = svc.Wca.GetRankWithEvents(req.Events, req.Country, req.IsAvg, req.Page, req.Size)
 		}
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})

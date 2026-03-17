@@ -6,8 +6,8 @@ import (
 
 func Test_wca_Sync(t *testing.T) {
 	s := syncer{
-		DbPath:   "/home/guojia/cubingPro/wca_db",
-		SyncPath: "/home/guojia/cubingPro/wca_db/sync_path",
+		DbPath:   "/Users/guojia/data/cubingPro/wca_db",
+		SyncPath: "/Users/guojia/data/cubingPro/wca_db/sync_path",
 		DbURL:    "root@tcp(127.0.0.1:33036)/",
 	}
 	if err := s.init(); err != nil {
@@ -17,8 +17,8 @@ func Test_wca_Sync(t *testing.T) {
 
 func Test_wca_Sync_with_db(t *testing.T) {
 	s := syncer{
-		DbPath:   "/home/guojia/cubingPro/wca_db",
-		SyncPath: "/home/guojia/cubingPro/wca_db/sync_path",
+		DbPath:   "/Users/guojia/data/cubingPro/wca_db",
+		SyncPath: "/Users/guojia/data/cubingPro/wca_db/sync_path",
 		DbURL:    "root@tcp(127.0.0.1:33036)/",
 	}
 
@@ -30,8 +30,8 @@ func Test_wca_Sync_with_db(t *testing.T) {
 
 func Test_syncer_syncAddIndex(t *testing.T) {
 	s := syncer{
-		DbPath:   "/home/guojia/cubingPro/wca_db",
-		SyncPath: "/home/guojia/cubingPro/wca_db/sync_path",
+		DbPath:   "/Users/guojia/data/cubingPro/wca_db",
+		SyncPath: "/Users/guojia/data/cubingPro/wca_db/sync_path",
 		DbURL:    "root@tcp(127.0.0.1:33036)/",
 	}
 
@@ -44,8 +44,8 @@ func Test_syncer_syncAddIndex(t *testing.T) {
 func Test_wca_Sync1(t *testing.T) {
 	_ = NewWCA(
 		"root@tcp(127.0.0.1:33036)/",
-		"/home/guojia/cubingPro/wca_db",
-		"/home/guojia/cubingPro/wca_db/sync_path",
+		"/Users/guojia/data/cubingPro/wca_db",
+		"/Users/guojia/data/cubingPro/wca_db/sync_path",
 		true)
 
 }

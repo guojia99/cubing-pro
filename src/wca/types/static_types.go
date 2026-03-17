@@ -110,8 +110,10 @@ type AllEventChampionshipsPodium struct {
 }
 
 type DiyEventRanks struct {
-	EventIndex string `json:"eventIndex"` // event 列表唯一idx
-	IsAvg      bool   `json:"isAvg"`      // 是否是平均
-	WcaID      string `json:"wcaID"`
-	Value      int    `json:"value"` //排名总和
+	EventIndex string   `json:"eventIndex"` // event 列表唯一idx, 通过函数推算
+	Events     []string `gorm:"-" json:"events"`
+	IsAvg      bool     `json:"isAvg"` // 是否是平均
+	WcaID      string   `json:"wcaID"`
+	Value      int      `json:"value"` //排名总和
+	Rank       int      `gorm:"type:int" json:"rank"`
 }

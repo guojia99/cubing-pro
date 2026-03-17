@@ -34,8 +34,8 @@ func Test_wca_getStaticPersonRankWithTimer(t *testing.T) {
 	defer mon.Stop()       // 确保测试结束时停止
 	_ = NewWCA(
 		"root@tcp(127.0.0.1:33036)/",
-		"/home/guojia/cubingPro/wca_db",
-		"/home/guojia/cubingPro/wca_db/sync_path",
+		"/Users/guojia/data/cubingPro/wca_db",
+		"/Users/guojia/data/cubingPro/wca_db/sync_path",
 		true)
 
 }

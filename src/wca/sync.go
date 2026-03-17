@@ -200,6 +200,7 @@ CREATE INDEX idx_person_event ON ranks_average (person_id);
 
 CREATE INDEX idx_event ON ranks_single(event_id);
 CREATE INDEX idx_event ON ranks_average(event_id);
+
 CREATE INDEX idx_event_world_rank ON ranks_single (event_id, world_rank);
 CREATE INDEX idx_event_world_rank ON ranks_average (event_id, world_rank);
 CREATE INDEX idx_event_continent_rank ON ranks_single (event_id, continent_rank);

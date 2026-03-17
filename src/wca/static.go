@@ -40,7 +40,7 @@ func (w *wca) getCountryID(country string) string {
 		return ""
 	}
 	var dbCountry types.Country
-	if err := w.db.Where("iso2 = ?", country).First(&dbCountry).Error; err != nil {
+	if err := w.db.Or("iso2 = ?", country).Or("name = ?", country).Or("id = ?", country).First(&dbCountry).Error; err != nil {
 		return country
 	}
 	country = dbCountry.ID
@@ -386,7 +386,7 @@ func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
 	return out, nil
 }
 
-func (w *wca) GetAllEventsAchievement(lackNum int, country string, size int, page int) ([]types.AllEventAvgPersonResults, int64, error) {
+func (w *wca) GetAllEventsAchievement(lackNum int, country string, page int, size int) ([]types.AllEventAvgPersonResults, int64, error) {
 	var out []types.AllEventAvgPersonResults
 
 	query := w.db.Model(&types.AllEventAvgPersonResults{}).Where("lack_num = ?", lackNum)

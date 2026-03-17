@@ -42,9 +42,13 @@ type WCA interface {
 	GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error)
 
 	// GetAllEventsAchievement 全项目达成check
-	GetAllEventsAchievement(lackNum int, country string, size int, page int) ([]types.AllEventAvgPersonResults, int64, error)
+	GetAllEventsAchievement(lackNum int, country string, page int, size int) ([]types.AllEventAvgPersonResults, int64, error)
 
-	//GetPersonBestDiyEventRanks(wcaID string)
+	// GetRankWithEvents 根据项目列表进行排序
+	GetRankWithEvents(events []string, country string, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error)
+
+	// GetCountryBestWithEventGroupRank 获取选手最佳项目排列
+	GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld bool) (out []types.RankWithEventsGrouptatic, err error)
 }
 
 type wca struct {

@@ -109,11 +109,31 @@ type AllEventChampionshipsPodium struct {
 	HasWR bool `json:"hasWR"`
 }
 
+// DiyEventRanks 预计算的 world 排名，每个组合只存前 500
 type DiyEventRanks struct {
-	EventIndex string   `json:"eventIndex"` // event 列表唯一idx, 通过函数推算
-	Events     []string `gorm:"-" json:"events"`
-	IsAvg      bool     `json:"isAvg"` // 是否是平均
-	WcaID      string   `json:"wcaID"`
-	Value      int      `json:"value"` //排名总和
-	Rank       int      `gorm:"type:int" json:"rank"`
+	EventIndexID uint64 `gorm:"column:event_index_id" json:"eventIndexId"`
+	WcaID        string `gorm:"column:wca_id" json:"wcaID"`
+	Value        int    `gorm:"column:value" json:"value"` // 排名总和
+	Rank         int    `gorm:"column:rank" json:"rank"`   // 排名
+	Total        int    `gorm:"column:total" json:"total"` // 总人数
 }
+
+type DiyEventSingleRanks struct {
+	DiyEventRanks
+}
+
+func (DiyEventSingleRanks) TableName() string { return "diy_event_single_ranks" }
+
+type DiyEventAvgRanks struct {
+	DiyEventRanks
+}
+
+func (DiyEventAvgRanks) TableName() string { return "diy_event_avg_ranks" }
+
+// DiyEventRanksEventIndex 组合与 Events 的映射，id 自增
+type DiyEventRanksEventIndex struct {
+	ID     uint64
+	Events string
+}
+
+func (DiyEventRanksEventIndex) TableName() string { return "diy_event_ranks_event_index" }

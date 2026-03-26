@@ -20,7 +20,7 @@ func (s *syncer) syncStatics() error {
 		"setStaticAllEventAvg":                 s.setStaticAllEventAvg,                 // 达成大满贯统计
 		"setStaticAllEventChampionshipsPodium": s.setStaticAllEventChampionshipsPodium, // 达成某个项目大满贯
 
-		//"setStaticDiyEventRanks": s.setStaticDiyEventRanks, // 各种组合的event前1000
+		//"setStaticDiyEventRanks": s.setStaticDiyEventRanks, // 各种组合的 event world 排名前 500
 	}
 
 	var sds []staticSyncDone

@@ -1,16 +1,18 @@
 package wca
 
 import (
+	"container/heap"
 	"fmt"
+	"log"
 	"runtime"
 	"slices"
 	"sort"
+	"strings"
 	"time"
-
-	"log"
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
+	utils_tool "github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
 func (s *syncer) selectComps() (comps []types.Competition, err error) {
@@ -1017,6 +1019,307 @@ func (s *syncer) setStaticAllEventChampionshipsPodium() (err error) {
 	return nil
 }
 
-//func (s *syncer) setStaticDiyEventRanks() (err error) {
-//
+type personRanks struct {
+	personID        string
+	single          map[string]int
+	singleEventCode uint64
+	avg             map[string]int
+	avgEventCode    uint64
+}
+
+func (p *personRanks) getSingleEventCount(events []string, max map[string]int) int {
+	out := 0
+	for _, event := range events {
+		if _, ok := p.single[event]; ok {
+			out += p.single[event]
+		} else {
+			out += max[event]
+		}
+	}
+	return out
+}
+
+func (p *personRanks) getAvgEventCount(events []string, max map[string]int) int {
+	out := 0
+	for _, event := range events {
+		if _, ok := p.avg[event]; ok {
+			out += p.avg[event]
+		} else {
+			out += max[event]
+		}
+	}
+	return out
+}
+
+type eventRanks struct {
+	single []*personRanks
+	avg    []*personRanks
+}
+
+const cutOneEventValue = 3000
+
+func (s *syncer) setStaticDiyEventRanks() (err error) {
+	//_ = s.db.AutoMigrate(&types.DiyEventRanks{})
+	//_ = s.db.AutoMigrate(&types.DiyEventRanksEventIndex{})
+	//s.db.Delete(&types.DiyEventRanks{}, "1 = 1")
+	//s.db.Delete(&types.DiyEventRanksEventIndex{}, "1 = 1")
+	//defer func() {
+	//	if err != nil {
+	//		s.db.Delete(&types.DiyEventRanks{}, "1 = 1")
+	//		s.db.Delete(&types.DiyEventRanksEventIndex{}, "1 = 1")
+	//	}
+	//}()
+
+	// 缓存
+	var allSingleRank []types.RanksSingle
+	var allAvgRank []types.RanksAverage
+	s.db.Find(&allSingleRank)
+	s.db.Find(&allAvgRank)
+	var allPersonRankMap = make(map[string]*personRanks)
+	for _, rank := range allSingleRank {
+		if _, ok := allPersonRankMap[rank.PersonID]; !ok {
+			allPersonRankMap[rank.PersonID] = &personRanks{
+				personID:        rank.PersonID,
+				single:          make(map[string]int),
+				singleEventCode: 0,
+				avg:             make(map[string]int),
+				avgEventCode:    0,
+			}
+		}
+		allPersonRankMap[rank.PersonID].single[rank.EventID] = rank.WorldRank
+		if code, ok := wcaEventMap[rank.EventID]; ok {
+			allPersonRankMap[rank.PersonID].singleEventCode |= 1 << code
+		}
+	}
+	for _, rank := range allAvgRank {
+		if _, ok := allPersonRankMap[rank.PersonID]; !ok {
+			allPersonRankMap[rank.PersonID] = &personRanks{
+				personID: rank.PersonID,
+				single:   make(map[string]int),
+				avg:      make(map[string]int),
+			}
+		}
+		allPersonRankMap[rank.PersonID].avg[rank.EventID] = rank.WorldRank
+		if code, ok := wcaEventMap[rank.EventID]; ok {
+			allPersonRankMap[rank.PersonID].avgEventCode |= uint64(1) << code
+		}
+	}
+
+	var maxSingle = make(map[string]int)
+	var maxAvg = make(map[string]int)
+
+	// 项目缓存
+	var cache = make(map[string]*eventRanks)
+	for _, event := range wcaEventsList {
+		cache[event] = &eventRanks{
+			single: make([]*personRanks, 0),
+			avg:    make([]*personRanks, 0),
+		}
+		for _, person := range allPersonRankMap {
+			if _, ok := person.single[event]; ok {
+				cache[event].single = append(cache[event].single, person)
+			}
+			if _, ok := person.avg[event]; ok {
+				cache[event].avg = append(cache[event].avg, person)
+			}
+		}
+		maxSingleV := len(cache[event].single) + 1
+		maxAvgV := len(cache[event].avg) + 1
+
+		maxSingle[event] = maxSingleV
+		maxAvg[event] = maxAvgV
+	}
+
+	// 计算
+	var idxList []types.DiyEventRanksEventIndex
+
+	//var saveSingleDiyRanks []types.DiyEventSingleRanks
+	//var saveAvgDiyRanks []types.DiyEventAvgRanks
+	total := 0
+	for events := range combinationsStream(wcaEventsList, 2, 12) {
+		ts := time.Now()
+		// idx
+		eventCodeID := encodeEvents(events)
+		idx := types.DiyEventRanksEventIndex{
+			ID:     eventCodeID,
+			Events: strings.Join(events, ","),
+		}
+		idxList = append(idxList, idx)
+		// 累加然后排序
+
+		// 单次
+		var singleCache = make([]types.DiyEventSingleRanks, 0, 1024)
+		cutValue := cutOneEventValue * len(events)
+		for _, person := range allPersonRankMap {
+			if !checkHasEvent(eventCodeID, person.singleEventCode) {
+				continue
+			}
+
+			// 分数不足预算分
+			value := person.getSingleEventCount(events, maxSingle)
+			if value > cutValue {
+				continue
+			}
+
+			singleCache = append(singleCache, types.DiyEventSingleRanks{
+				DiyEventRanks: types.DiyEventRanks{
+					EventIndexID: eventCodeID,
+					WcaID:        person.personID,
+					Value:        value,
+				},
+			})
+		}
+		slices.SortFunc(singleCache, func(a, b types.DiyEventSingleRanks) int {
+			return a.Value - b.Value
+		})
+
+		total += 1
+
+		n500 := singleCache[len(singleCache)-1].Value
+		if len(singleCache) >= 500 {
+			n500 = singleCache[499].Value
+		}
+
+		fmt.Printf("[%d] [%+v] [%d] \t [%d/%d] | %s\n",
+			total, time.Since(ts), len(singleCache), n500, cutValue, strings.Join(events, ","))
+
+		singleCache = nil // GC
+	}
+
+	return err
+}
+
+//// 跳过平均
+//if slices.Contains(events, "333mbf") {
+//	continue
 //}
+//var avgCache []types.DiyEventAvgRanks
+
+func (s *syncer) setStaticDiyEventSingleRanks() (err error) {
+	var allSingleRank []types.RanksSingle
+	s.db.Find(&allSingleRank)
+
+	allPersonRankMap := make(map[string]*personRanks)
+
+	for _, rank := range allSingleRank {
+		if !slices.Contains(wcaEventsList, rank.EventID) {
+			continue
+		}
+		if _, ok := allPersonRankMap[rank.PersonID]; !ok {
+			allPersonRankMap[rank.PersonID] = &personRanks{
+				personID: rank.PersonID,
+				single:   make(map[string]int),
+			}
+		}
+		allPersonRankMap[rank.PersonID].single[rank.EventID] = rank.WorldRank
+	}
+
+	// person 索引
+	personList := make([]*personRanks, 0, len(allPersonRankMap))
+	personIndex := make(map[string]int)
+	for _, p := range allPersonRankMap {
+		idx := len(personList)
+		personList = append(personList, p)
+		personIndex[p.personID] = idx
+	}
+
+	//  bitset 倒排索引
+	eventBitsets := make(map[string]*utils_tool.Bitset)
+
+	for _, e := range wcaEventsList {
+		eventBitsets[e] = utils_tool.NewBitset(len(personList))
+	}
+
+	for _, p := range personList {
+		idx := personIndex[p.personID]
+		for e := range p.single {
+			eventBitsets[e].Set(idx)
+		}
+	}
+
+	//  max 值
+	maxSingle := make(map[string]int)
+	for _, e := range wcaEventsList {
+		cnt := 0
+		eventBitsets[e].ForEach(func(i int) {
+			cnt++
+		})
+		maxSingle[e] = cnt + 1
+	}
+
+	// 主计算
+	idx := 0
+	for events := range combinationsStream(wcaEventsList, 2, 17) {
+		ts := time.Now()
+		// bitset 交集
+		eventCodeID := encodeEvents(events)
+		bs := eventBitsets[events[0]]
+		for i := 1; i < len(events); i++ {
+			bs = bs.Or(eventBitsets[events[i]])
+		}
+
+		cutValue := cutOneEventValue * len(events)
+		h := &utils_tool.MaxHeap{}
+		heap.Init(h)
+
+		count := 0
+		bs.ForEach(func(i int) {
+			p := personList[i]
+
+			value := p.getSingleEventCount(events, maxSingle)
+			count++
+			if value > cutValue {
+				return
+			}
+
+			r := utils_tool.RankItem{Value: value}
+			r.SetData(p)
+
+			if h.Len() < 500 {
+				heap.Push(h, r)
+			} else if (*h)[0].Value > value {
+				(*h)[0] = r
+				heap.Fix(h, 0)
+			}
+		})
+
+		topList := h.Copy()
+		slices.SortFunc(topList, func(a, b utils_tool.RankItem) int {
+			return a.Value - b.Value
+		})
+
+		var data []types.DiyEventSingleRanks
+		rank := 1
+		for i, item := range topList {
+			if i > 0 && item.Value != topList[i-1].Value {
+				rank = i + 1
+			}
+			data = append(data, types.DiyEventSingleRanks{
+				DiyEventRanks: types.DiyEventRanks{
+					EventIndexID: eventCodeID,
+					WcaID:        item.Data.(*personRanks).personID,
+					Value:        item.Value,
+					Rank:         rank,
+					Total:        count,
+				},
+			})
+		}
+		if h.Len() < 500 {
+			fmt.Printf("[WARN] max heap size: %d, cut: %d, total: %d, events: %s\n", h.Len(), cutValue, count, strings.Join(events, ","))
+		}
+		n500 := 0
+		if h.Len() > 0 {
+			n500 = (*h)[0].Value
+		}
+		idx += 1
+		fmt.Printf("[%d] [%+v] [%d] \t [%d/%d] | %s\n",
+			idx,
+			time.Since(ts),
+			count,
+			n500,
+			cutValue,
+			strings.Join(events, ","),
+		)
+	}
+	return nil
+}

@@ -171,3 +171,17 @@ func Test_syncer_setStaticAllEventChampionshipsPodium(t *testing.T) {
 
 	_ = s.setStaticAllEventChampionshipsPodium()
 }
+
+func Test_syncer_setStaticDiyEventRanks(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	//_ = s.setStaticDiyEventRanks()
+	_ = s.setStaticDiyEventSingleRanks()
+}

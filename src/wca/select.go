@@ -2,12 +2,13 @@ package wca
 
 import (
 	"fmt"
+	"slices"
 	"sort"
 	"strings"
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
-	"github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
 func (w *wca) getRoundTypeMap() map[string]types.RoundType {
@@ -106,11 +107,14 @@ func (w *wca) GetPersonInfo(wcaId string) (types.PersonInfo, error) {
 			Total:       0,
 		},
 		PersonalRecords: make(map[string]types.PersonalRecord),
+		Geos:            make([]types.PersonInfoGeo, 0),
 	}
 
 	var compsMap = make(map[string]string)
+	var compIds []string
 	for _, result := range results {
 		compsMap[result.CompetitionID] = result.CompetitionID
+		compIds = append(compIds, result.CompetitionID)
 		// 记录
 		if result.RegionalSingleRecord != "" {
 			switch result.RegionalSingleRecord {
@@ -202,8 +206,56 @@ func (w *wca) GetPersonInfo(wcaId string) (types.PersonInfo, error) {
 	}
 
 	cts := w.GetAllCountry()
-
 	out.CountryIso2 = cts[person.CountryID].ISO2
+
+	// 比赛地址
+	var comps []types.Competition
+	w.db.Where("id in ?", compIds).Find(&comps)
+
+	var geoMap = make(map[string]*types.PersonInfoGeo)
+	for _, comp := range comps {
+		geo := &types.PersonInfoGeo{
+			CountryIso2: cts[comp.CountryID].ISO2,
+			CountryID:   comp.CountryID,
+			City:        comp.CityName,
+			Count:       1,
+		}
+		if strings.Contains(comp.CityName, "Multiple") {
+			continue
+		}
+
+		if slices.Contains([]string{"China"}, comp.CountryID) {
+			geo.Province = comp.CityName
+			if strings.Contains(comp.CityName, ",") {
+				cty := strings.ReplaceAll(comp.CityName, "Province", "")
+				cty = strings.ReplaceAll(cty, " ", "")
+				sl := strings.Split(cty, ",")
+				if len(sl) == 2 {
+					geo.City = sl[0]
+					geo.Province = sl[1]
+				}
+			}
+		}
+
+		if slices.Contains([]string{"Taiwan", "Hong Kong", "Macau"}, comp.CountryID) {
+			geo.CountryID = "China"
+			geo.CountryIso2 = "CN"
+			if comp.CountryID == "Taiwan" {
+				geo.Province = "Taiwan"
+			}
+		}
+
+		key := fmt.Sprintf("%s_%s_%s", geo.CountryID, geo.Province, geo.City)
+		if _, ok := geoMap[key]; ok {
+			geoMap[key].Count += 1
+			continue
+		}
+		geoMap[key] = geo
+	}
+
+	for _, geo := range geoMap {
+		out.Geos = append(out.Geos, *geo)
+	}
 
 	return out, nil
 }
@@ -759,35 +811,23 @@ func (w *wca) getSingleAndAverageRanks(country string) ([]types.RanksSingle, []t
 	return singles, avgs
 }
 
-//// getCountryBestWithEventGroupRankOnlyCountry 国家现场算
-//func (w *wca) getCountryBestWithEventGroupRankOnlyCountry()
+// // getCountryBestWithEventGroupRankOnlyCountry 国家现场算
+func (w *wca) getCountryBestWithEventGroupRankOnlyCountry(wcaId string, avg bool) (out []types.RankWithEventsGrouptatic, err error) {
 
-// GetCountryBestWithEventGroupRank 获取某个选手最佳的排列组合
-func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld bool) (out []types.RankWithEventsGrouptatic, err error) {
 	var person types.Person
 	if err = w.db.Where("wca_id = ?", wcaId).Where("sub_id = 1").First(&person).Error; err != nil {
 		return nil, err
 	}
-	country := ""
-	if !useWorld {
-		country = person.CountryID
-	}
-	singles, avgs := w.getSingleAndAverageRanks(country)
 
-	// 构建 personID -> eventID -> rank
-	getRank := func(world, country int) int {
-		if useWorld {
-			return world
-		}
-		return country
-	}
+	singles, avgs := w.getSingleAndAverageRanks(person.CountryID)
+
 	globalData := make(map[string]map[string]int)
 	if avg {
 		for _, r := range avgs {
 			if r.EventID == "333mbf" {
 				continue
 			}
-			rankVal := getRank(r.WorldRank, r.CountryRank)
+			rankVal := r.CountryRank
 			if rankVal <= 0 {
 				continue
 			}
@@ -798,7 +838,7 @@ func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld 
 		}
 	} else {
 		for _, r := range singles {
-			rankVal := getRank(r.WorldRank, r.CountryRank)
+			rankVal := r.CountryRank
 			if rankVal <= 0 {
 				continue
 			}
@@ -883,7 +923,7 @@ func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld 
 		targetRanks[j] = targetEventsMap[evt]
 	}
 
-	// 组合迭代器：只枚举 1~6 个项目的组合，剪枝掉 2^n 中大部分无效 mask（约 6 倍减少）
+	// 组合迭代器：只枚举 2~8 个项目的组合，剪枝掉 2^n 中大部分无效 mask（约 6 倍减少）
 	results := make([]struct {
 		events       []string
 		sumRank      int
@@ -892,14 +932,10 @@ func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld 
 	}, 0, 20000)
 
 	var maxEvents = 8
-	if useWorld {
-		maxEvents = 5
-	}
-
 	indices := make([]int, maxEvents)
 
 	// 核心计算
-	for k := 1; k <= maxEvents && k <= n; k++ {
+	for k := 2; k <= maxEvents && k <= n; k++ {
 		for i := 0; i < k; i++ {
 			indices[i] = i
 		}
@@ -992,4 +1028,12 @@ func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld 
 		})
 	}
 	return out, nil
+}
+
+// GetCountryBestWithEventGroupRank 获取某个选手最佳的排列组合
+func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld bool) (out []types.RankWithEventsGrouptatic, err error) {
+	if !useWorld {
+		return w.getCountryBestWithEventGroupRankOnlyCountry(wcaId, avg)
+	}
+	return nil, nil
 }

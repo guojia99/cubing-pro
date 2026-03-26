@@ -43,6 +43,16 @@ type PersonInfo struct {
 	CompetitionCount int                       `json:"competition_count"`
 	MedalCount       MedalCount                `json:"medalCount"`
 	RecordCount      RecordCount               `json:"recordCount"`
+
+	Geos []PersonInfoGeo `json:"geos"`
+}
+
+type PersonInfoGeo struct {
+	CountryIso2 string `json:"iso2"`
+	CountryID   string `json:"countryId"`
+	Province    string `json:"province,omitempty"` // 省份 仅中国
+	City        string `json:"city"`               // 城市
+	Count       int    `json:"count"`
 }
 
 type (

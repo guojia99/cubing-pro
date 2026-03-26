@@ -21,3 +21,5 @@ var wcaEventsList = []string{
 	"555bf",
 	"333mbf",
 }
+
+var wcaEventMap = buildIndexMap(wcaEventsList)

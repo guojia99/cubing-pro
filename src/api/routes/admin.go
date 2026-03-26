@@ -8,6 +8,7 @@ import (
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
+	"github.com/guojia99/cubing-pro/src/api/app/other_link"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	systemResults "github.com/guojia99/cubing-pro/src/api/app/systemResult"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
@@ -71,6 +72,9 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 		systemResult.PUT("/acknowledgments", acknowledgments.SetAcknowledgments(svc)) // 赞助列表设置
 		systemResult.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
+
+		systemResult.PUT("/otherLinks", other_link.SetOtherLinks(svc)) // 外部链接设置
+		systemResult.GET("/otherLinks", other_link.GetOtherLinks(svc)) // 外部链接
 	}
 
 	// 帖子管理

@@ -59,20 +59,26 @@ func (c *CompsPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
 // todo 这里有bug
 // todo 这里有bug
 // todo 这里有bug
-func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competition.Competition, string, error) {
+func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competition.Competition, string, string, error) {
 	msg := types.RemoveID(message.Message, c.ID())
+
+	hasComp := strings.Contains(message.Message, "-") // 存在-
 	msg = utils.ReplaceAll(msg, " ", "-")
 
 	inMsgs := utils.Split(msg, " ")
-	// 比赛打乱 145 333 1
+	// 比赛打乱-145 333 1
+	// 比赛打乱 333
+	// 比赛打乱 333 1
 	// 比赛赛果 333 => 当场比赛的成绩
-	// 如果大于2,则把第一个拿出来查询比赛
+	// 如果大于2,则把第一个拿出来查询比赛{
 
+	outMessage := msg
 	firstMsg := ""
-	if len(inMsgs) >= checkNum {
+	if len(inMsgs) >= checkNum && hasComp {
 		firstMsg = inMsgs[0]
+
+		outMessage = strings.Join(inMsgs[1:], " ")
 	}
-	fmt.Println(inMsgs, message.GroupID)
 
 	var id = 0
 
@@ -80,7 +86,7 @@ func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competit
 	var comp competition.Competition
 	var err error
 
-	query := c.Svc.DB.Model(&comp).Where("status = ?", competition.Running).Where("group_id = ?", 1)
+	query := c.Svc.DB.Model(&comp).Where("status = ?", competition.Running)
 	if firstMsg != "" {
 		if number := utils.GetNumbers(firstMsg); len(number) > 0 {
 			id = int(number[0])
@@ -89,6 +95,11 @@ func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competit
 			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", firstMsg))
 		}
 	} else {
+		var group competition.CompetitionGroup
+		if c.Svc.DB.Where("qq_group_uid = ?", message.GroupID).First(&group).Error != nil {
+			return comp, "", outMessage, fmt.Errorf("找不到比赛群组")
+		}
+		query = query.Where("group_id = ?", group.ID)
 		query = query.Order("created_at DESC")
 	}
 
@@ -98,12 +109,12 @@ func (c *CompsPlugin) _getComps(message types.InMessage, checkNum int) (competit
 	//	err = c.Svc.DB.Where("status = ?", competition.Running).Where("id = ?", id).First(&comp).Error
 	//}
 	if err = query.First(&comp).Error; err != nil {
-		return comp, "", fmt.Errorf("找不到比赛: `%s`", msg)
+		return comp, "", outMessage, fmt.Errorf("找不到比赛: `%s`", msg)
 	}
-	return comp, "", nil
+	return comp, "", outMessage, nil
 }
 
-func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
+func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage, scramble bool) (
 	comp competition.Competition,
 	compEv competition.CompetitionEvent,
 	ev event.Event,
@@ -112,17 +123,24 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 	err error,
 ) {
 	var firstMsg string
+	var outMessage string
 	// todo 这里有bug
-	comp, firstMsg, err = c._getComps(message, 1)
+	checkNumber := 1
+	if scramble {
+		checkNumber = 0
+	}
+
+	comp, firstMsg, outMessage, err = c._getComps(message, checkNumber)
 	if err != nil {
 		return
 	}
 
 	msg := types.RemoveID(message.Message, c.ID())
 	msg = utils.ReplaceAll(msg, "", "-", firstMsg)
-	group := utils.Split(msg, " ")
+	group := utils.Split(outMessage, " ")
+	fmt.Println(outMessage, group)
 
-	if len(group) < 2 {
+	if len(group) <= 0 {
 		err = fmt.Errorf("请输入一个项目")
 		return
 	}
@@ -130,7 +148,7 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 	// 比赛成绩/赛果/比赛赛果-{名称/序号} {项目} {轮次} {排名}
 
 	// 项目处理
-	ev, _, _, err = GetMessageEvent(GetEvents(c.Svc, ""), group[1])
+	ev, _, _, err = GetMessageEvent(GetEvents(c.Svc, ""), group[0])
 	if err != nil {
 		return
 	}
@@ -147,12 +165,12 @@ func (c *CompsPlugin) _getCompWithEventsAndRound(message types.InMessage) (
 
 	// 其他参数处理
 	round = "决赛"
-	if len(group) >= 3 {
-		round = group[2]
+	if len(group) >= 2 {
+		round = group[1]
 	}
 	num = 10
-	if len(group) >= 4 {
-		num, _ = strconv.Atoi(group[3])
+	if len(group) >= 3 {
+		num, _ = strconv.Atoi(group[2])
 		if num < 3 {
 			num = 3
 		}
@@ -171,7 +189,7 @@ type compResultTable struct {
 }
 
 func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, error) {
-	comp, compEv, ev, round, num, err := c._getCompWithEventsAndRound(message)
+	comp, compEv, ev, round, num, err := c._getCompWithEventsAndRound(message, false)
 	if err != nil {
 		return nil, err
 	}
@@ -218,7 +236,7 @@ func (c *CompsPlugin) compResult(message types.InMessage) (*types.OutMessage, er
 
 // todo 这里有bug
 func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
-	comp, _, err := c._getComps(message, 3)
+	comp, _, _, err := c._getComps(message, 3)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil
 	}
@@ -261,7 +279,7 @@ func (c *CompsPlugin) comp(message types.InMessage) (*types.OutMessage, error) {
 }
 
 func (c *CompsPlugin) compScramble(message types.InMessage) (*types.OutMessage, error) {
-	comp, compEv, ev, round, _, err := c._getCompWithEventsAndRound(message)
+	comp, compEv, ev, round, _, err := c._getCompWithEventsAndRound(message, true)
 	if err != nil {
 		return message.NewOutMessage(err.Error()), nil
 	}

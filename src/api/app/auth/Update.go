@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +8,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 )
@@ -43,17 +43,22 @@ func UpdateDetail(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrAuthField.ResponseWithError(ctx, "30分钟内无法重复改名，请等待耐心等待")
 			return
 		}
-
 		if updateName {
-			err1 := svc.DB.Model(&result.Results{}).Where("cube_id = ?", user.CubeID).Update("person_name", req.Name).Error
-			err2 := svc.DB.Model(&competition.Registration{}).Where("user_id = ?", user.ID).Update("user_name", req.Name).Error
+			// 检查数据库名字是否有重复的
+			var findUser user2.User
+			if err = svc.DB.Where("name = ?", req.Name).First(&findUser).Error; err == nil && findUser.ID != user.ID {
+				exception.ErrDatabase.ResponseWithError(ctx, "名字被使用了")
+				return
+			}
+
+			svc.DB.Model(&result.Results{}).Where("cube_id = ?", user.CubeID).Update("person_name", req.Name)
+			svc.DB.Model(&competition.Registration{}).Where("user_id = ?", user.ID).Update("user_name", req.Name)
 			user.LastUpdateNameTime = utils.PtrNow()
-			fmt.Println(err1, err2)
 		}
 
 		user.Name = req.Name
 		user.EnName = req.EnName
-		user.WcaID = req.WcaID
+		//user.WcaID = req.WcaID
 		user.QQ = req.QQ
 		user.Sign = req.Sign
 		user.Sex = req.Sex
@@ -63,6 +68,6 @@ func UpdateDetail(svc *svc.Svc) gin.HandlerFunc {
 			user.Birthdate = utils.PtrTime(b)
 		}
 		svc.DB.Save(&user)
-
+		ctx.JSON(200, gin.H{})
 	}
 }

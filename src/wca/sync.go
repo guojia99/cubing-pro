@@ -346,6 +346,14 @@ func (w *wca) sync() error {
 	w.syncMutex.Lock()
 	defer w.syncMutex.Unlock()
 
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	now := time.Now().In(loc)
+
+	hour := now.Hour()
+	if hour < 1 || hour >= 9 {
+		return nil
+	}
+
 	s := &syncer{
 		DbPath:   w.dbPath,
 		SyncPath: w.syncPath,
@@ -390,14 +398,6 @@ func (w *wca) syncLoop() {
 	}
 }
 func (w *wca) updateDb() {
-	loc, _ := time.LoadLocation("Asia/Shanghai")
-	now := time.Now().In(loc)
-
-	hour := now.Hour()
-	if hour < 1 || hour >= 9 {
-		return
-	}
-
 	txtPath := filepath.Join(w.dbPath, "wca.txt")
 	wcaDbStr, err := os.ReadFile(txtPath)
 	if err != nil {
@@ -408,7 +408,6 @@ func (w *wca) updateDb() {
 	}
 
 	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
-
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return

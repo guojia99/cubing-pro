@@ -35,6 +35,8 @@ type Organizers struct {
 
 	LeaderRemark string `gorm:"column:leader_remark"` // 组长备注
 	AdminMessage string `gorm:"column:admin_msg"`     // 管理员留言
+
+	GroupID uint64 `gorm:"column:-"`
 }
 
 func (o *Organizers) CanUse() bool {

@@ -30,6 +30,7 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		public.GET("/notify", notify.GetNotifyList(svc))                                          // 通知列表
 		public.GET("/forum", posts.GetForums(svc))                                                // 板块列表
 		public.GET("/orgs", organizers.PublicOrganizers(svc))
+		public.GET("/comp_groups", organizers.PublicCompGroups(svc))
 
 		public.GET("/pkTimers", pktimer.GetPKtimer(svc))
 		public.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表

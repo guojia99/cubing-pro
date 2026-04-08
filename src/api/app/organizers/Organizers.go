@@ -3,12 +3,12 @@ package organizers
 import (
 	"fmt"
 
-	"github.com/guojia99/cubing-pro/src/api/public"
-
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
+	"github.com/guojia99/cubing-pro/src/api/public"
 	"github.com/guojia99/cubing-pro/src/api/utils"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 )
@@ -117,6 +117,22 @@ func PublicOrganizers(svc *svc.Svc) gin.HandlerFunc {
 				},
 				Omit: []string{
 					"leader_remark", "admin_msg", "ass_org_users", "leaderId",
+				},
+			},
+		)
+	}
+}
+
+func PublicCompGroups(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var list []competition.CompetitionGroup
+		app_utils.GenerallyList(
+			ctx, svc.DB, list, app_utils.ListSearchParam[competition.CompetitionGroup]{
+				Model:      &competition.CompetitionGroup{},
+				MaxSize:    100,
+				HasDeleted: false,
+				Select: []string{
+					"name", "id",
 				},
 			},
 		)

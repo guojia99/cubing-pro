@@ -380,7 +380,7 @@ func (w *wca) syncLoop() {
 	}
 
 	sy()
-	ticker := time.NewTicker(time.Hour * 6)
+	ticker := time.NewTicker(time.Hour * 1)
 	defer ticker.Stop()
 	for {
 		select {
@@ -389,8 +389,15 @@ func (w *wca) syncLoop() {
 		}
 	}
 }
-
 func (w *wca) updateDb() {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	now := time.Now().In(loc)
+
+	hour := now.Hour()
+	if hour < 1 || hour >= 9 {
+		return
+	}
+
 	txtPath := filepath.Join(w.dbPath, "wca.txt")
 	wcaDbStr, err := os.ReadFile(txtPath)
 	if err != nil {
@@ -401,13 +408,17 @@ func (w *wca) updateDb() {
 	}
 
 	dsn := w.dbURL + string(wcaDbStr) + mysqlOtherSet
-	//db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: logger.Discard})
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return
+	}
+
 	w.db = db
 }
 
 func (w *wca) updateDbLoop() {
-	ticker := time.NewTicker(time.Hour * 12)
+	ticker := time.NewTicker(time.Hour * 1)
 	defer ticker.Stop()
 	for {
 		select {

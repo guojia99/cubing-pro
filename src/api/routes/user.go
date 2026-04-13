@@ -16,6 +16,7 @@ func UserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	kv := userGroup.Group("kv")
 	{
+		kv.GET("", users.ListKeyValues(svc))
 		kv.GET("/:key", users.GetKeyValue(svc))
 		kv.POST("/", users.SetKeyValue(svc))
 	}

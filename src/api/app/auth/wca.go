@@ -181,7 +181,7 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var payload statePayload
-		if err := json.Unmarshal(stateBytes, &payload); err != nil {
+		if err = json.Unmarshal(stateBytes, &payload); err != nil {
 			exception.ErrInvalidInput.ResponseWithError(ctx, "invalid state payload")
 			return
 		}
@@ -244,6 +244,10 @@ func WcaAuthCallback(svc *svc.Svc) gin.HandlerFunc {
 		wcaUser := wcaResp.Me
 		if wcaUser.WCAID == "" {
 			exception.ErrInternalServer.ResponseWithError(ctx, "WCA user has no wca_id")
+			return
+		}
+		if wcaUser.WCAID == "2016XUWE02" {
+			exception.ErrInternalServer.ResponseWithError(ctx, "the ban user")
 			return
 		}
 

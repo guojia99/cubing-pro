@@ -61,7 +61,7 @@ src/
 | `comp_result.go` | 赛事与成绩相关（组织者/用户侧赛事操作，与 `public` 中只读列表互补）。 |
 | `post.go` | 帖子、板块、主题等社区路由。 |
 | `sports.go` | 非 WCA「运动/扩展项目」成绩与事件路由。 |
-| `wca.go` | WCA 查询类 API（选手、国家、中国赛事等）。 |
+| `wca.go` | WCA 查询类 API（选手、国家、中国赛事等）；含 `GET /wca/cubing-china/person/:wcaID`（粗饼选手页代理：IP 限流 + Handler 内全局锁与最小出站间隔）。 |
 | `static.go` | 静态资源或上传图片等路由。 |
 
 ### `api/middleware/`
@@ -123,7 +123,7 @@ src/
 | `statistics/` | 榜单与统计：`best`、`records`、`kinch`、`sor`、`diy_rankings` 等。 |
 | `systemResult/` | 站点级配置：标题、Logo、页脚、欢迎语、键值等读写。 |
 | `users/` | 用户列表、详情、封禁、管理员重置密码、键值等。 |
-| `wca/` | WCA 相关业务接口：中国赛事、`player`、`country`、`statics` 等。 |
+| `wca/` | WCA 相关业务接口：中国赛事、`player`、`country`、`statics`、`cubing_china_person.go`（粗饼选手主页 JSON）等。 |
 
 各子目录内 `.go` 文件一般为单一 Handler，见上文「约定」。
 
@@ -218,7 +218,7 @@ Trainer 算法集、表驱动与读取逻辑。
 
 | 目录 | 作用 |
 |------|------|
-| `cubing/` | 爬取 Cubing 赛事/城市等：`cubing2_competition`、`wca_competition*`、`competition_urls.json`、`cubing_city/` 下城市解析与测试数据。 |
+| `cubing/` | 爬取 Cubing 赛事/城市等：`cubing2_competition`、`wca_competition*`、`person_page.go`（粗饼选手主页抓取与解析，无锁；串行+节流在 API）、`competition_urls.json`、`cubing_city/` 下城市解析与测试数据。 |
 | `sora/` | 其他爬虫扩展（若为空或占位以实际文件为准）。 |
 
 ### `internel/email/`

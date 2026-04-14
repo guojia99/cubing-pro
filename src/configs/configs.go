@@ -2,6 +2,7 @@ package configs
 
 import (
 	"os"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -97,6 +98,28 @@ type StaticSiteConfig struct {
 	SPA bool `yaml:"spa"`
 	// CacheControl 为空时用 public, max-age=60
 	CacheControl string `yaml:"cacheControl"`
+
+	// AutoUpdate 为 true 时：启动 api 且带 -j 时，定时在 RepoDir 执行 git pull，HEAD 变化则执行 BuildCmd（默认 npm run build）。
+	// RepoDir 为空时使用 Root（适合 root 即仓库根；若 root 仅为 dist 等构建产物目录，请填写 RepoDir 为仓库根路径）。
+	AutoUpdate         bool   `yaml:"autoUpdate"`
+	AutoUpdateInterval string `yaml:"autoUpdateInterval"` // 如 5m、1h；空则 5m
+	RepoDir            string `yaml:"repoDir"`
+	BuildCmd           string `yaml:"buildCmd"` // 空则 npm run build
+}
+
+// StableID 用于日志与定时任务名：优先首个 host，否则 root。
+func (s StaticSiteConfig) StableID() string {
+	for _, h := range s.Hosts {
+		h = strings.ToLower(strings.TrimSpace(h))
+		if h != "" {
+			return h
+		}
+	}
+	h := strings.ToLower(strings.TrimSpace(s.Host))
+	if h != "" {
+		return h
+	}
+	return strings.TrimSpace(s.Root)
 }
 
 type QQBotConfig struct {

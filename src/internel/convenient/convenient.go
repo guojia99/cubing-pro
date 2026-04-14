@@ -3,6 +3,7 @@ package convenient
 import (
 	"context"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
@@ -101,6 +102,36 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 		}
 		runJobs = append(runJobs, jb)
 		log.Infof("will run job %s", jb.Name())
+	}
+
+	if runJob {
+		for _, site := range config.Gateway.StaticSites {
+			if !site.AutoUpdate {
+				continue
+			}
+			if strings.TrimSpace(site.Root) == "" {
+				log.Errorf("StaticSiteAutoUpdate: skip site %q, root is empty", site.StableID())
+				continue
+			}
+			interval := strings.TrimSpace(site.AutoUpdateInterval)
+			d := 5 * time.Minute
+			if interval != "" {
+				if parsed, err := time.ParseDuration(interval); err != nil {
+					log.Errorf("StaticSiteAutoUpdate[%s]: invalid autoUpdateInterval %q, using default 5m: %v", site.StableID(), interval, err)
+				} else if parsed > 0 {
+					d = parsed
+				}
+			}
+			jobName := (&job.StaticSiteAutoUpdateJob{Site: site}).Name()
+			if slices.Contains(config.Job.UnRunJobs, jobName) {
+				continue
+			}
+			runJobs = append(runJobs, job.Job{
+				JobI: &job.StaticSiteAutoUpdateJob{Site: site},
+				Time: d,
+			})
+			log.Infof("will run job %s every %s", jobName, d)
+		}
 	}
 
 	out := &convenient{

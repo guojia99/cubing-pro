@@ -80,6 +80,23 @@ type GatewayConfig struct {
 	OutsizeTNoodlePort int `yaml:"outsizeTNoodlePort"` // 暴露的tNoodle port
 
 	BldDBPort int `yaml:"blddbPort"`
+
+	// StaticSites 按 Host 托管独立前端静态目录（多子域名 / 多项目）
+	StaticSites []StaticSiteConfig `yaml:"staticSites"`
+}
+
+// StaticSiteConfig 将请求 Host 映射到本地静态资源根目录。
+// 可只填 host，或用 hosts 绑定多个域名到同一站点。
+type StaticSiteConfig struct {
+	Host  string   `yaml:"host"`
+	Hosts []string `yaml:"hosts"`
+	Root  string   `yaml:"root"`
+	// Index 入口文件名，相对 Root，默认 index.html
+	Index string `yaml:"index"`
+	// SPA 为 true 时：无对应物理文件则回退到 Index（适合 Vue/React 等前端路由）
+	SPA bool `yaml:"spa"`
+	// CacheControl 为空时用 public, max-age=60
+	CacheControl string `yaml:"cacheControl"`
 }
 
 type QQBotConfig struct {

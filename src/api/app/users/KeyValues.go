@@ -2,7 +2,6 @@ package users
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -89,9 +88,6 @@ func SetKeyValue(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
-		fmt.Println(req)
-
-		fmt.Println(req.Key)
 		if !user.IsInWhitelist(req.Key) {
 			exception.ErrRequestBinding.ResponseWithError(ctx, "this key is not in whitelist")
 			return

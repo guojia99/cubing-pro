@@ -30,7 +30,7 @@ func OrgCompList(svc *svc.Svc) gin.HandlerFunc {
 					"orgId", "wca_url", "min_count", "count",
 					"status", "reject_msg", "is_done",
 				},
-				HasDeleted: true,
+				//HasDeleted: true,
 			},
 		)
 	}

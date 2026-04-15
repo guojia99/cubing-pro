@@ -21,8 +21,15 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	admin := router.Group(
 		"/admin",
 		middleware.JWT().MiddlewareFunc(),
+		middleware.CheckAuthMiddlewareFunc(user2.AuthAdmin, user2.AuthSuperAdmin),
+		middleware.RateLimitMiddleware(60, time.Second),
+	)
+
+	superAdmin := router.Group(
+		"/admin",
+		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user2.AuthSuperAdmin),
-		middleware.RateLimitMiddleware(20, time.Second),
+		middleware.RateLimitMiddleware(60, time.Second),
 	)
 
 	//// 角色管理
@@ -42,7 +49,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	//}
 
 	// 项目管理
-	event := admin.Group("/events")
+	event := superAdmin.Group("/events")
 	{
 		event.GET("/", events2.Events(svc))         // 项目列表
 		event.POST("/", events2.CreateEvents(svc))  // 新增项目
@@ -50,7 +57,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 通知管理
-	notify := admin.Group("/notify")
+	notify := superAdmin.Group("/notify")
 	{
 		notify.GET("/", notify3.List(svc))                     // 通知列表
 		notify.GET("/:notifyId", notify3.NotifyDetail(svc))    // 通知详情
@@ -60,7 +67,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 系统配置
-	systemResult := admin.Group("/system_result")
+	systemResult := superAdmin.Group("/system_result")
 	{
 
 		systemResult.GET("/", systemResults.GetSystemResult(svc))           // 获取系统相关配置
@@ -78,7 +85,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 帖子管理
-	post := admin.Group("/post")
+	post := superAdmin.Group("/post")
 	{
 		post.GET("/forums", posts.GetForums(svc))              // 板块列表
 		post.POST("/forum", posts.CreateForum(svc))            // 添加板块
@@ -94,7 +101,7 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	}
 
 	// 用户管理
-	user := admin.Group("/users")
+	user := superAdmin.Group("/users")
 	{
 		user.POST("/create_user", users.CreateUser(svc))         // 添加一个用户
 		user.PUT("/update_user_name", users.UpdateUserName(svc)) // 修改用户名称
@@ -106,8 +113,8 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		user.POST("/update_auth", users.UpdateAuth(svc))                  // 修改用户权限
 	}
 
-	// 主办团队
-	comp := admin.Group("/competition")
+	// 主办团队比赛
+	comp := superAdmin.Group("/competition")
 	{
 		comp.GET("/organizers", organizers.AllOrganizers(svc))
 		comp.POST("/organizers", organizers.AdminCreateOrganizer(svc))
@@ -124,8 +131,12 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		comp.DELETE("/organizers/:orgId/members", organizers.AdminRemoveOrganizerMember(svc))
 
 		comp.POST("/:orgId", organizers.DoWithOrganizers(svc)) // 处理主办团队状态、留言等（兼容旧接口）
+	}
 
-		comp.GET("/approvals/comps", organizers.Comps(svc))
-		comp.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc))
+	compWithAdmin := admin.Group("/competition")
+	{
+		compWithAdmin.GET("/approvals/comps", organizers.Comps(svc))
+		compWithAdmin.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc))
+		compWithAdmin.DELETE("/comps/:compId", organizers.AdminDeleteComp(svc)) // 删除比赛及下属成绩等
 	}
 }

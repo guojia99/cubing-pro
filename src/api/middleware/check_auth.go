@@ -40,7 +40,7 @@ func InitCheckAuth(svc *svc.Svc) {
 	)
 }
 
-func CheckAuthMiddlewareFunc(auth user2.Auth) gin.HandlerFunc {
+func CheckAuthMiddlewareFunc(auth ...user2.Auth) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取上下文权限
 		user, err := GetJwtUser(ctx)
@@ -63,7 +63,7 @@ func CheckAuthMiddlewareFunc(auth user2.Auth) gin.HandlerFunc {
 		}
 
 		// 对比权限
-		if !dbUser.CheckAuth(auth) {
+		if !dbUser.CheckAuth(auth...) {
 			exception.ErrAuthField.ResponseWithError(ctx, "权限不足")
 			return
 		}

@@ -109,10 +109,23 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	// 主办团队
 	comp := admin.Group("/competition")
 	{
-		// 管理员
-		comp.GET("/organizers", organizers.AllOrganizers(svc))                 //主办团队列表
-		comp.POST("/:orgId", organizers.DoWithOrganizers(svc))                 // 处理主办团队， 禁用等
-		comp.GET("/approvals/comps", organizers.Comps(svc))                    // 比赛审批列表
-		comp.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc)) // 比赛审批
+		comp.GET("/organizers", organizers.AllOrganizers(svc))
+		comp.POST("/organizers", organizers.AdminCreateOrganizer(svc))
+		comp.GET("/organizers/:orgId", organizers.AdminGetOrganizer(svc))
+		comp.PUT("/organizers/:orgId", organizers.AdminUpdateOrganizer(svc))
+		comp.DELETE("/organizers/:orgId", organizers.AdminDeleteOrganizer(svc))
+
+		comp.GET("/organizers/:orgId/groups", organizers.AdminListOrganizerGroups(svc))
+		comp.POST("/organizers/:orgId/groups", organizers.AdminCreateCompetitionGroup(svc))
+		comp.PUT("/groups/:groupId", organizers.AdminUpdateCompetitionGroup(svc))
+		comp.DELETE("/groups/:groupId", organizers.AdminDeleteCompetitionGroup(svc))
+
+		comp.POST("/organizers/:orgId/members", organizers.AdminAddOrganizerMember(svc))
+		comp.DELETE("/organizers/:orgId/members", organizers.AdminRemoveOrganizerMember(svc))
+
+		comp.POST("/:orgId", organizers.DoWithOrganizers(svc)) // 处理主办团队状态、留言等（兼容旧接口）
+
+		comp.GET("/approvals/comps", organizers.Comps(svc))
+		comp.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc))
 	}
 }

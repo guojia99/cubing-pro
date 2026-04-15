@@ -193,6 +193,13 @@ func UpdateAuth(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
+		if !req.Set && curUser.CheckAuth(user.AuthOrganizers) && req.Auth&user.AuthOrganizers != 0 {
+			if user.UserCubeStillInOrganizersTeam(svc.DB, curUser.CubeID) {
+				exception.ErrValidationFailed.ResponseWithError(ctx, "请先将该用户从主办团队的组长或成员中移出，再撤销主办权限")
+				return
+			}
+		}
+
 		if req.Set {
 			curUser.SetAuth(req.Auth)
 		} else {

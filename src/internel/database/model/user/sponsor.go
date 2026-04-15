@@ -1,12 +1,18 @@
 package user
 
 import (
+	"fmt"
+
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	jsoniter "github.com/json-iterator/go"
+	"gorm.io/gorm"
 )
 
 type OrganizersStatus = string
+
+// MaxCompetitionGroupsPerOrganizer 单个主办团队最多可绑定的比赛群组数量（超级管理员配置）
+const MaxCompetitionGroupsPerOrganizer = 3
 
 const (
 	NotUse              OrganizersStatus = "NotUse"
@@ -67,4 +73,18 @@ func (o *Organizers) Users() []string {
 	var out []string
 	_ = jsoniter.UnmarshalFromString(o.AssOrganizerUsers, &out)
 	return append([]string{o.LeaderID}, out...)
+}
+
+// UserCubeStillInOrganizersTeam 用户是否仍担任任一主办团队的组长或成员（撤销主办身份前须为 false）
+func UserCubeStillInOrganizersTeam(db *gorm.DB, cubeID string) bool {
+	if cubeID == "" {
+		return false
+	}
+	var n int64
+	db.Model(&Organizers{}).Where("leaderId = ?", cubeID).Count(&n)
+	if n > 0 {
+		return true
+	}
+	db.Model(&Organizers{}).Where("ass_org_users LIKE ?", fmt.Sprintf("%%%s%%", cubeID)).Count(&n)
+	return n > 0
 }

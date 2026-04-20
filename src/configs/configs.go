@@ -84,6 +84,17 @@ type GatewayConfig struct {
 
 	// StaticSites 按 Host 托管独立前端静态目录（多子域名 / 多项目）
 	StaticSites []StaticSiteConfig `yaml:"staticSites"`
+
+	// LocalProxies 按 Host 反向代理到本机端口（如开发中的某服务绑定 abc.cubing.pro）
+	LocalProxies []LocalProxyConfig `yaml:"localProxies"`
+}
+
+// LocalProxyConfig 将请求 Host 反向代理到 127.0.0.1:Port。
+// 可只填 host，或用 hosts 将多个域名指向同一端口。
+type LocalProxyConfig struct {
+	Host  string   `yaml:"host"`
+	Hosts []string `yaml:"hosts"`
+	Port  int      `yaml:"port"`
 }
 
 // StaticSiteConfig 将请求 Host 映射到本地静态资源根目录。

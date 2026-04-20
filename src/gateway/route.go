@@ -11,7 +11,44 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/configs"
 )
+
+func localProxyHostKeys(p configs.LocalProxyConfig) []string {
+	if len(p.Hosts) > 0 {
+		out := make([]string, 0, len(p.Hosts))
+		for _, h := range p.Hosts {
+			h = strings.ToLower(strings.TrimSpace(h))
+			if h != "" {
+				out = append(out, h)
+			}
+		}
+		return out
+	}
+	h := strings.ToLower(strings.TrimSpace(p.Host))
+	if h == "" {
+		return nil
+	}
+	return []string{h}
+}
+
+func buildLocalProxyMap(proxies []configs.LocalProxyConfig) map[string]*httputil.ReverseProxy {
+	m := make(map[string]*httputil.ReverseProxy)
+	for _, p := range proxies {
+		if p.Port <= 0 {
+			continue
+		}
+		u, err := url.Parse(fmt.Sprintf("http://127.0.0.1:%d", p.Port))
+		if err != nil {
+			continue
+		}
+		px := httputil.NewSingleHostReverseProxy(u)
+		for _, key := range localProxyHostKeys(p) {
+			m[key] = px
+		}
+	}
+	return m
+}
 
 func (g *Gateway) baseRoute() gin.HandlerFunc {
 	api, _ := url.Parse(fmt.Sprintf("http://%s:%d", g.cfg.APIConfig.Host, g.cfg.APIConfig.Port))
@@ -29,6 +66,7 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 	}
 
 	staticSites := buildStaticSiteMap(g.cfg.Gateway.StaticSites)
+	localProxies := buildLocalProxyMap(g.cfg.Gateway.LocalProxies)
 
 	return func(ctx *gin.Context) {
 		host := normalizeRequestHost(ctx.Request.Host)
@@ -36,6 +74,11 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 		// blddb
 		if host == "blddb.cubing.pro" {
 			bldDbProxy.ServeHTTP(ctx.Writer, ctx.Request)
+			return
+		}
+
+		if px, ok := localProxies[host]; ok {
+			px.ServeHTTP(ctx.Writer, ctx.Request)
 			return
 		}
 

@@ -71,9 +71,9 @@ var notCityKey = []string{
 func GetCubingCityListAndOldKey(startYear, endYear int) (cityList []string, oldKey []string) {
 	list := getAllCompetitionUrls(startYear, endYear)
 	//out, _ := json.Marshal(list)
-	//_ = os.WriteFile("test.json", out, 0644)
+	//_ = os.WriteFile("ResultProportionEstimationtest.json", out, 0644)
 	//var list []string
-	//out, _ := os.ReadFile("test.json")
+	//out, _ := os.ReadFile("ResultProportionEstimationtest.json")
 	//_ = json.Unmarshal(out, &list)
 
 	for _, nowComp := range list {

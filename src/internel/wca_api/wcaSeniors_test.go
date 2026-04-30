@@ -43,5 +43,5 @@ func TestGetSeniorsWithEventsAndGroup(t *testing.T) {
 
 	d, _ := json.MarshalIndent(out, "", "   ")
 	fmt.Printf("%+v\n", bs.Single["333mbf"])
-	_ = os.WriteFile("test.json", d, 0644)
+	_ = os.WriteFile("ResultProportionEstimationtest.json", d, 0644)
 }

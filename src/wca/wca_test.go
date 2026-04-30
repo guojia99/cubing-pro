@@ -28,7 +28,7 @@ func Test_wca_GetPersonInfo(t *testing.T) {
 	d, _ := jsoniter.MarshalIndent(out, "", "    ")
 	t.Log(string(d))
 
-	os.WriteFile("test.json", d, 0644)
+	os.WriteFile("ResultProportionEstimationtest.json", d, 0644)
 }
 
 func Test_FMC_Length(t *testing.T) {

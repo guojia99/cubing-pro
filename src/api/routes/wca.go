@@ -34,4 +34,9 @@ func WcaRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		// 粗饼选手主页代理（服务端抓取 HTML）；每 IP 限流；出站串行+节流在 Handler 内（见 cubing_china_person）
 		w.GET("/cubing-china/person/:wcaID", middleware.RateLimitMiddleware(80, time.Minute), wca.CubingChinaPerson(svc))
 	}
+
+	extendStatic := w.Group("/extend")
+	{
+		extendStatic.GET("/resultProportionEstimation", wca.ResultProportionEstimation(svc)) // 成绩拟合
+	}
 }

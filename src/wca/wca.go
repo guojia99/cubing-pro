@@ -10,7 +10,8 @@ import (
 	"gorm.io/gorm"
 )
 
-type WCA interface {
+// BaseWCA 基础统计功能
+type BaseWCA interface {
 	// ExportToSqlite 导出
 	ExportToSqlite(sqlitePath string) error // 耗时较长，需要较多内存来存放数据，仅实验使用
 	ExportToTable(filePath string) error
@@ -49,6 +50,17 @@ type WCA interface {
 
 	// GetCountryBestWithEventGroupRank 获取选手最佳项目排列
 	GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld bool) (out []types.RankWithEventsGrouptatic, err error)
+}
+
+// ExtendWCA 拓展功能
+type ExtendWCA interface {
+	ResultProportionEstimation(estimationType types.ResultProportionEstimationType, WrN int) (types.ResultProportionEstimationResult, error)
+}
+
+type WCA interface {
+	BaseWCA
+
+	ExtendWCA
 }
 
 type wca struct {

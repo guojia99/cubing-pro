@@ -2,6 +2,7 @@ package wca
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -36,6 +37,9 @@ func ResultProportionEstimation(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrGetData.ResponseWithError(ctx, err)
 			return
 		}
+
+		svc.Cache.Set(key, out, time.Minute*60)
+
 		exception.ResponseOK(ctx, out)
 	}
 }

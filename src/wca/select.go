@@ -549,7 +549,7 @@ func (w *wca) GetGrandSlam() []types.AllEventChampionshipsPodium {
 	return out
 }
 
-func rankWithEventsPaginate(fullList []types.RankWithEventsStatic, page, size int) ([]types.RankWithEventsStatic, int64) {
+func rankWithPaginate[T any](fullList []T, page, size int) ([]T, int64) {
 	count := int64(len(fullList))
 	start := (page - 1) * size
 	if start < 0 {
@@ -741,7 +741,7 @@ func (w *wca) GetRankWithEvents(events []string, country string, avg bool, page 
 	if len(fullList) == 0 {
 		return nil, 0, nil
 	}
-	out, count = rankWithEventsPaginate(fullList, page, size)
+	out, count = rankWithPaginate(fullList, page, size)
 	return out, count, nil
 }
 
@@ -1036,4 +1036,33 @@ func (w *wca) GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld 
 		return w.getCountryBestWithEventGroupRankOnlyCountry(wcaId, avg)
 	}
 	return nil, nil
+}
+
+func (w *wca) GetWithCompYearPersonRank(year int, country string, eventID string, avg bool, page int, size int) (out []types.RankWithPersonCompStartYear, count int64, err error) {
+	query := w.db.Where("year = ?", year).Where("is_avg = ?", avg).Where("event_id = ?", eventID)
+	if country != "" {
+		query = query.Where("country_id = ?", w.getCountryID(country))
+	}
+	query.Find(&out)
+	sort.Slice(out, func(i, j int) bool {
+		return out[i].WorldRank < out[j].WorldRank
+	})
+	if len(out) <= 1 {
+		return
+	}
+
+	// 排名，非多盲
+	out[0].Rank = 1
+	last := out[0]
+	for idx := 1; idx < len(out); idx++ {
+		if out[idx].Best == last.Best {
+			out[idx].Rank = last.Rank
+		} else {
+			out[idx].Rank = idx + 1
+		}
+		last = out[idx]
+	}
+
+	out, count = rankWithPaginate(out, page, size)
+	return
 }

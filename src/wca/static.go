@@ -184,10 +184,14 @@ func (w *wca) GetEventRankWithFullNow(eventId, country string, isAvg bool, page,
 	return out, total, err
 }
 
-func (w *wca) getYearCompIDs(year int) []string {
+func (w *wca) getYearCompIDs(year int, month int) []string {
 	var comps []types.Competition
-	w.db.Where("year = ?", year).Find(&comps)
 
+	query := w.db.Where("year = ?", year)
+	if month > 0 {
+		query = query.Where("month = ?", month)
+	}
+	query.Find(&comps)
 	var out []string
 	for _, comp := range comps {
 		out = append(out, comp.ID)
@@ -195,9 +199,9 @@ func (w *wca) getYearCompIDs(year int) []string {
 	return out
 }
 
-func (w *wca) GetEventRankWithOnlyYear(eventId, countryID string, year int, isAvg bool, page, size int) ([]types.Result, int64, error) {
+func (w *wca) GetEventRankWithOnlyYear(eventId, countryID string, year int, month int, isAvg bool, page, size int) ([]types.Result, int64, error) {
 	query := w.db.Model(&types.Result{}).Where("event_id = ?", eventId)
-	comps := w.getYearCompIDs(year)
+	comps := w.getYearCompIDs(year, month)
 	if len(comps) == 0 {
 		return nil, 0, nil
 	}
@@ -386,24 +390,46 @@ func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
 	return out, nil
 }
 
-func (w *wca) GetAllEventsAchievement(lackNum int, country string, page int, size int) ([]types.AllEventAvgPersonResults, int64, error) {
+func (w *wca) GetAllEventsAchievement(
+	lackNum int,
+	country string,
+	page int,
+	size int,
+) ([]types.AllEventAvgPersonResults, int64, error) {
+
 	var out []types.AllEventAvgPersonResults
 
-	query := w.db.Model(&types.AllEventAvgPersonResults{}).Where("lack_num = ?", lackNum)
+	if page <= 0 {
+		page = 1
+	}
+	if size <= 0 {
+		size = 10
+	}
+
+	query := w.db.Model(&types.AllEventAvgPersonResults{}).
+		Where("lack_num = ?", lackNum)
 
 	if country != "" {
 		query = query.Where("country = ?", w.getCountryID(country))
 	}
 
 	if lackNum == 0 {
-		query.Order("use_date ASC")
+		query = query.Order("use_date ASC")
 	} else {
-		query.Order("lack_num ASC")
+		query = query.Order("lack_num ASC")
 	}
 
 	var count int64
-	query.Count(&count)
-	query.Offset((page - 1) * size).Limit(size).Find(&out)
+	if err := query.Session(&gorm.Session{}).Count(&count).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err := query.
+		Offset((page - 1) * size).
+		Limit(size).
+		Find(&out).Error; err != nil {
+		return nil, 0, err
+	}
 
 	return out, count, nil
 }

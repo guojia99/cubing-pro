@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -27,9 +29,10 @@ func GetPersonRankTimer(svc *svc.Svc) gin.HandlerFunc {
 }
 
 type BaseStaticsRequest struct {
-	EventID string `uri:"eventID"`
+	EventID string `uri:"eventID" json:"eventID"`
 
 	Year         int      `json:"year"`
+	Month        int      `json:"month"`
 	Country      string   `json:"country"`
 	IsAvg        bool     `json:"is_avg"`
 	Page         int      `json:"page"`
@@ -57,7 +60,12 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 			ctx.JSON(http.StatusNotFound, gin.H{})
 			return
 		}
-		key := fmt.Sprintf("%s_%s_%+v_%d_%d_%d_%d_%d", req.EventID, req.Country, req.IsAvg, req.Page, req.Size, req.Year, req.MinAttempted, req.LackNum)
+
+		key, err := utils.MakeCacheKey(req)
+		if err != nil {
+			exception.ErrGetData.ResponseWithError(ctx, err)
+			return
+		}
 		getData, ok := cacheData.Get(key)
 		if ok {
 			ctx.JSON(http.StatusOK, getData)
@@ -66,21 +74,24 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 
 		var out interface{}
 		var count int64
-		var err error
 
+		fmt.Println(funcKey)
 		switch funcKey {
 		case "GetEventRankWithTimer":
 			out, count, err = svc.Wca.GetEventRankWithTimer(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
 		case "GetEventRankWithFullNow":
 			out, count, err = svc.Wca.GetEventRankWithFullNow(req.EventID, req.Country, req.IsAvg, req.Page, req.Size)
 		case "GetEventRankWithOnlyYear":
-			out, count, err = svc.Wca.GetEventRankWithOnlyYear(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
+			out, count, err = svc.Wca.GetEventRankWithOnlyYear(req.EventID, req.Country, req.Year, req.Month, req.IsAvg, req.Page, req.Size)
 		case "GetEventSuccessRateResult":
 			out, count, err = svc.Wca.GetEventSuccessRateResult(req.EventID, req.Country, req.MinAttempted, req.Page, req.Size)
 		case "GetAllEventsAchievement":
-			out, count, err = svc.Wca.GetAllEventsAchievement(req.LackNum, req.Country, req.Size, req.Page)
+			out, count, err = svc.Wca.GetAllEventsAchievement(req.LackNum, req.Country, req.Page, req.Size)
 		case "GetRankWithEvents":
 			out, count, err = svc.Wca.GetRankWithEvents(req.Events, req.Country, req.IsAvg, req.Page, req.Size)
+		case "GetWithCompYearPersonRank":
+			out, count, err = svc.Wca.GetWithCompYearPersonRank(req.Year, req.Country, req.EventID, req.IsAvg, req.Page, req.Size)
+
 		}
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{})

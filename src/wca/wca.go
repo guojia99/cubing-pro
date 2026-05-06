@@ -35,7 +35,7 @@ type BaseWCA interface {
 	// GetEventRankWithFullNow 给出现在成绩的排序
 	GetEventRankWithFullNow(eventId, country string, isAvg bool, page, size int) ([]types.Result, int64, error)
 	// GetEventRankWithOnlyYear 只计算当年成绩的排序
-	GetEventRankWithOnlyYear(eventId, countryID string, year int, isAvg bool, page, size int) ([]types.Result, int64, error)
+	GetEventRankWithOnlyYear(eventId, countryID string, year int, month int, isAvg bool, page, size int) ([]types.Result, int64, error)
 	// GetEventSuccessRateResult 成功率
 	GetEventSuccessRateResult(eventId, country string, minAttempted, page, size int) ([]types.StaticSuccessRateResult, int64, error)
 
@@ -50,6 +50,9 @@ type BaseWCA interface {
 
 	// GetCountryBestWithEventGroupRank 获取选手最佳项目排列
 	GetCountryBestWithEventGroupRank(wcaId string, avg bool, useWorld bool) (out []types.RankWithEventsGrouptatic, err error)
+
+	// GetWithCompYearPersonRank 获取相同年限参赛选手最佳成绩排行
+	GetWithCompYearPersonRank(year int, country string, eventID string, avg bool, page int, size int) (out []types.RankWithPersonCompStartYear, count int64, err error)
 }
 
 // ExtendWCA 拓展功能

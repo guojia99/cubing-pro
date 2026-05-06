@@ -137,3 +137,19 @@ type DiyEventRanksEventIndex struct {
 }
 
 func (DiyEventRanksEventIndex) TableName() string { return "diy_event_ranks_event_index" }
+
+type RankWithPersonCompStartYear struct {
+	PersonID   string `gorm:"column:person_id" json:"personID"`
+	PersonName string `gorm:"column:person_name" json:"personName"`
+	CountryID  string `gorm:"column:country_id" json:"countryID"`
+
+	Year    int    `gorm:"column:year" json:"year"`
+	IsAvg   bool   `gorm:"column:is_avg" json:"isAvg"`
+	EventID string `gorm:"column:event_id" json:"eventID"`
+	Best    int    `gorm:"column:best" json:"best"`
+
+	WorldRank   int `gorm:"column:world_rank" json:"worldRank"`
+	CountryRank int `gorm:"column:country_rank" json:"countryRank"`
+
+	Rank int `gorm:"-" json:"rank"`
+}

@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"slices"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -14,6 +15,46 @@ import (
 	"github.com/guojia99/cubing-pro/src/wca/types"
 	utils_tool "github.com/guojia99/cubing-pro/src/wca/utils"
 )
+
+const wcaStartYear = 2003
+
+func (s *syncer) getAllPersonYearMap() map[int]map[string]types.Person {
+	var out = make(map[int]map[string]types.Person)
+
+	getPersonIDYear := func(id string) (int, error) {
+		if len(id) < 4 {
+			return 0, fmt.Errorf("string length less than 4")
+		}
+
+		last4 := id[:4]
+		n, err := strconv.Atoi(last4)
+		if err != nil {
+			return 0, err
+		}
+		if n <= wcaStartYear {
+			return wcaStartYear, nil
+		}
+		return n, nil
+	}
+
+	var persons []types.Person
+	if err := s.db.Where("sub_id = 1").Find(&persons).Error; err != nil {
+		return nil
+	}
+	for _, person := range persons {
+		n, err := getPersonIDYear(person.WcaID)
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+		if _, ok := out[n]; !ok {
+			out[n] = make(map[string]types.Person)
+		}
+		out[n][person.WcaID] = person
+	}
+
+	return out
+}
 
 func (s *syncer) selectComps() (comps []types.Competition, err error) {
 	// 只选择需要的字段
@@ -1017,6 +1058,107 @@ func (s *syncer) setStaticAllEventChampionshipsPodium() (err error) {
 
 	s.db.CreateInBatches(data, 1000)
 	return nil
+}
+
+func (s *syncer) getAllRankWithEventPersonMap() (map[string]map[string]types.RanksSingle, map[string]map[string]types.RanksAverage) {
+	var allSingleRanks []types.RanksSingle
+	var allAvgRanks []types.RanksAverage
+	s.db.Find(&allSingleRanks)
+	s.db.Find(&allAvgRanks)
+
+	var singleMap = make(map[string]map[string]types.RanksSingle)
+	var avgMap = make(map[string]map[string]types.RanksAverage)
+
+	for _, rank := range allSingleRanks {
+		if _, ok := singleMap[rank.EventID]; !ok {
+			singleMap[rank.EventID] = make(map[string]types.RanksSingle)
+		}
+		singleMap[rank.EventID][rank.PersonID] = rank
+	}
+
+	for _, rank := range allAvgRanks {
+		if _, ok := avgMap[rank.EventID]; !ok {
+			avgMap[rank.EventID] = make(map[string]types.RanksAverage)
+		}
+		avgMap[rank.EventID][rank.PersonID] = rank
+	}
+	return singleMap, avgMap
+}
+
+func (s *syncer) setStaticRankWithPersonStartYear() (err error) {
+	err = s.db.AutoMigrate(&types.RankWithPersonCompStartYear{})
+	if err != nil {
+		return
+	}
+	s.db.Delete(&types.RankWithPersonCompStartYear{}, "1 = 1")
+	defer func() {
+		if err != nil {
+			s.db.Delete(&types.RankWithPersonCompStartYear{}, "1 = 1")
+		}
+	}()
+
+	// 1. 全部选手的数据，按年区分
+	personMap := s.getAllPersonYearMap()
+
+	// 3. 获取全部最佳成绩
+	singleMap, avgMap := s.getAllRankWithEventPersonMap()
+
+	//  循环年份
+
+	for _, event := range wcaEventsList {
+		// 单次
+		if singleWithEventList, ok := singleMap[event]; ok {
+			for year := wcaStartYear; year <= time.Now().Year(); year++ {
+				yearPersons := personMap[year]
+				// 单次
+				var results []types.RankWithPersonCompStartYear
+				for _, p := range yearPersons {
+					if rank, hasRank := singleWithEventList[p.WcaID]; hasRank {
+						results = append(results, types.RankWithPersonCompStartYear{
+							PersonID:    p.WcaID,
+							PersonName:  p.Name,
+							CountryID:   p.CountryID,
+							Year:        year,
+							IsAvg:       false,
+							EventID:     event,
+							Best:        rank.Best,
+							WorldRank:   rank.WorldRank,
+							CountryRank: rank.CountryRank,
+						})
+					}
+				}
+				s.db.CreateInBatches(results, 5000)
+			}
+		}
+
+		if event == "333mbf" {
+			continue
+		}
+
+		if avgWithEventList, ok := avgMap[event]; ok {
+			for year := wcaStartYear; year <= time.Now().Year(); year++ {
+				yearPersons := personMap[year]
+				var results []types.RankWithPersonCompStartYear
+				for _, p := range yearPersons {
+					if rank, hasRank := avgWithEventList[p.WcaID]; hasRank {
+						results = append(results, types.RankWithPersonCompStartYear{
+							PersonID:    p.WcaID,
+							PersonName:  p.Name,
+							CountryID:   p.CountryID,
+							Year:        year,
+							IsAvg:       true,
+							EventID:     event,
+							Best:        rank.Best,
+							WorldRank:   rank.WorldRank,
+							CountryRank: rank.CountryRank,
+						})
+					}
+				}
+				s.db.CreateInBatches(results, 5000)
+			}
+		}
+	}
+	return
 }
 
 type personRanks struct {

@@ -48,7 +48,7 @@ func Test_wca_GetEventRankWithOnlyYear(t *testing.T) {
 		false)
 
 	out, count, err := w.GetEventRankWithOnlyYear(
-		"333", "CN", 2019, false, 1, 20)
+		"333", "CN", 2019, 0, false, 1, 20)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,6 +1,7 @@
 package wca
 
 import (
+	"fmt"
 	"sync"
 	"time"
 
@@ -64,6 +65,8 @@ type WCA interface {
 	BaseWCA
 
 	ExtendWCA
+
+	SyncStatic() error
 }
 
 type wca struct {
@@ -81,6 +84,19 @@ type wca struct {
 	dbURL    string
 
 	cache *cache.Cache
+}
+
+func (w *wca) SyncStatic() error {
+	s := &syncer{
+		DbPath:   w.dbPath,
+		SyncPath: w.syncPath,
+		DbURL:    w.dbURL,
+	}
+
+	if err := s.sync(); err != nil {
+		return fmt.Errorf("sync failed: %w", err)
+	}
+	return nil
 }
 
 func NewWCA(

@@ -7,6 +7,7 @@ import (
 	"github.com/guojia99/cubing-pro/cmd/group"
 	"github.com/guojia99/cubing-pro/cmd/initer"
 	"github.com/guojia99/cubing-pro/cmd/robot"
+	"github.com/guojia99/cubing-pro/cmd/syncer_wca"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/spf13/cobra"
 
@@ -46,6 +47,7 @@ func NewRootCmd() *cobra.Command {
 		gateway.NewCmd(&s),
 		group.AddGroupNewCmd(&s),
 		group.UpdateQQGroups(&s),
+		syncer_wca.NewStaticWCACmd(&s),
 	)
 	return cmd
 }

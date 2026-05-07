@@ -1119,7 +1119,7 @@ func (w *wca) getNotPodiumPersons(country string, bestMisser int, events []strin
 	persons := w.getCountryPersons(country)
 
 	var notPodiumPerson []types.PersonPodiums
-	query := w.db.Model(&types.PersonPodiums{}).Where("total = ?", 0)
+	query := w.db.Model(&types.PersonPodiums{})
 	if country != "" {
 		query = query.Where("country_id = ?", w.getCountryID(country))
 	}

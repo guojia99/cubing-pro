@@ -1110,11 +1110,6 @@ func (w *wca) GetWithCompYearPersonRank(year int, country string, eventID string
 }
 
 func (w *wca) getNotPodiumPersons(country string, bestMisser int, events []string) []types.Person {
-	key := fmt.Sprintf("getNotPodiumPersons_%s_%d", country, bestMisser)
-	if out, ok := w.cache.Get(key); ok {
-		return out.([]types.Person)
-	}
-
 	var out []types.Person
 	persons := w.getCountryPersons(country)
 
@@ -1141,8 +1136,6 @@ func (w *wca) getNotPodiumPersons(country string, bestMisser int, events []strin
 			out = append(out, person)
 		}
 	}
-
-	w.cache.Set(key, out, time.Minute*5)
 	return out
 }
 

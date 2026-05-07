@@ -1523,10 +1523,8 @@ func (s *syncer) setStaticPersonPodium() (err error) {
 			personMap[result.PersonID].Total += 1
 			personMap[result.PersonID].SetEvent(result.EventID)
 		}
-		if result.Best > 0 && result.Pos >= 4 {
-			if result.Pos <= personMap[result.PersonID].BestPodium {
-				personMap[result.PersonID].BestPodium = result.Pos
-			}
+		if result.Pos <= personMap[result.PersonID].BestPodium {
+			personMap[result.PersonID].BestPodium = result.Pos
 		}
 	}
 

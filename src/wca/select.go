@@ -9,6 +9,7 @@ import (
 
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
+	utils_tool "github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
 func (w *wca) getRoundTypeMap() map[string]types.RoundType {
@@ -649,29 +650,6 @@ func (w *wca) rankWithEventsLoadRanks(wcaIDs, events []string, avg bool, useWorl
 }
 
 func (w *wca) getRankWithEventsFullList(events []string, country string, persons []types.Person, avg bool) (out []types.RankWithEventsStatic, err error) {
-	// events 为空则使用全项目
-	if len(events) == 0 {
-		events = make([]string, len(wcaEventsList))
-		copy(events, wcaEventsList)
-	}
-	// 使用平均时过滤掉 333mbf（无平均）
-	if avg {
-		filtered := make([]string, 0, len(events))
-		for _, e := range events {
-			if e != "333mbf" {
-				filtered = append(filtered, e)
-			}
-		}
-		events = filtered
-	}
-	if len(events) == 0 {
-		return nil, nil
-	}
-
-	eventsKey := make([]string, len(events))
-	copy(eventsKey, events)
-	sort.Strings(eventsKey)
-
 	useWorldRank := country == ""
 	if len(persons) == 0 {
 		return nil, nil
@@ -772,8 +750,30 @@ func (w *wca) getRankWithEventsFullList(events []string, country string, persons
 
 	return fullList, nil
 }
+func (w *wca) updateEvents(events []string, avg bool) []string {
+
+	// 使用平均时过滤掉 333mbf（无平均）
+	if avg {
+		filtered := make([]string, 0, len(events))
+		for _, e := range events {
+			if e != "333mbf" {
+				filtered = append(filtered, e)
+			}
+		}
+		events = filtered
+	}
+
+	// events 为空则使用全项目
+	if len(events) == 0 {
+		events = make([]string, len(wcaEventsList))
+		copy(events, wcaEventsList)
+	}
+
+	return events
+}
 
 func (w *wca) GetRankWithEvents(events []string, country string, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error) {
+	events = w.updateEvents(events, avg)
 	persons := w.getCountryPersons(country)
 
 	fullList, err := w.getRankWithEventsFullList(events, country, persons, avg)
@@ -1109,7 +1109,7 @@ func (w *wca) GetWithCompYearPersonRank(year int, country string, eventID string
 	return
 }
 
-func (w *wca) getNotPodiumPersons(country string, bestMisser int) []types.Person {
+func (w *wca) getNotPodiumPersons(country string, bestMisser int, events []string) []types.Person {
 	key := fmt.Sprintf("getNotPodiumPersons_%s_%d", country, bestMisser)
 	if out, ok := w.cache.Get(key); ok {
 		return out.([]types.Person)
@@ -1130,6 +1130,9 @@ func (w *wca) getNotPodiumPersons(country string, bestMisser int) []types.Person
 
 	var notPodiumMap = make(map[string]struct{})
 	for _, p := range notPodiumPerson {
+		if utils_tool.HasIntersection(events, p.HasPodiumEvents) {
+			continue
+		}
 		notPodiumMap[p.PersonID] = struct{}{}
 	}
 
@@ -1144,7 +1147,9 @@ func (w *wca) getNotPodiumPersons(country string, bestMisser int) []types.Person
 }
 
 func (w *wca) GetNotPodiumSor(events []string, country string, bestMisser int, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error) {
-	persons := w.getNotPodiumPersons(country, bestMisser)
+	events = w.updateEvents(events, avg)
+	persons := w.getNotPodiumPersons(country, bestMisser, events)
+
 	fullList, err := w.getRankWithEventsFullList(events, country, persons, avg)
 	if err != nil {
 		return nil, 0, err

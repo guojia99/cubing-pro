@@ -1499,14 +1499,15 @@ func (s *syncer) setStaticPersonPodium() (err error) {
 	for _, result := range results {
 		if _, ok := personMap[result.PersonID]; !ok {
 			personMap[result.PersonID] = &types.PersonPodiums{
-				PersonID:   result.PersonID,
-				PersonName: result.PersonName,
-				CountryID:  result.PersonCountryID,
-				Gold:       0,
-				Silver:     0,
-				Bronze:     0,
-				Total:      0,
-				BestPodium: 2 << 13,
+				PersonID:        result.PersonID,
+				PersonName:      result.PersonName,
+				CountryID:       result.PersonCountryID,
+				Gold:            0,
+				Silver:          0,
+				Bronze:          0,
+				Total:           0,
+				BestPodium:      2 << 13,
+				HasPodiumEvents: make([]string, 0),
 			}
 		}
 
@@ -1520,6 +1521,7 @@ func (s *syncer) setStaticPersonPodium() (err error) {
 				personMap[result.PersonID].Bronze += 1
 			}
 			personMap[result.PersonID].Total += 1
+			personMap[result.PersonID].SetEvent(result.EventID)
 		}
 		if result.Best > 0 && result.Pos >= 4 {
 			if result.Pos <= personMap[result.PersonID].BestPodium {

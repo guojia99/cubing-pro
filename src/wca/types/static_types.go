@@ -1,6 +1,7 @@
 package types
 
 import (
+	"slices"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -161,9 +162,29 @@ type PersonPodiums struct {
 
 	BestPodium int16 `gorm:"column:best_podium" json:"bestPodium"`
 
+	HasPodiumEvents     []string `gorm:"-" json:"hasPodiumEvents"`
+	HasPodiumEventsJSON string   `gorm:"column:has_podium_events_json" json:"-"`
+
 	// 领奖台
 	Gold   int `json:"gold" gorm:"column:gold"`
 	Silver int `json:"silver" gorm:"column:silver"`
 	Bronze int `json:"bronze" gorm:"column:bronze"`
 	Total  int `json:"total" gorm:"column:total"`
+}
+
+func (p *PersonPodiums) SetEvent(eventID string) {
+	if slices.Contains(p.HasPodiumEvents, eventID) {
+		return
+	}
+	p.HasPodiumEvents = append(p.HasPodiumEvents, eventID)
+}
+
+func (p *PersonPodiums) BeforeSave(db *gorm.DB) (err error) {
+	p.HasPodiumEventsJSON, err = jsoniter.MarshalToString(p.HasPodiumEvents)
+	return
+}
+
+func (p *PersonPodiums) AfterFind(db *gorm.DB) (err error) {
+	err = jsoniter.UnmarshalFromString(p.HasPodiumEventsJSON, &p.HasPodiumEvents)
+	return
 }

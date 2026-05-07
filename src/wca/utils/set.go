@@ -27,3 +27,19 @@ func IntersectAll(lists [][]string) []string {
 
 	return result
 }
+
+func HasIntersection(a, b []string) bool {
+	m := make(map[string]struct{})
+
+	for _, v := range a {
+		m[v] = struct{}{}
+	}
+
+	for _, v := range b {
+		if _, ok := m[v]; ok {
+			return true
+		}
+	}
+
+	return false
+}

@@ -54,6 +54,8 @@ type BaseWCA interface {
 
 	// GetWithCompYearPersonRank 获取相同年限参赛选手最佳成绩排行
 	GetWithCompYearPersonRank(year int, country string, eventID string, avg bool, page int, size int) (out []types.RankWithPersonCompStartYear, count int64, err error)
+
+	GetNotPodiumSor(events []string, country string, bestMisser int, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error)
 }
 
 // ExtendWCA 拓展功能

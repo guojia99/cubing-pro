@@ -69,11 +69,22 @@ type (
 	}
 )
 
+type RankEntry struct {
+	PersonID string `json:"personId"`
+	EventID  string `json:"eventId"`
+	Rank     int    `json:"rank"`
+	// Missing 为 true 表示该选手在本项目中无有效排名，Rank 为计入 Sor 时使用的 defaultRank
+	Missing bool `json:"missing,omitempty"`
+}
+
 type RankWithEventsStatic struct {
 	WcaID string `json:"wcaId"`
 	Name  string `json:"name"`
-	Rank  int
-	Count int // 排名总和
+	Rank  int    `json:"rank"`
+	Count int    `json:"count"` // 排名总和
+
+	Country    string      `json:"country"`     // 国家地区
+	RankEntrys []RankEntry `json:"rankEntries"` // 详细排行信息
 }
 
 type RankWithEventsGrouptatic struct {
@@ -81,6 +92,6 @@ type RankWithEventsGrouptatic struct {
 	Name   string   `json:"name"`
 	Events []string `json:"events"`
 
-	Rank  int
-	Count int
+	Rank  int `json:"rank"`
+	Count int `json:"count"`
 }

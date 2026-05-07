@@ -1,7 +1,6 @@
 package wca
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -39,6 +38,7 @@ type BaseStaticsRequest struct {
 	Size         int      `json:"size"`
 	Events       []string `json:"events"`
 	MinAttempted int      `json:"min_attempted"`
+	BestMisser   int      `json:"best_misser"` // 第几名
 
 	LackNum int `json:"lackNum"`
 }
@@ -74,8 +74,6 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 
 		var out interface{}
 		var count int64
-
-		fmt.Println(funcKey)
 		switch funcKey {
 		case "GetEventRankWithTimer":
 			out, count, err = svc.Wca.GetEventRankWithTimer(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
@@ -89,6 +87,8 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 			out, count, err = svc.Wca.GetAllEventsAchievement(req.LackNum, req.Country, req.Page, req.Size)
 		case "GetRankWithEvents":
 			out, count, err = svc.Wca.GetRankWithEvents(req.Events, req.Country, req.IsAvg, req.Page, req.Size)
+		case "GetNotPodiumRankWithEvents":
+			out, count, err = svc.Wca.GetNotPodiumSor(req.Events, req.Country, req.BestMisser, req.IsAvg, req.Page, req.Size)
 		case "GetWithCompYearPersonRank":
 			out, count, err = svc.Wca.GetWithCompYearPersonRank(req.Year, req.Country, req.EventID, req.IsAvg, req.Page, req.Size)
 

@@ -153,3 +153,17 @@ type RankWithPersonCompStartYear struct {
 
 	Rank int `gorm:"-" json:"rank"`
 }
+
+type PersonPodiums struct {
+	PersonID   string `gorm:"column:person_id" json:"personID"`
+	PersonName string `gorm:"column:person_name" json:"personName"`
+	CountryID  string `gorm:"column:country_id" json:"countryID"`
+
+	BestPodium int16 `gorm:"column:best_podium" json:"bestPodium"`
+
+	// 领奖台
+	Gold   int `json:"gold" gorm:"column:gold"`
+	Silver int `json:"silver" gorm:"column:silver"`
+	Bronze int `json:"bronze" gorm:"column:bronze"`
+	Total  int `json:"total" gorm:"column:total"`
+}

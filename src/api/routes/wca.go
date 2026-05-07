@@ -27,8 +27,11 @@ func WcaRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		w.POST("/ranks/historical/:eventID", wca.BaseStaticsWithEventAndCacheKey(svc, "GetEventRankWithOnlyYear")) // 全年排名
 		w.POST("/ranks/success_rate/:eventID", wca.BaseStaticsWithEventAndCacheKey(svc, "GetEventSuccessRateResult"))
 		w.POST("/ranks/all-events-achiever", wca.BaseStaticsWithEventAndCacheKey(svc, "GetAllEventsAchievement"))
-		w.POST("/ranks/diy_events", wca.BaseStaticsWithEventAndCacheKey(svc, "GetRankWithEvents"))
+
 		w.POST("/rank/rank-with-start-comp-year/:eventID", wca.BaseStaticsWithEventAndCacheKey(svc, "GetWithCompYearPersonRank")) // 参赛年限的人总排行
+
+		w.POST("/ranks/diy_events", wca.BaseStaticsWithEventAndCacheKey(svc, "GetRankWithEvents"))                    // 全部榜单
+		w.POST("/rank/diy_events/not_podium", wca.BaseStaticsWithEventAndCacheKey(svc, "GetNotPodiumRankWithEvents")) // 全能无牌榜
 
 		w.GET("/grand-slam", wca.GetGrandSlam(svc))
 

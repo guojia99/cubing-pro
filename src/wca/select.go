@@ -28,16 +28,16 @@ func (w *wca) getCountryPersons(country string) []types.Person {
 		return out.([]types.Person)
 	}
 
+	cacheKey := country
 	country = w.getCountryID(country)
-	query := w.db.Model(&types.Person{})
+	query := w.db.Model(&types.Person{}).Where("sub_id = ?", 1)
 	if country != "" {
-		query.Where("country_id = ?", country)
+		query = query.Where("country_id = ?", country)
 	}
-	query.Where("sub_id = 1")
 
 	var out []types.Person
 	query.Find(&out)
-	w.cache.Set(country, out, time.Minute*5)
+	w.cache.Set(cacheKey, out, time.Minute*5)
 	return out
 }
 
@@ -565,13 +565,33 @@ func rankWithPaginate[T any](fullList []T, page, size int) ([]T, int64) {
 	return fullList[start:end], count
 }
 
-type rankEntry struct {
-	PersonID string
-	EventID  string
-	Rank     int
+func (w *wca) getAllAvgRankWithCache(event string) []types.RanksAverage {
+	key := fmt.Sprintf("getAllAvgRankWithCache_%s", event)
+
+	if out, ok := w.cache.Get(key); ok {
+		return out.([]types.RanksAverage)
+	}
+
+	var out []types.RanksAverage
+	w.db.Where("event_id = ?", event).Find(&out)
+	w.cache.Set(key, out, time.Hour)
+	return out
 }
 
-func (w *wca) rankWithEventsLoadRanks(wcaIDs, events []string, avg bool, useWorldRank bool) ([]rankEntry, error) {
+func (w *wca) getAllSingleRankWithCache(event string) []types.RanksSingle {
+	key := fmt.Sprintf("getAllSingleRankWithCache_%s", event)
+
+	if out, ok := w.cache.Get(key); ok {
+		return out.([]types.RanksSingle)
+	}
+
+	var out []types.RanksSingle
+	w.db.Where("event_id = ?", event).Find(&out)
+	w.cache.Set(key, out, time.Hour)
+	return out
+}
+
+func (w *wca) rankWithEventsLoadRanks(wcaIDs, events []string, avg bool, useWorldRank bool) ([]types.RankEntry, error) {
 	eventSet := make(map[string]bool)
 	for _, e := range events {
 		eventSet[e] = true
@@ -583,48 +603,52 @@ func (w *wca) rankWithEventsLoadRanks(wcaIDs, events []string, avg bool, useWorl
 		return country
 	}
 
-	var entries []rankEntry
+	var entries []types.RankEntry
 	addFromRows := func(rows interface{}) {
 		switch r := rows.(type) {
 		case []types.RanksAverage:
 			for _, x := range r {
 				if rank := getRank(x.WorldRank, x.CountryRank); rank > 0 && eventSet[x.EventID] {
-					entries = append(entries, rankEntry{x.PersonID, x.EventID, rank})
+					entries = append(entries, types.RankEntry{PersonID: x.PersonID, EventID: x.EventID, Rank: rank})
 				}
 			}
 		case []types.RanksSingle:
 			for _, x := range r {
 				if rank := getRank(x.WorldRank, x.CountryRank); rank > 0 && eventSet[x.EventID] {
-					entries = append(entries, rankEntry{x.PersonID, x.EventID, rank})
+					entries = append(entries, types.RankEntry{PersonID: x.PersonID, EventID: x.EventID, Rank: rank})
 				}
 			}
 		}
 	}
 
-	for i := 0; i < len(wcaIDs); i += 5000 {
-		end := i + 5000
-		if end > len(wcaIDs) {
-			end = len(wcaIDs)
-		}
-		batch := wcaIDs[i:end]
+	var personCache = make(map[string]struct{})
+	for _, p := range wcaIDs {
+		personCache[p] = struct{}{}
+	}
+
+	for _, e := range events {
 		if avg {
-			var rows []types.RanksAverage
-			if err := w.db.Where("person_id IN ? AND event_id IN ?", batch, events).Find(&rows).Error; err != nil {
-				return nil, err
+			var avgRow []types.RanksAverage
+			for _, x := range w.getAllAvgRankWithCache(e) {
+				if _, ok := personCache[x.PersonID]; ok {
+					avgRow = append(avgRow, x)
+				}
 			}
-			addFromRows(rows)
+			addFromRows(avgRow)
 		} else {
-			var rows []types.RanksSingle
-			if err := w.db.Where("person_id IN ? AND event_id IN ?", batch, events).Find(&rows).Error; err != nil {
-				return nil, err
+			var singleRow []types.RanksSingle
+			for _, x := range w.getAllSingleRankWithCache(e) {
+				if _, ok := personCache[x.PersonID]; ok {
+					singleRow = append(singleRow, x)
+				}
 			}
-			addFromRows(rows)
+			addFromRows(singleRow)
 		}
 	}
 	return entries, nil
 }
 
-func (w *wca) getRankWithEventsFullList(events []string, country string, avg bool) (out []types.RankWithEventsStatic, err error) {
+func (w *wca) getRankWithEventsFullList(events []string, country string, persons []types.Person, avg bool) (out []types.RankWithEventsStatic, err error) {
 	// events 为空则使用全项目
 	if len(events) == 0 {
 		events = make([]string, len(wcaEventsList))
@@ -649,7 +673,6 @@ func (w *wca) getRankWithEventsFullList(events []string, country string, avg boo
 	sort.Strings(eventsKey)
 
 	useWorldRank := country == ""
-	persons := w.getCountryPersons(country)
 	if len(persons) == 0 {
 		return nil, nil
 	}
@@ -704,37 +727,56 @@ func (w *wca) getRankWithEventsFullList(events []string, country string, avg boo
 		}
 	}
 
-	type item struct {
-		wcaID string
-		name  string
-		count int
-	}
-	var items []item
+	var items []types.RankWithEventsStatic
 	for personID, sum := range participantSums {
 		if p, ok := wcaIDSet[personID]; ok {
-			items = append(items, item{p.WcaID, p.Name, sum})
+			perEvent := personEventRank[personID]
+			rankEntries := make([]types.RankEntry, 0, len(events))
+			for _, evt := range events {
+				if r, ok := perEvent[evt]; ok {
+					rankEntries = append(rankEntries, types.RankEntry{
+						PersonID: personID,
+						EventID:  evt,
+						Rank:     r,
+					})
+				} else {
+					rankEntries = append(rankEntries, types.RankEntry{
+						PersonID: personID,
+						EventID:  evt,
+						Rank:     defaultRank[evt],
+						Missing:  true,
+					})
+				}
+			}
+			items = append(items, types.RankWithEventsStatic{
+				WcaID:      p.WcaID,
+				Name:       p.Name,
+				Rank:       0,
+				Count:      sum,
+				Country:    p.CountryID,
+				RankEntrys: rankEntries,
+			})
 		}
 	}
-	sort.Slice(items, func(i, j int) bool { return items[i].count < items[j].count })
+	sort.Slice(items, func(i, j int) bool { return items[i].Count < items[j].Count })
 
 	fullList := make([]types.RankWithEventsStatic, 0, len(items))
 	rank := 1
 	for i := 0; i < len(items); i++ {
-		if i > 0 && items[i].count != items[i-1].count {
+		if i > 0 && items[i].Count != items[i-1].Count {
 			rank = i + 1
 		}
-		fullList = append(fullList, types.RankWithEventsStatic{
-			WcaID: items[i].wcaID,
-			Name:  items[i].name,
-			Rank:  rank,
-			Count: items[i].count,
-		})
+		items[i].Rank = rank
+		fullList = append(fullList, items[i])
 	}
+
 	return fullList, nil
 }
 
 func (w *wca) GetRankWithEvents(events []string, country string, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error) {
-	fullList, err := w.getRankWithEventsFullList(events, country, avg)
+	persons := w.getCountryPersons(country)
+
+	fullList, err := w.getRankWithEventsFullList(events, country, persons, avg)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -1065,4 +1107,51 @@ func (w *wca) GetWithCompYearPersonRank(year int, country string, eventID string
 
 	out, count = rankWithPaginate(out, page, size)
 	return
+}
+
+func (w *wca) getNotPodiumPersons(country string, bestMisser int) []types.Person {
+	key := fmt.Sprintf("getNotPodiumPersons_%s_%d", country, bestMisser)
+	if out, ok := w.cache.Get(key); ok {
+		return out.([]types.Person)
+	}
+
+	var out []types.Person
+	persons := w.getCountryPersons(country)
+
+	var notPodiumPerson []types.PersonPodiums
+	query := w.db.Model(&types.PersonPodiums{}).Where("total = ?", 0)
+	if country != "" {
+		query = query.Where("country_id = ?", w.getCountryID(country))
+	}
+	if bestMisser != 0 {
+		query = query.Where("best_podium = ?", bestMisser)
+	}
+	query.Find(&notPodiumPerson)
+
+	var notPodiumMap = make(map[string]struct{})
+	for _, p := range notPodiumPerson {
+		notPodiumMap[p.PersonID] = struct{}{}
+	}
+
+	for _, person := range persons {
+		if _, ok := notPodiumMap[person.WcaID]; ok {
+			out = append(out, person)
+		}
+	}
+
+	w.cache.Set(key, out, time.Minute*5)
+	return out
+}
+
+func (w *wca) GetNotPodiumSor(events []string, country string, bestMisser int, avg bool, page int, size int) (out []types.RankWithEventsStatic, count int64, err error) {
+	persons := w.getNotPodiumPersons(country, bestMisser)
+	fullList, err := w.getRankWithEventsFullList(events, country, persons, avg)
+	if err != nil {
+		return nil, 0, err
+	}
+	if len(fullList) == 0 {
+		return nil, 0, nil
+	}
+	out, count = rankWithPaginate(fullList, page, size)
+	return out, count, nil
 }

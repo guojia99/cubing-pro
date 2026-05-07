@@ -1465,3 +1465,74 @@ func (s *syncer) setStaticDiyEventSingleRanks() (err error) {
 	}
 	return nil
 }
+
+func (s *syncer) getAllFinalResults() []types.Result {
+	var roundTypes []types.RoundType
+	s.db.Where("final = ?", true).Find(&roundTypes)
+	var typ []string
+	for _, t := range roundTypes {
+		if t.Final {
+			typ = append(typ, t.ID)
+		}
+	}
+
+	var result []types.Result
+	s.db.Where("round_type_id IN (?)", typ).Find(&result)
+	return result
+}
+
+func (s *syncer) setStaticPersonPodium() (err error) {
+	err = s.db.AutoMigrate(&types.PersonPodiums{})
+	if err != nil {
+		return
+	}
+	s.db.Delete(&types.PersonPodiums{}, "1 = 1")
+	defer func() {
+		if err != nil {
+			s.db.Delete(&types.PersonPodiums{}, "1 = 1")
+		}
+	}()
+
+	results := s.getAllFinalResults()
+	var personMap = make(map[string]*types.PersonPodiums)
+
+	for _, result := range results {
+		if _, ok := personMap[result.PersonID]; !ok {
+			personMap[result.PersonID] = &types.PersonPodiums{
+				PersonID:   result.PersonID,
+				PersonName: result.PersonName,
+				CountryID:  result.PersonCountryID,
+				Gold:       0,
+				Silver:     0,
+				Bronze:     0,
+				Total:      0,
+				BestPodium: 2 << 13,
+			}
+		}
+
+		if result.Best > 0 && result.Pos <= 3 {
+			switch result.Pos {
+			case 1:
+				personMap[result.PersonID].Gold += 1
+			case 2:
+				personMap[result.PersonID].Silver += 1
+			case 3:
+				personMap[result.PersonID].Bronze += 1
+			}
+			personMap[result.PersonID].Total += 1
+		}
+		if result.Best > 0 && result.Pos >= 4 {
+			if result.Pos <= personMap[result.PersonID].BestPodium {
+				personMap[result.PersonID].BestPodium = result.Pos
+			}
+		}
+	}
+
+	var saveData []types.PersonPodiums
+	for _, person := range personMap {
+		saveData = append(saveData, *person)
+	}
+
+	s.db.CreateInBatches(saveData, 2000)
+	return
+}

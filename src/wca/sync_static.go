@@ -22,6 +22,7 @@ func (s *syncer) syncStatics() error {
 
 		//"setStaticDiyEventRanks": s.setStaticDiyEventRanks, // 各种组合的 event world 排名前 500
 		"setStaticRankWithPersonStartYear": s.setStaticRankWithPersonStartYear, // 依据参与年份排名
+		"setStaticPersonPodium":            s.setStaticPersonPodium,            // 选手领奖台数
 	}
 
 	var sds []staticSyncDone

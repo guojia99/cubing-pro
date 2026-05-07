@@ -199,3 +199,16 @@ func Test_syncer_setStaticRankWithPersonStartYear(t *testing.T) {
 	//_ = s.setStaticDiyEventRanks()
 	_ = s.setStaticRankWithPersonStartYear()
 }
+
+func Test_syncer_setStaticPersonPodium(t *testing.T) {
+	s := &syncer{
+		DbURL:     "root@tcp(127.0.0.1:33036)/",
+		currentDB: curTestDb,
+	}
+	_, _, err := s.getCurrentDatabase()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_ = s.setStaticPersonPodium()
+}

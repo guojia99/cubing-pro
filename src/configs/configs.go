@@ -68,8 +68,10 @@ type GatewayConfig struct {
 	PEM        string `yaml:"pem"`
 	PrivateKey string `yaml:"privateKey"`
 	HttpPort   int    `yaml:"httpPort"`
-	HTTPSPort  int    `yaml:"httpsPort"`
-	HTTPSHost  string `yaml:"httpsHost"`
+	// Port 兼容 yaml 中的 port（与 httpPort 二选一，httpPort 优先）
+	Port      int    `yaml:"port"`
+	HTTPSPort int    `yaml:"httpsPort"`
+	HTTPSHost string `yaml:"httpsHost"`
 	XFile      string `yaml:"xFile"`      // 其他特殊文件
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
 	StaticPath string `yaml:"staticPath"` // 其他静态文件
@@ -205,6 +207,25 @@ func (c *Config) Load(file string) error {
 	if err != nil {
 		return err
 	}
-	err = yaml.Unmarshal(configBody, &c)
-	return err
+	var raw map[string]interface{}
+	if err = yaml.Unmarshal(configBody, &raw); err != nil {
+		return err
+	}
+	// 兼容旧配置键 apiGateway -> gateway
+	if _, has := raw["gateway"]; !has {
+		if ag, ok := raw["apiGateway"]; ok {
+			raw["gateway"] = ag
+		}
+	}
+	out, err := yaml.Marshal(raw)
+	if err != nil {
+		return err
+	}
+	if err = yaml.Unmarshal(out, c); err != nil {
+		return err
+	}
+	if c.Gateway.HttpPort == 0 && c.Gateway.Port != 0 {
+		c.Gateway.HttpPort = c.Gateway.Port
+	}
+	return nil
 }

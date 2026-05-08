@@ -31,7 +31,6 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef
 	github.com/t-tomalak/logrus-easy-formatter v0.0.0-20190827215021-c074f06c5816
 	github.com/tidwall/gjson v1.17.0
-	github.com/unrolled/secure v1.14.0
 	github.com/xuri/excelize/v2 v2.9.1
 	golang.org/x/image v0.25.0
 	golang.org/x/oauth2 v0.36.0

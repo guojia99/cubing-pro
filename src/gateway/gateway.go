@@ -3,6 +3,9 @@ package gateway
 import (
 	"fmt"
 	"log"
+	"net"
+	"net/http"
+	"strings"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
@@ -29,12 +32,72 @@ func (g *Gateway) Run() error {
 	g.api.NoRoute(g.baseRoute())
 	//g.api.Static("/", g.cfg.Gateway.StaticPath)
 	go g.runTNoodleApi()
-	// 监听cubing pro api
-	if g.cfg.Gateway.HTTPSPort > 0 {
-		g.api.Use(tlsHandler(g.cfg.Gateway.HTTPSPort, g.cfg.Gateway.HTTPSHost))
-		_ = g.api.RunTLS(fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort),
-			g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey) // 开启443
-		log.Println("http server listening on :", g.cfg.Gateway.HTTPSPort)
+
+	tlsReady := g.cfg.Gateway.HTTPSPort > 0 &&
+		g.cfg.Gateway.PEM != "" &&
+		g.cfg.Gateway.PrivateKey != ""
+
+	if tlsReady {
+		go func() {
+			addr := fmt.Sprintf(":%d", g.cfg.Gateway.HTTPSPort)
+			log.Printf("gateway HTTPS listening on %s", addr)
+			if err := g.api.RunTLS(addr, g.cfg.Gateway.PEM, g.cfg.Gateway.PrivateKey); err != nil {
+				log.Fatalf("gateway RunTLS: %v", err)
+			}
+		}()
+
+		httpPort := g.cfg.Gateway.HttpPort
+		if httpPort == 0 {
+			httpPort = 80
+		}
+		addr := fmt.Sprintf(":%d", httpPort)
+		log.Printf("gateway HTTP on %s redirects to HTTPS :%d", addr, g.cfg.Gateway.HTTPSPort)
+		return http.ListenAndServe(addr, g.httpToHTTPSRedirect())
 	}
-	return g.api.Run(fmt.Sprintf(":%d", g.cfg.Gateway.HttpPort)) // 开启80
+
+	httpPort := g.cfg.Gateway.HttpPort
+	if httpPort == 0 {
+		httpPort = 80
+	}
+	return g.api.Run(fmt.Sprintf(":%d", httpPort))
+}
+
+// httpToHTTPSRedirect 仅用于明文 HTTP 端口：301 到 HTTPS（TLS 由另一监听负责）。
+func (g *Gateway) httpToHTTPSRedirect() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-Forwarded-Proto") == "https" {
+			g.api.ServeHTTP(w, r)
+			return
+		}
+		if strings.HasPrefix(r.URL.Path, "/.well-known/acme-challenge/") {
+			g.api.ServeHTTP(w, r)
+			return
+		}
+
+		host := httpsRedirectHost(r, g.cfg.Gateway)
+		target := buildHTTPSURL(host, g.cfg.Gateway.HTTPSPort, r.URL.RequestURI())
+		http.Redirect(w, r, target, http.StatusMovedPermanently)
+	})
+}
+
+func stripHostPort(host string) string {
+	h, _, err := net.SplitHostPort(host)
+	if err != nil {
+		return host
+	}
+	return h
+}
+
+func httpsRedirectHost(r *http.Request, cfg configs.GatewayConfig) string {
+	if cfg.HTTPSHost != "" {
+		return cfg.HTTPSHost
+	}
+	return stripHostPort(r.Host)
+}
+
+func buildHTTPSURL(host string, httpsPort int, requestURI string) string {
+	if httpsPort == 443 || httpsPort == 0 {
+		return "https://" + host + requestURI
+	}
+	return fmt.Sprintf("https://%s:%d%s", host, httpsPort, requestURI)
 }

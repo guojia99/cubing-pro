@@ -16,7 +16,92 @@ import (
 	utils_tool "github.com/guojia99/cubing-pro/src/wca/utils"
 )
 
+type personRanks struct {
+	personID        string
+	single          map[string]int
+	singleEventCode uint64
+	avg             map[string]int
+	avgEventCode    uint64
+}
+
+type eventRanks struct {
+	single []*personRanks
+	avg    []*personRanks
+}
+type curPersonValue struct {
+	WcaId   string
+	Single  int
+	Average int
+
+	Country   string
+	Continent string
+
+	Rank int
+}
+
+type rankingState struct {
+	rank      int // 当前应分配的排名
+	lastValue int // 上一个有效成绩
+	prevRank  int // 上一次分配的 rank（用于并列）
+	count     int // 已处理人数（用于计算下一个 rank）
+}
+
+const monthSp = 1
+
 const wcaStartYear = 2003
+
+const cutOneEventValue = 3000
+const (
+	WorldType     = "world"
+	ContinentType = "continent"
+	CountryType   = "country"
+)
+
+const setStaticPersonRankWithTimerIndex = `
+-- 必需的基础索引
+CREATE INDEX idx_wca_id ON static_with_timer_ranks (wca_id);
+
+-- 查询最终排名数据所需索引
+CREATE INDEX idx_event_year_month_country ON static_with_timer_ranks (event_id, year, month, country);
+
+-- 排名查询所需索引 (平均值排名)
+CREATE INDEX idx_avg_rankings ON static_with_timer_ranks (event_id, year, month, avg_country_rank, avg_world_rank);
+
+-- 排名查询所需索引 (单次排名)
+CREATE INDEX idx_single_rankings ON static_with_timer_ranks (event_id, year, month, single_country_rank, single_world_rank);
+
+-- 组合索引用于完整查询场景
+CREATE INDEX idx_full_query ON static_with_timer_ranks (event_id, year, month, country, single_world_rank, avg_world_rank);
+`
+const setSuccessRateResultWithEventIndex = `
+-- 必需的基础索引
+CREATE INDEX idx_event ON static_success_rate_results (event_id);
+CREATE INDEX idx_event_country ON static_success_rate_results (event_id, country);
+`
+
+func (p *personRanks) getSingleEventCount(events []string, max map[string]int) int {
+	out := 0
+	for _, event := range events {
+		if _, ok := p.single[event]; ok {
+			out += p.single[event]
+		} else {
+			out += max[event]
+		}
+	}
+	return out
+}
+
+func (p *personRanks) getAvgEventCount(events []string, max map[string]int) int {
+	out := 0
+	for _, event := range events {
+		if _, ok := p.avg[event]; ok {
+			out += p.avg[event]
+		} else {
+			out += max[event]
+		}
+	}
+	return out
+}
 
 func (s *syncer) getAllPersonYearMap() map[int]map[string]types.Person {
 	var out = make(map[int]map[string]types.Person)
@@ -89,8 +174,6 @@ func (s *syncer) countryMap() map[string]types.Country {
 	return out
 }
 
-const startYear = 2003
-
 func getEndCompsTimer(t time.Time) time.Time {
 	year := t.Year()
 	startOfYear := time.Date(year, 1, 1, 0, 0, 0, 0, t.Location())
@@ -111,23 +194,6 @@ func getEndCompsTimer(t time.Time) time.Time {
 	}
 	return candidate
 }
-
-const setStaticPersonRankWithTimerIndex = `
--- 必需的基础索引
-CREATE INDEX idx_wca_id ON static_with_timer_ranks (wca_id);
-
--- 查询最终排名数据所需索引
-CREATE INDEX idx_event_year_month_country ON static_with_timer_ranks (event_id, year, month, country);
-
--- 排名查询所需索引 (平均值排名)
-CREATE INDEX idx_avg_rankings ON static_with_timer_ranks (event_id, year, month, avg_country_rank, avg_world_rank);
-
--- 排名查询所需索引 (单次排名)
-CREATE INDEX idx_single_rankings ON static_with_timer_ranks (event_id, year, month, single_country_rank, single_world_rank);
-
--- 组合索引用于完整查询场景
-CREATE INDEX idx_full_query ON static_with_timer_ranks (event_id, year, month, country, single_world_rank, avg_world_rank);
-`
 
 func (s *syncer) getResultMapWithEvent(eventId string) map[string][]types.Result {
 	var results []types.Result
@@ -153,19 +219,6 @@ func (s *syncer) getEvents() []types.Event {
 	var events []types.Event
 	s.db.Find(&events)
 	return events
-}
-
-const monthSp = 1
-
-type curPersonValue struct {
-	WcaId   string
-	Single  int
-	Average int
-
-	Country   string
-	Continent string
-
-	Rank int
 }
 
 func (s *syncer) updateStaticCurAllPersonValue(curAllPersonValue map[string]*curPersonValue, curTimeResults []types.Result, countryMap map[string]types.Country) {
@@ -227,13 +280,6 @@ func sortEventRanks(eventId string, avg bool, in []curPersonValue) {
 			}
 		}
 	}
-}
-
-type rankingState struct {
-	rank      int // 当前应分配的排名
-	lastValue int // 上一个有效成绩
-	prevRank  int // 上一次分配的 rank（用于并列）
-	count     int // 已处理人数（用于计算下一个 rank）
 }
 
 func (s *syncer) getCurPersonsRankTimerSnapshots(
@@ -377,7 +423,7 @@ func (s *syncer) setStaticPersonRankWithTimersWithEvent(eventID string, comps []
 
 	maxDay := getEndCompsTimer(time.Now()) // or your custom end date
 	maxYear := maxDay.Year()
-	for year := startYear; year <= maxYear; year++ {
+	for year := wcaStartYear; year <= maxYear; year++ {
 		yearStart := time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC)
 		yearEnd := time.Date(year, 12, 31, 0, 0, 0, 0, time.UTC)
 		if yearStart.After(maxDay) {
@@ -580,12 +626,6 @@ func (s *syncer) setStaticSuccessRateResultWithEvent(eventID string) error {
 	return nil
 }
 
-const setSuccessRateResultWithEventIndex = `
--- 必需的基础索引
-CREATE INDEX idx_event ON static_success_rate_results (event_id);
-CREATE INDEX idx_event_country ON static_success_rate_results (event_id, country);
-`
-
 func (s *syncer) setStaticSuccessRateResult() (err error) {
 	startTime := time.Now()
 	err = s.db.AutoMigrate(&types.StaticSuccessRateResult{})
@@ -778,12 +818,6 @@ func (s *syncer) setStaticAllEventAvg() (err error) {
 	}
 	return nil
 }
-
-const (
-	WorldType     = "world"
-	ContinentType = "continent"
-	CountryType   = "country"
-)
 
 func (s *syncer) getChampionshipMap() (map[string][]types.Championship, map[string]types.Competition) {
 	var championships []types.Championship
@@ -1161,45 +1195,6 @@ func (s *syncer) setStaticRankWithPersonStartYear() (err error) {
 	return
 }
 
-type personRanks struct {
-	personID        string
-	single          map[string]int
-	singleEventCode uint64
-	avg             map[string]int
-	avgEventCode    uint64
-}
-
-func (p *personRanks) getSingleEventCount(events []string, max map[string]int) int {
-	out := 0
-	for _, event := range events {
-		if _, ok := p.single[event]; ok {
-			out += p.single[event]
-		} else {
-			out += max[event]
-		}
-	}
-	return out
-}
-
-func (p *personRanks) getAvgEventCount(events []string, max map[string]int) int {
-	out := 0
-	for _, event := range events {
-		if _, ok := p.avg[event]; ok {
-			out += p.avg[event]
-		} else {
-			out += max[event]
-		}
-	}
-	return out
-}
-
-type eventRanks struct {
-	single []*personRanks
-	avg    []*personRanks
-}
-
-const cutOneEventValue = 3000
-
 func (s *syncer) setStaticDiyEventRanks() (err error) {
 	//_ = s.db.AutoMigrate(&types.DiyEventRanks{})
 	//_ = s.db.AutoMigrate(&types.DiyEventRanksEventIndex{})
@@ -1330,12 +1325,6 @@ func (s *syncer) setStaticDiyEventRanks() (err error) {
 
 	return err
 }
-
-//// 跳过平均
-//if slices.Contains(events, "333mbf") {
-//	continue
-//}
-//var avgCache []types.DiyEventAvgRanks
 
 func (s *syncer) setStaticDiyEventSingleRanks() (err error) {
 	var allSingleRank []types.RanksSingle

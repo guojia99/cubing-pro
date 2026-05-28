@@ -103,22 +103,22 @@ func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 
 	if fi, err := os.Stat(target); err == nil {
 		if !fi.IsDir() {
-			ctx.File(target)
+			serveFileWithUTF8(ctx, target)
 			return
 		}
 		// 请求落在站点根目录：始终使用配置的入口（如 build/index.html）
 		if filepath.Clean(target) == root {
-			ctx.File(indexPath)
+			serveFileWithUTF8(ctx, indexPath)
 			return
 		}
 		// 子目录：尝试 子目录/<入口基名>，如 docs/index.html
 		dirIndex := filepath.Join(target, indexBase)
 		if fi2, err2 := os.Stat(dirIndex); err2 == nil && !fi2.IsDir() {
-			ctx.File(dirIndex)
+			serveFileWithUTF8(ctx, dirIndex)
 			return
 		}
 		if site.SPA {
-			ctx.File(indexPath)
+			serveFileWithUTF8(ctx, indexPath)
 			return
 		}
 		ctx.AbortWithStatus(http.StatusNotFound)
@@ -131,8 +131,15 @@ func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 		return
 	}
 	if site.SPA {
-		ctx.File(indexPath)
+		serveFileWithUTF8(ctx, indexPath)
 		return
 	}
 	ctx.AbortWithStatus(http.StatusNotFound)
+}
+
+func serveFileWithUTF8(ctx *gin.Context, filePath string) {
+	if ct := contentTypeWithUTF8(filePath); ct != "" {
+		ctx.Header("Content-Type", ct)
+	}
+	ctx.File(filePath)
 }

@@ -1,7 +1,7 @@
 package algs
 
 var CubeKeyList = []string{
-	"222", "special", "333", "333oh", "sq1", "big cube",
+	"222", "333", "333oh", "megaminx", "skewb", "sq1", "special", "bigCube",
 }
 var algsDataKey = map[string][]string{
 	"222": {
@@ -12,14 +12,6 @@ var algsDataKey = map[string][]string{
 		"2x2-TEG-Trainer",
 		"2x2-FH-Trainer",
 		"2x2-LS-Trainer",
-	},
-	"special": {
-		"Pyraminx-L4E-Trainer",
-		"Skewb-NS2-Trainer",
-		"Megaminx-OLL-Trainer",
-		"Megaminx-PLL-Trainer",
-		"Octaminx-L3T-Trainer",
-		"Octaminx-TCP-Trainer",
 	},
 	"333": {
 		"3x3-F2L-Trainer",
@@ -36,7 +28,17 @@ var algsDataKey = map[string][]string{
 		"3x3-OH-PLL-Trainer",
 		"3x3-OH-ZBLL-Trainer",
 	},
-
+	"megaminx": {
+		"Megaminx-OLL-Trainer",
+		"Megaminx-PLL-Trainer",
+		"Megaminx-WV-Trainer",
+		"Megaminx-ZBLS-Trainer",
+	},
+	"skewb": {
+		"Skewb-NS2-Trainer",
+		"Skewb-TCLL-Trainer",
+		"Skewb-L6C-Trainer",
+	},
 	"sq1": {
 		"SQ1-CS-Trainer",
 		"SQ1-CO-Trainer",
@@ -45,7 +47,12 @@ var algsDataKey = map[string][]string{
 		"Sq1-OBL-Trainer",
 		"Sq1-PBL-Trainer",
 	},
-	"big cube": {
+	"special": {
+		"Pyraminx-L4E-Trainer",
+		"Octaminx-L3T-Trainer",
+		"Octaminx-TCP-Trainer",
+	},
+	"bigCube": {
 		"4x4-PLLP-Trainer",
 		"5x5-L2E-Trainer",
 	},
@@ -80,9 +87,14 @@ var algsNameMap = map[string]string{
 	"Sq1-OBL-Trainer":  "OBL",
 	"Sq1-PBL-Trainer":  "PBL",
 
-	"Megaminx-OLL-Trainer": "Megaminx OLL",
-	"Megaminx-PLL-Trainer": "Megaminx PLL",
+	"Megaminx-OLL-Trainer":  "Megaminx OLL",
+	"Megaminx-PLL-Trainer":  "Megaminx PLL",
+	"Megaminx-WV-Trainer":   "Megaminx WV",
+	"Megaminx-ZBLS-Trainer": "Megaminx ZBLS",
+
 	"Skewb-NS2-Trainer":    "Skewb NS",
+	"Skewb-TCLL-Trainer":   "Skewb TCLL",
+	"Skewb-L6C-Trainer":    "Skewb L6C",
 	"Pyraminx-L4E-Trainer": "Pyraminx L4E",
 	"Octaminx-L3T-Trainer": "FTO L3T",
 	"Octaminx-TCP-Trainer": "FTO TCP",

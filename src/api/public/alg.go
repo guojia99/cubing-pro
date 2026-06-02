@@ -3,6 +3,7 @@ package public
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ import (
 type outputClass struct {
 	Name  string `json:"name"`
 	Image string `json:"image"`
+	Alg   string `json:"alg"`
 }
 
 type AlgorithmGroupsResponse struct {
@@ -30,9 +32,19 @@ func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 		}
 		for _, alg := range algs.GetAlgorithms() {
 			for _, k := range alg.ClassList {
+				algData := k.Sets[0].AlgorithmGroups[0].Algorithms[0].Algs[0]
+				for _, a := range k.Sets[0].AlgorithmGroups[0].Algorithms[0].Algs {
+					if strings.Contains(a, "x") || strings.Contains(a, "y") || strings.Contains(a, "z") {
+						continue
+					}
+					algData = a
+					break
+				}
+
 				o := outputClass{
 					Name:  k.Name,
 					Image: k.Sets[0].AlgorithmGroups[0].Algorithms[0].Image,
+					Alg:   algData,
 				}
 				resp.ClassMap[alg.Cube] = append(resp.ClassMap[alg.Cube], o)
 			}

@@ -91,12 +91,14 @@ type GatewayConfig struct {
 	LocalProxies []LocalProxyConfig `yaml:"localProxies"`
 }
 
-// LocalProxyConfig 将请求 Host 反向代理到 127.0.0.1:Port。
+// LocalProxyConfig 将请求 Host 反向代理到 TargetHost:Port（默认 127.0.0.1）。
 // 可只填 host，或用 hosts 将多个域名指向同一端口。
 type LocalProxyConfig struct {
 	Host  string   `yaml:"host"`
 	Hosts []string `yaml:"hosts"`
 	Port  int      `yaml:"port"`
+	// TargetHost 上游服务地址，默认 127.0.0.1（如内网 10.x.x.x）
+	TargetHost string `yaml:"targetHost"`
 }
 
 // StaticSiteConfig 将请求 Host 映射到本地静态资源根目录。

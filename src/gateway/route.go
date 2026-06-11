@@ -13,6 +13,13 @@ import (
 	"github.com/guojia99/cubing-pro/src/configs"
 )
 
+func localProxyTargetHost(p configs.LocalProxyConfig) string {
+	if h := strings.TrimSpace(p.TargetHost); h != "" {
+		return h
+	}
+	return "127.0.0.1"
+}
+
 func localProxyHostKeys(p configs.LocalProxyConfig) []string {
 	if len(p.Hosts) > 0 {
 		out := make([]string, 0, len(p.Hosts))
@@ -37,7 +44,7 @@ func buildLocalProxyMap(proxies []configs.LocalProxyConfig) map[string]*httputil
 		if p.Port <= 0 {
 			continue
 		}
-		u, err := url.Parse(fmt.Sprintf("http://127.0.0.1:%d", p.Port))
+		u, err := url.Parse(fmt.Sprintf("http://%s:%d", localProxyTargetHost(p), p.Port))
 		if err != nil {
 			continue
 		}

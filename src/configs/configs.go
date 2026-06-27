@@ -64,6 +64,12 @@ type APIConfig struct {
 	StaticPath string `yaml:"staticPath"`
 }
 
+// DynamicRouteFallbackConfig 未命中物理文件时，将 URL 回退到预构建的 __dynamic__ 占位页（Next 静态导出动态 ID 路由）。
+type DynamicRouteFallbackConfig struct {
+	Match       string `yaml:"match"`
+	Placeholder string `yaml:"placeholder"`
+}
+
 type GatewayConfig struct {
 	PEM        string `yaml:"pem"`
 	PrivateKey string `yaml:"privateKey"`
@@ -79,6 +85,9 @@ type GatewayConfig struct {
 	StaticRoot string `yaml:"staticRoot"`
 	// SPA 为 true 时无物理文件则回退 indexPath（Umi/Vue 单页）；Next 多页静态导出须为 false
 	SPA bool `yaml:"spa"`
+
+	// DynamicRouteFallbacks Next 多页静态导出：动态 ID 路由回退到 __dynamic__ 占位 HTML
+	DynamicRouteFallbacks []DynamicRouteFallbackConfig `yaml:"dynamicRouteFallbacks"`
 
 	// StaticFileExts 走静态文件缓存策略的扩展名，空则用代码默认值
 	StaticFileExts []string `yaml:"staticFileExts"`
@@ -115,6 +124,8 @@ type StaticSiteConfig struct {
 	Index string `yaml:"index"`
 	// SPA 为 true 时：无对应物理文件则回退到 Index（适合 Vue/React 等前端路由）
 	SPA bool `yaml:"spa"`
+	// DynamicRouteFallbacks 同 GatewayConfig，按站点覆盖（通常仅主站需要）
+	DynamicRouteFallbacks []DynamicRouteFallbackConfig `yaml:"dynamicRouteFallbacks"`
 	// CacheControl 为空时用 public, max-age=60
 	CacheControl string `yaml:"cacheControl"`
 

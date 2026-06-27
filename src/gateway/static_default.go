@@ -16,9 +16,10 @@ import (
 func serveDefaultStatic(ctx *gin.Context, gw configs.GatewayConfig) {
 	if root := strings.TrimSpace(gw.StaticRoot); root != "" {
 		serveStaticSite(ctx, configs.StaticSiteConfig{
-			Root: root,
-			Index: "index.html",
-			SPA:  gw.SPA,
+			Root:                  root,
+			Index:                 "index.html",
+			SPA:                   gw.SPA,
+			DynamicRouteFallbacks: gw.DynamicRouteFallbacks,
 		})
 		return
 	}
@@ -29,9 +30,10 @@ func serveDefaultStatic(ctx *gin.Context, gw configs.GatewayConfig) {
 	// Next.js 等多页：index 在产物根目录，无旧版 staticPath 子目录，且显式关闭 SPA 回退
 	if indexPath != "" && staticPath == "" && !gw.SPA {
 		serveStaticSite(ctx, configs.StaticSiteConfig{
-			Root:  filepath.Dir(indexPath),
-			Index: filepath.Base(indexPath),
-			SPA:   false,
+			Root:                  filepath.Dir(indexPath),
+			Index:                 filepath.Base(indexPath),
+			SPA:                   false,
+			DynamicRouteFallbacks: gw.DynamicRouteFallbacks,
 		})
 		return
 	}

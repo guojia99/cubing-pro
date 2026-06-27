@@ -70,6 +70,43 @@ func TestServeDefaultStatic_legacySPA(t *testing.T) {
 	}
 }
 
+func TestServeDefaultStatic_dynamicRouteFallback(t *testing.T) {
+	t.Parallel()
+	gin.SetMode(gin.TestMode)
+
+	root := t.TempDir()
+	writeFile(t, filepath.Join(root, "index.html"), "<html>home</html>")
+	dynamicDir := filepath.Join(root, "competition", "__dynamic__")
+	if err := os.MkdirAll(dynamicDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	writeFile(t, filepath.Join(dynamicDir, "index.html"), "<html>competition shell</html>")
+
+	fallbacks := []configs.DynamicRouteFallbackConfig{
+		{
+			Match:       `^/competition/[^/]+/?$`,
+			Placeholder: "/competition/__dynamic__/index.html",
+		},
+	}
+
+	w := httptest.NewRecorder()
+	ctx, _ := gin.CreateTestContext(w)
+	ctx.Request = httptest.NewRequest(http.MethodGet, "/competition/365", nil)
+
+	serveDefaultStatic(ctx, configs.GatewayConfig{
+		StaticRoot:            root,
+		SPA:                   false,
+		DynamicRouteFallbacks: fallbacks,
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", w.Code)
+	}
+	if body := w.Body.String(); body != "<html>competition shell</html>" {
+		t.Fatalf("body = %q, want competition shell", body)
+	}
+}
+
 func writeFile(t *testing.T, path, content string) {
 	t.Helper()
 	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {

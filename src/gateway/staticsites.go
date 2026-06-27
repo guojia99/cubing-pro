@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -77,6 +78,45 @@ func safeJoinSiteRoot(root, urlPath string) (string, bool) {
 	return full, true
 }
 
+func tryDynamicRouteFallback(
+	ctx *gin.Context,
+	root string,
+	fallbacks []configs.DynamicRouteFallbackConfig,
+) bool {
+	if len(fallbacks) == 0 {
+		return false
+	}
+
+	urlPath := ctx.Request.URL.Path
+	for _, fb := range fallbacks {
+		match := strings.TrimSpace(fb.Match)
+		placeholder := strings.TrimSpace(fb.Placeholder)
+		if match == "" || placeholder == "" {
+			continue
+		}
+
+		re, err := regexp.Compile(match)
+		if err != nil || !re.MatchString(urlPath) {
+			continue
+		}
+
+		target, ok := safeJoinSiteRoot(root, placeholder)
+		if !ok {
+			continue
+		}
+
+		fi, err := os.Stat(target)
+		if err != nil || fi.IsDir() {
+			continue
+		}
+
+		serveFileWithUTF8(ctx, target)
+		return true
+	}
+
+	return false
+}
+
 func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 	root := filepath.Clean(site.Root)
 	info, err := os.Stat(root)
@@ -121,6 +161,9 @@ func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 			serveFileWithUTF8(ctx, indexPath)
 			return
 		}
+		if tryDynamicRouteFallback(ctx, root, site.DynamicRouteFallbacks) {
+			return
+		}
 		ctx.AbortWithStatus(http.StatusNotFound)
 		return
 	}
@@ -132,6 +175,9 @@ func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 	}
 	if site.SPA {
 		serveFileWithUTF8(ctx, indexPath)
+		return
+	}
+	if tryDynamicRouteFallback(ctx, root, site.DynamicRouteFallbacks) {
 		return
 	}
 	ctx.AbortWithStatus(http.StatusNotFound)

@@ -41,6 +41,15 @@ gateway:
   # --- Next.js v4 多页静态导出（npm run build:static 产物目录）---
   staticRoot: "/build"   # 或 indexPath: "/build/index.html" 且不要 staticPath，并 spa: false
   spa: false             # Next 多页必须为 false；Umi 单页勿设 staticRoot 并保留 staticPath
+  dynamicRouteFallbacks:
+    - match: "^/competition/[^/]+/?$"
+      placeholder: "/competition/__dynamic__/index.html"
+    - match: "^/player/[^/]+/?$"
+      placeholder: "/player/__dynamic__/index.html"
+    - match: "^/wca/player/[^/]+/?$"
+      placeholder: "/wca/player/__dynamic__/index.html"
+    - match: "^/admin/organizers/[^/]+/comp/[^/]+/result/?$"
+      placeholder: "/admin/organizers/__dynamic__/comp/__dynamic__/result/index.html"
 
 api:
   host: "localhost"

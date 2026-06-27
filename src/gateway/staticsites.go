@@ -3,6 +3,7 @@ package gateway
 import (
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 	"path/filepath"
@@ -78,6 +79,65 @@ func safeJoinSiteRoot(root, urlPath string) (string, bool) {
 	return full, true
 }
 
+// percentEncodedPathSegments 将各 path 段做 PathEscape，兼容浏览器解码中文 URL 与磁盘上 %XX 目录名。
+func percentEncodedPathSegments(urlPath string) string {
+	decoded, err := url.PathUnescape(strings.TrimSpace(urlPath))
+	if err != nil {
+		decoded = urlPath
+	}
+	trimmed := strings.Trim(decoded, "/")
+	if trimmed == "" {
+		return "/"
+	}
+	parts := strings.Split(trimmed, "/")
+	for i, p := range parts {
+		parts[i] = url.PathEscape(p)
+	}
+	return "/" + strings.Join(parts, "/")
+}
+
+func pathLookupCandidates(urlPath string) []string {
+	primary := urlPath
+	if primary == "" {
+		primary = "/"
+	}
+	encoded := percentEncodedPathSegments(primary)
+	if encoded == primary {
+		return []string{primary}
+	}
+	return []string{primary, encoded}
+}
+
+// tryServeResolvedPath 将 URL 映射为文件或子目录 index.html 并响应；成功返回 true。
+func tryServeResolvedPath(
+	ctx *gin.Context,
+	root, indexPath, indexBase, urlPath string,
+) bool {
+	target, ok := safeJoinSiteRoot(root, urlPath)
+	if !ok {
+		return false
+	}
+
+	fi, err := os.Stat(target)
+	if err != nil {
+		return false
+	}
+	if !fi.IsDir() {
+		serveFileWithUTF8(ctx, target)
+		return true
+	}
+	if filepath.Clean(target) == filepath.Clean(root) {
+		serveFileWithUTF8(ctx, indexPath)
+		return true
+	}
+	dirIndex := filepath.Join(target, indexBase)
+	if fi2, err2 := os.Stat(dirIndex); err2 == nil && !fi2.IsDir() {
+		serveFileWithUTF8(ctx, dirIndex)
+		return true
+	}
+	return false
+}
+
 func tryDynamicRouteFallback(
 	ctx *gin.Context,
 	root string,
@@ -135,41 +195,14 @@ func serveStaticSite(ctx *gin.Context, site configs.StaticSiteConfig) {
 	indexPath := filepath.Join(root, indexRel)
 	indexBase := filepath.Base(indexRel)
 
-	target, ok := safeJoinSiteRoot(root, ctx.Request.URL.Path)
-	if !ok {
-		ctx.AbortWithStatus(http.StatusForbidden)
-		return
+	for _, candidate := range pathLookupCandidates(ctx.Request.URL.Path) {
+		if tryServeResolvedPath(ctx, root, indexPath, indexBase, candidate) {
+			return
+		}
 	}
 
-	if fi, err := os.Stat(target); err == nil {
-		if !fi.IsDir() {
-			serveFileWithUTF8(ctx, target)
-			return
-		}
-		// 请求落在站点根目录：始终使用配置的入口（如 build/index.html）
-		if filepath.Clean(target) == root {
-			serveFileWithUTF8(ctx, indexPath)
-			return
-		}
-		// 子目录：尝试 子目录/<入口基名>，如 docs/index.html
-		dirIndex := filepath.Join(target, indexBase)
-		if fi2, err2 := os.Stat(dirIndex); err2 == nil && !fi2.IsDir() {
-			serveFileWithUTF8(ctx, dirIndex)
-			return
-		}
-		if site.SPA {
-			serveFileWithUTF8(ctx, indexPath)
-			return
-		}
-		if tryDynamicRouteFallback(ctx, root, site.DynamicRouteFallbacks) {
-			return
-		}
-		ctx.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-
-	// 文件不存在：带扩展名的路径视为具体资源，缺失则 404；无扩展名则交给 SPA 回退
-	if path.Ext(ctx.Request.URL.Path) != "" {
+	urlPath := ctx.Request.URL.Path
+	if path.Ext(urlPath) != "" {
 		ctx.AbortWithStatus(http.StatusNotFound)
 		return
 	}

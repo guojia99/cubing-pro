@@ -107,6 +107,34 @@ func TestServeDefaultStatic_dynamicRouteFallback(t *testing.T) {
 	}
 }
 
+func TestServeDefaultStatic_percentEncodedPathFallback(t *testing.T) {
+	t.Parallel()
+	gin.SetMode(gin.TestMode)
+
+	root := t.TempDir()
+	skillDir := filepath.Join(root, "other", "kitchen-skills", "advanced", "%E7%B3%96%E8%89%B2%E7%9A%84%E7%82%92%E5%88%B6")
+	if err := os.MkdirAll(skillDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	writeFile(t, filepath.Join(skillDir, "index.html"), "<html>糖色</html>")
+
+	w := httptest.NewRecorder()
+	ctx, _ := gin.CreateTestContext(w)
+	ctx.Request = httptest.NewRequest(http.MethodGet, "/other/kitchen-skills/advanced/糖色的炒制", nil)
+
+	serveDefaultStatic(ctx, configs.GatewayConfig{
+		StaticRoot: root,
+		SPA:        false,
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", w.Code)
+	}
+	if body := w.Body.String(); body != "<html>糖色</html>" {
+		t.Fatalf("body = %q, want 糖色 page", body)
+	}
+}
+
 func writeFile(t *testing.T, path, content string) {
 	t.Helper()
 	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {

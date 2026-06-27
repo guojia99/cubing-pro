@@ -35,8 +35,12 @@ gateway:
   httpsPort: 443
   # 生产环境建议填写主域名，重定向 Location 保持一致（可从 Host 推导则省略）
   httpsHost: "cubing.pro"
-  indexPath: "/build/index.html" # 前端启动文件
-  staticPath: "/build/static" # 前端资源文件
+  # --- 遗留 Umi 单页（index + static 子目录，未匹配路由回退 index）---
+  # indexPath: "/build/index.html"
+  # staticPath: "/build/static"
+  # --- Next.js v4 多页静态导出（npm run build:static 产物目录）---
+  staticRoot: "/build"   # 或 indexPath: "/build/index.html" 且不要 staticPath，并 spa: false
+  spa: false             # Next 多页必须为 false；Umi 单页勿设 staticRoot 并保留 staticPath
 
 api:
   host: "localhost"

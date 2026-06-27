@@ -5,8 +5,6 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"path"
-	"path/filepath"
-	"slices"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -105,13 +103,6 @@ func (g *Gateway) baseRoute() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Header("Cache-Control", "public, max-age=60")
-		ext := path.Ext(ctx.Request.URL.Path)
-		if slices.Contains(getStaticFileExts(g.cfg.Gateway), ext) {
-			staticFilePath := filepath.Join(g.cfg.Gateway.StaticPath, ctx.Request.URL.Path)
-			serveFileWithUTF8(ctx, staticFilePath)
-			return
-		}
-		serveFileWithUTF8(ctx, g.cfg.Gateway.IndexPath)
+		serveDefaultStatic(ctx, g.cfg.Gateway)
 	}
 }

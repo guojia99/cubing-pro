@@ -73,8 +73,12 @@ type GatewayConfig struct {
 	HTTPSPort int    `yaml:"httpsPort"`
 	HTTPSHost string `yaml:"httpsHost"`
 	XFile      string `yaml:"xFile"`      // 其他特殊文件
-	IndexPath  string `yaml:"indexPath"`  // 前端启动文件
-	StaticPath string `yaml:"staticPath"` // 其他静态文件
+	IndexPath  string `yaml:"indexPath"`  // 前端启动文件（遗留 Umi 单页，或 Next 多页时指向 dist/index.html）
+	StaticPath string `yaml:"staticPath"` // 遗留 Umi：打包资源目录（如 build/static）；Next 多页静态导出请留空并设 spa: false
+	// StaticRoot Next.js output:export 等整站静态目录；设置后按路径提供各子目录 index.html（优先于 indexPath/staticPath）
+	StaticRoot string `yaml:"staticRoot"`
+	// SPA 为 true 时无物理文件则回退 indexPath（Umi/Vue 单页）；Next 多页静态导出须为 false
+	SPA bool `yaml:"spa"`
 
 	// StaticFileExts 走静态文件缓存策略的扩展名，空则用代码默认值
 	StaticFileExts []string `yaml:"staticFileExts"`

@@ -81,7 +81,7 @@ func (s *scramble) ScrambleWithEvent(event event.Event, number int) ([]string, e
 
 	switch event.AutoScrambleKey {
 	case "FTO":
-		return s.autoScramble(FTOScrambleKey, 25, 30, number), nil
+		return s.autoScramble(FTOScrambleKey, FTOAxisMap, 25, 30, number), nil
 	}
 
 	var evs []string
@@ -109,7 +109,7 @@ func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 
 	switch event.AutoScrambleKey {
 	case "FTO":
-		return s.autoScramble(FTOScrambleKey, 25, 30, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
+		return s.autoScramble(FTOScrambleKey, FTOAxisMap, 25, 30, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
 	}
 
 	switch event.ScrambleValue {
@@ -117,7 +117,7 @@ func (s *scramble) ScrambleWithComp(event event.Event) ([]string, error) {
 		return s.Scramble("333bf", repeatedlyNum), nil
 	case "444", "444bf":
 		// 等狼优化到极致速度再采用随机状态
-		return s.autoScramble(Cube444ScrambleKey, 39, 49, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
+		return s.autoScramble(Cube444ScrambleKey, Cube444AxisMap, 39, 49, event.BaseRouteType.RouteMap().Rounds+backupNum), nil
 	}
 
 	var evs []string

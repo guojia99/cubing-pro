@@ -21,7 +21,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
 	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/log"
-	"github.com/guojia99/cubing-pro/src/wca"
 	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
@@ -37,12 +36,12 @@ func Models() []interface{} {
 }
 
 func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI {
-	wcaClient := wca.NewWCA(
-		config.GlobalConfig.WcaDB.MysqlUrl,
-		config.GlobalConfig.WcaDB.DbPath,
-		config.GlobalConfig.WcaDB.SyncPath,
-		false,
-	)
+	//wcaClient := wca.NewWCA(
+	//	config.GlobalConfig.WcaDB.MysqlUrl,
+	//	config.GlobalConfig.WcaDB.DbPath,
+	//	config.GlobalConfig.WcaDB.SyncPath,
+	//	false,
+	//)
 
 	_ = db.AutoMigrate()
 	_ = db.AutoMigrate(&user.User{})       // 用户表

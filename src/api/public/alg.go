@@ -14,9 +14,20 @@ import (
 )
 
 type outputClass struct {
-	Name  string `json:"name"`
-	Image string `json:"image"`
-	Alg   string `json:"alg"`
+	Name      string `json:"name"`
+	Image     string `json:"image"`
+	Alg       string `json:"alg"`
+	CaseCount int    `json:"caseCount"`
+}
+
+func countClassCases(class algs.AlgorithmClass) int {
+	n := 0
+	for _, set := range class.Sets {
+		for _, group := range set.AlgorithmGroups {
+			n += len(group.Algorithms)
+		}
+	}
+	return n
 }
 
 type AlgorithmGroupsResponse struct {
@@ -42,9 +53,10 @@ func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 				}
 
 				o := outputClass{
-					Name:  k.Name,
-					Image: k.Sets[0].AlgorithmGroups[0].Algorithms[0].Image,
-					Alg:   algData,
+					Name:      k.Name,
+					Image:     k.Sets[0].AlgorithmGroups[0].Algorithms[0].Image,
+					Alg:       algData,
+					CaseCount: countClassCases(k),
 				}
 				resp.ClassMap[alg.Cube] = append(resp.ClassMap[alg.Cube], o)
 			}

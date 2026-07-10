@@ -110,6 +110,9 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
 		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码
 		user.PUT("/update_wca_id", users.UpdateUserWCAID(svc))            // 更新用户WCAID
+		user.PUT("/update_qq", users.UpdateUserQQ(svc))                  // 更新 QQ / QQUniID
+		user.POST("/soft_delete", users.SoftDeleteUser(svc))            // 软删除用户
+		user.POST("/purge", users.PurgeUser(svc))                         // 彻底删除已软删除用户
 		user.POST("/merge_user", users.MergeUser(svc))                    // 合并两个用户
 		user.POST("/update_auth", users.UpdateAuth(svc))                  // 修改用户权限
 	}

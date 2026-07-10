@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -46,7 +47,7 @@ func AdminUsers(svc *svc.Svc) gin.HandlerFunc {
 				Model:   &user.User{},
 				MaxSize: 100,
 				CanSearchAndLike: []string{
-					"cube_id", "en_name", "name",
+					"cube_id", "en_name", "name", "qq", "qq_uni_id", "id",
 				},
 				Select: nil,
 			},
@@ -117,7 +118,7 @@ func UpdateUserName(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var dup user.User
-		if err := svc.DB.Where("name = ? AND id <> ?", req.NewName, curUser.ID).First(&dup).Error; err == nil {
+		if err := svc.DB.Unscoped().Where("name = ? AND id <> ?", req.NewName, curUser.ID).First(&dup).Error; err == nil {
 			exception.ErrValidationFailed.ResponseWithError(ctx, "名称已被使用")
 			return
 		}
@@ -173,7 +174,7 @@ func UpdateUserCubeID(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var taken user.User
-		if err := svc.DB.Where("cube_id = ?", req.NewCubeID).First(&taken).Error; err == nil {
+		if err := svc.DB.Unscoped().Where("cube_id = ?", req.NewCubeID).First(&taken).Error; err == nil {
 			exception.ErrValidationFailed.ResponseWithError(ctx, "CubeID 已被占用")
 			return
 		}
@@ -221,6 +222,99 @@ func UpdateUserWCAID(svc *svc.Svc) gin.HandlerFunc {
 		curUser.WcaID = strings.ToUpper(req.WcaID)
 		if err := svc.DB.Save(&curUser).Error; err != nil {
 			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+type AdminUserRefReq struct {
+	UserID uint   `json:"user_id"`
+	CubeID string `json:"cube_id"`
+}
+
+type UpdateUserQQReq struct {
+	UserID  uint   `json:"user_id"`
+	CubeID  string `json:"cube_id"`
+	QQ      string `json:"qq"`
+	QQUniID string `json:"qq_uni_id"`
+}
+
+func UpdateUserQQ(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req UpdateUserQQReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+		req.CubeID = strings.TrimSpace(req.CubeID)
+		req.QQ = strings.TrimSpace(req.QQ)
+		req.QQUniID = strings.TrimSpace(req.QQUniID)
+
+		curUser, err := user.FindAdminUser(svc.DB, req.UserID, req.CubeID, true)
+		if err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		curUser.QQ = req.QQ
+		curUser.QQUniID = req.QQUniID
+		if err := svc.DB.Unscoped().Save(&curUser).Error; err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+func SoftDeleteUser(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req AdminUserRefReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+		req.CubeID = strings.TrimSpace(req.CubeID)
+
+		curUser, err := user.FindAdminUser(svc.DB, req.UserID, req.CubeID, false)
+		if err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		if err := user.SoftDeleteUser(svc.DB, curUser.ID); err != nil {
+			if errors.Is(err, user.ErrUserInOrganizer) {
+				exception.ErrValidationFailed.ResponseWithError(ctx, err.Error())
+				return
+			}
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+func PurgeUser(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req AdminUserRefReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+		req.CubeID = strings.TrimSpace(req.CubeID)
+
+		curUser, err := user.FindAdminUser(svc.DB, req.UserID, req.CubeID, true)
+		if err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		if err := user.PurgeUser(svc.DB, curUser.ID); err != nil {
+			switch {
+			case errors.Is(err, user.ErrUserNotSoftDeleted):
+				exception.ErrValidationFailed.ResponseWithError(ctx, err.Error())
+			case errors.Is(err, user.ErrUserInOrganizer):
+				exception.ErrValidationFailed.ResponseWithError(ctx, err.Error())
+			default:
+				exception.ErrDatabase.ResponseWithError(ctx, err)
+			}
 			return
 		}
 		exception.ResponseOK(ctx, nil)

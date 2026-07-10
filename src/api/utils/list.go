@@ -20,6 +20,8 @@ type (
 		StartTime int64             `form:"start_time" query:"start_time"`
 		EndTime   int64             `form:"end_time" query:"end_time"`
 		Order     []string          `json:"order"`
+		IncludeDeleted bool         `json:"include_deleted"`
+		OnlyDeleted    bool         `json:"only_deleted"`
 	}
 	GenerallyListResp struct {
 		Items interface{} `json:"items"`
@@ -65,8 +67,11 @@ func GenerallyList[T any](ctx *gin.Context, db *gorm.DB, dest []T, param ListSea
 	//searchDB := db.WithContext(ctx).Model(&param.Model)
 	searchDB := db.Model(&param.Model)
 
-	if param.HasDeleted {
+	if param.HasDeleted || req.IncludeDeleted || req.OnlyDeleted {
 		searchDB = searchDB.Unscoped()
+	}
+	if req.OnlyDeleted {
+		searchDB = searchDB.Where("deleted_at IS NOT NULL")
 	}
 	if len(req.Like) > 0 {
 		for key, val := range req.Like {

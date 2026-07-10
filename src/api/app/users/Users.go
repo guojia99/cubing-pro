@@ -8,11 +8,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"gorm.io/gorm"
 )
 
 // todo 热门查询
@@ -104,23 +103,97 @@ func UpdateUserName(svc *svc.Svc) gin.HandlerFunc {
 		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
+		req.CubeID = strings.TrimSpace(req.CubeID)
+		req.NewName = strings.TrimSpace(req.NewName)
+		if req.CubeID == "" || req.NewName == "" {
+			exception.ErrInvalidInput.ResponseWithError(ctx, "cube_id 与 new_name 不能为空")
+			return
+		}
 
 		var curUser user.User
-
 		if err := svc.DB.Where("cube_id = ?", req.CubeID).First(&curUser).Error; err != nil {
 			exception.ErrUserNotFound.ResponseWithError(ctx, err)
 			return
 		}
 
+		var dup user.User
+		if err := svc.DB.Where("name = ? AND id <> ?", req.NewName, curUser.ID).First(&dup).Error; err == nil {
+			exception.ErrValidationFailed.ResponseWithError(ctx, "名称已被使用")
+			return
+		}
+
 		curUser.Name = req.NewName
 		curUser.LastUpdateNameTime = utils.PtrNow()
-		if err := svc.DB.Save(&curUser).Error; err != nil {
+
+		err := svc.DB.Transaction(func(tx *gorm.DB) error {
+			if err := tx.Save(&curUser).Error; err != nil {
+				return err
+			}
+			return user.PropagateUserName(tx, curUser.ID, curUser.CubeID, curUser.Name)
+		})
+		if err != nil {
 			exception.ErrDatabase.ResponseWithError(ctx, err)
 			return
 		}
 
-		svc.DB.Model(&result.Results{}).Where("cube_id = ?", curUser.CubeID).Update("person_name", curUser.Name)
-		svc.DB.Model(&competition.Registration{}).Where("user_id = ?", curUser.ID).Update("user_name", curUser.Name)
+		exception.ResponseOK(ctx, nil)
+	}
+}
+
+type UpdateUserCubeIDReq struct {
+	CubeID    string `json:"cube_id"`
+	NewCubeID string `json:"new_cube_id"`
+}
+
+func UpdateUserCubeID(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req UpdateUserCubeIDReq
+		if err := app_utils.BindAll(ctx, &req); err != nil {
+			return
+		}
+		req.CubeID = strings.TrimSpace(req.CubeID)
+		req.NewCubeID = strings.TrimSpace(req.NewCubeID)
+		if req.CubeID == "" || req.NewCubeID == "" {
+			exception.ErrInvalidInput.ResponseWithError(ctx, "cube_id 与 new_cube_id 不能为空")
+			return
+		}
+		if req.CubeID == req.NewCubeID {
+			exception.ErrValidationFailed.ResponseWithError(ctx, "新 CubeID 与当前相同")
+			return
+		}
+		if len(req.NewCubeID) != 10 {
+			exception.ErrValidationFailed.ResponseWithError(ctx, "CubeID 长度须为 10")
+			return
+		}
+
+		var curUser user.User
+		if err := svc.DB.Where("cube_id = ?", req.CubeID).First(&curUser).Error; err != nil {
+			exception.ErrUserNotFound.ResponseWithError(ctx, err)
+			return
+		}
+
+		var taken user.User
+		if err := svc.DB.Where("cube_id = ?", req.NewCubeID).First(&taken).Error; err == nil {
+			exception.ErrValidationFailed.ResponseWithError(ctx, "CubeID 已被占用")
+			return
+		}
+
+		oldCubeID := curUser.CubeID
+		curUser.CubeID = req.NewCubeID
+		if strings.TrimSpace(curUser.LoginID) == oldCubeID {
+			curUser.LoginID = req.NewCubeID
+		}
+
+		err := svc.DB.Transaction(func(tx *gorm.DB) error {
+			if err := tx.Save(&curUser).Error; err != nil {
+				return err
+			}
+			return user.PropagateUserCubeID(tx, curUser.ID, oldCubeID, req.NewCubeID, curUser.Name)
+		})
+		if err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
 
 		exception.ResponseOK(ctx, nil)
 	}

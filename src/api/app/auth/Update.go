@@ -6,8 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
@@ -51,8 +49,10 @@ func UpdateDetail(svc *svc.Svc) gin.HandlerFunc {
 				return
 			}
 
-			svc.DB.Model(&result.Results{}).Where("cube_id = ?", user.CubeID).Update("person_name", req.Name)
-			svc.DB.Model(&competition.Registration{}).Where("user_id = ?", user.ID).Update("user_name", req.Name)
+			if err = user2.PropagateUserName(svc.DB, user.ID, user.CubeID, req.Name); err != nil {
+				exception.ErrDatabase.ResponseWithError(ctx, err)
+				return
+			}
 			user.LastUpdateNameTime = utils.PtrNow()
 		}
 

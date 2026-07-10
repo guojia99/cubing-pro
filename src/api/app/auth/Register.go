@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/email"
 
 	"github.com/gin-gonic/gin"
@@ -137,8 +135,10 @@ func Register(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 
-		svc.DB.Model(&result.Results{}).Where("cube_id = ?", newUser.CubeID).Update("person_name", req.UserName)
-		svc.DB.Model(&competition.Registration{}).Where("user_id = ?", newUser.ID).Update("user_name", req.UserName)
+		if err = user.PropagateUserName(svc.DB, newUser.ID, newUser.CubeID, req.UserName); err != nil {
+			exception.ErrRegisterField.ResponseWithError(ctx, err)
+			return
+		}
 
 		checker.Use = true
 		svc.DB.Save(&checker)

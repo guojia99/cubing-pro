@@ -76,7 +76,7 @@ func BaseStaticsWithEventAndCacheKey(svc *svc.Svc, funcKey string) gin.HandlerFu
 		var count int64
 		switch funcKey {
 		case "GetEventRankWithTimer":
-			out, count, err = svc.Wca.GetEventRankWithTimer(req.EventID, req.Country, req.Year, req.IsAvg, req.Page, req.Size)
+			out, count, err = svc.Wca.GetEventRankWithTimer(req.EventID, req.Country, req.Year, req.Month, req.IsAvg, req.Page, req.Size)
 		case "GetEventRankWithFullNow":
 			out, count, err = svc.Wca.GetEventRankWithFullNow(req.EventID, req.Country, req.IsAvg, req.Page, req.Size)
 		case "GetEventRankWithOnlyYear":

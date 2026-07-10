@@ -18,21 +18,34 @@ func (w *wca) GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, err
 	return out, nil
 }
 
-func getMaxMonth(year int) int {
+func getMaxMonth(year int, month int) int {
 	now := time.Now()
 	currentYear := now.Year()
-	currentMonth := now.Month() // time.Month 是从 1（January）到 12（December）
+	currentMonth := int(now.Month())
 
+	// 已结束的最大月份
+	maxFinishedMonth := 12
 	if year == currentYear {
-		// 如果是今年，则 maxMonth 是上个月
-		if currentMonth == time.January {
-			// 特殊情况：当前是1月，上个月是去年的12月
+		if currentMonth == 1 {
+			maxFinishedMonth = 12 // 当前是1月，上一年12月
+		} else {
+			maxFinishedMonth = currentMonth - 1
+		}
+	}
+
+	// 指定了 month，则以 month 为准，但不能超过已结束月份
+	if month > 0 {
+		if year == currentYear && month > maxFinishedMonth {
+			return maxFinishedMonth
+		}
+		if month > 12 {
 			return 12
 		}
-		return int(currentMonth - 1)
+		return month
 	}
-	// 默认返回12
-	return 12
+
+	// 未指定 month
+	return maxFinishedMonth
 }
 
 func (w *wca) getCountryID(country string) string {
@@ -47,8 +60,8 @@ func (w *wca) getCountryID(country string) string {
 	return country
 }
 
-func (w *wca) GetEventRankWithTimer(eventId, country string, year int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error) {
-	maxMonth := getMaxMonth(year) // 默认值
+func (w *wca) GetEventRankWithTimer(eventId, country string, year int, month int, isAvg bool, page, size int) ([]types.StaticWithTimerRank, int64, error) {
+	maxMonth := getMaxMonth(year, month) // 默认值
 
 	// 然后查询该年该月的所有记录
 	var results []types.StaticWithTimerRank

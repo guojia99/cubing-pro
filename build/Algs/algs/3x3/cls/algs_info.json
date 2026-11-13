@@ -1,0 +1,962 @@
+{
+ "1": {
+  "a": [
+   "U R U2 R' U R2 D R' U R D' R2",
+   "u R2 U' R' U2 R' u' F R2 F'",
+   "y' L R' U' R U L' R' U2 R U R' U' R",
+   "U R2 U' R' U2 R' D' r U2 r' D"
+  ],
+  "name": "CLS FDR00",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U R U' R' U2' R L U' R' U R L' y"
+ },
+ "2": {
+  "a": [
+   "U R U R' U2 R U' R' U R U R'",
+   "y' R' U R U R' U' R U2 R' U R",
+   "U R U2 R U R' U R U2 R2"
+  ],
+  "name": "CLS FDR01",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U2' R' U R U' R' U' R y"
+ },
+ "3": {
+  "a": [
+   "R U' R' U R U2 R' U2 R U2 R'",
+   "y' R' U2 R U2 R' U2 R U R' U' R"
+  ],
+  "name": "CLS FDR02",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U R U' R' U2' R U2' R' U2' R y"
+ },
+ "4": {
+  "a": [
+   "y' R' U R U R' U' R U R' U2 R",
+   "U R U R' U R2 U R' U R U2 R2"
+  ],
+  "name": "CLS FDR03",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U' R' U R U' R' U' R y"
+ },
+ "5": {
+  "a": [
+   "U2 R U' R' U R U2 R' U R U' R'",
+   "y' U2 R' U' R U R' U2 R U R' U' R"
+  ],
+  "name": "CLS FDR04",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U R U' R' U2' R U' R' U R U2' y"
+ },
+ "6": {
+  "a": [
+   "R U2 R' U R U' R' U R U R'",
+   "y' U R2 U2 R U R' U R2 U R' U R"
+  ],
+  "name": "CLS FDR05",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U' R' U' R U R' U' R U2' R'"
+ },
+ "7": {
+  "a": [
+   "y' R' U R U2 R' U R U2 R' U R U2 R' U R",
+   "R U2 R' U R U' R' U R U' R' U' R U' R'"
+  ],
+  "name": "CLS FDR06",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U2 R' U' R U2 R' U' R U2 R' U' R y"
+ },
+ "8": {
+  "a": [
+   "R U2 R' U2 R2 D r' U2 r D' R' U R'",
+   "R U' R' U2 R U2 R' U R U' R' U2 R U2 R'",
+   "y' R' U2 R U2 R' U' R U R' U2 R U2 R' U' R"
+  ],
+  "name": "CLS FDR07",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U R U2' R' U2' R U' R' U R U2' R' U2' R y"
+ },
+ "9": {
+  "a": [
+   "U D' R' D R U' R' D' R D",
+   "y R' D R U' R' D' R",
+   "D R D R' U' R D' R' D'",
+   "y U R' D R U2 R' D' R"
+  ],
+  "name": "CLS FRU00",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "y R' D R U R' D' R y'"
+ },
+ "10": {
+  "a": [
+   "y' U R' U2 R U' R' U2 R U' R' U2 R",
+   "D R' U2 R U' R' U2 R U' R' U2 R D'",
+   "U' R U' R' U2 R U R' U' R U R' U' R U' R'",
+   "R U2 R' U R' U2 R U R' U R2 U R'"
+  ],
+  "name": "CLS FRU01",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U R' U2' R U R' U2' R U' y"
+ },
+ "11": {
+  "a": [
+   "U' R U' R' U' R U2 R'"
+  ],
+  "name": "CLS FRU02",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U2' R' U R U R' U"
+ },
+ "12": {
+  "a": [
+   "U' R' F R U R U' R' F' R U R'",
+   "y R2 D R U' R' D' R U R",
+   "U' R U' R' U L' U R U' R' L",
+   "y' U' R' U2 R U2 R' U' R U2 R' U2 R"
+  ],
+  "name": "CLS FRU03",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "D' L2' D R' D' L2' D R"
+ },
+ "13": {
+  "a": [
+   "U R' D' R U2 R' D R2 U' R' U2 R U' R'",
+   "R U2 R' U2 R' U' R U' R' U2 R2 U' R'",
+   "y' U2 R' U2 R U' R' U2 R U2 R' U' R",
+   "M' U2 l U F2 U' F2 L'"
+  ],
+  "name": "CLS FRU04",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "L F2' U F2' U' l' U2' M"
+ },
+ "14": {
+  "a": [
+   "y' U' R' U R U' R' U' R U R' U' R",
+   "R U2 R' U R2 U2 R' U' R U' R2"
+  ],
+  "name": "CLS FRU05",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R2' U R' U R U2' R2' U' R U2' R'"
+ },
+ "15": {
+  "a": [
+   "U R U' R' U R' F' R U R U' R' F",
+   "D R' U2 R U' R' U' R D'",
+   "y' U R' U2 R U' R' U' R y"
+  ],
+  "name": "CLS FRU06",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "y' R' U R U R' U2' R U' y"
+ },
+ "16": {
+  "a": [
+   "U' R2 U2 R2 U' R U R U2 R' U R'"
+  ],
+  "name": "CLS FRU07",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U' R U2' R' U' R' U R2' U2' R2' U"
+ },
+ "17": {
+  "a": [
+   "R U R' U R U2 R' U2 R' F R F' R' F R F' R' F R F'",
+   "R U' R2 U2 R U R' U R2 U R'"
+  ],
+  "name": "CLS FRU08",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U' R2' U' R U' R' U2' R2' U R'"
+ },
+ "18": {
+  "a": [
+   "R U R' U' R U' R' U R U' R'"
+  ],
+  "name": "CLS FRU09",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U R' U' R U R' U R U' R'"
+ },
+ "19": {
+  "a": [
+   "y' U' R' U' R U2 R' U' R",
+   "U2 R U' R' U2 R U2 R' U' R U2 R'"
+  ],
+  "name": "CLS FRU10",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "y' R' U R U2' R' U R U y"
+ },
+ "20": {
+  "a": [
+   "R U' R F2 U2 R' U' R U' F2 R2",
+   "R' U R U' R U' R' U2 R U' R2 U' R"
+  ],
+  "name": "CLS FRU11",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R2' F2' U R' U R U2' F2' R' U R'"
+ },
+ "21": {
+  "a": [
+   "U' R U' R' U2 R U' R'"
+  ],
+  "name": "CLS FRU12",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U R' U2' R U R' U"
+ },
+ "22": {
+  "a": [
+   "U R U2 R' U' R U R' U R U R'"
+  ],
+  "name": "CLS FRU13",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U' R' U' R U' R' U R U2' R' U'"
+ },
+ "23": {
+  "a": [
+   "U2 R U' R' U2 R U2 R' U2 R U' R'"
+  ],
+  "name": "CLS FRU14",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U R' U2' R U2' R' U2' R U R' U2'"
+ },
+ "24": {
+  "a": [
+   "R U' R U2 R' U' R U' R2"
+  ],
+  "name": "CLS FRU15",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R2' U R' U R U2' R' U R'"
+ },
+ "25": {
+  "a": [
+   "R U' R' U R' U' R U' R' U2 R2 U' R'",
+   "U' R U' R' U2 R U' R2 U' R U' R' U2 R"
+  ],
+  "name": "CLS FRU16",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U R2' U2' R U R' U R U' R U R'"
+ },
+ "26": {
+  "a": [
+   "U L U' R U R' L' U R U2 R'",
+   "U' R U' R' U' R U' R' U' R' F R U R U' R' F'",
+   "U2 R U R' U2 R' U' R U' R' U2 R2 U R'"
+  ],
+  "name": "CLS FRU17",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U2' R' U' L R U' R' U L' U'"
+ },
+ "27": {
+  "a": [
+   "y' U' R' U2 R U2 R' U' R U' R' U R",
+   "U L U' R U L' U' R'",
+   "R U' R' U' R U R U2 R' U' R U' R2"
+  ],
+  "name": "CLS FRU18",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U L U' R' U L' U'"
+ },
+ "28": {
+  "a": [
+   "R' F R U2 L F L' U2 F'",
+   "U R2 U R' U R U2 R' U R'",
+   "R' F R U2 r U r' U2 F'"
+  ],
+  "name": "CLS FRU19",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "F U2' L F' L' U2' R' F' R"
+ },
+ "29": {
+  "a": [
+   "U F' R U2 F U F' U R' F",
+   "R' B2 U2 R U R' U B2 R",
+   "U' R U' R U' R' U R' U R' U R' U' R"
+  ],
+  "name": "CLS FRU20",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R' B2' U' R U' R' U2' B2' R"
+ },
+ "30": {
+  "a": [
+   "U' R U' R2 D' R U2 R' D R2 U' R'",
+   "R U2 R2 U R' U2 R' U' R U' R U' R",
+   "U2 x' R2 U' R' U R U' R' U R U' R' U R' x"
+  ],
+  "name": "CLS FRU21",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R' U R' U R' U R U2' R U' R2' U2' R'"
+ },
+ "31": {
+  "a": [
+   "U' R U2 R' U F2 L' U' L U F2",
+   "U' R U' R' U' R' U' R2 U' R2 U2 R"
+  ],
+  "name": "CLS FRU22",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "F2' U' L' U L F2' U' R U2' R' U"
+ },
+ "32": {
+  "a": [
+   "y' U R' U2 R U' R' U R U R' U R"
+  ],
+  "name": "CLS FRU23",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U' R' U' R U R' U2' R U' y"
+ },
+ "33": {
+  "a": [
+   "U' R U' R' U2 R U R' U' R U' R'",
+   "U2 F' R U2 R' U' R U' R' F"
+  ],
+  "name": "CLS FRU24",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U R' U R U' R' U2' R U R' U"
+ },
+ "34": {
+  "a": [
+   "U R U R' U R U R' U' R U2 R'"
+  ],
+  "name": "CLS FRU25",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U2' R' U R U' R' U' R U' R' U'"
+ },
+ "35": {
+  "a": [
+   "U' R U' R' U' R U' R' U R U2 R'"
+  ],
+  "name": "CLS FRU26",
+  "group": "Cross Color Facing Front",
+  "algset": "CLS",
+  "scramble": "R U2' R' U' R U R' U R U R' U"
+ },
+ "36": {
+  "a": [
+   "L' R U R' U' L R U2 R' U' R U R'",
+   "U' R U' R' U R U' R2 F' R U R U' R' F",
+   "U2 D' r U2 r' D R U2 R U R2",
+   "U2 R2 D R' U' R D' R2 U' R U2 R'"
+  ],
+  "name": "CLS RFD00",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U' R' U R U2' R' L' U R U' R' L"
+ },
+ "37": {
+  "a": [
+   "R U' R' U' R U R' U2 R U' R'",
+   "U2 R2 U2 R' U' R U' R' U2 R'"
+  ],
+  "name": "CLS RFD01",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U R' U2' R U' R' U R U R'"
+ },
+ "38": {
+  "a": [
+   "R U2 R' U2 R U2 R' U' R U R'"
+  ],
+  "name": "CLS RFD02",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U' R' U R U2' R' U2' R U2' R'"
+ },
+ "39": {
+  "a": [
+   "U' R U R' U' R U2 R' U' R U R'",
+   "y' U' R' U R U' R' U2 R U' R' U R"
+  ],
+  "name": "CLS RFD03",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U' R' U R U2' R' U R U' R' U"
+ },
+ "40": {
+  "a": [
+   "R U' R' U' R U R' U' R U2 R'"
+  ],
+  "name": "CLS RFD04",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U2' R' U R U' R' U R U R'"
+ },
+ "41": {
+  "a": [
+   "y' R' U2 R U' R' U R U' R' U' R y",
+   "U' R2 U2 R' U' R U' R2 U' R U' R'"
+  ],
+  "name": "CLS RFD05",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "y' R' U R U R' U' R U R' U2' R y"
+ },
+ "42": {
+  "a": [
+   "R U' R' U2 R U' R' U2 R U' R' U2 R U' R'",
+   "y' R' U2 R U' R' U R U' R' U R U R' U R"
+  ],
+  "name": "CLS RFD06",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U R' U2' R U R' U2' R U R' U2' R U R'"
+ },
+ "43": {
+  "a": [
+   "R U2 R' U2 R U R' U' R U2 R' U2 R U R'",
+   "y' R' U R U2 R' U2 R U' R' U R U2 R' U2 R"
+  ],
+  "name": "CLS RFD07",
+  "group": "Trapped Corner",
+  "algset": "CLS",
+  "scramble": "R U' R' U2' R U2' R' U R U' R' U2' R U2' R'"
+ },
+ "44": {
+  "a": [
+   "U R' D' R U' R' D R",
+   "L D' L' U L D L'",
+   "U2 R' D' R U2 R' D R",
+   "U' R' D' R U R' D R"
+  ],
+  "name": "CLS RFU00",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "L D' L' U' L D L'"
+ },
+ "45": {
+  "a": [
+   "U' R U2 R' U R U2 R' U R U2 R'",
+   "R' D R' U2 R D' R' U2 R2"
+  ],
+  "name": "CLS RFU01",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "R U2' R' U' R U2' R' U' R U2' R' U"
+ },
+ "46": {
+  "a": [
+   "y' U R' U R U R' U2 R",
+   "U F' R U R' U' R' F R U' R U R'"
+  ],
+  "name": "CLS RFU02",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U' R' U' R U' y"
+ },
+ "47": {
+  "a": [
+   "R U R' U' R' F' R U R U' R' F",
+   "U R U2 R' U2 R U R' U2 R U2 R'",
+   "y' R D L2 D' R' D L2 D'"
+  ],
+  "name": "CLS RFU03",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' D L2' D' R D L2' D' R' y"
+ },
+ "48": {
+  "a": [
+   "U2 R U2 R' U R U2 R' U2 R U R'",
+   "U R' U R D R' U R U D' R' U R",
+   "y M' U2 r' U' F2 U F2 R"
+  ],
+  "name": "CLS RFU04",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y R' F2' U' F2' U r U2' M y'"
+ },
+ "49": {
+  "a": [
+   "U R U' R' U R U R' U' R U R'",
+   "y' R' U2 R U' R2 U2 R U R' U R2"
+  ],
+  "name": "CLS RFU05",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R2' U' R U' R' U2' R2' U R' U2 R y"
+ },
+ "50": {
+  "a": [
+   "U' R U2 R' U R U R'"
+  ],
+  "name": "CLS RFU06",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "R U' R' U' R U2' R' U"
+ },
+ "51": {
+  "a": [
+   "U2 R U R' U R2 U2 R' U' R U' R' U R'",
+   "y' U R2 U2 R2 U R' U' R' U2 R U' R"
+  ],
+  "name": "CLS RFU07",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U R' U2' R U R U' R2' U2' R2' U' y"
+ },
+ "52": {
+  "a": [
+   "U2 R U' R2 U2 R U R' U R U' R U2 R'",
+   "U' R' D' R U R' D R2 U2 R' U' R U' R'",
+   "y' R' U R2 U2 R' U' R U' R2 U' R",
+   "R U2 R' U' R U' R' U2 R' F R F' R' F R F' R' F R F'"
+  ],
+  "name": "CLS RFU08",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U R2' U R' U R U2' R2' U' R y"
+ },
+ "53": {
+  "a": [
+   "U' R U R' U' R U' R' U' R U R'",
+   "y' R' U' R U R' U R U' R' U R"
+  ],
+  "name": "CLS RFU09",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U R' U' R U' R' U R y"
+ },
+ "54": {
+  "a": [
+   "U R U R' U2 R U R'"
+  ],
+  "name": "CLS RFU10",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "R U' R' U2' R U' R' U'"
+ },
+ "55": {
+  "a": [
+   "U' R U' R' U R U F R' U R U' F' R'",
+   "y L' U L' F2 U2 L U L' U F2 L2"
+  ],
+  "name": "CLS RFU11",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y L2' F2' U' L U' L' U2' F2' L U' L y'"
+ },
+ "56": {
+  "a": [
+   "y' U R' U R U2 R' U R"
+  ],
+  "name": "CLS RFU12",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U2' R' U' R U' y"
+ },
+ "57": {
+  "a": [
+   "y' U' R' U2 R U R' U' R U' R' U' R"
+  ],
+  "name": "CLS RFU13",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U R U R' U R U' R' U2' R U y"
+ },
+ "58": {
+  "a": [
+   "y' U2 R' U R U2 R' U2 R U2 R' U R"
+  ],
+  "name": "CLS RFU14",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U2' R' U2' R U2' R' U' R U2' y"
+ },
+ "59": {
+  "a": [
+   "R' U R U2 R2 U' R U2 R' U' R2",
+   "y' R' U R' U2 R U R' U R2"
+  ],
+  "name": "CLS RFU15",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R2' U' R U' R' U2' R U' R y"
+ },
+ "60": {
+  "a": [
+   "U R U' L' U2 L U' R' U2 L' U L",
+   "y' R' U R U' R U R' U R U2 R2 U R"
+  ],
+  "name": "CLS RFU16",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' R2' U2' R' U' R U' R' U R' U' R y"
+ },
+ "61": {
+  "a": [
+   "U' R U' R' U' R U R' U R U2 R' U R U' R'",
+   "y' U' L' U R' U' R L U' R' U2 R"
+  ],
+  "name": "CLS RFU17",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U L' R' U R U' L U y"
+ },
+ "62": {
+  "a": [
+   "U R U2 R' U2 R U R' U R U' R'",
+   "y' U' L' U R' U' L U R"
+  ],
+  "name": "CLS RFU18",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' L' U R U' L U y"
+ },
+ "63": {
+  "a": [
+   "y' U' R2 U' R U' R' U2 R U' R",
+   "y L F' L' U2 R' F' R U2 F"
+  ],
+  "name": "CLS RFU19",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y F' U2' R' F R U2' L F L' y'"
+ },
+ "64": {
+  "a": [
+   "U' R' D' R U R' D U' R U' R' U2 R",
+   "y' R F2 U2 R' U' R U' F2 R'"
+  ],
+  "name": "CLS RFU20",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y R F2' U R' U R U2' F2' R' y"
+ },
+ "65": {
+  "a": [
+   "y' U R' U R2 D R' U2 R D' R2 U R",
+   "y' R' U2 R2 U' R U2 R U R' U R' U R'"
+  ],
+  "name": "CLS RFU21",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R U' R U' R U' R' U2' R' U R2' U2' R y"
+ },
+ "66": {
+  "a": [
+   "U L U' R U R' U' R U R' L' U' R U R'",
+   "y U L' U2 L U' F2 R U R' U' F2"
+  ],
+  "name": "CLS RFU22",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y F2' U R U' R' F2' U L' U2' L U' y'"
+ },
+ "67": {
+  "a": [
+   "U' R U2 R' U R U' R' U' R U' R'"
+  ],
+  "name": "CLS RFU23",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "R U R' U R U R' U' R U2' R' U"
+ },
+ "68": {
+  "a": [
+   "U2 R U' R' U2 R U R' U R U R'",
+   "y' U R' U R U2 R' U' R U R' U R"
+  ],
+  "name": "CLS RFU24",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U' R' U R U2' R' U' R U' y"
+ },
+ "69": {
+  "a": [
+   "U2 R U2 R' U R U2 L U' R' U L'",
+   "y' U' R' U' R U' R' U' R U R' U2 R"
+  ],
+  "name": "CLS RFU25",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U' R' U R U R' U R U y"
+ },
+ "70": {
+  "a": [
+   "y' U R' U R U R' U R U' R' U2 R"
+  ],
+  "name": "CLS RFU26",
+  "group": "Cross Color Facing Right",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U R' U' R U' R' U' R U' y"
+ },
+ "71": {
+  "a": [
+   "R2 U R2 U R2 U2 R2",
+   "U' R U' R' U R U2 R' U' R U R'",
+   "U2 R2 U2 R2 U' R2 U' R2",
+   "R' F R F' R' F R F' R' F R F'"
+  ],
+  "name": "CLS UFR00",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R2' U2' R2' U R2' U R2' y"
+ },
+ "72": {
+  "a": [
+   "D R' U' R U R' U' R U' R' U R D'",
+   "y' U R' U' R U R' U' R U' R' U R"
+  ],
+  "name": "CLS UFR01",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U R' U R U' R' U R U' y"
+ },
+ "73": {
+  "a": [
+   "y' U' R' U2 R U R' U2 R U R' U2 R"
+  ],
+  "name": "CLS UFR02",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U' R' U2' R U' R' U2' R U y"
+ },
+ "74": {
+  "a": [
+   "U2 R U' R' U R U R' U R U' R'",
+   "U R U' R' U R U' R' U2 R U2 R'"
+  ],
+  "name": "CLS UFR03",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U R' U' R U' R' U' R U R' U2'"
+ },
+ "75": {
+  "a": [
+   "R U' R2 U' R U' R' U2 R2 U R'"
+  ],
+  "name": "CLS UFR04",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U' R2' U2' R U R' U R2' U R'"
+ },
+ "76": {
+  "a": [
+   "U R U R' U' R U2 R' U R U' R'"
+  ],
+  "name": "CLS UFR05",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U R' U' R U2' R' U R U' R' U'"
+ },
+ "77": {
+  "a": [
+   "y' U2 R' U R U' R' U' R U' R' U R",
+   "y U2 R' U' R' D R U R' D' R2"
+  ],
+  "name": "CLS UFR06",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U R' U R U R' U' R U2' y"
+ },
+ "78": {
+  "a": [
+   "U R U' R' U R U' R' U R U' R'",
+   "R U R' U' R U R' U' R U R'"
+  ],
+  "name": "CLS UFR07",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "U R U' R' U R U' R' U R U' R'"
+ },
+ "79": {
+  "a": [
+   "U2 R U' R' U' R U' R' U2 R U R'"
+  ],
+  "name": "CLS UFR08",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U' R' U2' R U R' U R U R' U2'"
+ },
+ "80": {
+  "a": [
+   "U R U2 R' U' R U2 R' U' R U2 R'"
+  ],
+  "name": "CLS UFR09",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U2' R' U R U2' R' U R U2' R' U'"
+ },
+ "81": {
+  "a": [
+   "U' R U R' U R U' R' U2 R U R'"
+  ],
+  "name": "CLS UFR10",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U' R' U2' R U R' U' R U' R' U"
+ },
+ "82": {
+  "a": [
+   "U R' U R U' R2 U' R2 U2 R2 U' R U' R"
+  ],
+  "name": "CLS UFR11",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R' U R' U R2' U2' R2' U R2' U R' U' R U'"
+ },
+ "83": {
+  "a": [
+   "y' U2 R' U R U R' U R U2 R' U' R"
+  ],
+  "name": "CLS UFR12",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U R U2' R' U' R U' R' U' R U2' y"
+ },
+ "84": {
+  "a": [
+   "U2 R U2 R' U2 R U' R' U R U' R'"
+  ],
+  "name": "CLS UFR13",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "U' R U R' U' R U R' U2' R U2 R' U2'"
+ },
+ "85": {
+  "a": [
+   "y' U' R' U R U' R' U R U' R' U' R U R' U R",
+   "R' U R U R2 U2 R U R2 U R' U' R'"
+  ],
+  "name": "CLS UFR14",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U R U' R2' U' R' U2' R2' U' R' U' R"
+ },
+ "86": {
+  "a": [
+   "y' U' R' U' R U R' U2 R U' R' U R"
+  ],
+  "name": "CLS UFR15",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U R' U2' R U' R' U R U y"
+ },
+ "87": {
+  "a": [
+   "y' R' U' R U2 R' U2 R U2 R' U' R"
+  ],
+  "name": "CLS UFR16",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U R U2' R' U2' R U2' R' U R y"
+ },
+ "88": {
+  "a": [
+   "U R U' R' U R U' R' U R U R' U' R U' R'",
+   "y' R U' R' U' R2 U2 R' U' R2 U' R U R"
+  ],
+  "name": "CLS UFR17",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U' R' U R2 U R U2' R2' U R U R' y"
+ },
+ "89": {
+  "a": [
+   "U' R U R' U' R U R' U R U' R'"
+  ],
+  "name": "CLS UFR18",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U R' U' R U' R' U R U' R' U"
+ },
+ "90": {
+  "a": [
+   "U R U R' U' R U2 R' U2 R U2 R'",
+   "y' U' R' U' R U R' U2 R U2 R' U2 R"
+  ],
+  "name": "CLS UFR19",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U2' R U2' R' U2' R U' R' U R U y"
+ },
+ "91": {
+  "a": [
+   "y' U R' U' R U' R' U R U2 R' U' R"
+  ],
+  "name": "CLS UFR20",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U R U2' R' U' R U R' U R U' y"
+ },
+ "92": {
+  "a": [
+   "y' R' U' R U R' U' R U R' U' R"
+  ],
+  "name": "CLS UFR21",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' U' R' U R U' R' U R U' R' U R y"
+ },
+ "93": {
+  "a": [
+   "U R U2 R' U' R U2 R' U2 R U' R'"
+  ],
+  "name": "CLS UFR22",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U R' U2' R U2' R' U R U2' R' U'"
+ },
+ "94": {
+  "a": [
+   "R U R' U2 R U2 R' U2 R U R'"
+  ],
+  "name": "CLS UFR23",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "R U' R' U2' R U2' R' U2' R U' R'"
+ },
+ "95": {
+  "a": [
+   "y' R' U R2 U R' U R U2 R2 U' R"
+  ],
+  "name": "CLS UFR24",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U R2' U2' R' U' R U' R2 U' R y"
+ },
+ "96": {
+  "a": [
+   "y' U' R' U2 R U R' U2 R U2 R' U R"
+  ],
+  "name": "CLS UFR25",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' R' U' R U2' R' U2' R U' R' U2' R U y"
+ },
+ "97": {
+  "a": [
+   "y' U2 R' U2 R U2 R' U R U' R' U R"
+  ],
+  "name": "CLS UFR26",
+  "group": "Cross Color Facing Up",
+  "algset": "CLS",
+  "scramble": "y' U R' U' R U R' U' R U2' R' U2' R U2' y"
+ }
+}

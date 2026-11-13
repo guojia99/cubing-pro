@@ -2,7 +2,7 @@ package algs
 
 import (
 	"fmt"
-	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -10,37 +10,73 @@ import (
 var baseAlgs = make(map[string]CubeAlgorithms)
 
 func Init(basePath string) error {
-	baseAlgs = make(map[string]CubeAlgorithms)
-	for key, subKeys := range algsDataKey {
-		cube := builderCubeAlgorithms(basePath, subKeys)
-		cube.Cube = key
-		baseAlgs[key] = cube
+	libraryPath := filepath.Join(filepath.Dir(filepath.Clean(basePath)), "Algs")
+	var catalog []struct {
+		Cube     string   `json:"cube"`
+		Name     string   `json:"name"`
+		Path     string   `json:"path"`
+		Replaces []string `json:"replaces"`
+		Cases    int      `json:"cases"`
 	}
+	if err := writeJsonToObj(filepath.Join(libraryPath, "catalog.json"), &catalog); err != nil {
+		return fmt.Errorf("read formula catalog: %w", err)
+	}
+	if len(catalog) == 0 {
+		return fmt.Errorf("formula catalog is empty")
+	}
+	loaded := make(map[string]CubeAlgorithms)
+	replaced := make(map[string]map[string]bool)
+	for _, key := range CubeKeyList {
+		loaded[key] = CubeAlgorithms{Cube: key, ClassKeys: []string{}, ClassList: []AlgorithmClass{}}
+		replaced[key] = make(map[string]bool)
+	}
+	for _, entry := range catalog {
+		cube, ok := loaded[entry.Cube]
+		if !ok || entry.Name == "" || !filepath.IsLocal(entry.Path) {
+			return fmt.Errorf("invalid formula catalog entry: %q/%q", entry.Cube, entry.Name)
+		}
+		for _, name := range cube.ClassKeys {
+			if name == entry.Name {
+				return fmt.Errorf("duplicate formula class: %s/%s", entry.Cube, entry.Name)
+			}
+		}
+		data, err := ReadTrainerFiles(filepath.Join(libraryPath, entry.Path))
+		if err != nil {
+			return fmt.Errorf("read %s/%s: %w", entry.Cube, entry.Name, err)
+		}
+		if len(data.AlgsInfo) != entry.Cases || len(data.SetKeys) == 0 {
+			return fmt.Errorf("incomplete formula set: %s/%s", entry.Cube, entry.Name)
+		}
+		cube.ClassKeys = append(cube.ClassKeys, entry.Name)
+		cube.ClassList = append(cube.ClassList, *fileAlgToAlgorithmClass(entry.Name, data))
+		loaded[entry.Cube] = cube
+		replaced[entry.Cube][entry.Name] = true
+		for _, name := range entry.Replaces {
+			replaced[entry.Cube][name] = true
+		}
+	}
+	for _, key := range CubeKeyList {
+		cube := loaded[key]
+		for _, trainer := range algsDataKey[key] {
+			name := algsNameMap[trainer]
+			if replaced[key][name] {
+				continue
+			}
+			data, err := ReadTrainerFiles(filepath.Join(basePath, trainer))
+			if err != nil {
+				continue
+			}
+			cube.ClassKeys = append(cube.ClassKeys, name)
+			cube.ClassList = append(cube.ClassList, *fileAlgToAlgorithmClass(name, data))
+		}
+		loaded[key] = cube
+	}
+	baseAlgs = loaded
 	return nil
 }
 
 func GetAlgorithms() map[string]CubeAlgorithms {
 	return baseAlgs
-}
-
-func builderCubeAlgorithms(basePath string, keys []string) CubeAlgorithms {
-
-	out := CubeAlgorithms{
-		ClassKeys: make([]string, 0),
-		ClassList: make([]AlgorithmClass, 0),
-	}
-
-	for _, key := range keys {
-		filePaths := path.Join(basePath, key)
-		fileAlgs, err := ReadTrainerFiles(filePaths)
-		if err != nil {
-			continue
-		}
-
-		out.ClassList = append(out.ClassList, *fileAlgToAlgorithmClass(key, fileAlgs))
-		out.ClassKeys = append(out.ClassKeys, algsNameMap[key])
-	}
-	return out
 }
 
 func bestScrambles(in []string) []string {
@@ -51,9 +87,9 @@ func bestScrambles(in []string) []string {
 }
 
 // 例如EG为一个class
-func fileAlgToAlgorithmClass(fileKey string, fileAlg *AlgorithmConfigWithTrainer) *AlgorithmClass {
+func fileAlgToAlgorithmClass(name string, fileAlg *AlgorithmConfigWithTrainer) *AlgorithmClass {
 	out := &AlgorithmClass{
-		Name:    algsNameMap[fileKey],
+		Name:    name,
 		Sets:    make([]AlgorithmSet, 0),
 		SetKeys: fileAlg.SetKeys,
 	}
@@ -91,7 +127,6 @@ func fileAlgToAlgorithmClass(fileKey string, fileAlg *AlgorithmConfigWithTrainer
 				algorithm := Algorithm{
 					Name:      fmt.Sprintf("%+v", alg.Name),
 					Algs:      alg.Algs,
-					Image:     fileAlg.Images[algKey],
 					Scrambles: bestScrambles(fileAlg.Scrambles[algKey]),
 				}
 				group.Algorithms = append(group.Algorithms, algorithm)

@@ -1,0 +1,437 @@
+{
+ "1": {
+  "a": [
+   "R U' F U' R' U' R U F' U2' R'",
+   "R U R' F' R U R' U' R' F R2 U' R'",
+   "R U2 R' U' R U2 L' U R' U' L",
+   "R' U2' R U R' U2' L U' R U L'",
+   "r' U2' R U R' U' U' z U R' D R u' z'"
+  ],
+  "name": "O Adjacent",
+  "group": "O",
+  "algset": "OH CMLL",
+  "scramble": "R U2 F U' R' U R U F' U R'"
+ },
+ "2": {
+  "a": [
+   "R' U R U' R' f' U' R U2 R' U' R U' R' f R",
+   "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+   "R U2' R' U2 F' R U' R' F R' F' R F",
+   "x U' R' U R U' x' R U R' F U2' R U2 R'",
+   "R' U R U' x' U R U2 R' U' R U' R' U2 R U R' U' x"
+  ],
+  "name": "O Diagonal",
+  "group": "O",
+  "algset": "OH CMLL",
+  "scramble": "R' f' R U R' U R U2' R' U f R U R' U' R"
+ },
+ "3": {
+  "a": [
+   "U R' U' R U' R' U R U' R' U2 R",
+   "R' U2' R U R' U' R U R' U R",
+   "U R U R' U R U' R' U R U2' R'"
+  ],
+  "name": "H Columns",
+  "group": "H",
+  "algset": "OH CMLL",
+  "scramble": "R' U2' R U R' U' R U R' U R U'"
+ },
+ "4": {
+  "a": [
+   "F R U R' U' R U R' U' R U R' U' F'"
+  ],
+  "name": "H Rows",
+  "group": "H",
+  "algset": "OH CMLL",
+  "scramble": "F U R U' R' U R U' R' U R U' R' F'"
+ },
+ "5": {
+  "a": [
+   "U' F R U R' U' R U' R' U R U R' F'",
+   "U F R U' R' U R U2 R' U' R U R' U' F'"
+  ],
+  "name": "H Column",
+  "group": "H",
+  "algset": "OH CMLL",
+  "scramble": "F R U' R' U' R U R' U R U' R' F' U"
+ },
+ "6": {
+  "a": [
+   "U' R U R' U R U r' F R' F' r",
+   "U' R' U' R U' R' U' z U R' D R U' z'",
+   "U' R U R' U R U L' U R' U' L",
+   "U' R' U' R U' R' U' z U z' U' R U L'"
+  ],
+  "name": "H Row",
+  "group": "H",
+  "algset": "OH CMLL",
+  "scramble": "r' F R F' r U' R' U' R U' R' U"
+ },
+ "7": {
+  "a": [
+   "F R U R' U' R U R' U' F'",
+   "U2 F U R U' R' U R U' R' F'",
+   "R U2 R2 U' R2 U' R2 U2 R"
+  ],
+  "name": "Pi Right Bar",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "F U R U' R' U R U' R' F'"
+ },
+ "8": {
+  "a": [
+   "R' U2' R U R' U' R U2 R f' U' f",
+   "U F R' F' R U2 R U' R' U R U2 R'",
+   "U F U R U' R2 F' R U2 R U2 R'"
+  ],
+  "name": "Pi Backslash",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "f' U f R' U2' R' U R U' R' U2 R"
+ },
+ "9": {
+  "a": [
+   "U' F R U' R' U' R U R' U R U' R' F'",
+   "U F U R U' R' U R U2' R' U' R U R' F'"
+  ],
+  "name": "Pi X",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "F R U R' U' R U' R' U R U R' F' U"
+ },
+ "10": {
+  "a": [
+   "R U2 R' U' R U R' U2 R' F R F'",
+   "R U2 R' U2 R' F R2 U R' U' F'"
+  ],
+  "name": "Pi Forward Slash",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "F R' F' R U2' R U' R' U R U2' R'"
+ },
+ "11": {
+  "a": [
+   "U2 R' F R F' r U' R' U' R U' r'",
+   "U2 R' F R F' r U' r' U' R U' R'",
+   "U2 r' F R F' r U' R' U' R U' R'"
+  ],
+  "name": "Pi Columns",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "r U R' U R U r' F R' F' R U2'"
+ },
+ "12": {
+  "a": [
+   "U2 R' U' R U' R' U F' U F R",
+   "U' R' U' R' F R F' R U' R' U2' R"
+  ],
+  "name": "Pi Left Bar",
+  "group": "Pi",
+  "algset": "OH CMLL",
+  "scramble": "R' F' U' F U' R U R' U R U2'"
+ },
+ "13": {
+  "a": [
+   "R' U2' R U2 F U' R' U R U F'",
+   "r U' r' U' r U' r' U' F' U2 F"
+  ],
+  "name": "U Forward Slash",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "F U' R' U' R U F' U2' R' U2 R"
+ },
+ "14": {
+  "a": [
+   "R' U R U2 R U2 R' U' R U' f' U' f",
+   "R2 D' R U2 R' D R U2 R",
+   "r2 D' R U2 R' D R U2 R",
+   "x l2 x D' R U2 R' D R U2 R",
+   "z U R2' U' R2 F' R U R' U' R' F z'"
+  ],
+  "name": "U Backslash",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "f' U f U R' U R U2' R' U2' R' U' R"
+ },
+ "15": {
+  "a": [
+   "R' U' R U' R' U2' R2 U R' U R U2' R'",
+   "U' R' U' R U R' U R U2' R' U R U2' R' U' R"
+  ],
+  "name": "U Front Row",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "R U2 R' U' R U' R2' U2 R U R' U R"
+ },
+ "16": {
+  "a": [
+   "U2 F R U R' U' R' U R U' F' U R' U' R",
+   "U R' U R U' F U R' U' R U R U' R' F'"
+  ],
+  "name": "U Rows",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "R' U R U' F U R' U' R U R U' R' F' U2'"
+ },
+ "17": {
+  "a": [
+   "R' U2 R U F U' R' U2 R U F'",
+   "F R U' R' U R U R' U R U' R' F'"
+  ],
+  "name": "U X",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "F U' R' U2' R U F' U' R' U2' R"
+ },
+ "18": {
+  "a": [
+   "U' F R U R' U' F'",
+   "U F U R U' R' F'"
+  ],
+  "name": "U Back Row",
+  "group": "U",
+  "algset": "OH CMLL",
+  "scramble": "F U R U' R' F' U"
+ },
+ "19": {
+  "a": [
+   "U' R U R' U' R' F R F'",
+   "U' r U R' U' r' F R F'"
+  ],
+  "name": "T Left Bar",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "F R' F' R U R U' R' U"
+ },
+ "20": {
+  "a": [
+   "U' F R U' R' U R U R' F'",
+   "U' R' U' R U R f' U' f"
+  ],
+  "name": "T Right Bar",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "F R U' R' U' R U R' F' U"
+ },
+ "21": {
+  "a": [
+   "R U2 R' U' R U' R2 U2 R U R' U R",
+   "U2 R' U2 R U R' U R2 U2 R' U' R U' R'",
+   "U2 R U' R' U2' R U R' U2' R U R' U R U' R'"
+  ],
+  "name": "T Rows",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "R' U' R U' R' U2' R2' U R' U R U2' R'"
+ },
+ "22": {
+  "a": [
+   "r' U r U2 R2 F R F' R",
+   "R' U R U2 R' L' U R U' r x'",
+   "R' U r U2 R2 F R F' r"
+  ],
+  "name": "T Front Row",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "R' F R' F' R2' U2' r' U' r"
+ },
+ "23": {
+  "a": [
+   "U2 F R U R' U' R U' R' U' R U R' F'"
+  ],
+  "name": "T Back Row",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "F R U' R' U R U R' U R U' R' F' U2'"
+ },
+ "24": {
+  "a": [
+   "R' U' R U' R' U R U' R' U F' U F R",
+   "U2 R' F' U' F U' R U R' U' R U R' U R"
+  ],
+  "name": "T Columns",
+  "group": "T",
+  "algset": "OH CMLL",
+  "scramble": "R' F' U' F U' R U R' U' R U R' U R"
+ },
+ "25": {
+  "a": [
+   "U R U R' U R U2 R'",
+   "R' U2 R U R' U R"
+  ],
+  "name": "Sune Left Bar",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "R U2' R' U' R U' R' U'"
+ },
+ "26": {
+  "a": [
+   "U' R' U2' R U2 R f' U' f",
+   "U F U R U2' R' U' R U R' F'"
+  ],
+  "name": "Sune X",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "f' U f R' U2' R' U2 R U"
+ },
+ "27": {
+  "a": [
+   "U F R' F' R U2 R U2 R'",
+   "U M' F R' F' r U2 R U2 R'"
+  ],
+  "name": "Sune Forward Slash",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "R U2' R' U2' R' F R F' U'"
+ },
+ "28": {
+  "a": [
+   "U2 R' U' R U' R' U2 F R F' r U r'",
+   "U2 F U' R' U R U F' U2 R f' U' f",
+   "U R U R' U' R' F R F' R U R' U R U2' R'"
+  ],
+  "name": "Sune Columns",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "r U' r' F R' F' U2' R U R' U R U2'"
+ },
+ "29": {
+  "a": [
+   "U' R U R' U R' F R F' R U2 R'"
+  ],
+  "name": "Sune Right Bar",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "R U2' R' F R' F' R U' R U' R' U"
+ },
+ "30": {
+  "a": [
+   "U r U' r' F R' F' R",
+   "U R U' r' F R' F' r"
+  ],
+  "name": "Sune Backslash",
+  "group": "Sune",
+  "algset": "OH CMLL",
+  "scramble": "R' F R F' r U r' U'"
+ },
+ "31": {
+  "a": [
+   "U R' U' R U' R' U2 R",
+   "U2 R U2 R' U' R U' R'",
+   "U r' U' R U' R' U2 r"
+  ],
+  "name": "Antisune Right Bar",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "R' U2' R U R' U R U'"
+ },
+ "32": {
+  "a": [
+   "r U' r' F R' F' U2' R U R' U R"
+  ],
+  "name": "Antisune Columns",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "R' U' R U' R' U2 F R F' r U r'"
+ },
+ "33": {
+  "a": [
+   "U2 F R U' R' U R U2 R' U' F'",
+   "U' F' r U r' U2 r' F2 r"
+  ],
+  "name": "Antisune Backslash",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "F U R U2' R' U' R U R' F' U2'"
+ },
+ "34": {
+  "a": [
+   "U' R U2 R' U2 R' F R F'"
+  ],
+  "name": "Antisune X",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "F R' F' R U2' R U2' R' U"
+ },
+ "35": {
+  "a": [
+   "U' R' F R F' r U r'",
+   "U' r' F R F' r U R'",
+   "U2 U L' U z' U L' D L U' U'"
+  ],
+  "name": "Antisune Forward Slash",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "r U' r' F R' F' R U"
+ },
+ "36": {
+  "a": [
+   "R' U' R U' R' U R' F R F' U R",
+   "U R U2 R' F R' F' R U' R U' R'"
+  ],
+  "name": "Antisune Left Bar",
+  "group": "Antisune",
+  "algset": "OH CMLL",
+  "scramble": "R' U' F R' F' R U' R U R' U R"
+ },
+ "37": {
+  "a": [
+   "F R U' R' U' R U R' F'"
+  ],
+  "name": "L Best",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "F R U' R' U R U R' F'"
+ },
+ "38": {
+  "a": [
+   "F R' F' R U R U' R'"
+  ],
+  "name": "L Good",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "R U R' U' R' F R F'"
+ },
+ "39": {
+  "a": [
+   "U R' U' R U' R' U R U' R' U R U' R' U2' R",
+   "U2 R U R' U R U' R' U R U' R' U R U2 R'"
+  ],
+  "name": "L Pure",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "R' U2 R U R' U' R U R' U' R U R' U R U'"
+ },
+ "40": {
+  "a": [
+   "U F U' R' U' R U F' U2' R' U2 R",
+   "R' U' R U' R' U2' R2 U R' U' R' F R F'"
+  ],
+  "name": "L Front Commutator",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "R' U2' R U2 F U' R' U R U F' U'"
+ },
+ "41": {
+  "a": [
+   "U2 R' U' R U' F U' R' U' R U F'",
+   "R U2 R2 F R F' R U2' R'",
+   "R U2 r2 F R F' R U2' R'"
+  ],
+  "name": "L Diagonal",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "F U' R' U R U F' U R' U R U2'"
+ },
+ "42": {
+  "a": [
+   "U R' U' R U' R U R' U R U2 f' U' f",
+   "U' R' U2 R' D' R U2 R' D R2",
+   "U' R' U2 R' D' R U2 R' D r2"
+  ],
+  "name": "L Back Commutator",
+  "group": "L",
+  "algset": "OH CMLL",
+  "scramble": "f' U f U2' R' U' R U' R' U R' U R U'"
+ }
+}

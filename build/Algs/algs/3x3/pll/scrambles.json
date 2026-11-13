@@ -1,0 +1,65 @@
+{
+ "1": [
+  "x R2' D2 R U R' D2 R U' R x'"
+ ],
+ "2": [
+  "x R' U R' D2 R U' R' D2 R2 x' U"
+ ],
+ "3": [
+  "x' R U' R' D R U R' D' R U R' D R U' R' D' x"
+ ],
+ "4": [
+  "R' F R f' R' F R2 U R' U' R' F' R2 U R' S"
+ ],
+ "5": [
+  "f' L' f L2 u L' U L U' L u' L2'"
+ ],
+ "6": [
+  "L2 u L' U L' U' L u' L2' f' L f"
+ ],
+ "7": [
+  "f R f' R2' u' R U' R' U R' u R2"
+ ],
+ "8": [
+  "R2' u' R U' R U R' u R2 f R' f'"
+ ],
+ "9": [
+  "M2' U M2' U2 M2' U M2'"
+ ],
+ "10": [
+  "L' U' L F L' U' L U L F' L2 U L U"
+ ],
+ "11": [
+  "R U R' F' R U R' U' R' F R2 U' R' U'"
+ ],
+ "12": [
+  "R F U' R' U R U F' R2' F' R U R U' R' F U"
+ ],
+ "13": [
+  "r' D' F r U' r' F' D r2 U r' U' r' F r F'"
+ ],
+ "14": [
+  "L U2 L' U2' L F' L' U' L U L F L2' U"
+ ],
+ "15": [
+  "R' U2' R U2 R' F R U R' U' R' F' R2 U'"
+ ],
+ "16": [
+  "R U R' U' R' F R2 U' R' U' R U R' F'"
+ ],
+ "17": [
+  "R2' U S' U2 S U R2'"
+ ],
+ "18": [
+  "M2' U M U2' M' U M2' U"
+ ],
+ "19": [
+  "R' U R' d' R' F' R2 U' R' U R' F R F U'"
+ ],
+ "20": [
+  "f' U f R' U' R' U R2 U R' U' R' F R F' U'"
+ ],
+ "21": [
+  "M2' U2 M U M2' U M2' U M U"
+ ]
+}

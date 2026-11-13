@@ -1,0 +1,22 @@
+{
+ "url": "https://2x2db.vercel.app/database",
+ "bundle_url": "https://2x2db.vercel.app/assets/algorithms-DvpVKYP5.js",
+ "bundle_sha256": "0d87efb1ecf8a8b1fb455736c751bc720dd9cbc62564f16c38579cce858b670e",
+ "fetched_at": "2026-11-13T07:43:14.060217+00:00",
+ "counts": {
+  "2x2": 4275,
+  "2x2 CBL": 2183,
+  "EGLS": 2226,
+  "Fake Bar": 1306
+ },
+ "total": 9990,
+ "raw_counts": {
+  "2x2": 4286,
+  "2x2 CBL": 2183,
+  "EGLS": 2226,
+  "Fake Bar": 1308
+ },
+ "raw_total": 10003,
+ "excluded_total": 13,
+ "policy": "One record per website-displayed entry; same TEG-2/Fake Bar ETM>2 filter as the site. No merging, deduplication, or name rewriting. All raw and excluded entries retained separately."
+}

@@ -8,6 +8,7 @@ import (
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/app/other_link"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	systemResults "github.com/guojia99/cubing-pro/src/api/app/systemResult"
@@ -139,8 +140,23 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 	compWithAdmin := admin.Group("/competition")
 	{
+		compWithAdmin.GET("/filters", organizers.CompetitionFilters(svc))
 		compWithAdmin.GET("/approvals/comps", organizers.Comps(svc))
 		compWithAdmin.POST("/approvals/:compId/approval", organizers.ApprovalComp(svc))
-		compWithAdmin.DELETE("/comps/:compId", organizers.AdminDeleteComp(svc)) // 删除比赛及下属成绩等
+		managed := compWithAdmin.Group("/comps/:compId", org_mid.AdminCompMiddleware(svc))
+		managed.DELETE("", organizers.AdminDeleteComp(svc))
+		managed.GET("", organizers.Comp(svc))
+		managed.POST("", organizers.UpdateComp(svc))
+		managed.POST("/update_name", organizers.UpdateCompName(svc))
+		managed.POST("/apply", organizers.ApplyComp(svc))
+		managed.POST("/end", organizers.EndComp(svc))
+		managed.GET("/players", organizers.CompPlayers(svc))
+		managed.POST("/players/approval/:reg_id", organizers.CompPlayerApproval(svc))
+		managed.GET("/result", organizers.GetCompResult(svc))
+		managed.POST("/result", organizers.AddCompResult(svc))
+		managed.DELETE("/result/:result_id", organizers.DeleteCompResult(svc))
+		managed.GET("/pre_results", organizers.GetCompPlayerPreResult(svc))
+		managed.POST("/pre_results/:result_id/approval", organizers.AdminApprovalCompPlayerPreResult(svc))
+		managed.PUT("/refresh_event", organizers.RefreshEvent(svc))
 	}
 }

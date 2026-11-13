@@ -1,0 +1,133 @@
+{
+ "1": {
+  "a": [
+   "R U' r' U' M' U r U r'",
+   "M' U M U2 M U M' U M U' M'",
+   "M' U' M' U2 M' U' M U' M' U' M'",
+   "M' U M U2 M U M' U M U M'"
+  ],
+  "name": "All 6",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "r U' r' U' M U r U R'"
+ },
+ "2": {
+  "a": [
+   "M' U2 M' U2 M U M'",
+   "M U2 M' U2 M' U' M'",
+   "M U2 M' U2 M' U M'",
+   "M' U2 M U2 M U M'",
+   "M' U2 M' U2 M U' M'"
+  ],
+  "name": "2 Top 2 Bot",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M' U2' M U2' M"
+ },
+ "3": {
+  "a": [
+   "M' U' M' U M U' M'",
+   "M2 R U R' U' M' U R U' r'",
+   "M' U' M' U M U M'",
+   "M' U M' U' M U M'",
+   "M' U' M U' M' U' M' U"
+  ],
+  "name": "Bottom 2",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M' U M U' M"
+ },
+ "4": {
+  "a": [
+   "M' U' M'",
+   "y2 M U M'",
+   "M' U M'",
+   "y2 M U' M'",
+   "M' U M"
+  ],
+  "name": "Top 2 Front 2",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M"
+ },
+ "5": {
+  "a": [
+   "M' U2 M' U2 M' U' M'",
+   "M' U2 M U2 M' U M'",
+   "M' U2 M' U2 M' U M'",
+   "M' U2 M U2 M' U' M'"
+  ],
+  "name": "4 Top",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M U2' M U2' M"
+ },
+ "6": {
+  "a": [
+   "M' U' M U M' U' M'",
+   "R U R' U' M' U R U' r'",
+   "M' U' M U M' U M'",
+   "R U r' U r' U' r2 U' r' U r' U R"
+  ],
+  "name": "2 Top Opp",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M U M' U' M"
+ },
+ "7": {
+  "a": [
+   "M' U M' U2 M' U' M'",
+   "U M' U' M U2 M' U' M'",
+   "M' U M' U2 M' U M'",
+   "U M' U' M' U2 M' U' M'",
+   "M' U M U M' U M U"
+  ],
+  "name": "2 Top Adj",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M U2' M U' M"
+ },
+ "8": {
+  "a": [
+   "M' U' M' U' M U' M'",
+   "U M2 U2 M' U' M U2 M' U' M'",
+   "U' M' U M' U2 M U M'",
+   "M U M' U M U M'",
+   "M U' M' U' M U' M'"
+  ],
+  "name": "1 Top 1 Bot",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M' U M U M"
+ },
+ "9": {
+  "a": [
+   "M2 U' M' U' M'",
+   "U M2 U M' U M'",
+   "M' U' M U M U' M'",
+   "U M' U' M' U' M' U' M' U'"
+  ],
+  "name": "2 Top Adj 2 Bot",
+  "group": "LSE EO (4a)",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M U M2'"
+ },
+ "10": {
+  "a": [
+   "M U M'"
+  ],
+  "name": "Back Arrow",
+  "group": "3-mover",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U' M'"
+ },
+ "11": {
+  "a": [
+   "M' U' M' U2 M' U' M'"
+  ],
+  "name": "2 Adj / 0",
+  "group": "7-mover",
+  "algset": "LSE EO (4a)",
+  "scramble": "M U M U2' M U M"
+ }
+}

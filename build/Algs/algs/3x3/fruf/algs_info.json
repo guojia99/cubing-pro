@@ -1,0 +1,451 @@
+{
+ "1": {
+  "a": [
+   "F R' F' R F'",
+   "F' L' U2 L",
+   "F' U L' U L"
+  ],
+  "name": "FRUF 1",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U U2' F"
+ },
+ "2": {
+  "a": [
+   "U F'",
+   "U x R2 F R F' R U2 r' U r U x'",
+   "U F' U' l' U' L U' L' U2 l U x R2 D2 R U R' D2 R U' R x'",
+   "U3' F3"
+  ],
+  "name": "FRUF 2",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L F' L' F U2' F U"
+ },
+ "3": {
+  "a": [
+   "R U' R' U' F'",
+   "R U2 R' F'"
+  ],
+  "name": "FRUF 3",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U' F' U2' F U"
+ },
+ "4": {
+  "a": [
+   "F' U' L' U L",
+   "F' r U' r' F",
+   "U2 F' U' L' U' L",
+   "U R U2 R' U' F R' F' R F'"
+  ],
+  "name": "FRUF 4",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U F U2'"
+ },
+ "5": {
+  "a": [
+   "U' F R' F' R U2 R U2 R' F'",
+   "R' F R F' R U2 R' U F'",
+   "U' L' U' L U L F' L2 U2 L",
+   "U' R' F' U' F U R F'"
+  ],
+  "name": "FRUF 5",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U2 L' U L U' U F U"
+ },
+ "6": {
+  "a": [
+   "U' R U R' U2 F'"
+  ],
+  "name": "FRUF 6",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "l' U L U L' U' l U' U2' F U"
+ },
+ "7": {
+  "a": [
+   "U' L' U' L U L F' L2 U' L",
+   "U F' U2 L' U L U' L' U L",
+   "F' U' L' U2 L U' L' U L",
+   "U F' U2 L' U L U' r' F r"
+  ],
+  "name": "FRUF 7",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U2 L' U2' L U' U2' F U"
+ },
+ "8": {
+  "a": [
+   "U' R U2 R' U2 F'",
+   "U' R2 U2 R2 U' R2 U' R2 F'"
+  ],
+  "name": "FRUF 8",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "l U L2' U L2 U2 l' U F U2'"
+ },
+ "9": {
+  "a": [
+   "R U R' U R U2 R' F'",
+   "U R U' R' U R U R' U2 F'",
+   "F' U' L' U L U2 L' U L"
+  ],
+  "name": "FRUF 9",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U' F' U L' U' L U' U F U"
+ },
+ "10": {
+  "a": [
+   "F R U R' U' F2",
+   "U r U' r' U2 r U r' F'",
+   "U r U R' U' r' R F'",
+   "U' R U' R' U F' U' L' U L"
+  ],
+  "name": "FRUF 10",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U L' U L U' U2' F U"
+ },
+ "11": {
+  "a": [
+   "R' U2 R2 U R2 U R2 U R' F'",
+   "y' U R' U' R U R' U' R U R'",
+   "R U' R' U R U' R' U2 F'"
+  ],
+  "name": "FRUF 11",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U' F' U L' U2 L U' U2' F U"
+ },
+ "12": {
+  "a": [
+   "U' R U2 R' U2 r' F' r U r U' r'",
+   "F R' F' R U' R U' R' U F'",
+   "U' R U R' U2 M' U R U' r' F'",
+   "U' F' y' U R U2 R' U F' U' F"
+  ],
+  "name": "FRUF 12",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L U L2' U L2 U2' L' U2' F U"
+ },
+ "13": {
+  "a": [
+   "U' R U' R' U R U2 R' F'",
+   "U2 F' U2 F U' F' U F U F'"
+  ],
+  "name": "FRUF 13",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L F' L F L' U L' U' L U2' F U"
+ },
+ "14": {
+  "a": [
+   "R U R' F' U L' U' L",
+   "U2 F' L' U L U' L' U' L",
+   "R U R' U' R' F R F' U F'"
+  ],
+  "name": "FRUF 14",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U L' U' L U' U2' F U"
+ },
+ "15": {
+  "a": [
+   "U R U2 R' F' L' U' L",
+   "U F R' F' R2 U' R' U2 F'",
+   "F' U2 L' U' L U' L' U L",
+   "R U' R' F' U' L' U' L"
+  ],
+  "name": "FRUF 15",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U L' U' L U2 L' U L U2' F U"
+ },
+ "16": {
+  "a": [
+   "R' D' R U' R' D R U F'",
+   "U2 M' U R U' r' U2 F'",
+   "R U R' U2 R U' R' U F'",
+   "F' U L' U L U2 L' U L"
+  ],
+  "name": "FRUF 16",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U' F' U2 L' U' L U2' F U"
+ },
+ "17": {
+  "a": [
+   "R' F R F' R U' R' U F'",
+   "U2 R U R' U M' U R U' r' F'",
+   "U F' L' U' L U L' U' L",
+   "R U R' U' R U2 R' U F' L' U2 L"
+  ],
+  "name": "FRUF 17",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U' L' U2 L U2' F U"
+ },
+ "18": {
+  "a": [
+   "R U2 R' U' R U2 R' F'"
+  ],
+  "name": "FRUF 18",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U L' U' L F' L F L' U2' F U"
+ },
+ "19": {
+  "a": [
+   "R U' R' U F2 r U r'",
+   "R U' R2 F R F2",
+   "U S R U2 R' U' R U2 R' f'",
+   "F' U2 F U' F' L' U2 L"
+  ],
+  "name": "FRUF 19",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U L' U2 L U U F U"
+ },
+ "20": {
+  "a": [
+   "U R U2 R' U F'"
+  ],
+  "name": "FRUF 20",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L F' L F L2 U' L U' U2' F U"
+ },
+ "21": {
+  "a": [
+   "F' L' U' L"
+  ],
+  "name": "FRUF 21",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U L' U L F U"
+ },
+ "22": {
+  "a": [
+   "U' R U R' U F'",
+   "F' U L F' L' F U' F U F'"
+  ],
+  "name": "FRUF 22",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F R U2 R' F' U F U"
+ },
+ "23": {
+  "a": [
+   "F U R U' R' F2",
+   "U' R U R2 F R F2",
+   "F' U' F U' F' U L' U' L"
+  ],
+  "name": "FRUF 23",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U L' U' L U' L' U' L U U2' F U"
+ },
+ "24": {
+  "a": [
+   "U R U' R' U' R U' R' U F'",
+   "U2 R U R' U' R U' R' U2 F'",
+   "U' R' U' R U' R' U2 R F'",
+   "U2 r U R' U' r' R U2 F'"
+  ],
+  "name": "FRUF 24",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L F' L' U' L U F U2' F U"
+ },
+ "25": {
+  "a": [
+   "U2 R U R' M' U R U' r' F'",
+   "U R U' R' U' F' L' U2 L",
+   "U R U' R' U2 F' U L' U2 L"
+  ],
+  "name": "FRUF 25",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L F' L F L' U' F R U' R'"
+ },
+ "26": {
+  "a": [
+   "y U' L' U L U L'",
+   "R U' R' U' R U' R' U R U2 R' F'",
+   "R U R' U2 R U R' U2 F'",
+   "U' F' U F U F'"
+  ],
+  "name": "FRUF 26",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L F' L' F L' U' L U U' F R U' R'"
+ },
+ "27": {
+  "a": [
+   "R' F R F' U F'",
+   "U F' U L' U' L",
+   "U2 R U' R' F' U' L' U L",
+   "y L' U' L U L' y' U' L' U L"
+  ],
+  "name": "FRUF 27",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U' L' U L F R U' R'"
+ },
+ "28": {
+  "a": [
+   "R U' R' U' R' F R F2",
+   "R U' R' F2 r U r'",
+   "R U2 R' F' U L' U2 L"
+  ],
+  "name": "FRUF 28",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L F U R' F R F' U R U' R'"
+ },
+ "29": {
+  "a": [
+   "R U R' U' R U2 R' F'"
+  ],
+  "name": "FRUF 29",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U F' L F L' U' F R U' R'"
+ },
+ "30": {
+  "a": [
+   "R U' R' U F'",
+   "y' R' U R' F R F'"
+  ],
+  "name": "FRUF 30",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U' R U R'"
+ },
+ "31": {
+  "a": [
+   "F2 r U r'",
+   "F2 L F L'",
+   "U' R' F R F2",
+   "F' U F U' F'"
+  ],
+  "name": "FRUF 31",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L F' L F L' U' L' U L U2 F"
+ },
+ "32": {
+  "a": [
+   "U R U' R' U R U' R' U F'"
+  ],
+  "name": "FRUF 32",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U' L F' L' F U' L' U L U2 F"
+ },
+ "33": {
+  "a": [
+   "U' R U2 R' U R U2 R' F'",
+   "U R U R' U2 R U2 R' F'"
+  ],
+  "name": "FRUF 33",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U2 L' U' L U' L' U L U2 F"
+ },
+ "34": {
+  "a": [
+   "U' R U' R' U2 F'"
+  ],
+  "name": "FRUF 34",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U2 L' U L U L' U L U2 F"
+ },
+ "35": {
+  "a": [
+   "y' U2 R' U' R U R'",
+   "U2 F' U' F U F'",
+   "U2 y' R' U' R U R'"
+  ],
+  "name": "FRUF 35",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L F' L' F L' U L U2 L' U L U2 F"
+ },
+ "36": {
+  "a": [
+   "U M' U R U' r' F'",
+   "U' R U R' U F' U' L' U L"
+  ],
+  "name": "FRUF 36",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L U' F U' F' U L' U L U2 F"
+ },
+ "37": {
+  "a": [
+   "R' F R F' R U' R' U R U' R' U2 F'",
+   "y' R' U R' U2 R2 U R2 U R"
+  ],
+  "name": "FRUF 37",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L' U2 F' L2 F U2 L2 F U' R' F R F'"
+ },
+ "38": {
+  "a": [
+   "R U' R' U R U2 R' U F'",
+   "F' U L' U2 L U L' U' L"
+  ],
+  "name": "FRUF 38",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U' L U2 L' U L U' L' U' L F U' R' F R F'"
+ },
+ "39": {
+  "a": [
+   "R U' R' U' R U R' U2 F'",
+   "F' U2 L' U L U' L' U' L"
+  ],
+  "name": "FRUF 39",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F U2 R U' R' U R U R'"
+ },
+ "40": {
+  "a": [
+   "R U' R' F' L' U' L",
+   "y' R' U' R2 U2 R' U' R U' R2"
+  ],
+  "name": "FRUF 40",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "L' U L R' F R U2 R' F' R F U' R' F R F'"
+ },
+ "41": {
+  "a": [
+   "R U' R' F R U R' U' F2",
+   "R U' R' U' F' U F U' F' U L' U' L"
+  ],
+  "name": "FRUF 41",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "l' U l U2 l' U' l L' U' L F U' R' F R F'"
+ },
+ "42": {
+  "a": [
+   "y F U F' L'",
+   "R U R' F'"
+  ],
+  "name": "FRUF 42",
+  "group": "F <R,U> F'",
+  "algset": "F <R,U> F'",
+  "scramble": "F R U' R'"
+ }
+}

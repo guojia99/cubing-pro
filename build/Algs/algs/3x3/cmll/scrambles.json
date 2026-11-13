@@ -1,0 +1,128 @@
+{
+ "1": [
+  "R U R2' F' R U R U' R' F R U' R'"
+ ],
+ "2": [
+  "F R' F' R U R U' R' F R U' R' U R U R' F'"
+ ],
+ "3": [
+  "R U R' U R U' R' U R U2' R'"
+ ],
+ "4": [
+  "F U R U' R' U R U' R' U R U' R' F'"
+ ],
+ "5": [
+  "F U R U' R' U R U2' R' U' R U R' F' U'"
+ ],
+ "6": [
+  "r' F R F' r U' R' U' R U' R' U"
+ ],
+ "7": [
+  "F U R U' R' U R U' R' F'"
+ ],
+ "8": [
+  "R U2 R' U' R U R' U2' R' F R F' U'"
+ ],
+ "9": [
+  "F U R U' R' U F' U' R' F' R U"
+ ],
+ "10": [
+  "F R' F' R U2 R U' R' U R U2' R'"
+ ],
+ "11": [
+  "r U' r2' D' r U' r' D r2 U r' U"
+ ],
+ "12": [
+  "R' U2' R U R' F R' F' R U R U"
+ ],
+ "13": [
+  "R U2' R D R' U2' R D' R2' U2'"
+ ],
+ "14": [
+  "R' U2' R' D' R U2' R' D R2"
+ ],
+ "15": [
+  "R' F' R U R2' F2' U' F' U F' R2"
+ ],
+ "16": [
+  "F U R2 D R' U' R D' R2' F' U"
+ ],
+ "17": [
+  "r' D' r U r' D r U' r U r' U2'"
+ ],
+ "18": [
+  "F U R U' R' F' U"
+ ],
+ "19": [
+  "F R' F' r U R U' r' U"
+ ],
+ "20": [
+  "F' L F l' U' L' U l U'"
+ ],
+ "21": [
+  "F2' R U' R' U R U R2' F' R F'"
+ ],
+ "22": [
+  "R' F R' F' R2 U2 r' U' r"
+ ],
+ "23": [
+  "r U' r' U r' D' r U' r' D r"
+ ],
+ "24": [
+  "R' U R2 D r' U2' r D' R2' U' R"
+ ],
+ "25": [
+  "R U2' R' U' R U' R' U'"
+ ],
+ "26": [
+  "F' L F L' U2 L' U2' L U'"
+ ],
+ "27": [
+  "R U2 R' U2' R' F R F' U'"
+ ],
+ "28": [
+  "R2 D R' U R D' R' U R' U' R U' R'"
+ ],
+ "29": [
+  "R U2 R' F R' F' R U' R U' R' U"
+ ],
+ "30": [
+  "L' U R U' L U R' U'"
+ ],
+ "31": [
+  "R' U2 R U R' U R U'"
+ ],
+ "32": [
+  "R U R' U R U' R D R' U' R D' R2' U"
+ ],
+ "33": [
+  "L' U2' L U2 L F' L' F U"
+ ],
+ "34": [
+  "F R' F' R U2' R U2 R' U"
+ ],
+ "35": [
+  "R U' L' U R' U' L U"
+ ],
+ "36": [
+  "R' U' F R' F' R U' R U R' U R"
+ ],
+ "37": [
+  "R' U' R' D' R U R' D R2"
+ ],
+ "38": [
+  "r U R' U' r' F R F' U2'"
+ ],
+ "39": [
+  "R U R' U R U' R' U R U' R' U R U2' R'"
+ ],
+ "40": [
+  "F R' F' R U2' F R' F' R U' R U' R'"
+ ],
+ "41": [
+  "R2' F' R U R U' R' F R U' R' U R"
+ ],
+ "42": [
+  "R2' D' R U2' R' D R U2' R U'"
+ ]
+}

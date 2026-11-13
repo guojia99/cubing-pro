@@ -1,0 +1,20 @@
+{
+ "1": {
+  "a": [
+   "F R U R' U' F'"
+  ],
+  "name": "Bar",
+  "group": "Edges",
+  "algset": "2 Look OLL",
+  "scramble": "F U R U' R' F'"
+ },
+ "2": {
+  "a": [
+   "F U R U' R' F'"
+  ],
+  "name": "L shape",
+  "group": "Edges",
+  "algset": "2 Look OLL",
+  "scramble": "F R U R' U' F'"
+ }
+}

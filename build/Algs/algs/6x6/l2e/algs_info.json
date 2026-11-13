@@ -1,0 +1,33 @@
+{
+ "1": {
+  "a": [
+   "2R' U2 2L F2 2L' F2 2R2 U2 2R U2 2R' U2 F2 2R2 F2",
+   "2R2 B2 U2 2L U2 2R' U2 2R U2 F2 2R F2 2L' B2 2R2"
+  ],
+  "name": "L2E 1",
+  "group": "Last Two Edges",
+  "algset": "Last Two Edges",
+  "scramble": "F2' 2R2' F2' U2' 2R U2' 2R' U2' 2R2' F2' 2L F2' 2L' U2' 2R"
+ },
+ "2": {
+  "a": [
+   "3R' U2 3L F2 3L' F2 3R2 U2 3R U2 3R' U2 F2 3R2 F2",
+   "3R2 B2 U2 3L U2 3R' U2 3R U2 F2 3R F2 3L' B2 3R2"
+  ],
+  "name": "L2E 2",
+  "group": "Last Two Edges",
+  "algset": "Last Two Edges",
+  "scramble": "F2' 3R2' F2' U2' 3R U2' 3R' U2' 3R2' F2' 3L F2' 3L' U2' 3R"
+ },
+ "3": {
+  "a": [
+   "3L' U2 3L' U2 F2 3L' F2 3R U2 3R' U2 3L2",
+   "3L' U2 3L' U2 3L' 3R U2 3L' U2 3L U2 3R' U2 3L2",
+   "U2 3R U2 3R U2 F2 3R F2 3L' U2 3L U2 3R2 U2"
+  ],
+  "name": "L2E 3",
+  "group": "Last Two Edges",
+  "algset": "Last Two Edges",
+  "scramble": "3L2' U2' 3R U2' 3R' F2' 3L F2' U2' 3L U2' 3L"
+ }
+}

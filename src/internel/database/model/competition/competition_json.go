@@ -9,8 +9,9 @@ import (
 )
 
 type CompetitionJson struct {
-	Events []CompetitionEvent `json:"Events,omitempty"`
-	Cost   CompetitionCost    `json:"Cost,omitempty"`
+	ResultClosedAt *time.Time         `json:"ResultClosedAt,omitempty"`
+	Events         []CompetitionEvent `json:"Events,omitempty"`
+	Cost           CompetitionCost    `json:"Cost,omitempty"`
 
 	TNoodlePath    string `json:"TNoodlePath,omitempty"` // 保存TNoodle打乱内容的地方
 	TNoodlePDFPath string `json:"TNoodlePDFPath"`        // pdf

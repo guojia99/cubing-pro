@@ -7,72 +7,61 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/internel/groupcomp"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"strconv"
 )
 
 type ApprovalCompPlayerPreResultReq struct {
-	ResultID uint `uri:"result_id"`
-
-	Detail string `json:"FinishDetail"`
+	Detail              string `json:"FinishDetail"`
+	HistoricalConfirmed bool   `json:"HistoricalConfirmed"`
+	ReviewReason        string `json:"ReviewReason"`
 }
 
 func ApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
+	return approvalCompPlayerPreResult(svc, false)
+}
+
+func AdminApprovalCompPlayerPreResult(svc *svc.Svc) gin.HandlerFunc {
+	return approvalCompPlayerPreResult(svc, true)
+}
+
+func approvalCompPlayerPreResult(svc *svc.Svc, adminRoute bool) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req ApprovalCompPlayerPreResultReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		c := ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition)
+		var bindErr error
+		if c.IsGroupCompetition() {
+			bindErr = ctx.ShouldBindJSON(&req)
+		} else {
+			bindErr = app_utils.BindAll(ctx, &req)
+		}
+		if err := bindErr; err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
-
-		var pre result.PreResults
-		if err := svc.DB.First(&pre, "id = ?", req.ResultID).Error; err != nil {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+		if req.HistoricalConfirmed && !adminRoute {
+			exception.ErrAuthField.ResponseWithError(ctx, "历史人工核查确认只能通过管理员群赛审批接口执行")
 			return
 		}
-
-		user, err := middleware.GetAuthUser(ctx)
+		id, err := strconv.ParseUint(ctx.Param("result_id"), 10, 32)
+		if err != nil || id == 0 {
+			exception.ErrRequestBinding.ResponseWithError(ctx, "无效成绩ID")
+			return
+		}
+		u, err := middleware.GetAuthUser(ctx)
 		if err != nil {
 			return
 		}
-
-		//org := ctx.Value(or)
-		comp := ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition)
-		if !comp.IsRunningTime() {
-			exception.ErrResultCreate.ResponseWithError(ctx, "不在比赛时间")
+		if adminRoute {
+			err = groupcomp.AdminApprove(svc.DB.WithContext(ctx.Request.Context()), c.ID, uint(id), req.Detail, u, req.HistoricalConfirmed, req.ReviewReason)
+		} else {
+			err = groupcomp.Approve(svc.DB.WithContext(ctx.Request.Context()), c.ID, uint(id), req.Detail, u)
+		}
+		if err != nil {
+			exception.ErrResultUpdate.ResponseWithError(ctx, err)
 			return
 		}
-		if pre.Finish {
-			exception.ErrResultCreate.ResponseWithError(ctx, "成绩已被处理，请不要反复处理")
-			return
-		}
-
-		pre.Processor = user.Name
-		pre.ProcessorID = user.ID
-		pre.Detail = req.Detail
-		if req.Detail == result.DetailOk || req.Detail == result.DetailNot {
-			pre.FinishDetail = req.Detail
-			pre.Finish = true
-		}
-
-		if req.Detail == result.DetailOk {
-			// 判断选手是否已经审核完成
-			res, err := checkAndAddPlayerResult(
-				ctx, svc, AddCompResultReq{
-					CompReq:  CompReq{CompId: comp.ID},
-					Results:  pre.Result,
-					CubeID:   pre.CubeID,
-					RoundNum: pre.RoundNumber,
-					EventID:  pre.EventID,
-					Penalty:  pre.Penalty,
-				},
-			)
-			if err != nil {
-				exception.ErrResultCreate.ResponseWithError(ctx, err)
-				return
-			}
-			pre.ResultID = &res.ID
-		}
-		svc.DB.Save(&pre)
 		exception.ResponseOK(ctx, nil)
 	}
 }

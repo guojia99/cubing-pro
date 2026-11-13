@@ -1,0 +1,4446 @@
+{
+ "1": {
+  "a": [
+   "U R U' R'",
+   "U F U' F'",
+   "U L U' L'",
+   "U B U' B'"
+  ],
+  "name": "EO",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U'"
+ },
+ "2": {
+  "a": [
+   "U F' L' U' L F",
+   "y2 U f' U' L' U f",
+   "U L' B' U' B L",
+   "y2 U l' U' B' U l",
+   "U B' R' U' R B",
+   "y2 U b' U' R' U b",
+   "U R' F' U' F R",
+   "y2 U r' U' F' U r"
+  ],
+  "name": "Line",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "F' L' U L F U'"
+ },
+ "3": {
+  "a": [
+   "U R B U' B' R'",
+   "=y U F R U' R' F'",
+   "=y2 U L F U' F' L'",
+   "y U (R' F R U') R' F' R",
+   "y' U r' U r U' r' U' r",
+   "y' U2 R2' F R F' R",
+   "y U l' U l U' l' U' l",
+   "y U F' L F L2' U L",
+   "U F R U' R' F'",
+   "=y U L F U' F' L'",
+   "=y2 U B L U' L' B'",
+   "y U (F' L F U') F' L' F",
+   "y' U f' U f U' f' U' f",
+   "y' U2 F2' L F L' F",
+   "U L F U' F' L'",
+   "=y U B L U' L' B'",
+   "=y2 U R B U' B' R'",
+   "y U (L' B L U') L' B' L",
+   "y' U l' U l U' l' U' l",
+   "y' U2 L2' B L B' L",
+   "y U r' U r U' r' U' r",
+   "U B L U' L' B'",
+   "=y U R B U' B' R'",
+   "=y2 U F R U' R' F'",
+   "y U (B' R B U') B' R' B",
+   "y' U b' U b U' b' U' b",
+   "y' U2 B2' R B R' B",
+   "y U f' U f U' f' U' f",
+   "y U R' F R F2' U F"
+  ],
+  "name": "VP",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "R B U B' R' U'"
+ },
+ "4": {
+  "a": [
+   "R' F R F'",
+   "=y F' r U r'",
+   "M' U R U' r'",
+   "y' r' U' R U M'",
+   "y' f' U f R'",
+   "l' U l F'",
+   "F' L F L'",
+   "=y L' f U f'",
+   "S U F U' f'",
+   "y' f' U' F U S",
+   "y' l' U l F'",
+   "L' B L B'",
+   "=y B' l U l'",
+   "M U L U' l'",
+   "y' l' U' L U M",
+   "y' b' U b L'",
+   "B' R B R'",
+   "=y R' b U b'",
+   "S' U B U' b'",
+   "y' b' U' B U S'",
+   "y' r' U r B'",
+   "f' U f R'"
+  ],
+  "name": "VM",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R"
+ },
+ "5": {
+  "a": [
+   "U S' R U' R' S",
+   "y U S' L U L' U' L' S",
+   "U2 R d' R U' R' F'",
+   "=U2 R U' B U' B' R'",
+   "d R D r' U' r D' R'",
+   "U M F U F' U' F' M'",
+   "U F D f' U' f D' F'",
+   "U2' l F' U F' U' l'",
+   "U M' F U' F' M",
+   "y U M' B U B' U' B' M",
+   "U2 F d' F U' F' L'",
+   "=U2 F U' R U' R' F'",
+   "d F D f' U' f D' F'",
+   "U S' L U L' U' L' S",
+   "U L D l' U' l D' L'",
+   "U S L U' L' S'",
+   "y U S R U R' U' R' S'",
+   "U2 L d' L U' L' B'",
+   "=U2 L U' F U' F' L'",
+   "d L D l' U' l D' L'",
+   "U M B U' B' M'",
+   "y U M F U F' U' F' M'",
+   "U2 B d' B U' B' R'",
+   "=U2 B U' L U' L' B'",
+   "d B D b' U' b D' B'",
+   "U S R U R' U' R' S'",
+   "U R D r' U' r D' R'",
+   "U2' f R' U R' U' f'"
+  ],
+  "name": "IF",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "S' R U R' S U'"
+ },
+ "6": {
+  "a": [
+   "R' F R2 U R' U' F'",
+   "=y F' L F2' U F' U' L'",
+   "U2 (R U' R' U') (R' F R F')",
+   "F' L F2 U F' U' L'",
+   "=y L' B L2' U L' U' B'",
+   "U2 (F U' F' U') (F' L F L')",
+   "L' B L2 U L' U' B'",
+   "=y B' R B2' U B' U' R'",
+   "U2 (L U' L' U') (L' B L B')",
+   "B' R B2 U B' U' R'",
+   "=y R' F R2' U R' U' F'",
+   "U2 (B U' B' U') (B' R B R')"
+  ],
+  "name": "IL",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "F U R U' R2 F' R"
+ },
+ "7": {
+  "a": [
+   "y' U (B U B' U2) (B' R B R')",
+   "U' F D (f' U f D') F'",
+   "=y2 U' B D (b' U b D') B'",
+   "y' U (R U R' U2) (R' F R F')",
+   "U' L D (l' U l D') L'",
+   "=y2 U' R D (r' U r D') R'",
+   "y' U (F U F' U2) (F' L F L')",
+   "U' B D (b' U b D') B'",
+   "=y2 U' F D (f' U f D') F'",
+   "y' U (L U L' U2) (L' B L B')",
+   "U' R D (r' U r D') R'",
+   "=y2 U' L D (l' U l D') L'"
+  ],
+  "name": "IZ",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "F D f' U' f D' F' U"
+ },
+ "8": {
+  "a": [
+   "y' (U2' B' R B R')2",
+   "(B' R' B U2) S' U' S",
+   "=y2 (b' U' b U2') S U' S'",
+   "y' (B' R B M') (B U B' U' r')",
+   "f' U' f U2' S' U' S",
+   "U2' R' F R F' U2' R' F R F'",
+   "y' (U2' R' F R F')2",
+   "(R' F' R U2) M' U' M",
+   "=y2 (r' U' r U2') M U' M'",
+   "y' (R' F R S) (R U R' U' f')",
+   "l' U' l U2' M' U' M",
+   "U2' F' L F L' U2' F' L F L'",
+   "y' (U2' F' L F L')2",
+   "(F' L' F U2) S U' S'",
+   "=y2 (f' U' f U2') S' U' S",
+   "y' (F' L F M) (F U F' U' l')",
+   "y2' U2' R' F R F' U2' R' F R F'",
+   "y' (U2' L' B L B')2",
+   "(L' B' L U2) M U' M'",
+   "=y2 (l' U' l U2') M' U' M",
+   "y' (L' B L S') (L U L' U' b')",
+   "y2' U2' F' L F L' U2' F' L F L'",
+   "r' U' r U2' M U' M'"
+  ],
+  "name": "D",
+  "group": "A+",
+  "algset": "ZBLS",
+  "scramble": "S' U S U2 B' R B"
+ },
+ "9": {
+  "a": [
+   "U' F' U F",
+   "U' L' U L",
+   "U' B' U B",
+   "U' R' U R"
+  ],
+  "name": "EO",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U"
+ },
+ "10": {
+  "a": [
+   "U' R B U B' R'",
+   "=y2 U' r U B U' r'",
+   "U' F R U R' F'",
+   "=y2 U' f U R U' f'",
+   "U' L F U F' L'",
+   "=y2 U' l U F U' l'",
+   "U' B L U L' B'",
+   "=y2 U' b U L U' b'"
+  ],
+  "name": "Line",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "R B U' B' R' U"
+ },
+ "11": {
+  "a": [
+   "U' F' L' U L F",
+   "=y' U' R' F' U F R",
+   "=y2 U' B' R' U R B",
+   "y' U' b U' b' U b U b'",
+   "y' U' R B' R' B2 U' B'",
+   "y' U' F R' F' U F R F'",
+   "y U' f U' f' U f U f'",
+   "y U2' F2 R' F' R F'",
+   "U' L' B' U B L",
+   "=y' U' F' L' U L F",
+   "=y2 U' R' F' U F R",
+   "y' U' r U' r' U r U r'",
+   "y' U' F R' F' R2 U' R'",
+   "y' U' L F' L' U L F L'",
+   "y U' l U' l' U l U l'",
+   "y U2' L2 F' L' F L'",
+   "U' B' R' U R B",
+   "=y' U' L' B' U B L",
+   "=y2 U' F' L' U L F",
+   "y' U' f U' f' U f U f'",
+   "y' U' L F' L' F2 U' F'",
+   "U' R' F' U F R",
+   "=y' U' B' R' U R B",
+   "=y2 U' L' B' U B L",
+   "y' U' l U' l' U l U l'",
+   "y' U' B L' B' L2 U' L'",
+   "y U' r U' r' U r U r'"
+  ],
+  "name": "VP",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U' L F U"
+ },
+ "12": {
+  "a": [
+   "F R' F' R",
+   "=b U' b' R",
+   "y' R f' U' f",
+   "S' U' F' U f",
+   "y f U F' U' S'",
+   "y r U' r' F",
+   "L F' L' F",
+   "=r U' r' F",
+   "y' F l' U' l",
+   "M' U' L' U l",
+   "y l U L' U' M'",
+   "y f U' f' L",
+   "B L' B' L",
+   "=f U' f' L",
+   "R B' R' B",
+   "=l U' l' B",
+   "M U' R' U r",
+   "y r U R' U' M"
+  ],
+  "name": "VM",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F'"
+ },
+ "13": {
+  "a": [
+   "U' M' F' U F M",
+   "U' S R' U' R U R S'",
+   "U' R' D' (r U r' D) R",
+   "U2 b' R U' R U b",
+   "U2' F' d F' U F R",
+   "U2' F' U L' U L F",
+   "d' F' D' f U f' D F",
+   "U' S L' U L S'",
+   "U' M F' U' F U F M'",
+   "U' F' D' (f U f' D) F",
+   "U2 r' F U' F U r",
+   "y' U' S R' U' R U R S'",
+   "U2' L' d L' U L F",
+   "d' L' D' l U l' D L",
+   "U' M B' U B M'",
+   "U' S' L' U' L U L S",
+   "U' L' D' (l U l' D) L",
+   "U2 f' L U' L U f",
+   "y' U' M F' U' F U F M'",
+   "U' S' R' U R S",
+   "U' M' B' U' B U B M",
+   "U' B' D' (b U b' D) B",
+   "U2 l' B U' B U l",
+   "y' U' S' L' U' L U L S",
+   "U2' R' U F' U F R",
+   "d' R' D' r U r' D R"
+  ],
+  "name": "IF",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "M' F' U' F M U"
+ },
+ "14": {
+  "a": [
+   "F R' F2' U' F U R",
+   "=y' R B' R2 U' R U B",
+   "U2' F' U F U F R' F' R",
+   "L F' L2' U' L U F",
+   "=y' F R' F2 U' F U R",
+   "U2' L' U L U L F' L' F",
+   "B L' B2' U' B U L",
+   "=y' L F' L2 U' L U F",
+   "R B' R2' U' R U B",
+   "=y' B L' B2 U' B U L"
+  ],
+  "name": "IL",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "R' U' F' U F2 R F'"
+ },
+ "15": {
+  "a": [
+   "y U' (L' U' L U2) (L F' L' F)",
+   "U R' D' (r U' r' D) R",
+   "=y2 U L' D' (l U' l' D) L",
+   "y U' (B' U' B U2) (B L' B' L)",
+   "U F' D' (f U' f' D) F",
+   "=y2 U B' D' (b U' b' D) B",
+   "y U' (R' U' R U2) (R B' R' B)",
+   "U L' D' (l U' l' D) L",
+   "=y2 U R' D' (r U' r' D) R",
+   "y U' (F' U' F U2) (F R' F' R)",
+   "U B' D' (b U' b' D) B",
+   "=y2 U F' D' (f U' f' D) F"
+  ],
+  "name": "IZ",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "R' D' r U r' D R U'"
+ },
+ "16": {
+  "a": [
+   "y2 (U2 B L' B' L)2",
+   "(r U r' U2) M' U M",
+   "(U2 F R' F' R)2",
+   "y U2 L F' L' F U2 L F' L' F",
+   "L F L' U2' M' U M",
+   "y2' l U l' U2 M U M'",
+   "y L F' L' S' L' U' L U f",
+   "y2 (U2 R B' R' B)2",
+   "(f U f' U2) S U S'",
+   "(U2 L F' L' F)2",
+   "y2 (U2 F R' F' R)2",
+   "(l U l' U2) M U M'",
+   "(U2 B L' B' L)2",
+   "y2' r U r' U2 M' U M",
+   "y2 (U2 L F' L' F)2",
+   "(b U b' U2) S' U S",
+   "(U2 R B' R' B)2",
+   "y U2 F R' F' R U2 F R' F' R",
+   "F R F' U2' S' U S",
+   "y2' f U f' U2 S U S'",
+   "y F R' F' M F' U' F U r"
+  ],
+  "name": "D",
+  "group": "A-",
+  "algset": "ZBLS",
+  "scramble": "M' U' M U2 r U' r'"
+ },
+ "17": {
+  "a": [
+   "R U R'",
+   "F U F'",
+   "L U L'",
+   "B U B'"
+  ],
+  "name": "EO",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "R U' R'"
+ },
+ "18": {
+  "a": [
+   "U2 (L F' L' U') L F L'",
+   "(R U' R' U2') (R' F R F')",
+   "d2 R B' R' U' R B R'",
+   "y2' U2' l U' l' U' l U l'",
+   "R U' R' U2' l' U l F'",
+   "U2 (B L' B' U') B L B'",
+   "(F U' F' U2') (F' L F L')",
+   "d2 F R' F' U' F R F'",
+   "U2 (R B' R' U') R B R'",
+   "(L U' L' U2') (L' B L B')",
+   "d2 L F' L' U' L F L'",
+   "y2' U2' r U' r' U' r U r'",
+   "U2 (F R' F' U') F R F'",
+   "(B U' B' U2') (B' R B R')",
+   "d2 B L' B' U' B L B'",
+   "y2' U2' f U' f' U' f U f'"
+  ],
+  "name": "Line",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "L F' L' U L F L' U2"
+ },
+ "19": {
+  "a": [
+   "S (R U R' U') S'",
+   "=U' S(F' U F U') S'",
+   "=U M (U' R U R')M'",
+   "(R U2' R' U') (R' F R F')",
+   "U2 R (U B U2' B') R'",
+   "M U' F' U F M'",
+   "y2' U M' U' L U L' M",
+   "M (F U F' U') M'",
+   "=U' M(L' U L U') M'",
+   "=U S' (U' F U F')S",
+   "(F U2' F' U') (F' L F L')",
+   "U2 F (U R U2' R') F'",
+   "S' U' L' U L S",
+   "S' (L U L' U') S",
+   "=U' S'(B' U B U') S",
+   "=U M' (U' L U L')M",
+   "(L U2' L' U') (L' B L B')",
+   "U2 L (U F U2' F') L'",
+   "y2' U M U' R U R' M'",
+   "M' (B U B' U') M",
+   "=U' M'(R' U R U') M",
+   "=U S (U' B U B')S'",
+   "(B U2' B' U') (B' R B R')",
+   "U2 B (U L U2' L') B'",
+   "S U' R' U R S'",
+   "y2' U S' U' F U F' S"
+  ],
+  "name": "VP",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "S U R U' R' S'"
+ },
+ "20": {
+  "a": [
+   "U' (F' U2 F U) R U' R'",
+   "=y U' (L' U2 L U) F U' F'",
+   "=y2 U' (f' L2' f) (U L U' L')",
+   "(R U R2') (U' F' U F R)",
+   "U' (R U' r' U) (R U' R' U') r U' R'",
+   "U' (L' U2 L U) F U' F'",
+   "=y U' (B' U2 B U) L U' L'",
+   "=y2 U' (l' B2' l) (U B U' B')",
+   "(F U F2') (U' L' U L F)",
+   "U' (F U' f' U) (F U' F' U') f U' F'",
+   "U' r' F2' r U F U' F'",
+   "U' (B' U2 B U) L U' L'",
+   "=y U' (R' U2 R U) B U' B'",
+   "=y2 U' (b' R2' b) (U R U' R')",
+   "(L U L2') (U' B' U B L)",
+   "U' (L U' l' U) (L U' L' U') l U' L'",
+   "y2' U' F' U2 F U R U' R'",
+   "U' f' L2' f U L U' L'",
+   "U' (R' U2 R U) B U' B'",
+   "=y U' (F' U2 F U) R U' R'",
+   "=y2 U' (r' F2' r) (U F U' F')",
+   "(B U B2') (U' R' U R B)",
+   "U' (B U' b' U) (B U' B' U') b U' B'",
+   "y2' U' L' U2 L U F U' F'"
+  ],
+  "name": "VM",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' F' U2' F U"
+ },
+ "21": {
+  "a": [
+   "R U2' B U' B' R'",
+   "=y F U2 R U' R' F'",
+   "=y2 L U2 F U' F' L'",
+   "=y'↓f R2 U R' U' f'",
+   "U F U R U' R2' F' R",
+   "F U2' R U' R' F'",
+   "=y L U2 F U' F' L'",
+   "=y2 B U2 L U' L' B'",
+   "=y'↓l F2 U F' U' l'",
+   "U L U F U' F2' L' F",
+   "L U2' F U' F' L'",
+   "=y B U2 L U' L' B'",
+   "=y2 R U2 B U' B' R'",
+   "=y'↓b L2 U L' U' b'",
+   "U B U L U' L2' B' L",
+   "B U2' L U' L' B'",
+   "=y R U2 B U' B' R'",
+   "=y2 F U2 R U' R' F'",
+   "=y'↓r B2 U B' U' r'",
+   "U R U B U' B2' R' B"
+  ],
+  "name": "IP",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "R B U B' U2 R'"
+ },
+ "22": {
+  "a": [
+   "y' U2 B U (L U' L' U') B'",
+   "=U2 R U (B U' B' U') R'",
+   "y' B U2' B' (R' F' U' F R)",
+   "U' S U' (B' R2 B U) S'",
+   "y U2' F U R U' R' U' F'",
+   "y' U2 R U (B U' B' U') R'",
+   "=U2 F U (R U' R' U') F'",
+   "y' R U2' R' (F' L' U' L F)",
+   "U' M U' (R' F2 R U) M'",
+   "y U2' L U F U' F' U' L'",
+   "y' U2 F U (R U' R' U') F'",
+   "=U2 L U (F U' F' U') L'",
+   "y' F U2' F' (L' B' U' B L)",
+   "U' S' U' (F' L2 F U) S",
+   "y' U2 L U (F U' F' U') L'",
+   "=U2 B U (L U' L' U') B'",
+   "y' L U2' L' (B' R' U' R B)",
+   "U' M' U' (L' B2 L U) M"
+  ],
+  "name": "IZ",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "R U B U B' U' R' U2"
+ },
+ "23": {
+  "a": [
+   "S' R U R' S",
+   "=y2 S L U L' S'",
+   "=y F U (R U R' U') F'",
+   "y' y2' M' F U F' M",
+   "M' F U F' M",
+   "=y2 M B U B' M'",
+   "=y L U (F U F' U') L'",
+   "y' S' R U R' S",
+   "y' y2' S L U L' S'",
+   "y' y F U R U R' U' F'",
+   "S L U L' S'",
+   "=y2 S' R U R' S",
+   "=y B U (L U L' U') B'",
+   "y' M' F U F' M",
+   "y' y L U F U F' U' L'",
+   "M B U B' M'",
+   "=y2 M' F U F' M",
+   "=y R U (B U B' U') R'",
+   "y' S L U L' S'",
+   "y' y2' S' R U R' S"
+  ],
+  "name": "IY",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "S' R U' R' S"
+ },
+ "24": {
+  "a": [
+   "y' B' D' (b U' b' D) B2 U B'",
+   "U' (S F' U S' F U2') (S U S')",
+   "y' B' D' (b U b' D) B2 U B'",
+   "=y F' D' (f U f' D) F2 U F'",
+   "y F' D' f U' f' D F2 U F'",
+   "y' R' D' (r U' r' D) R2 U R'",
+   "U' (M L' U M' L U2') (M U M')",
+   "y' R' D' (r U r' D) R2 U R'",
+   "=y L' D' (l U l' D) L2 U L'",
+   "y L' D' l U' l' D L2 U L'",
+   "y' F' D' (f U' f' D) F2 U F'",
+   "U' (S' B' U S B U2') (S' U S)",
+   "y' F' D' (f U f' D) F2 U F'",
+   "=y B' D' (b U b' D) B2 U B'",
+   "y' L' D' (l U' l' D) L2 U L'",
+   "U' (M' R' U M R U2') (M' U M)",
+   "y' L' D' (l U l' D) L2 U L'",
+   "=y R' D' (r U r' D) R2 U R'",
+   "y R' D' r U' r' D R2 U R'"
+  ],
+  "name": "D",
+  "group": "B+",
+  "algset": "ZBLS",
+  "scramble": "S U' S' U2' S F' U' S' F U"
+ },
+ "25": {
+  "a": [
+   "F' U' F",
+   "L' U' L",
+   "B' U' B",
+   "R' U' R"
+  ],
+  "name": "EO",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "F' U F"
+ },
+ "26": {
+  "a": [
+   "U2 (B' R B U) B' R' B",
+   "y2 U2 b' U b U b' U' b",
+   "(F' U F) U2 (b U' b' R)",
+   "F' U F U2 F R' F' R",
+   "d2' F' L F U F' L' F",
+   "U2 (R' F R U) R' F' R",
+   "y2 U2 r' U r U r' U' r",
+   "(L' U L) U2 (r U' r' F)",
+   "L' U L U2 L F' L' F",
+   "U2 (F' L F U) F' L' F",
+   "y2 U2 f' U f U f' U' f",
+   "(B' U B) U2 (f U' f' L)",
+   "U2 (L' B L U) L' B' L",
+   "y2 U2 l' U l U l' U' l",
+   "(R' U R) U2 (l U' l' B)",
+   "d2' R' F R U R' F' R"
+  ],
+  "name": "Line",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "B' R B U' B' R' B U2"
+ },
+ "27": {
+  "a": [
+   "S (U R U' R') S'",
+   "=U M(R U' R' U) M'",
+   "=y2 U' S' (U B' U' B)S",
+   "M F' U' F U M'",
+   "U' S U F' U' F S'",
+   "F' U2 F U F R' F' R",
+   "U2' F' U' L' U2 L F",
+   "M (U F U' F') M'",
+   "=U S'(F U' F' U) S",
+   "=y2 U' M' (U R' U' R)M",
+   "S' L' U' L U S",
+   "U' M U L' U' L M'",
+   "L' U2 L U L F' L' F",
+   "S' (U L U' L') S",
+   "=U M'(L U' L' U) M",
+   "=y2 U' S (U F' U' F)S'",
+   "M' (U B U' B') M",
+   "=U S(B U' B' U) S'",
+   "=y2 U' M (U L' U' L)M'",
+   "S R' U' R U S'",
+   "U' M' U R' U' R M",
+   "U2' R' U' F' U2 F R"
+  ],
+  "name": "VP",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "S R U R' U' S'"
+ },
+ "28": {
+  "a": [
+   "y2 U (L U2' L' U') B' U B",
+   "=U (R U2' R' U') F' U F",
+   "=U (l F2 l') (U' F' U F)",
+   "F' U' F2 U R U' R' F'",
+   "U F' U f U' F' U F U f' U F",
+   "y2 U (B U2' B' U') R' U R",
+   "=U (F U2' F' U') L' U L",
+   "=U (b L2 b') (U' L' U L)",
+   "y' U R U2' R' U' F' U F",
+   "y2' U f R2 f' U' R' U R",
+   "L' U' L2 U F U' F' L'",
+   "U L' U l U' L' U L U l' U L",
+   "y2 U (R U2' R' U') F' U F",
+   "=U (L U2' L' U') B' U B",
+   "=U (r B2 r') (U' B' U B)",
+   "y' U F U2' F' U' L' U L",
+   "y2' U l F2 l' U' F' U F",
+   "y2 U (F U2' F' U') L' U L",
+   "=U (B U2' B' U') R' U R",
+   "=U (f R2 f') (U' R' U R)",
+   "U R' U r U' R' U R U r' U R"
+  ],
+  "name": "VM",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U R U2' R' U'"
+ },
+ "29": {
+  "a": [
+   "F' U2 L' U L F",
+   "=y' R' U2 F' U F R",
+   "=y2 B' U2' R' U R B",
+   "y r'↓F2' U' F U r",
+   "U' R' U' F' U F2 R F'",
+   "L' U2 B' U B L",
+   "=y' F' U2 L' U L F",
+   "=y2 R' U2' F' U F R",
+   "y f'↓L2' U' L U f",
+   "U' F' U' L' U L2 F L'",
+   "B' U2 R' U R B",
+   "=y' L' U2 B' U B L",
+   "=y2 F' U2' L' U L F",
+   "y l'↓B2' U' B U l",
+   "R' U2 F' U F R",
+   "=y' B' U2 R' U R B",
+   "=y2 L' U2' B' U B L",
+   "y b'↓R2' U' R U b"
+  ],
+  "name": "IP",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U' L U2 F"
+ },
+ "30": {
+  "a": [
+   "y U2 L' U' (B' U B U) L",
+   "=y' U2 R' U' (F' U F U) R",
+   "=U2 F' U' (L' U L U) F",
+   "y L' U2 L (F R U R' F')",
+   "U M U L F2' L' U' M'",
+   "y U2 B' U' (R' U R U) B",
+   "=y' U2 F' U' (L' U L U) F",
+   "=U2 L' U' (B' U B U) L",
+   "y B' U2 B (L F U F' L')",
+   "y U2 R' U' (F' U F U) R",
+   "=y' U2 L' U' (B' U B U) L",
+   "=U2 B' U' (R' U R U) B",
+   "y R' U2 R (B L U L' B')",
+   "y U2 F' U' (L' U L U) F",
+   "=y' U2 B' U' (R' U R U) B",
+   "=U2 R' U' (F' U F U) R",
+   "y F' U2 F (R B U B' R')",
+   "U S U F R2' F' U' S'"
+  ],
+  "name": "IZ",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "F' U' L' U' L U F U2"
+ },
+ "31": {
+  "a": [
+   "y S L' U' L S'",
+   "=y y2 S' R' U' R S",
+   "y y' F' U' L' U' L U F",
+   "M' F' U' F M",
+   "y' R' U' F' U' F U R",
+   "y M B' U' B M'",
+   "=y y2 M' F' U' F M",
+   "y y' L' U' B' U' B U L",
+   "S L' U' L S'",
+   "y2' S' R' U' R S",
+   "y' F' U' L' U' L U F",
+   "y S' R' U' R S",
+   "=y y2 S L' U' L S'",
+   "y y' B' U' R' U' R U B",
+   "y2' M' F' U' F M",
+   "y M' F' U' F M",
+   "=y y2 M B' U' B M'",
+   "y y' R' U' F' U' F U R",
+   "S' R' U' R S",
+   "y2' S L' U' L S'"
+  ],
+  "name": "IY",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "F' U' L' U L U F"
+ },
+ "32": {
+  "a": [
+   "y L D (l' U' l D') L2' U' L",
+   "U (M R U' M' R' U2) (M U' M')",
+   "=y' R D (r' U r D') R2' U' R",
+   "y' R D (r' U' r D') R2' U' R",
+   "y L D l' U l D' L2' U' L",
+   "y B D (b' U' b D') B2' U' B",
+   "U (S' F U' S F' U2) (S' U' S)",
+   "=y' F D (f' U f D') F2' U' F",
+   "y' F D (f' U' f D') F2' U' F",
+   "y R D (r' U' r D') R2' U' R",
+   "U (M' L U' M L' U2) (M' U' M)",
+   "=y' L D (l' U l D') L2' U' L",
+   "y' L D (l' U' l D') L2' U' L",
+   "y R D r' U r D' R2' U' R",
+   "y F D (f' U' f D') F2' U' F",
+   "U (S B U' S' B' U2) (S U' S')",
+   "=y' B D (b' U b D') B2' U' B",
+   "y' B D (b' U' b D') B2' U' B",
+   "y F D f' U f D' F2' U' F"
+  ],
+  "name": "D",
+  "group": "B-",
+  "algset": "ZBLS",
+  "scramble": "M U M' U2 M R U M' R' U'"
+ },
+ "33": {
+  "a": [
+   "U (↓R U' R U) (B U' B' R2')",
+   "U (R U' R U) (f R' f' R2)",
+   "U (↓F U' F U) (R U' R' F2')",
+   "U (F U' F U) (l F' l' F2)",
+   "U (↓L U' L U) (F U' F' L2')",
+   "U (L U' L U) (b L' b' L2)",
+   "U (↓B U' B U) (L U' L' B2')",
+   "U (B U' B U) (r B' r' B2)"
+  ],
+  "name": "C T",
+  "group": "C+",
+  "algset": "ZBLS",
+  "scramble": "R2 B U B' U' R' U R' U'"
+ },
+ "34": {
+  "a": [
+   "U2 F' U F (R B U2' B' R')",
+   "U2 L' U L (F R U2' R' F')",
+   "U2 B' U B (L F U2' F' L')",
+   "U2 R' U R (B L U2' L' B')"
+  ],
+  "name": "C I",
+  "group": "C+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' R' F' U' F U2"
+ },
+ "35": {
+  "a": [
+   "U' (↓F' U F' U') (L' U L F2)",
+   "U' F' U F' U' r' F r F2'",
+   "U' (↓L' U L' U') (B' U B L2)",
+   "U' L' U L' U' f' L f L2'",
+   "U' (↓B' U B' U') (R' U R B2)",
+   "U' (↓R' U R' U') (F' U F R2)"
+  ],
+  "name": "C T'",
+  "group": "C-",
+  "algset": "ZBLS",
+  "scramble": "F2 L' U' L U F U' F U"
+ },
+ "36": {
+  "a": [
+   "U2 R U' R' (F' L' U2 L F)",
+   "U2 F U' F' (L' B' U2 B L)",
+   "U2 L U' L' (B' R' U2 R B)",
+   "U2 B U' B' (R' F' U2 F R)"
+  ],
+  "name": "C I'",
+  "group": "C-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2 L F R U R' U2"
+ },
+ "37": {
+  "a": [
+   "↓R2 U2' (R' U' R U') R' U2 R'",
+   "↓F2 U2' (F' U' F U') F' U2 F'",
+   "↓L2 U2' (L' U' L U') L' U2 L'",
+   "↓B2 U2' (B' U' B U') B' U2 B'"
+  ],
+  "name": "D T",
+  "group": "D+",
+  "algset": "ZBLS",
+  "scramble": "R U2 R U R' U R U2 R2"
+ },
+ "38": {
+  "a": [
+   "U F' (L' U2 L U')2 F",
+   "U L' (B' U2 B U')2 L",
+   "U B' (R' U2 R U')2 B",
+   "U R' (F' U2 F U')2 R"
+  ],
+  "name": "D L",
+  "group": "D+",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U2' L U L' U2' L F U'"
+ },
+ "39": {
+  "a": [
+   "U (F' U F U') (F' U2 F2 R' F' R)",
+   "U (L' U L U') (L' U2 L2 F' L' F)",
+   "U (B' U B U') (B' U2 B2 L' B' L)",
+   "U (R' U R U') (R' U2 R2 B' R' B)"
+  ],
+  "name": "D V",
+  "group": "D+",
+  "algset": "ZBLS",
+  "scramble": "R' F R F2 U2 F U F' U' F U'"
+ },
+ "40": {
+  "a": [
+   "U2 R U2' B2 (r' U' r B') (R2' F R F')",
+   "U2 F U2' R2 (f' U' f R') (F2' L F L')",
+   "U2 L U2' F2 (l' U' l F') (L2' B L B')",
+   "U2 B U2' L2 (b' U' b L') (B2' R B R')"
+  ],
+  "name": "D D",
+  "group": "D+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R2 B r' U r B2 U2 R' U2"
+ },
+ "41": {
+  "a": [
+   "↓F2' U2 (F U F' U) F U2' F",
+   "↓L2' U2 (L U L' U) L U2' L",
+   "↓B2' U2 (B U B' U) B U2' B",
+   "↓R2' U2 (R U R' U) R U2' R"
+  ],
+  "name": "D T'",
+  "group": "D-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 F' U' F U' F' U2 F2"
+ },
+ "42": {
+  "a": [
+   "U' R (B U2' B' U)2 R'",
+   "U' F (R U2' R' U)2 F'",
+   "U' L (F U2' F' U)2 L'",
+   "U' B (L U2' L' U)2 B'"
+  ],
+  "name": "D L'",
+  "group": "D-",
+  "algset": "ZBLS",
+  "scramble": "R U' B U2 B' U' B U2 B' R' U"
+ },
+ "43": {
+  "a": [
+   "U' (R U' R' U) (R U2' R2' F R F')",
+   "U' (F U' F' U) (F U2' F2' L F L')",
+   "U' (L U' L' U) (L U2' L2' B L B')",
+   "U' (B U' B' U) (B U2' B2' R B R')"
+  ],
+  "name": "D V'",
+  "group": "D-",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R2 U2 R' U' R U R' U"
+ },
+ "44": {
+  "a": [
+   "U2 F' U2 L2' (f U f' L) (F2 R' F' R)",
+   "U2 L' U2 B2' (l U l' B) (L2 F' L' F)",
+   "U2 B' U2 R2' (b U b' R) (B2 L' B' L)",
+   "U2 R' U2 F2' (r U r' F) (R2 B' R' B)"
+  ],
+  "name": "D D'",
+  "group": "D-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F2 L' f U' f' L2 U2 F U2"
+ },
+ "45": {
+  "a": [
+   "(B' E B U') B' E' B",
+   "F' M' F U' F' M F",
+   "(R' E R U') R' E' R",
+   "L' S L U' L' S' L",
+   "(F' E F U') F' E' F",
+   "(L' E L U') L' E' L",
+   "R' S' R U' R' S R"
+  ],
+  "name": "E T",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "B' E B U B' E' B"
+ },
+ "46": {
+  "a": [
+   "U' (R' F R F') R U R'",
+   "U' (F' L F L') F U F'",
+   "U' (L' B L B') L U L'",
+   "U' (B' R B R') B U B'"
+  ],
+  "name": "E L",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F R' F' R U"
+ },
+ "47": {
+  "a": [
+   "U' (F' U' F U) R U R'",
+   "U' (L' U' L U) F U F'",
+   "U' (B' U' B U) L U L'",
+   "U' (R' U' R U) B U B'"
+  ],
+  "name": "E VB",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' F' U F U"
+ },
+ "48": {
+  "a": [
+   "U' (F' U F U) R U' R'",
+   "y' (U' R' U R) (U B U' B')",
+   "U' (L' U L U) F U' F'",
+   "y' (U' F' U F) (U R U' R')",
+   "U' (B' U B U) L U' L'",
+   "y' (U' L' U L) (U F U' F')",
+   "U' (R' U R U) B U' B'",
+   "y' (U' B' U B) (U L U' L')"
+  ],
+  "name": "E VF",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' F' U' F U"
+ },
+ "49": {
+  "a": [
+   "U [U] f' U2' (L' U L U2') f",
+   "y2 U↓F' (L2' U' L U L2') F",
+   "S' R S U S' U' R' S",
+   "r' U' (R' U' R' U) R U r",
+   "y2' l' U' L' U' L' U L U l",
+   "U [U] l' U2' (B' U B U2') l",
+   "y2 U↓L' (B2' U' B U B2') L",
+   "M' F M U M' U' F' M",
+   "f' U' (F' U' F' U) F U f",
+   "U [U] b' U2' (R' U R U2') b",
+   "y2 U↓B' (R2' U' R U R2') B",
+   "S L S' U S U' L' S'",
+   "l' U' (L' U' L' U) L U l",
+   "y2' r' U' R' U' R' U R U r",
+   "U [U] r' U2' (F' U F U2') r",
+   "y2 U↓R' (F2' U' F U F2') R",
+   "M B M' U M U' B' M'",
+   "b' U' (B' U' B' U) B U b",
+   "y2' f' U' F' U' F' U F U f"
+  ],
+  "name": "E IV",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "f' U2' L' U' L U2' f U'"
+ },
+ "50": {
+  "a": [
+   "f' U2' (L' U' L U2') f",
+   "l' U2' (B' U' B U2') l",
+   "b' U2' (R' U' R U2') b",
+   "r' U2' (F' U' F U2') r"
+  ],
+  "name": "E II",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "f' U2 L' U L U2 f"
+ },
+ "51": {
+  "a": [
+   "U2 R U2' B U2' B' U2 R' [U2]",
+   "U2 [U2] R U2 (B U2' B' U2) R'",
+   "U2 F U2' R U2' R' U2 F' [U2]",
+   "U2 [U2] F U2 (R U2' R' U2) F'",
+   "U2 L U2' F U2' F' U2 L' [U2]",
+   "U2 [U2] L U2 (F U2' F' U2) L'",
+   "U2 B U2' L U2' L' U2 B' [U2]",
+   "U2 [U2] B U2 (L U2' L' U2) B'"
+  ],
+  "name": "E IB",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "U2' R U2' B U2 B' U2 R' U2"
+ },
+ "52": {
+  "a": [
+   "U [U] (R M B U B' M') U' R'",
+   "y' U↓B2 D (b' U b D') B' U' B'",
+   "y' (b U2' B' U) (S U2 b U' b')",
+   "U' F' U' F' D' f U f' D F2'",
+   "y f U2 F' U S' U2' f U' f'",
+   "U [U] (F S' R U R' S) U' F'",
+   "y' U↓R2 D (r' U r D') R' U' R'",
+   "y' (r U2' R' U) (M U2 r U' r')",
+   "U' L' U' L' D' l U l' D L2'",
+   "y l U2 L' U M' U2' l U' l'",
+   "U [U] (L M' F U F' M) U' L'",
+   "y' U↓F2 D (f' U f D') F' U' F'",
+   "y' (f U2' F' U) (S' U2 f U' f')",
+   "U [U] (B S L U L' S') U' B'",
+   "y' U↓L2 D (l' U l D') L' U' L'",
+   "y' (l U2' L' U) (M' U2 l U' l')",
+   "U' R' U' R' D' r U r' D R2'",
+   "y r U2 R' U M U2' r U' r'"
+  ],
+  "name": "E D",
+  "group": "E+",
+  "algset": "ZBLS",
+  "scramble": "R U M B U' B' M' R' U'"
+ },
+ "53": {
+  "a": [
+   "(R S' R' U) R S R'",
+   "L E' L' U L E L'",
+   "(F M' F' U) F M F'",
+   "(L S L' U) L S' L'",
+   "R E' R' U R E R'",
+   "(B M B' U) B M' B'",
+   "F E' F' U F E F'"
+  ],
+  "name": "E T'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "R S' R' U' R S R'"
+ },
+ "54": {
+  "a": [
+   "U (F R' F' R) F' U' F",
+   "U (L F' L' F) L' U' L",
+   "U (B L' B' L) B' U' B",
+   "U (R B' R' B) R' U' R"
+  ],
+  "name": "E L'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "F' U F R' F R F' U'"
+ },
+ "55": {
+  "a": [
+   "U (R U R' U') F' U' F",
+   "U (F U F' U') L' U' L",
+   "U (L U L' U') B' U' B",
+   "U (B U B' U') R' U' R"
+  ],
+  "name": "E VB'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U R U' R' U'"
+ },
+ "56": {
+  "a": [
+   "U (R U' R' U') F' U F",
+   "y (U F U' F') (U' L' U L)",
+   "U (F U' F' U') L' U L",
+   "y (U L U' L') (U' B' U B)",
+   "U (L U' L' U') B' U B",
+   "y (U B U' B') (U' R' U R)",
+   "U (B U' B' U') R' U R",
+   "y (U R U' R') (U' F' U F)"
+  ],
+  "name": "E VF'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U R U R' U'"
+ },
+ "57": {
+  "a": [
+   "U' [U'] r U2 (B U' B' U2) r'",
+   "y2 U'↓R (B2 U B' U' B2) R'",
+   "M' F' M U' M' U F M",
+   "y2 b U B U B U' B' U' b'",
+   "f U F U F U' F' U' f'",
+   "U' [U'] f U2 (R U' R' U2) f'",
+   "y2 U'↓F (R2 U R' U' R2) F'",
+   "S L' S' U' S U L S'",
+   "y2 r U R U R U' R' U' r'",
+   "l U L U L U' L' U' l'",
+   "U' [U'] l U2 (F U' F' U2) l'",
+   "y2 U'↓L (F2 U F' U' F2) L'",
+   "M B' M' U' M U B M'",
+   "y2 f U F U F U' F' U' f'",
+   "U' [U'] b U2 (L U' L' U2) b'",
+   "y2 U'↓B (L2 U L' U' L2) B'",
+   "S' R' S U' S' U R S",
+   "y2 l U L U L U' L' U' l'",
+   "r U R U R U' R' U' r'"
+  ],
+  "name": "E IV'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "r U2 B U B' U2 r' U"
+ },
+ "58": {
+  "a": [
+   "r U2 (B U B' U2) r'",
+   "f U2 (R U R' U2) f'",
+   "l U2 (F U F' U2) l'",
+   "b U2 (L U L' U2) b'"
+  ],
+  "name": "E II'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "r U2 B U' B' U2 r'"
+ },
+ "59": {
+  "a": [
+   "U2 F' U2 L' U2 L U2' F [U2]",
+   "U2 F' U2' (L' U2 L U2') F",
+   "U2 L' U2 B' U2 B U2' L [U2]",
+   "U2 L' U2' (B' U2 B U2') L",
+   "U2 B' U2 R' U2 R U2' B [U2]",
+   "U2 B' U2' (R' U2 R U2') B",
+   "U2 R' U2 F' U2 F U2' R [U2]",
+   "U2 R' U2' (F' U2 F U2') R"
+  ],
+  "name": "E IB'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "U2' F' U2 L' U2' L U2' F U2'"
+ },
+ "60": {
+  "a": [
+   "U' [U'] (F' S L' U' L S') U F",
+   "U (↓R U R D) (r' U' r D') R2",
+   "y' (r' U2' R U') (M' U2 r' U r)",
+   "y U' L2' D' l U' l' D L U L",
+   "y l' U2 L U' M U2' l' U l",
+   "U' [U'] (L' M B' U' B M') U L",
+   "U (↓F U F D) (f' U' f D') F2",
+   "y' (f' U2' F U') (S U2 f' U f)",
+   "U' [U'] (B' S' R' U' R S) U B",
+   "U (↓L U L D) (l' U' l D') L2",
+   "y' (l' U2' L U') (M U2 l' U l)",
+   "y U' R2' D' r U' r' D R U R",
+   "y r' U2 R U' M' U2' r' U r",
+   "U' [U'] (R' M' F' U' F M) U R",
+   "U (↓B U B D) (b' U' b D') B2",
+   "y' (b' U2' B U') (S' U2 b' U b)",
+   "y U' F2' D' f U' f' D F U F",
+   "y f' U2 F U' S U2' f' U f"
+  ],
+  "name": "E D'",
+  "group": "E-",
+  "algset": "ZBLS",
+  "scramble": "F' U' S L' U L S' F U"
+ },
+ "61": {
+  "a": [
+   "U (↑R2' U2' F R2 F') (U2' R' U R')",
+   "F2 U2 R' F2' R U2 F U' F",
+   "U (↑F2' U2' L F2 L') (U2' F' U F')",
+   "L2 U2 F' L2' F U2 L U' L",
+   "U (↑L2' U2' B L2 B') (U2' L' U L')",
+   "U (↑B2' U2' R B2 R') (U2' B' U B')"
+  ],
+  "name": "F T",
+  "group": "F",
+  "algset": "ZBLS",
+  "scramble": "R U' R U2 F R2 F' U2 R2 U'"
+ },
+ "62": {
+  "a": [
+   "U' y U' F R' U2' (R2 U R2' U) F R F2'",
+   "U2 y' U R' F U2 F2' U' F2 U' R' F' R2",
+   "U' y U' L F' U2' (F2 U F2' U) L F L2'",
+   "U2 y' U F' L U2 L2' U' L2 U' F' L' F2",
+   "U' y U' B L' U2' (L2 U L2' U) B L B2'",
+   "U' y U' R B' U2' (B2 U B2' U) R B R2'"
+  ],
+  "name": "F I",
+  "group": "F",
+  "algset": "ZBLS",
+  "scramble": "R2 B' R' U' B2 U' B2 U2 B R' U2"
+ },
+ "63": {
+  "a": [
+   "U2 R2 U2' (R' U' R U') R2'",
+   "U2 F2 U2' (F' U' F U') F2'",
+   "U2 L2 U2' (L' U' L U') L2'",
+   "U2 B2 U2' (B' U' B U') B2'"
+  ],
+  "name": "G T",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "R2 U R' U R U2 R2 U2"
+ },
+ "64": {
+  "a": [
+   "U' (r U B U' B' r') F' U' F",
+   "U' L F U F' U' L' F' U' F",
+   "U' (f U R U' R' f') L' U' L",
+   "U' (l U F U' F' l') B' U' B",
+   "U' (b U L U' L' b') R' U' R",
+   "U' F R U R' U' F' R' U' R"
+  ],
+  "name": "G L",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "F' U F r B U B' U' r' U"
+ },
+ "65": {
+  "a": [
+   "U' (R B U' B' R') F' U' F",
+   "U' (F R U' R' F') L' U' L",
+   "U' (L F U' F' L') B' U' B",
+   "U' (B L U' L' B') R' U' R"
+  ],
+  "name": "G VP",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "F' U F R B U B' R' U"
+ },
+ "66": {
+  "a": [
+   "U' (B' U' R' U R S) R2 b",
+   "U' (R' U' F' U F M) F2 r",
+   "U' (F' U' L' U L S') L2 f",
+   "U' (L' U' B' U B M') B2 l"
+  ],
+  "name": "G VM",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "b' R2 S' R' U' R U B U"
+ },
+ "67": {
+  "a": [
+   "U' (R U' B U' B' R') F' U' F",
+   "U' (F U' R U' R' F') L' U' L",
+   "U' (L U' F U' F' L') B' U' B",
+   "U' (B U' L U' L' B') R' U' R"
+  ],
+  "name": "G IO",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "F' U F R B U B' U R' U"
+ },
+ "68": {
+  "a": [
+   "y2↑L U (L F' L' F) U2' L'",
+   "y' y2' F U F R' F' R U2' F'",
+   "y2↑B U (B L' B' L) U2' B'",
+   "y' y2' L U L F' L' F U2' L'",
+   "y2↑R U (R B' R' B) U2' R'",
+   "y2↑F U (F R' F' R) U2' F'"
+  ],
+  "name": "G IL",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B' R B R' U' R'"
+ },
+ "69": {
+  "a": [
+   "U (F R' F' R) (U R U R')",
+   "U (L F' L' F) (U F U F')",
+   "U (B L' B' L) (U L U L')",
+   "U (R B' R' B) (U B U B')"
+  ],
+  "name": "G IZ",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' R' F R F' U'"
+ },
+ "70": {
+  "a": [
+   "R M (B U' B' M') U' R'",
+   "U2 (M' F' U' F M)R U R'",
+   "F S' (R U' R' S) U' F'",
+   "U2 (S L' U' L S')F U F'",
+   "L M' (F U' F' M) U' L'",
+   "U2 (M B' U' B M')L U L'",
+   "B S (L U' L' S') U' B'",
+   "U2 (S' R' U' R S)B U B'"
+  ],
+  "name": "G D",
+  "group": "G+",
+  "algset": "ZBLS",
+  "scramble": "R U M B U B' R' M'"
+ },
+ "71": {
+  "a": [
+   "U2 F2' U2 (F U F' U) F2",
+   "U2 L2' U2 (L U L' U) L2",
+   "U2 B2' U2 (B U B' U) B2",
+   "U2 R2' U2 (R U R' U) R2"
+  ],
+  "name": "G T'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "F2 U' F U' F' U2 F2 U2"
+ },
+ "72": {
+  "a": [
+   "U (f' U' L' U L f) R U R'",
+   "U B' R' U' R U B R U R'",
+   "U (l' U' B' U B l) F U F'",
+   "U R' F' U' F U R F U F'",
+   "U (b' U' R' U R b) L U L'",
+   "U F' L' U' L U F L U L'",
+   "U (r' U' F' U F r) B U B'",
+   "U L' B' U' B U L B U B'"
+  ],
+  "name": "G L'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "R U' R' f' L' U' L U f U'"
+ },
+ "73": {
+  "a": [
+   "U (F' L' U L F) R U R'",
+   "U (L' B' U B L) F U F'",
+   "U (B' R' U R B) L U L'",
+   "U (R' F' U F R) B U B'"
+  ],
+  "name": "G VP'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F' L' U' L F U'"
+ },
+ "74": {
+  "a": [
+   "U (L U F U' F' M) F2' l'",
+   "U (B U L U' L' S') L2' b'",
+   "U (R U B U' B' M') B2' r'",
+   "U (F U R U' R' S) R2' f'"
+  ],
+  "name": "G VM'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "l F2 M' F U F' U' L' U'"
+ },
+ "75": {
+  "a": [
+   "U (F' U L' U L F) R U R'",
+   "U (L' U B' U B L) F U F'",
+   "U (B' U R' U R B) L U L'",
+   "U (R' U F' U F R) B U B'"
+  ],
+  "name": "G IO'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F' L' U' L U' F U'"
+ },
+ "76": {
+  "a": [
+   "y y2↑R' U' (R' F R F') U2 R",
+   "y y2↑F' U' (F' L F L') U2 F",
+   "y2' R' U' R' F R F' U2 R",
+   "y y2↑L' U' (L' B L B') U2 L",
+   "y2' F' U' F' L F L' U2 F",
+   "y y2↑B' U' (B' R B R') U2 B"
+  ],
+  "name": "G IL'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L F' L' F U F"
+ },
+ "77": {
+  "a": [
+   "U' (R' F R F') (U' F' U' F)",
+   "U' (F' L F L') (U' L' U' L)",
+   "U' (L' B L B') (U' B' U' B)",
+   "U' (B' R B R') (U' R' U' R)"
+  ],
+  "name": "G IZ'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U F R' F' R U"
+ },
+ "78": {
+  "a": [
+   "F' S (L' U L S') U F",
+   "U2 (S' R U R' S)F' U' F",
+   "L' M (B' U B M') U L",
+   "U2 (M' F U F' M)L' U' L",
+   "B' S' (R' U R S) U B",
+   "U2 (S L U L' S')B' U' B",
+   "R' M' (F' U F M) U R",
+   "U2 (M B U B' M')R' U' R"
+  ],
+  "name": "G D'",
+  "group": "G-",
+  "algset": "ZBLS",
+  "scramble": "F' U' S L' U' L F S'"
+ },
+ "79": {
+  "a": [
+   "(R U2' R' U') R U R'",
+   "(F U2' F' U') F U F'",
+   "(L U2' L' U') L U L'",
+   "(B U2' B' U') B U B'"
+  ],
+  "name": "H T",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U R U2 R'"
+ },
+ "80": {
+  "a": [
+   "y' R' U2' (F R U R' U' F') R",
+   "y' F' U2' (L F U F' U' L') F",
+   "y' y' R' U2' F R U R' U' F' R",
+   "y' L' U2' (B L U L' U' B') L",
+   "y' y' F' U2' L F U F' U' L' F",
+   "y' B' U2' (R B U B' U' R') B"
+  ],
+  "name": "H L",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "F' L U F U' F' L' U2 F"
+ },
+ "81": {
+  "a": [
+   "(R U2' R' U') (S' R U R' S)",
+   "(F U2' F' U') (M' F U F' M)",
+   "(L U2' L' U') (S L U L' S')",
+   "(B U2' B' U') (M B U B' M')"
+  ],
+  "name": "H VP",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "S' R U' R' S U R U2 R'"
+ },
+ "82": {
+  "a": [
+   "(R U R' U') (F R' F' R2 U R')",
+   "(F U F' U') (L F' L' F2 U F')",
+   "(L U L' U') (B L' B' L2 U L')",
+   "(B U B' U') (R B' R' B2 U B')"
+  ],
+  "name": "H VM",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "R U' R2 F R F' U R U' R'"
+ },
+ "83": {
+  "a": [
+   "U2 (B U2' B' U2) (B' R B U2' R')",
+   "U' R U2' R' U' F' U' F R U R'",
+   "U2 (R U2' R' U2) (R' F R U2' F')",
+   "U' F U2' F' U' L' U' L F U F'",
+   "U2 (F U2' F' U2) (F' L F U2' L')",
+   "U2 (L U2' L' U2) (L' B L U2' B')"
+  ],
+  "name": "H IO",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B' R' B U2 B U2 B' U2"
+ },
+ "84": {
+  "a": [
+   "y2 U' (L U2 L' U') (L F' L F L2')",
+   "y' y2' U' F U2 F' U' F R' F R F2'",
+   "y2 U' (B U2 B' U') (B L' B L B2')",
+   "y' y2' U' L U2 L' U' L F' L F L2'",
+   "y2 U' (R U2 R' U') (R B' R B R2')",
+   "y2 U' (F U2 F' U') (F R' F R F2')"
+  ],
+  "name": "H IL",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "R2 B' R' B R' U R U2 R' U"
+ },
+ "85": {
+  "a": [
+   "(R U2' r' U') (R U M' R')",
+   "(F U2' f' U') (F U S F')",
+   "(L U2' l' U') (L U M L')",
+   "(B U2' b' U') (B U S' B')"
+  ],
+  "name": "H IZ",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "M R U' R' U r U2 R'"
+ },
+ "86": {
+  "a": [
+   "U' R U' (B U' L U' L' B') R'",
+   "U' F U' (R U' B U' B' R') F'",
+   "U' L U' (F U' R U' R' F') L'",
+   "U' B U' (L U' F U' F' L') B'"
+  ],
+  "name": "H D",
+  "group": "H+",
+  "algset": "ZBLS",
+  "scramble": "R B L U L' U B' U R' U"
+ },
+ "87": {
+  "a": [
+   "(F' U2 F U) F' U' F",
+   "(L' U2 L U) L' U' L",
+   "(B' U2 B U) B' U' B",
+   "(R' U2 R U) R' U' R"
+  ],
+  "name": "H T'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U' F' U2 F"
+ },
+ "88": {
+  "a": [
+   "y y L U2 (F' L' U' L U F) L'",
+   "y F U2 R' F' U' F U R F'",
+   "y y B U2 (L' B' U' B U L) B'",
+   "y L U2 F' L' U' L U F L'",
+   "y y R U2 (B' R' U' R U B) R'",
+   "y y F U2 (R' F' U' F U R) F'"
+  ],
+  "name": "H L'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "R B' U' R' U R B U2 R'"
+ },
+ "89": {
+  "a": [
+   "(F' U2 F U) (M' F' U' F M)",
+   "(L' U2 L U) (S L' U' L S')",
+   "(B' U2 B U) (M B' U' B M')",
+   "(R' U2 R U) (S' R' U' R S)"
+  ],
+  "name": "H VP'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "M' F' U F M U' F' U2 F"
+ },
+ "90": {
+  "a": [
+   "(F' U' F U) (R' F R F2' U' F)",
+   "(L' U' L U) (F' L F L2' U' L)",
+   "(B' U' B U) (L' B L B2' U' B)",
+   "(R' U' R U) (B' R B R2' U' R)"
+  ],
+  "name": "H VM'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "F' U F2 R' F' R U' F' U F"
+ },
+ "91": {
+  "a": [
+   "U2 (L' U2 L U2') (L F' L' U2 F)",
+   "U F' U2 F U (R U R' F') U' F",
+   "U2 (B' U2 B U2') (B L' B' U2 L)",
+   "U L' U2 L U (F U F' L') U' L",
+   "U2 (R' U2 R U2') (R B' R' U2 B)",
+   "U B' U2 B U (L U L' B') U' B",
+   "U2 (F' U2 F U2') (F R' F' U2 R)",
+   "U R' U2 R U (B U B' R') U' R"
+  ],
+  "name": "H IO'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L F L' U2 L' U2 L U2"
+ },
+ "92": {
+  "a": [
+   "y y2 U (R' U2' R U) (R' F R' F' R2)",
+   "y y2 U (F' U2' F U) (F' L F' L' F2)",
+   "y2' U R' U2' R U R' F R' F' R2",
+   "y y2 U (L' U2' L U) (L' B L' B' L2)",
+   "y2' U F' U2' F U F' L F' L' F2",
+   "y y2 U (B' U2' B U) (B' R B' R' B2)"
+  ],
+  "name": "H IL'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "F2 L F L' F U' F' U2 F U'"
+ },
+ "93": {
+  "a": [
+   "(F' U2 f U) (F' U' S' F)",
+   "(L' U2 l U) (L' U' M' L)",
+   "(B' U2 b U) (B' U' S B)",
+   "(R' U2 r U) (R' U' M R)"
+  ],
+  "name": "H IZ'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "S F' U F U' f' U2 F"
+ },
+ "94": {
+  "a": [
+   "U F' U (L' U B' U B L) F",
+   "U L' U (B' U R' U R B) L",
+   "U B' U (R' U F' U F R) B",
+   "U R' U (F' U L' U L F) R"
+  ],
+  "name": "H D'",
+  "group": "H-",
+  "algset": "ZBLS",
+  "scramble": "F' L' B' U' B U' L U' F U'"
+ },
+ "95": {
+  "a": [
+   "R F (U R' U' R F') U' R'",
+   "F L (U F' U' F L') U' F'",
+   "L B (U L' U' L B') U' L'",
+   "B R (U B' U' B R') U' B'"
+  ],
+  "name": "I T",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "R U F R' U R U' F' R'"
+ },
+ "96": {
+  "a": [
+   "M U (r U' r' U') M'",
+   "M U L F' L' U' M'",
+   "S' U (f U' f' U') S",
+   "M' U (l U' l' U') M",
+   "S U (b U' b' U') S'",
+   "S U F R' F' U' S'"
+  ],
+  "name": "I L",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "M U r U r' U' M'"
+ },
+ "97": {
+  "a": [
+   "r (R U B U' B' R') r'",
+   "f (F U R U' R' F') f'",
+   "l (L U F U' F' L') l'",
+   "b (B U L U' L' B') b'"
+  ],
+  "name": "I VP",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "r R B U B' U' R' r'"
+ },
+ "98": {
+  "a": [
+   "(F' U F U2') R U R'",
+   "(L' U L U2') F U F'",
+   "(B' U B U2') L U L'",
+   "(R' U R U2') B U B'"
+  ],
+  "name": "I VY",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U2 F' U' F"
+ },
+ "99": {
+  "a": [
+   "R U (B' R B R') U2 R'",
+   "F U (R' F R F') U2 F'",
+   "L U (F' L F L') U2 L'",
+   "B U (L' B L B') U2 B'"
+  ],
+  "name": "I IO",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "R U2 R B' R' B U' R'"
+ },
+ "100": {
+  "a": [
+   "(F' U F U2) (S' R U R' S)",
+   "(L' U L U2) (M' F U F' M)",
+   "(B' U B U2) (S L U L' S')",
+   "(R' U R U2) (M B U B' M')"
+  ],
+  "name": "I IL",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "S' R U' R' S U2 F' U' F"
+ },
+ "101": {
+  "a": [
+   "U2 F' U' F (R B U2' B' R')",
+   "R B U' B' U2 B U2 B' R'",
+   "U2 L' U' L (F R U2' R' F')",
+   "F R U' R' U2 R U2 R' F'",
+   "U2 B' U' B (L F U2' F' L')",
+   "L F U' F' U2 F U2 F' L'",
+   "U2 R' U' R (B L U2' L' B')",
+   "B L U' L' U2 L U2 L' B'"
+  ],
+  "name": "I IZ",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' R' F' U F U2"
+ },
+ "102": {
+  "a": [
+   "U' F' U2 F (R B U2 B' R')",
+   "U' L' U2 L (F R U2 R' F')",
+   "U' B' U2 B (L F U2 F' L')",
+   "U' R' U2 R (B L U2 L' B')"
+  ],
+  "name": "I D",
+  "group": "I+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' R' F' U2 F U"
+ },
+ "103": {
+  "a": [
+   "F' R' (U' F U F' R) U F",
+   "L' F' (U' L U L' F) U L",
+   "B' L' (U' B U B' L) U B",
+   "R' B' (U' R U R' B) U R"
+  ],
+  "name": "I T'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "F' U' R' F U' F' U R F"
+ },
+ "104": {
+  "a": [
+   "S U' (B' R B U) S'",
+   "S U' f' U f U S'",
+   "M U' (R' F R U) M'",
+   "M U' l' U l U M'",
+   "S' U' (F' L F U) S",
+   "M' U' (L' B L U) M",
+   "M' U' r' U r U M"
+  ],
+  "name": "I L'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "S U' B' R' B U S'"
+ },
+ "105": {
+  "a": [
+   "f' (F' U' L' U L F) f",
+   "l' (L' U' B' U B L) l",
+   "b' (B' U' R' U R B) b",
+   "r' (R' U' F' U F R) r"
+  ],
+  "name": "I VP'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "f' F' L' U' L U F f"
+ },
+ "106": {
+  "a": [
+   "(R U' R' U2) F' U' F",
+   "(F U' F' U2) L' U' L",
+   "(L U' L' U2) B' U' B",
+   "(B U' B' U2) R' U' R"
+  ],
+  "name": "I VY'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U2 R U R'"
+ },
+ "107": {
+  "a": [
+   "F' U' (L F' L' F) U2' F",
+   "L' U' (B L' B' L) U2' L",
+   "B' U' (R B' R' B) U2' B",
+   "R' U' (F R' F' R) U2' R"
+  ],
+  "name": "I IO'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 F' L F L' U F"
+ },
+ "108": {
+  "a": [
+   "(R U' R' U2') (M' F' U' F M)",
+   "(F U' F' U2') (S L' U' L S')",
+   "(L U' L' U2') (M B' U' B M')",
+   "(B U' B' U2') (S' R' U' R S)"
+  ],
+  "name": "I IL'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "M' F' U F M U2 R U R'"
+ },
+ "109": {
+  "a": [
+   "U2 R U R' (F' L' U2 L F)",
+   "F' L' U L U2 L' U2 L F",
+   "U2 F U F' (L' B' U2 B L)",
+   "L' B' U B U2 B' U2 B L",
+   "U2 L U L' (B' R' U2 R B)",
+   "B' R' U R U2 R' U2 R B",
+   "U2 B U B' (R' F' U2 F R)",
+   "R' F' U F U2 F' U2 F R"
+  ],
+  "name": "I IZ'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2 L F R U' R' U2"
+ },
+ "110": {
+  "a": [
+   "U R U2' R' (F' L' U2 L F)",
+   "U F U2' F' (L' B' U2 B L)",
+   "U L U2' L' (B' R' U2 R B)",
+   "U B U2' B' (R' F' U2 F R)"
+  ],
+  "name": "I D'",
+  "group": "I-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2 L F R U2 R' U'"
+ },
+ "111": {
+  "a": [
+   "(R U' R' U) R U' R'",
+   "(F U' F' U) F U' F'",
+   "(L U' L' U) L U' L'",
+   "(B U' B' U) B U' B'"
+  ],
+  "name": "J T",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' R U R'"
+ },
+ "112": {
+  "a": [
+   "(F' U' F U') R U2' R'",
+   "(L' U' L U') F U2' F'",
+   "(B' U' B U') L U2' L'",
+   "(R' U' R U') B U2' B'"
+  ],
+  "name": "J L",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "R U2 R' U F' U F"
+ },
+ "113": {
+  "a": [
+   "(F' U2 F) R U2 R'",
+   "(L' U2 L) F U2 F'",
+   "(B' U2 B) L U2 L'",
+   "(R' U2 R) B U2 B'"
+  ],
+  "name": "J VB",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "R U2 R' F' U2 F"
+ },
+ "114": {
+  "a": [
+   "y'↑R' U2' (R' F R F') R",
+   "y'↑F' U2' (F' L F L') F",
+   "y' y' R' U2' R' F R F' R",
+   "y'↑L' U2' (L' B L B') L",
+   "y' y' F' U2' F' L F L' F",
+   "y'↑B' U2' (B' R B R') B"
+  ],
+  "name": "J VF",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "F' L F' L' F U2 F"
+ },
+ "115": {
+  "a": [
+   "U2 R U (B U B' U) R'",
+   "U2 F U (R U R' U) F'",
+   "U2 L U (F U F' U) L'",
+   "U2 B U (L U L' U) B'"
+  ],
+  "name": "J IF",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U' B' U' R' U2"
+ },
+ "116": {
+  "a": [
+   "R U' R2' F R F'",
+   "F U' F2' L F L'",
+   "L U' L2' B L B'",
+   "B U' B2' R B R'"
+  ],
+  "name": "J IB",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R2 U R'"
+ },
+ "117": {
+  "a": [
+   "(R U' R' U) (F' L' U' L F)",
+   "(F U' F' U) (L' B' U' B L)",
+   "(L U' L' U) (B' R' U' R B)",
+   "(B U' B' U) (R' F' U' F R)"
+  ],
+  "name": "J II",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "F' L' U L F U' R U R'"
+ },
+ "118": {
+  "a": [
+   "(F' U2' F U') (S' R U' R' S)",
+   "(L' U2' L U') (M' F U' F' M)",
+   "(B' U2' B U') (S L U' L' S')",
+   "(R' U2' R U') (M B U' B' M')"
+  ],
+  "name": "J D",
+  "group": "J+",
+  "algset": "ZBLS",
+  "scramble": "S' R U R' S U F' U2 F"
+ },
+ "119": {
+  "a": [
+   "(F' U F U') F' U F",
+   "(L' U L U') L' U L",
+   "(B' U B U') B' U B",
+   "(R' U R U') R' U R"
+  ],
+  "name": "J T'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U F' U' F"
+ },
+ "120": {
+  "a": [
+   "(R U R' U) F' U2 F",
+   "(F U F' U) L' U2 L",
+   "(L U L' U) B' U2 B",
+   "(B U B' U) R' U2 R"
+  ],
+  "name": "J L'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 F U' R U' R'"
+ },
+ "121": {
+  "a": [
+   "(R U2' R') F' U2' F",
+   "(F U2' F') L' U2' L",
+   "(L U2' L') B' U2' B",
+   "(B U2' B') R' U2' R"
+  ],
+  "name": "J VB'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 F R U2 R'"
+ },
+ "122": {
+  "a": [
+   "y y↑L U2 (L F' L' F) L'",
+   "y F U2 F R' F' R F'",
+   "y y↑B U2 (B L' B' L) B'",
+   "y L U2 L F' L' F L'",
+   "y y↑R U2 (R B' R' B) R'",
+   "y y↑F U2 (F R' F' R) F'"
+  ],
+  "name": "J VF'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "R B' R B R' U2 R'"
+ },
+ "123": {
+  "a": [
+   "U2 F' U' (L' U' L U') F",
+   "U2 L' U' (B' U' B U') L",
+   "U2 B' U' (R' U' R U') B",
+   "U2 R' U' (F' U' F U') R"
+  ],
+  "name": "J IF'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U L U F U2"
+ },
+ "124": {
+  "a": [
+   "F' U F2 R' F' R",
+   "L' U L2 F' L' F",
+   "B' U B2 L' B' L",
+   "R' U R2 B' R' B"
+  ],
+  "name": "J IB'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F2' U' F"
+ },
+ "125": {
+  "a": [
+   "(F' U F U') (R B U B' R')",
+   "(L' U L U') (F R U R' F')",
+   "(B' U B U') (L F U F' L')",
+   "(R' U R U') (B L U L' B')"
+  ],
+  "name": "J II'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "R B U' B' R' U F' U' F"
+ },
+ "126": {
+  "a": [
+   "(R U2 R' U) (M' F' U F M)",
+   "(F U2 F' U) (S L' U L S')",
+   "(L U2 L' U) (M B' U B M')",
+   "(B U2 B' U) (S' R' U R S)"
+  ],
+  "name": "J D'",
+  "group": "J-",
+  "algset": "ZBLS",
+  "scramble": "M' F' U' F M U' R U2 R'"
+ },
+ "127": {
+  "a": [
+   "U' (R U' R' U) R U R'",
+   "U' (F U' F' U) F U F'",
+   "U' (L U' L' U) L U L'",
+   "U' (B U' B' U) B U B'"
+  ],
+  "name": "K T",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' R U R' U"
+ },
+ "128": {
+  "a": [
+   "U' (R' F R2 U R' U') R' F' R",
+   "U' (F' L F2 U F' U') F' L' F",
+   "U' (L' B L2 U L' U') L' B' L",
+   "U' (B' R B2 U B' U') B' R' B"
+  ],
+  "name": "K L",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "R' F R U R U' R2 F' R U"
+ },
+ "129": {
+  "a": [
+   "(b U B' U') (b' R2 B R2')",
+   "F R f' U' F' U2 f R2'",
+   "(r U R' U') (r' F2 R F2')",
+   "L F l' U' L' U2 l F2'",
+   "(f U F' U') (f' L2 F L2')",
+   "(l U L' U') (l' B2 L B2')"
+  ],
+  "name": "K VP",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "R2 B' R2 b U B U' b'"
+ },
+ "130": {
+  "a": [
+   "U' (R U' R' U) (S' R U R' S)",
+   "U' (F U' F' U) (M' F U F' M)",
+   "U' (L U' L' U) (S L U L' S')",
+   "U' (B U' B' U) (M B U B' M')"
+  ],
+  "name": "K VY",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "S' R U' R' S U' R U R' U"
+ },
+ "131": {
+  "a": [
+   "l U L' U L U2 F2' l'",
+   "b U B' U B U2 L2' b'",
+   "r U R' U R U2 B2' r'",
+   "f U F' U F U2 R2' f'"
+  ],
+  "name": "K IO",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "l F2 U2' L' U' L U' l'"
+ },
+ "132": {
+  "a": [
+   "U2 (F' S L' U' L S') U2 F",
+   "U2 (L' M B' U' B M') U2 L",
+   "U2 (B' S' R' U' R S) U2 B",
+   "U2 (R' M' F' U' F M) U2 R"
+  ],
+  "name": "K IL",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "F' U2 S L' U L F S' U2"
+ },
+ "133": {
+  "a": [
+   "U' R' U' F' U↓F R2 U R'",
+   "U' F' U' L' U↓L F2 U F'",
+   "U' L' U' B' U↓B L2 U L'",
+   "U' B' U' R' U↓R B2 U B'"
+  ],
+  "name": "K IZ",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "R U' R2' F' U' F U R U"
+ },
+ "134": {
+  "a": [
+   "U2 (r U' r' U) M' U2 R U r'",
+   "U2' L F' L' U M' U2' l F L'",
+   "U2 (f U' f' U) S U2 F U f'",
+   "U2 (l U' l' U) M U2 L U l'",
+   "U2 (b U' b' U) S' U2 B U b'",
+   "U2' F R' F' U S' U2' f R F'"
+  ],
+  "name": "K D",
+  "group": "K+",
+  "algset": "ZBLS",
+  "scramble": "r U' R' U2 M U' r U r' U2"
+ },
+ "135": {
+  "a": [
+   "U (F' U F U') F' U' F",
+   "U (L' U L U') L' U' L",
+   "U (B' U B U') B' U' B",
+   "U (R' U R U') R' U' R"
+  ],
+  "name": "K T'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U F' U' F U'"
+ },
+ "136": {
+  "a": [
+   "U (F R' F2' U' F U) F R F'",
+   "U (L F' L2' U' L U) L F L'",
+   "U (B L' B2' U' B U) B L B'",
+   "U (R B' R2' U' R U) R B R'"
+  ],
+  "name": "K L'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "F R' F' U' F' U F2 R F' U'"
+ },
+ "137": {
+  "a": [
+   "(R' F' r U) (R U2' r' F2)",
+   "l' U' L U l F2' L' F2",
+   "(F' L' f U) (F U2' f' L2)",
+   "(L' B' l U) (L U2' l' B2)",
+   "(B' R' b U) (B U2' b' R2)",
+   "f' U' F U f R2' F' R2"
+  ],
+  "name": "K VP'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "F2 r U2 R' U' r' F R"
+ },
+ "138": {
+  "a": [
+   "U (F' U F U') (M' F' U' F M)",
+   "U (L' U L U') (S L' U' L S')",
+   "U (B' U B U') (M B' U' B M')",
+   "U (R' U R U') (S' R' U' R S)"
+  ],
+  "name": "K VY'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "M' F' U F M U F' U' F U'"
+ },
+ "139": {
+  "a": [
+   "b' U' B U' B' U2' R2 b",
+   "r' U' R U' R' U2' F2 r",
+   "f' U' F U' F' U2' L2 f",
+   "l' U' L U' L' U2' B2 l"
+  ],
+  "name": "K IO'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "b' R2' U2 B U B' U b"
+ },
+ "140": {
+  "a": [
+   "U2 (R M B U B' M') U2' R'",
+   "U2 (F S' R U R' S) U2' F'",
+   "U2 (L M' F U F' M) U2' L'",
+   "U2 (B S L U L' S') U2' B'"
+  ],
+  "name": "K IL'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "R U2 M B U' B' R' M' U2"
+ },
+ "141": {
+  "a": [
+   "U F U R U'↓R' F2' U' F",
+   "U L U F U'↓F' L2' U' L",
+   "U B U L U'↓L' B2' U' B",
+   "U R U B U'↓B' R2' U' R"
+  ],
+  "name": "K IZ'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "F' U F2 R U R' U' F' U'"
+ },
+ "142": {
+  "a": [
+   "U2 (B' R B U') S' U2 b' R' B",
+   "U2' f' U f U' S' U2' F' U' f",
+   "U2 (R' F R U') M' U2 r' F' R",
+   "U2' l' U l U' M' U2' L' U' l",
+   "U2 (F' L F U') S U2 f' L' F",
+   "U2 (L' B L U') M U2 l' B' L",
+   "U2' r' U r U' M U2' R' U' r"
+  ],
+  "name": "K D'",
+  "group": "K-",
+  "algset": "ZBLS",
+  "scramble": "B' R b U2 S U B' R' B U2"
+ },
+ "143": {
+  "a": [
+   "(R U R' U') R U R'",
+   "(F U F' U') F U F'",
+   "(L U L' U') L U L'",
+   "(B U B' U') B U B'"
+  ],
+  "name": "L T",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U R U' R'"
+ },
+ "144": {
+  "a": [
+   "U2 F' U F R U R'",
+   "U2 L' U L F U F'",
+   "U2 B' U B L U L'",
+   "U2 R' U R B U B'"
+  ],
+  "name": "L L",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F' U' F U2'"
+ },
+ "145": {
+  "a": [
+   "U2 (M' F' U F M) (U' F' U F)",
+   "U2 (S L' U L S') (U' L' U L)",
+   "U2 (M B' U B M') (U' B' U B)",
+   "U2 (S' R' U R S) (U' R' U R)"
+  ],
+  "name": "L VB",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U M' F' U' F M U2"
+ },
+ "146": {
+  "a": [
+   "(F R' F' R)2",
+   "z' F U' F' U F U' F' U z",
+   "(L F' L' F)2",
+   "x L U' L' U L U' L' U x'",
+   "(B L' B' L)2",
+   "(R B' R' B)2",
+   "x' R U' R' U R U' R' U x"
+  ],
+  "name": "L VF",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R' F R F' R' F R F'"
+ },
+ "147": {
+  "a": [
+   "(R U r' U') (R U M' R')",
+   "(F U f' U') (F U S F')",
+   "(L U l' U') (L U M L')",
+   "(B U b' U') (B U S' B')"
+  ],
+  "name": "L IF",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "M R U' R' U r U' R'"
+ },
+ "148": {
+  "a": [
+   "U' F R' F' R2 U R'",
+   "U' L F' L' F2 U F'",
+   "U' B L' B' L2 U L'",
+   "U' R B' R' B2 U B'"
+  ],
+  "name": "L IB",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R U' R2' F R F' U"
+ },
+ "149": {
+  "a": [
+   "U' R U' B U2' B' R'",
+   "U' F U' R U2' R' F'",
+   "U' L U' F U2' F' L'",
+   "U' B U' L U2' L' B'"
+  ],
+  "name": "L II",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' U R' U"
+ },
+ "150": {
+  "a": [
+   "U' (M' F' U F M)R U R'",
+   "U' (S L' U L S')F U F'",
+   "U' (M B' U B M')L U L'",
+   "U' (S' R' U R S)B U B'"
+  ],
+  "name": "L D",
+  "group": "L+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' M' F' U' F M U"
+ },
+ "151": {
+  "a": [
+   "(F' U' F U) F' U' F",
+   "(L' U' L U) L' U' L",
+   "(B' U' B U) B' U' B",
+   "(R' U' R U) R' U' R"
+  ],
+  "name": "L T'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U' F' U F"
+ },
+ "152": {
+  "a": [
+   "U2 R U' R' F' U' F",
+   "U2 F U' F' L' U' L",
+   "U2 L U' L' B' U' B",
+   "U2 B U' B' R' U' R"
+  ],
+  "name": "L L'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F' U F R U R' U2'"
+ },
+ "153": {
+  "a": [
+   "U2 (S' R U' R' S) (U R U' R')",
+   "U2 (M' F U' F' M) (U F U' F')",
+   "U2 (S L U' L' S') (U L U' L')",
+   "U2 (M B U' B' M') (U B U' B')"
+  ],
+  "name": "L VB'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' S' R U R' S U2"
+ },
+ "154": {
+  "a": [
+   "(R' F R F')2",
+   "x (R' U R U')2 x'",
+   "(F' L F L')2",
+   "z (F' U F U')2 z'",
+   "(L' B L B')2",
+   "x' (L' U L U')2 x",
+   "(B' R B R')2",
+   "z' (B' U B U')2 z"
+  ],
+  "name": "L VF'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R F R' F' R"
+ },
+ "155": {
+  "a": [
+   "(F' U' f U) (F' U' S' F)",
+   "(L' U' l U) (L' U' M' L)",
+   "(B' U' b U) (B' U' S B)",
+   "(R' U' r U) (R' U' M R)"
+  ],
+  "name": "L IF'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "S F' U F U' f' U F"
+ },
+ "156": {
+  "a": [
+   "U R' F R F2' U' F",
+   "U F' L F L2' U' L",
+   "U L' B L B2' U' B",
+   "U B' R B R2' U' R"
+  ],
+  "name": "L IB'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F' U F2 R' F' R U'"
+ },
+ "157": {
+  "a": [
+   "U F' U L' U2 L F",
+   "U L' U B' U2 B L",
+   "U B' U R' U2 R B",
+   "U R' U F' U2 F R"
+  ],
+  "name": "L II'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2' L U' F U'"
+ },
+ "158": {
+  "a": [
+   "U (S' R U' R' S)F' U' F",
+   "U (M' F U' F' M)L' U' L",
+   "U (S L U' L' S')B' U' B",
+   "U (M B U' B' M')R' U' R"
+  ],
+  "name": "L D'",
+  "group": "L-",
+  "algset": "ZBLS",
+  "scramble": "F' U F S' R U R' S U'"
+ },
+ "159": {
+  "a": [
+   "U' (R U2' R' U2) R U' R'",
+   "U' (F U2' F' U2) F U' F'",
+   "U' (L U2' L' U2) L U' L'",
+   "U' (B U2' B' U2) B U' B'"
+  ],
+  "name": "M T",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U2 R U2 R' U"
+ },
+ "160": {
+  "a": [
+   "R U (B U2' B' U) R'",
+   "L F U F2' U' F L'",
+   "F U (R U2' R' U) F'",
+   "L U (F U2' F' U) L'",
+   "B U (L U2' L' U) B'",
+   "F R U R2' U' R F'"
+  ],
+  "name": "M L",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U2 B' U' R'"
+ },
+ "161": {
+  "a": [
+   "f U2 F2' U' F2 U' f'",
+   "l U2 L2' U' L2 U' l'",
+   "b U2 B2' U' B2 U' b'",
+   "r U2 R2' U' R2 U' r'"
+  ],
+  "name": "M VP",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "f U F2' U F2 U2' f'"
+ },
+ "162": {
+  "a": [
+   "R' D' (r U2 r' D) F R F'",
+   "F' D' (f U2 f' D) L F L'",
+   "L' D' (l U2 l' D) B L B'",
+   "B' D' (b U2 b' D) R B R'"
+  ],
+  "name": "M VM",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' D' r U2 r' D R"
+ },
+ "163": {
+  "a": [
+   "U' R U2 (B U' B' U) R'",
+   "U' F U2 (R U' R' U) F'",
+   "U' L U2 (F U' F' U) L'",
+   "U' B U2 (L U' L' U) B'"
+  ],
+  "name": "M IL",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U B' U2 R' U"
+ },
+ "164": {
+  "a": [
+   "y' U2 (F U R U' R' S) R' f'",
+   "y' U2 (L U F U' F' M) F' l'",
+   "y' y' U2' F U R U' R' S R' f'",
+   "y' U2 (B U L U' L' S') L' b'",
+   "y' y' U2' L U F U' F' M F' l'",
+   "y' U2 (R U B U' B' M') B' r'"
+  ],
+  "name": "M IZ",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "l F M' F U F' U' L' U2"
+ },
+ "165": {
+  "a": [
+   "U (R U' R' U) (F' U' F U R U R')",
+   "U (F U' F' U) (L' U' L U F U F')",
+   "U (L U' L' U) (B' U' B U L U L')",
+   "U (B U' B' U) (R' U' R U B U B')"
+  ],
+  "name": "M IY",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' F' U F U' R U R' U'"
+ },
+ "166": {
+  "a": [
+   "(M' U' M U2) r U' r'",
+   "M' U' M U2 L F' L'",
+   "(S U' S' U2) f U' f'",
+   "(M U' M' U2) l U' l'",
+   "(S' U' S U2) b U' b'",
+   "S' U' S U2 F R' F'"
+  ],
+  "name": "M D",
+  "group": "M+",
+  "algset": "ZBLS",
+  "scramble": "r U r' U2 M' U M"
+ },
+ "167": {
+  "a": [
+   "U (F' U2 F U2') F' U F",
+   "U (L' U2 L U2') L' U L",
+   "U (B' U2 B U2') B' U B",
+   "U (R' U2 R U2') R' U R"
+  ],
+  "name": "M T'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U2 F' U2 F U'"
+ },
+ "168": {
+  "a": [
+   "F' U' (L' U2 L U') F",
+   "B' R' U' R2 U R' B",
+   "L' U' (B' U2 B U') L",
+   "R' F' U' F2 U F' R",
+   "B' U' (R' U2 R U') B",
+   "F' L' U' L2 U L' F",
+   "R' U' (F' U2 F U') R",
+   "L' B' U' B2 U B' L"
+  ],
+  "name": "M L'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U2 L U F"
+ },
+ "169": {
+  "a": [
+   "r' U2' R2 U R2' U r",
+   "f' U2' F2 U F2' U f",
+   "l' U2' L2 U L2' U l",
+   "b' U2' B2 U B2' U b"
+  ],
+  "name": "M VP'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "r' U' R2 U' R2' U2 r"
+ },
+ "170": {
+  "a": [
+   "F D (f' U2' f D') R' F' R",
+   "L D (l' U2' l D') F' L' F",
+   "B D (b' U2' b D') L' B' L",
+   "R D (r' U2' r D') B' R' B"
+  ],
+  "name": "M VM'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "R' F R D f' U2 f D' F'"
+ },
+ "171": {
+  "a": [
+   "U F' U2 (L' U L U') F",
+   "U L' U2 (B' U B U') L",
+   "U B' U2 (R' U R U') B",
+   "U R' U2 (F' U F U') R"
+  ],
+  "name": "M IL'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U' L U2 F U'"
+ },
+ "172": {
+  "a": [
+   "y y U2 (F' U' L' U L S') L f",
+   "y U2' R' U' F' U F M F r",
+   "y y U2 (L' U' B' U B M') B l",
+   "y U2' F' U' L' U L S' L f",
+   "y y U2 (B' U' R' U R S) R b",
+   "y y U2 (R' U' F' U F M) F r"
+  ],
+  "name": "M IZ'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "b' R' S' R' U' R U B U2"
+ },
+ "173": {
+  "a": [
+   "U' (F' U F U') (R U R' U' F' U' F)",
+   "U' (L' U L U') (F U F' U' L' U' L)",
+   "U' (B' U B U') (L U L' U' B' U' B)",
+   "U' (R' U R U') (B U B' U' R' U' R)"
+  ],
+  "name": "M IY'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U R U' R' U F' U' F U"
+ },
+ "174": {
+  "a": [
+   "(S' U S U2') B' R B",
+   "S' U S U2' f' U f",
+   "(M' U M U2') R' F R",
+   "M' U M U2' l' U l",
+   "(S U S' U2') F' L F",
+   "(M U M' U2') L' B L",
+   "M U M' U2' r' U r"
+  ],
+  "name": "M D'",
+  "group": "M-",
+  "algset": "ZBLS",
+  "scramble": "B' R' B U2 S' U' S"
+ },
+ "175": {
+  "a": [
+   "F R U R' U' F'",
+   "U R' F' U' F U R",
+   "L F U F' U' L'",
+   "U F' L' U' L U F",
+   "B L U L' U' B'",
+   "R B U B' U' R'"
+  ],
+  "name": "I",
+  "group": "O",
+  "algset": "ZBLS",
+  "scramble": "F U R U' R' F'"
+ },
+ "176": {
+  "a": [
+   "F U R U' R' F'",
+   "U2 f R U R' U' f'",
+   "R' U' F' U F R",
+   "U2' r' F' U' F U r",
+   "L U F U' F' L'",
+   "U2 l F U F' U' l'",
+   "F' U' L' U L F",
+   "U2' f' L' U' L U f",
+   "B U L U' L' B'",
+   "U2 b L U L' U' b'",
+   "R U B U' B' R'",
+   "U2 r B U B' U' r'"
+  ],
+  "name": "V",
+  "group": "O",
+  "algset": "ZBLS",
+  "scramble": "F R U R' U' F'"
+ },
+ "177": {
+  "a": [
+   "S' R U R' S U' R' F R F'",
+   "M' F' U' F M U F R' F' R",
+   "M' F U F' M U' F' L F L'",
+   "S L' U' L S' U L F' L' F",
+   "S L U L' S' U' L' B L B'",
+   "M B U B' M' U' B' R B R'"
+  ],
+  "name": "D",
+  "group": "O",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R U S' R U' R' S"
+ },
+ "178": {
+  "a": [
+   "U2 (R U R' U) R U' R'",
+   "U2 (F U F' U) F U' F'",
+   "U2 (L U L' U) L U' L'",
+   "U2 (B U B' U) B U' B'"
+  ],
+  "name": "P T",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' R U' R' U2"
+ },
+ "179": {
+  "a": [
+   "U2 F' U' F R U R'",
+   "R B U' B' U' R'",
+   "U2 L' U' L F U F'",
+   "F R U' R' U' F'",
+   "U2 B' U' B L U L'",
+   "L F U' F' U' L'",
+   "U2 R' U' R B U B'",
+   "B L U' L' U' B'"
+  ],
+  "name": "P L",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F' U F U2'"
+ },
+ "180": {
+  "a": [
+   "U (R' F R F') U (R' F R F')",
+   "U (F' L F L') U (F' L F L')",
+   "U (L' B L B') U (L' B L B')",
+   "U (B' R B R') U (B' R B R')"
+  ],
+  "name": "P VP",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R U' F R' F' R U'"
+ },
+ "181": {
+  "a": [
+   "U2 R U R2' F R F'",
+   "U2 F U F2' L F L'",
+   "U2 L U L2' B L B'",
+   "U2 B U B2' R B R'"
+  ],
+  "name": "P VM",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R2 U' R' U2"
+ },
+ "182": {
+  "a": [
+   "U R (B U B' U) R'",
+   "U F (R U R' U) F'",
+   "U L (F U F' U) L'",
+   "U B (L U L' U) B'"
+  ],
+  "name": "P IP",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U' B' R' U'"
+ },
+ "183": {
+  "a": [
+   "U F R U R2' U' F' U R",
+   "U L F U F2' U' L' U F",
+   "U B L U L2' U' B' U L",
+   "U R B U B2' U' R' U B"
+  ],
+  "name": "P IZ",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "R' U' F U R2 U' R' F' U'"
+ },
+ "184": {
+  "a": [
+   "R B U2' B' R'",
+   "F R U2' R' F'",
+   "L F U2' F' L'",
+   "B L U2' L' B'"
+  ],
+  "name": "P IY",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' R'"
+ },
+ "185": {
+  "a": [
+   "U2 F' (L' U2 L2 F' L' F2)",
+   "U2 L' (B' U2 B2 L' B' L2)",
+   "U2 B' (R' U2 R2 B' R' B2)",
+   "U2 R' (F' U2 F2 R' F' R2)"
+  ],
+  "name": "P D",
+  "group": "P+",
+  "algset": "ZBLS",
+  "scramble": "F2 L F L2 U2 L F U2"
+ },
+ "186": {
+  "a": [
+   "U2 (F' U' F U') F' U F",
+   "U2 (L' U' L U') L' U L",
+   "U2 (B' U' B U') B' U B",
+   "U2 (R' U' R U') R' U R"
+  ],
+  "name": "P T'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U F' U F U2"
+ },
+ "187": {
+  "a": [
+   "U2 R U R' F' U' F",
+   "F' (L' U L U) F",
+   "U2 F U F' L' U' L",
+   "L' (B' U B U) L",
+   "U2 L U L' B' U' B",
+   "B' (R' U R U) B",
+   "U2 B U B' R' U' R",
+   "R' (F' U F U) R"
+  ],
+  "name": "P L'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "F' U F R U' R' U2'"
+ },
+ "188": {
+  "a": [
+   "U' (F R' F' R) U' (F R' F' R)",
+   "U' (L F' L' F) U' (L F' L' F)",
+   "U' (B L' B' L) U' (B L' B' L)",
+   "U' (R B' R' B) U' (R B' R' B)"
+  ],
+  "name": "P VP'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F' U R' F R F' U"
+ },
+ "189": {
+  "a": [
+   "U2 F' U' F2 R' F' R",
+   "U2 L' U' L2 F' L' F",
+   "U2 B' U' B2 L' B' L",
+   "U2 R' U' R2 B' R' B"
+  ],
+  "name": "P VM'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F2' U F U2"
+ },
+ "190": {
+  "a": [
+   "U' F' (L' U' L U') F",
+   "U' L' (B' U' B U') L",
+   "U' B' (R' U' R U') B",
+   "U' R' (F' U' F U') R"
+  ],
+  "name": "P IP'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U L F U"
+ },
+ "191": {
+  "a": [
+   "U' R' F' U' F2 U R U' F'",
+   "U' F' L' U' L2 U F U' L'",
+   "U' L' B' U' B2 U L U' B'",
+   "U' B' R' U' R2 U B U' R'"
+  ],
+  "name": "P IZ'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "F U R' U' F2' U F R U"
+ },
+ "192": {
+  "a": [
+   "F' L' U2 L F",
+   "L' B' U2 B L",
+   "B' R' U2 R B",
+   "R' F' U2 F R"
+  ],
+  "name": "P IY'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2' L F"
+ },
+ "193": {
+  "a": [
+   "U2 R (B U2' B2' R B R2')",
+   "U2 F (R U2' R2' F R F2')",
+   "U2 L (F U2' F2' L F L2')",
+   "U2 B (L U2' L2' B L B2')"
+  ],
+  "name": "P D'",
+  "group": "P-",
+  "algset": "ZBLS",
+  "scramble": "R2 B' R' B2 U2 B' R' U2"
+ },
+ "194": {
+  "a": [
+   "U (R U2' R' U) R U' R'",
+   "U (F U2' F' U) F U' F'",
+   "U (L U2' L' U) L U' L'",
+   "U (B U2' B' U) B U' B'"
+  ],
+  "name": "Q T",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' R U2 R' U'"
+ },
+ "195": {
+  "a": [
+   "U (R U2' R' U) (F' L' U' L F)",
+   "U (F U2' F' U) (L' B' U' B L)",
+   "U (L U2' L' U) (B' R' U' R B)",
+   "U (B U2' B' U) (R' F' U' F R)"
+  ],
+  "name": "Q L",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "F' L' U L F U' R U2 R' U'"
+ },
+ "196": {
+  "a": [
+   "U (F' U F2) (R' F' R F' U F)",
+   "U (L' U L2) (F' L' F L' U L)",
+   "U (B' U B2) (L' B' L B' U B)",
+   "U (R' U R2) (B' R' B R' U R)"
+  ],
+  "name": "Q VP",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "F' U' F R' F R F2 U' F U'"
+ },
+ "197": {
+  "a": [
+   "U (S2 R U2' R' S)F' U' f",
+   "U (M2 F U2' F' M)L' U' l",
+   "U (S2' L U2' L' S')B' U' b",
+   "U (M2' B U2' B' M')R' U' r"
+  ],
+  "name": "Q VM",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "f' U F S' R U2 R' S2 U'"
+ },
+ "198": {
+  "a": [
+   "U (F R U R' U' F') R U R'",
+   "U (L F U F' U' L') F U F'",
+   "U (B L U L' U' B') L U L'",
+   "U (R B U B' U' R') B U B'"
+  ],
+  "name": "Q IP",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' F U R U' R' F' U'"
+ },
+ "199": {
+  "a": [
+   "U R U2' R2' F R F'",
+   "U R U B' R B R2'",
+   "U F U2' F2' L F L'",
+   "U F U R' F R F2'",
+   "U L U2' L2' B L B'",
+   "U L U F' L F L2'",
+   "U B U2' B2' R B R'",
+   "U B U L' B L B2'"
+  ],
+  "name": "Q IZ",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R2 U2 R' U'"
+ },
+ "200": {
+  "a": [
+   "U (R U2' R' U) (R B U' B' R')",
+   "U (F U2' F' U) (F R U' R' F')",
+   "U (L U2' L' U) (L F U' F' L')",
+   "U (B U2' B' U) (B L U' L' B')"
+  ],
+  "name": "Q IY",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "R B U B' R' U' R U2 R' U'"
+ },
+ "201": {
+  "a": [
+   "U' (R2 B' R' B2 U2' B') R'",
+   "U' (F2 R' F' R2 U2' R') F'",
+   "U' (L2 F' L' F2 U2' F') L'",
+   "U' (B2 L' B' L2 U2' L') B'"
+  ],
+  "name": "Q D",
+  "group": "Q+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B2 R B R2 U"
+ },
+ "202": {
+  "a": [
+   "U' (F' U2 F U') F' U F",
+   "U' (L' U2 L U') L' U L",
+   "U' (B' U2 B U') B' U B",
+   "U' (R' U2 R U') R' U R"
+  ],
+  "name": "Q T'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U F' U2 F U"
+ },
+ "203": {
+  "a": [
+   "U' (F' U2 F U') (R B U B' R')",
+   "U' (L' U2 L U') (F R U R' F')",
+   "U' (B' U2 B U') (L F U F' L')",
+   "U' (R' U2 R U') (B L U L' B')"
+  ],
+  "name": "Q L'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "R B U' B' R' U F' U2 F U"
+ },
+ "204": {
+  "a": [
+   "U' (R U' R2') (F R F' R U' R')",
+   "U' (F U' F2') (L F L' F U' F')",
+   "U' (L U' L2') (B L B' L U' L')",
+   "U' (B U' B2') (R B R' B U' B')"
+  ],
+  "name": "Q VP'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "R U R' F R' F' R2 U R' U"
+ },
+ "205": {
+  "a": [
+   "U' (M2 F' U2 F M)R U r'",
+   "U' (S2' L' U2 L S')F U f'",
+   "U' (M2' B' U2 B M')L U l'",
+   "U' (S2 R' U2 R S)B U b'"
+  ],
+  "name": "Q VM'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "r U' R' M' F' U2 F M2' U"
+ },
+ "206": {
+  "a": [
+   "U' (R' F' U' F U R) F' U' F",
+   "U' (F' L' U' L U F) L' U' L",
+   "U' (L' B' U' B U L) B' U' B",
+   "U' (B' R' U' R U B) R' U' R"
+  ],
+  "name": "Q IP'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "F' U F R' U' F' U F R U"
+ },
+ "207": {
+  "a": [
+   "U' F' U2 F2 R' F' R",
+   "U' F' U' L F' L' F2",
+   "U' L' U2 L2 F' L' F",
+   "U' L' U' B L' B' L2",
+   "U' B' U2 B2 L' B' L",
+   "U' B' U' R B' R' B2",
+   "U' R' U2 R2 B' R' B",
+   "U' R' U' F R' F' R2"
+  ],
+  "name": "Q IZ'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "R' F R F2' U2' F U"
+ },
+ "208": {
+  "a": [
+   "U' (F' U2 F U') (F' L' U L F)",
+   "U' (L' U2 L U') (L' B' U B L)",
+   "U' (B' U2 B U') (B' R' U R B)",
+   "U' (R' U2 R U') (R' F' U F R)"
+  ],
+  "name": "Q IY'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U' L F U F' U2 F U"
+ },
+ "209": {
+  "a": [
+   "U (F2' L F L2' U2 L) F",
+   "U (L2' B L B2' U2 B) L",
+   "U (B2' R B R2' U2 R) B",
+   "U (R2' F R F2' U2 F) R"
+  ],
+  "name": "Q D'",
+  "group": "Q-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2 L2 F' L' F2 U'"
+ },
+ "210": {
+  "a": [
+   "U' (R U R' U) R U R'",
+   "U' (F U F' U) F U F'",
+   "U' (L U L' U) L U L'",
+   "U' (B U B' U) B U B'"
+  ],
+  "name": "R T",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' R U' R' U"
+ },
+ "211": {
+  "a": [
+   "(R' F' U' F U R) F' U F",
+   "(F' L' U' L U F) L' U L",
+   "(L' B' U' B U L) B' U B",
+   "(B' R' U' R U B) R' U R"
+  ],
+  "name": "R L",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "F' U' F R' U' F' U F R"
+ },
+ "212": {
+  "a": [
+   "U2 (r U' R' U') R U r'",
+   "U2' L F' l' U' l F L'",
+   "U2 (f U' F' U') F U f'",
+   "U2 (l U' L' U') L U l'",
+   "U2 (b U' B' U') B U b'",
+   "U2' F R' f' U' f R F'"
+  ],
+  "name": "R VP",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "r U' R' U R U r' U2"
+ },
+ "213": {
+  "a": [
+   "U' (f' U' F U) (S F' U F)",
+   "U' (l' U' L U) (M L' U L)",
+   "U' (b' U' B U) (S' B' U B)",
+   "U' (r' U' R U) (M' R' U R)"
+  ],
+  "name": "R VM",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "F' U' S' F U' F' U f U"
+ },
+ "214": {
+  "a": [
+   "R U' (B U B' U2) R'",
+   "F U' (R U R' U2) F'",
+   "L U' (F U F' U2) L'",
+   "B U' (L U L' U2) B'"
+  ],
+  "name": "R IZ",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B U' B' U R'"
+ },
+ "215": {
+  "a": [
+   "U' F' (L' B' U2 B L) U F",
+   "U' L' (B' R' U2 R B) U L",
+   "U' B' (R' F' U2 F R) U B",
+   "U' R' (F' L' U2 L F) U R"
+  ],
+  "name": "R IL",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "F' U' L' B' U2 B L F U"
+ },
+ "216": {
+  "a": [
+   "U (F' S L' U L S') U' F",
+   "U (L' M B' U B M') U' L",
+   "U (B' S' R' U R S) U' B",
+   "U (R' M' F' U F M) U' R"
+  ],
+  "name": "R IY",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "F' U S L' U' L F S' U'"
+ },
+ "217": {
+  "a": [
+   "U2 (r U' r' U2) (M' U R U r')",
+   "U2 (f U' f' U2) (S U F U f')",
+   "U2 (l U' l' U2) (M U L U l')",
+   "U2 (b U' b' U2) (S' U B U b')"
+  ],
+  "name": "R D",
+  "group": "R+",
+  "algset": "ZBLS",
+  "scramble": "r U' R' U' M U2 r U r' U2"
+ },
+ "218": {
+  "a": [
+   "U (F' U' F U') F' U' F",
+   "U (L' U' L U') L' U' L",
+   "U (B' U' B U') B' U' B",
+   "U (R' U' R U') R' U' R"
+  ],
+  "name": "R T'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U F' U F U'"
+ },
+ "219": {
+  "a": [
+   "(F R U R' U' F') R U' R'",
+   "(L F U F' U' L') F U' F'",
+   "(B L U L' U' B') L U' L'",
+   "(R B U B' U' R') B U' B'"
+  ],
+  "name": "R L'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "R U R' F U R U' R' F'"
+ },
+ "220": {
+  "a": [
+   "U2 (f' U F U) F' U' f",
+   "U2 B' R b U b' R' B",
+   "U2 (l' U L U) L' U' l",
+   "U2 R' F r U r' F' R",
+   "U2 (b' U B U) B' U' b",
+   "U2 F' L f U f' L' F",
+   "U2 (r' U R U) R' U' r",
+   "U2 L' B l U l' B' L"
+  ],
+  "name": "R VP'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "f' U F U' F' U' f U2"
+ },
+ "221": {
+  "a": [
+   "U (r U R' U') (M R U' R')",
+   "U (f U F' U') (S' F U' F')",
+   "U (l U L' U') (M' L U' L')",
+   "U (b U B' U') (S B U' B')"
+  ],
+  "name": "R VM'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "R U M' R' U R U' r' U'"
+ },
+ "222": {
+  "a": [
+   "F' U (L' U' L U2') F",
+   "L' U (B' U' B U2') L",
+   "B' U (R' U' R U2') B",
+   "R' U (F' U' F U2') R"
+  ],
+  "name": "R IZ'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L' U L U' F"
+ },
+ "223": {
+  "a": [
+   "U R (B L U2' L' B') U' R'",
+   "U F (R B U2' B' R') U' F'",
+   "U L (F R U2' R' F') U' L'",
+   "U B (L F U2' F' L') U' B'"
+  ],
+  "name": "R IL'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "R U B L U2 L' B' R' U'"
+ },
+ "224": {
+  "a": [
+   "U' (R M B U' B' M') U R'",
+   "U' (F S' R U' R' S) U F'",
+   "U' (L M' F U' F' M) U L'",
+   "U' (B S L U' L' S') U B'"
+  ],
+  "name": "R IY'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "R U' M B U B' R' M' U"
+ },
+ "225": {
+  "a": [
+   "U2 (f' U f U2') (S' U' F' U' f)",
+   "U2 (l' U l U2') (M' U' L' U' l)",
+   "U2 (b' U b U2') (S U' B' U' b)",
+   "U2 (r' U r U2') (M U' R' U' r)"
+  ],
+  "name": "R D'",
+  "group": "R-",
+  "algset": "ZBLS",
+  "scramble": "f' U F U S U2 f' U' f U2"
+ },
+ "226": {
+  "a": [
+   "↓R2 U R2' U R2 U2' R2'",
+   "F2' U' F2 U' F2' U2 F2",
+   "↓F2 U F2' U F2 U2' F2'",
+   "L2' U' L2 U' L2' U2 L2",
+   "↓L2 U L2' U L2 U2' L2'",
+   "↓B2 U B2' U B2 U2' B2'",
+   "R2' U' R2 U' R2' U2 R2"
+  ],
+  "name": "S T",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "R2 U2 R2' U' R2 U' R2'"
+ },
+ "227": {
+  "a": [
+   "U2 r U' (B U B' U) R' U' M",
+   "U2' f' U L' U' L U' F U S",
+   "U2 f U' (R U R' U) F' U' S'",
+   "U2 l U' (F U F' U) L' U' M'",
+   "U2 b U' (L U L' U) B' U' S",
+   "U2' r' U F' U' F U' R U M'"
+  ],
+  "name": "S VO",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "M' U R U' B U' B' U r' U2"
+ },
+ "228": {
+  "a": [
+   "U2 R U (B L U' L' B') R'",
+   "U2 F U (R B U' B' R') F'",
+   "U2 L U (F R U' R' F') L'",
+   "U2 B U (L F U' F' L') B'",
+   "U2' R' U' F' L' U L F R"
+  ],
+  "name": "S VY",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "R B L U L' B' U' R' U2"
+ },
+ "229": {
+  "a": [
+   "R B U' L U2' L' B' U' R'",
+   "F R U' B U2' B' R' U' F'",
+   "L F U' R U2' R' F' U' L'",
+   "B L U' F U2' F' L' U' B'",
+   "R' F' U L' U2 L F U R"
+  ],
+  "name": "S D",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "R U B L U2 L' U B' R'"
+ },
+ "230": {
+  "a": [
+   "U R U' (B U2' B' U) R'",
+   "U F U' (R U2' R' U) F'",
+   "U L U' (F U2' F' U) L'",
+   "U B U' (L U2' L' U) B'"
+  ],
+  "name": "S L",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "R U' B U2 B' U R' U'"
+ },
+ "231": {
+  "a": [
+   "U' F' U (L' U2 L U') F",
+   "U' L' U (B' U2 B U') L",
+   "U' B' U (R' U2 R U') B",
+   "U' R' U (F' U2 F U') R"
+  ],
+  "name": "S L'",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U2 L U' F U"
+ },
+ "232": {
+  "a": [
+   "U2 R U' (B U B' U) R'",
+   "U2 F U' (R U R' U) F'",
+   "U2 L U' (F U F' U) L'",
+   "U2 B U' (L U L' U) B'"
+  ],
+  "name": "S VZ",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "R U' B U' B' U R' U2"
+ },
+ "233": {
+  "a": [
+   "U2 F' U (L' U' L U') F",
+   "U2 L' U (B' U' B U') L",
+   "U2 B' U (R' U' R U') B",
+   "U2 R' U (F' U' F U') R"
+  ],
+  "name": "S VZ'",
+  "group": "S",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U L U' F U2"
+ },
+ "234": {
+  "a": [
+   "U' (R' F R F') R U' R'",
+   "U' (F' L F L') F U' F'",
+   "U' (L' B L B') L U' L'",
+   "U' (B' R B R') B U' B'"
+  ],
+  "name": "T TP",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "R U R' F R' F' R U"
+ },
+ "235": {
+  "a": [
+   "U (F R' F' R) F' U F",
+   "U (L F' L' F) L' U L",
+   "U (B L' B' L) B' U B",
+   "U (R B' R' B) R' U R"
+  ],
+  "name": "T TP'",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "F' U' F R' F R F' U'"
+ },
+ "236": {
+  "a": [
+   "R U' R' F' U2 F",
+   "F U' F' L' U2 L",
+   "L U' L' B' U2 B",
+   "B U' B' R' U2 R"
+  ],
+  "name": "T TM",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "F' U2' F R U R'"
+ },
+ "237": {
+  "a": [
+   "F' U F R U2' R'",
+   "L' U L F U2' F'",
+   "B' U B L U2' L'",
+   "R' U R B U2' B'"
+  ],
+  "name": "T TM'",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "R U2 R' F' U' F"
+ },
+ "238": {
+  "a": [
+   "U' (F' S L' U' L S') U' F",
+   "U' (L' M B' U' B M') U' L",
+   "U' (B' S' R' U' R S) U' B",
+   "U' (R' M' F' U' F M) U' R"
+  ],
+  "name": "T IF",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "F' U S L' U L F S' U"
+ },
+ "239": {
+  "a": [
+   "U (R M B U B' M') U R'",
+   "U (F S' R U R' S) U F'",
+   "U (L M' F U F' M) U L'",
+   "U (B S L U L' S') U B'"
+  ],
+  "name": "T IF'",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "R U' M B U' B' R' M' U'"
+ },
+ "240": {
+  "a": [
+   "U2 (R U2' R2' F R F2') U' F",
+   "U2 (F U2' F2' L F L2') U' L",
+   "U2 (L U2' L2' B L B2') U' B",
+   "U2 (B U2' B2' R B R2') U' R"
+  ],
+  "name": "T IB",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "F' U F2 R' F' R2 U2 R' U2"
+ },
+ "241": {
+  "a": [
+   "U2 (F' U2 F2 R' F' R2) U R'",
+   "U2 (L' U2 L2 F' L' F2) U F'",
+   "U2 (B' U2 B2 L' B' L2) U L'",
+   "U2 (R' U2 R2 B' R' B2) U B'"
+  ],
+  "name": "T IB'",
+  "group": "T",
+  "algset": "ZBLS",
+  "scramble": "R U' R2 F R F2 U2 F U2"
+ },
+ "242": {
+  "a": [
+   "U' (R U' R' U2) R U' R'",
+   "U' (F U' F' U2) F U' F'",
+   "U' (L U' L' U2) L U' L'",
+   "U' (B U' B' U2) B U' B'"
+  ],
+  "name": "U T",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U2 R U R' U"
+ },
+ "243": {
+  "a": [
+   "F' U' (S L' U' L S') U F",
+   "L' U' (M B' U' B M') U L",
+   "B' U' (S' R' U' R S) U B",
+   "R' U' (M' F' U' F M) U R"
+  ],
+  "name": "U D",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "F' U' S L' U L S' U F"
+ },
+ "244": {
+  "a": [
+   "U' F' U2 (L' U L U) F",
+   "U' L' U2 (B' U B U) L",
+   "U' B' U2 (R' U R U) B",
+   "U' R' U2 (F' U F U) R"
+  ],
+  "name": "U L",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "F' U' L' U' L U2 F U"
+ },
+ "245": {
+  "a": [
+   "U' ↓R' D' (F' U' F UD) R",
+   "U2 ↓F' M (F'*r U R') F",
+   "y2 b' U' b U B' U' B b' U b",
+   "y' U' B U' B' U2' B U B' U2' B' R B R'",
+   "f' U' f U F' U' F f' U f",
+   "U' ↓F' D' (L' U' L UD) F",
+   "U2 ↓L' S' (L'*f U F') L",
+   "y2 r' U' r U R' U' R r' U r",
+   "y' U' R U' R' U2' R U R' U2' R' F R F'",
+   "l' U' l U L' U' L l' U l",
+   "U' ↓L' D' (B' U' B UD) L",
+   "U2 ↓B' M' (B'*l U L') B",
+   "y2 f' U' f U F' U' F f' U f",
+   "y' U' F U' F' U2' F U F' U2' F' L F L'",
+   "U' ↓B' D' (R' U' R UD) B",
+   "U2 ↓R' S (R'*b U B') R",
+   "y2 l' U' l U L' U' L l' U l",
+   "y' U' L U' L' U2' L U L' U2' L' B L B'",
+   "r' U' r U R' U' R r' U r"
+  ],
+  "name": "U Lb",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R' U' D' F' U F D R U"
+ },
+ "246": {
+  "a": [
+   "U R U (B U B' U2) R'",
+   "U F U (R U R' U2) F'",
+   "U L U (F U F' U2) L'",
+   "U B U (L U L' U2) B'"
+  ],
+  "name": "U VZ",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B U' B' U' R' U'"
+ },
+ "247": {
+  "a": [
+   "U' R U' (B U' B' U) R'",
+   "y' U' (B U' B' U) (B' R B R')",
+   "U' F U' (R U' R' U) F'",
+   "y' U' (R U' R' U) (R' F R F')",
+   "U' L U' (F U' F' U) L'",
+   "y' U' (F U' F' U) (F' L F L')",
+   "U' B U' (L U' L' U) B'",
+   "y' U' (L U' L' U) (L' B L B')"
+  ],
+  "name": "U VZb",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U B' U R' U"
+ },
+ "248": {
+  "a": [
+   "U2 R (B U2' B' U2) R'",
+   "U' F' U2' L' U2' L F",
+   "U2 F (R U2' R' U2) F'",
+   "U2 L (F U2' F' U2) L'",
+   "U2 B (L U2' L' U2) B'",
+   "U' R' U2' F' U2' F R"
+  ],
+  "name": "U VO",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B U2 B' R' U2"
+ },
+ "249": {
+  "a": [
+   "U R S (U'↑R' U R) S' R'",
+   "U F M (U'↑F' U F) M' F'",
+   "U L S' (U'↑L' U L) S L'",
+   "U B M' (U'↑B' U B) M B'"
+  ],
+  "name": "U VY",
+  "group": "U+",
+  "algset": "ZBLS",
+  "scramble": "R S R' U' R U S' R' U'"
+ },
+ "250": {
+  "a": [
+   "U (F' U F U2') F' U F",
+   "U (L' U L U2') L' U L",
+   "U (B' U B U2') B' U B",
+   "U (R' U R U2') R' U R"
+  ],
+  "name": "U T'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U2 F' U' F U'"
+ },
+ "251": {
+  "a": [
+   "R U (M B U B' M') U' R'",
+   "F U (S' R U R' S) U' F'",
+   "L U (M' F U F' M) U' L'",
+   "B U (S L U L' S') U' B'"
+  ],
+  "name": "U D'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "R U M B U' B' M' U' R'"
+ },
+ "252": {
+  "a": [
+   "U R U2 (B U' B' U') R'",
+   "U F U2 (R U' R' U') F'",
+   "U L U2 (F U' F' U') L'",
+   "U B U2 (L U' L' U') B'"
+  ],
+  "name": "U L'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "R U B U B' U2 R' U'"
+ },
+ "253": {
+  "a": [
+   "U ↓F D (R U R' U'D') F'",
+   "U2 ↓R S (R*f' U' F) R'",
+   "(r U r' U') R U R' r U' r'",
+   "y2' l U l' U' L U L' l U' l'",
+   "y U L' U L U2 L' U' L U2 L F' L' F",
+   "U ↓L D (F U F' U'D') L'",
+   "U2 ↓F M (F*l' U' L) F'",
+   "(f U f' U') F U F' f U' f'",
+   "U ↓B D (L U L' U'D') B'",
+   "U2 ↓L S' (L*b' U' B) L'",
+   "(l U l' U') L U L' l U' l'",
+   "y2' r U r' U' R U R' r U' r'",
+   "U ↓R D (B U B' U'D') R'",
+   "U2 ↓B M' (B*r' U' R) B'",
+   "(b U b' U') B U B' b U' b'",
+   "y2' f U f' U' F U F' f U' f'",
+   "y U F' U F U2 F' U' F U2 F R' F' R"
+  ],
+  "name": "U Lb'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F U D R U' R' D' F' U'"
+ },
+ "254": {
+  "a": [
+   "U' F' U' (L' U' L U2) F",
+   "U' L' U' (B' U' B U2) L",
+   "U' B' U' (R' U' R U2) B",
+   "U' R' U' (F' U' F U2) R"
+  ],
+  "name": "U VZ'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L' U L U F U"
+ },
+ "255": {
+  "a": [
+   "U F' U (L' U L U') F",
+   "y U (L' U L U') (L F' L' F)",
+   "U L' U (B' U B U') L",
+   "y U (B' U B U') (B L' B' L)",
+   "U B' U (R' U R U') B",
+   "y U (R' U R U') (R B' R' B)",
+   "U R' U (F' U F U') R",
+   "y U (F' U F U') (F R' F' R)"
+  ],
+  "name": "U VZb'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U' L U' F U'"
+ },
+ "256": {
+  "a": [
+   "U2 F' (L' U2 L U2') F",
+   "U R U2 B U2 B' R'",
+   "U2 L' (B' U2 B U2') L",
+   "U F U2 R U2 R' F'",
+   "U2 B' (R' U2 R U2') B",
+   "U L U2 F U2 F' L'",
+   "U2 R' (F' U2 F U2') R",
+   "U B U2 L U2 L' B'"
+  ],
+  "name": "U VO'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L' U2 L F U2"
+ },
+ "257": {
+  "a": [
+   "U' F' M (U↑F U' F') M' F",
+   "U' L' S' (U↑L U' L') S L",
+   "U' B' M' (U↑B U' B') M B",
+   "U' R' S (U↑R U' R') S' R"
+  ],
+  "name": "U VY'",
+  "group": "U-",
+  "algset": "ZBLS",
+  "scramble": "F' M F U F' U' M' F U"
+ },
+ "258": {
+  "a": [
+   "U' (R U R' U) F' U' F",
+   "U' (F U F' U) L' U' L",
+   "U' (L U L' U) B' U' B",
+   "U' (B U B' U) R' U' R"
+  ],
+  "name": "V T",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "F' U F U' R U' R' U"
+ },
+ "259": {
+  "a": [
+   "U2 (R U' R' U') F' U' F",
+   "U2 (F U' F' U') L' U' L",
+   "U2 (L U' L' U') B' U' B",
+   "U2 (B U' B' U') R' U' R"
+  ],
+  "name": "V Tb",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "F' U F U R U R' U2"
+ },
+ "260": {
+  "a": [
+   "U2 R U R' (F R' F' R)",
+   "U2 R U M' U R' U' M",
+   "U2 R U' M U' R' U M'",
+   "U2 F U F' (L F' L' F)",
+   "U2 F U S U F' U' S'",
+   "U2 F U' S' U' F' U S",
+   "U2 L U L' (B L' B' L)",
+   "U2 L U M U L' U' M'",
+   "U2 L U' M' U' L' U M",
+   "U2 B U B' (R B' R' B)",
+   "U2 B U S' U B' U' S",
+   "U2 B U' S U' B' U S'"
+  ],
+  "name": "V Tc",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "R' F R F' R U' R' U2"
+ },
+ "261": {
+  "a": [
+   "U2 (R U R' U') F' U↓F",
+   "y U2' F U F' U' L' U L",
+   "U2 (F U F' U') L' U↓L",
+   "U2 (L U L' U') B' U↓B",
+   "U2 (B U B' U') R' U↓R",
+   "y U2' R U R' U' F' U F"
+  ],
+  "name": "V Td",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U R U' R' U2"
+ },
+ "262": {
+  "a": [
+   "(R U R' U) (R' F R F2' U' F)",
+   "(F U F' U) (F' L F L2' U' L)",
+   "(L U L' U) (L' B L B2' U' B)",
+   "(B U B' U) (B' R B R2' U' R)"
+  ],
+  "name": "V I",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "F' U F2 R' F' R U' R U' R'"
+ },
+ "263": {
+  "a": [
+   "U2 R U' (M B U' B' M')R'",
+   "y2↑B2' D' (b U' b' D) B U' B",
+   "y' U2 (B U' B D) (b' U' b D') B2",
+   "F2' D' f U' f' D F U' F",
+   "U2 F U' (S' R U' R' S)F'",
+   "y2↑R2' D' (r U' r' D) R U' R",
+   "y' U2 (R U' R D) (r' U' r D') R2",
+   "L2' D' l U' l' D L U' L",
+   "U2 L U' (M' F U' F' M)L'",
+   "y2↑F2' D' (f U' f' D) F U' F",
+   "y' U2 (F U' F D) (f' U' f D') F2",
+   "U2 B U' (S L U' L' S')B'",
+   "y2↑L2' D' (l U' l' D) L U' L",
+   "y' U2 (L U' L D) (l' U' l D') L2",
+   "R2' D' r U' r' D R U' R"
+  ],
+  "name": "V Ib",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "R M B U B' M' U R' U2"
+ },
+ "264": {
+  "a": [
+   "F' U (S L' U' L S') U2 F",
+   "U' (R U R2') (U' F' U F2 R F')",
+   "U R U' R' F' U2 L' U2 L U2 F",
+   "(R' D' r U' r' D R) (U R U' R')",
+   "y U' L' U L F U R U R' U F'",
+   "L' U (M B' U' B M') U2 L",
+   "U' (F U F2') (U' L' U L2 F L')",
+   "U F U' F' L' U2 B' U2 B U2 L",
+   "(F' D' f U' f' D F) (U F U' F')",
+   "B' U (S' R' U' R S) U2 B",
+   "U' (L U L2') (U' B' U B2 L B')",
+   "U L U' L' B' U2 R' U2 R U2 B",
+   "(L' D' l U' l' D L) (U L U' L')",
+   "R' U (M' F' U' F M) U2 R",
+   "U' (B U B2') (U' R' U R2 B R')",
+   "U B U' B' R' U2 F' U2 F U2 R",
+   "(B' D' b U' b' D B) (U B U' B')"
+  ],
+  "name": "V Ic",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "F' U2' S L' U L S' U' F"
+ },
+ "265": {
+  "a": [
+   "U2 (R U R' U') (M' F' U F M)",
+   "U' (R U R' U) (M' F' U' F M)",
+   "U2 (R U' R' U') (M' F' U' F M)",
+   "y' U B' D' (b U b' D) B2 U2' B'",
+   "y' (B U B' U) (R' U F' U2 F R)",
+   "R' F R F2' U2' F U2' R U R'",
+   "U2 (F U F' U') (S L' U L S')",
+   "U' (F U F' U) (S L' U' L S')",
+   "U2 (F U' F' U') (S L' U' L S')",
+   "y' U R' D' (r U r' D) R2 U2' R'",
+   "y' (R U R' U) (F' U L' U2 L F)",
+   "F' L F L2' U2' L U2' F U F'",
+   "U2' L' U2' L F R U2' R' U F'",
+   "U2 (L U L' U') (M B' U B M')",
+   "U' (L U L' U) (M B' U' B M')",
+   "U2 (L U' L' U') (M B' U' B M')",
+   "y' U F' D' (f U f' D) F2 U2' F'",
+   "y' (F U F' U) (L' U B' U2 B L)",
+   "U2 (B U B' U') (S' R' U R S)",
+   "U' (B U B' U) (S' R' U' R S)",
+   "U2 (B U' B' U') (S' R' U' R S)",
+   "y' U L' D' (l U l' D) L2 U2' L'",
+   "y' (L U L' U) (B' U R' U2 R B)"
+  ],
+  "name": "V Id",
+  "group": "V+",
+  "algset": "ZBLS",
+  "scramble": "M' F' U' F M U R U' R' U2'"
+ },
+ "266": {
+  "a": [
+   "U (F' U' F U') R U R'",
+   "U (L' U' L U') F U F'",
+   "U (B' U' B U') L U L'",
+   "U (R' U' R U') B U B'"
+  ],
+  "name": "V T'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U F' U F U'"
+ },
+ "267": {
+  "a": [
+   "U2 (F' U F U) R U R'",
+   "U2 (L' U L U) F U F'",
+   "U2 (B' U B U) L U L'",
+   "U2 (R' U R U) B U B'"
+  ],
+  "name": "V Tb'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U' F' U' F U2"
+ },
+ "268": {
+  "a": [
+   "U2' F' U' F (R' F R F')",
+   "U2 F' U' F (R' F R F')",
+   "U2' F' U' S' U' F U S",
+   "U2' F' U S U F U' S'",
+   "U2' L' U' L (F' L F L')",
+   "U2 L' U' L (F' L F L')",
+   "U2' L' U' M' U' L U M",
+   "U2' L' U M U L U' M'",
+   "U2' B' U' B (L' B L B')",
+   "U2 B' U' B (L' B L B')",
+   "U2' R' U' R (B' R B R')",
+   "U2 R' U' R (B' R B R')",
+   "U2' R' U' M U' R U M'",
+   "U2' R' U M' U R U' M"
+  ],
+  "name": "V Tc'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "F R' F' R F' U F U2"
+ },
+ "269": {
+  "a": [
+   "U2 (F' U' F U) R U'↓R'",
+   "=y' U2 (R' U' R U) B U' B'",
+   "U2 (L' U' L U) F U'↓F'",
+   "=y' U2 (F' U' F U) R U' R'",
+   "U2 (B' U' B U) L U'↓L'",
+   "=y' U2 (L' U' L U) F U' F'",
+   "U2 (R' U' R U) B U'↓B'",
+   "=y' U2 (B' U' B U) L U' L'"
+  ],
+  "name": "V Td'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "R U R' U' F' U F U2'"
+ },
+ "270": {
+  "a": [
+   "(F' U' F U') (F R' F' R2 U R')",
+   "(L' U' L U') (L F' L' F2 U F')",
+   "(B' U' B U') (B L' B' L2 U L')",
+   "(R' U' R U') (R B' R' B2 U B')"
+  ],
+  "name": "V I'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "R U' R2 F R F' U F' U F"
+ },
+ "271": {
+  "a": [
+   "U2 F' U (S L' U L S')F",
+   "↓R2 D (r' U r D') R' U R'",
+   "y2' L2 D l' U l D' L' U L'",
+   "y U2' L' U L' D' l U l' D L2'",
+   "U2 L' U (M B' U B M')L",
+   "↓F2 D (f' U f D') F' U F'",
+   "U2 B' U (S' R' U R S)B",
+   "↓L2 D (l' U l D') L' U L'",
+   "y2' R2 D r' U r D' R' U R'",
+   "y U2' R' U R' D' r U r' D R2'",
+   "U2 R' U (M' F' U F M)R",
+   "↓B2 D (b' U b D') B' U B'",
+   "y2' F2 D f' U f D' F' U F'",
+   "y U2' F' U F' D' f U f' D F2'"
+  ],
+  "name": "V Ib'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "F' S L' U' L S' U' F U2"
+ },
+ "272": {
+  "a": [
+   "R U' (M B U B' M') U2' R'",
+   "U (F' U' F2) (U R U' R2' F' R)",
+   "y' U B U' B' (R' U' F' U' F U' R)",
+   "F D f' U f D' F' U' F' U F",
+   "F U' (S' R U R' S) U2' F'",
+   "U (L' U' L2) (U F U' F2' L' F)",
+   "y' U R U' R' (F' U' L' U' L U' F)",
+   "U' L' U L F U2' R U2' R' U2' F'",
+   "L D l' U l D' L' U' L' U L",
+   "L U' (M' F U F' M) U2' L'",
+   "U (B' U' B2) (U L U' L2' B' L)",
+   "y' U F U' F' (L' U' B' U' B U' L)",
+   "B U' (S L U L' S') U2' B'",
+   "U (R' U' R2) (U B U' B2' R' B)",
+   "y' U L U' L' (B' U' R' U' R U' B)",
+   "R D r' U r D' R' U' R' U R"
+  ],
+  "name": "V Ic'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "R U2 M B U' B' M' U R'"
+ },
+ "273": {
+  "a": [
+   "U2 (F' U' F U) (S' R U' R' S)",
+   "U (F' U' F U') (S' R U R' S)",
+   "U2 (F' U F U) (S' R U R' S)",
+   "y U' L D (l' U' l D') L2' U2 L",
+   "F R' F' (R2 U2 R' U2) F' U' F",
+   "U2 R U2 R' F' L' U2 L U' F",
+   "y L' U' L U' F U' R U2' R' F'",
+   "U2 (L' U' L U) (M' F U' F' M)",
+   "U (L' U' L U') (M' F U F' M)",
+   "U2 (L' U L U) (M' F U F' M)",
+   "y U' B D (b' U' b D') B2' U2 B",
+   "L F' L' (F2 U2 F' U2) L' U' L",
+   "U2 F U2 F' L' B' U2 B U' L",
+   "U2 (B' U' B U) (S L U' L' S')",
+   "U (B' U' B U') (S L U L' S')",
+   "U2 (B' U B U) (S L U L' S')",
+   "y U' R D (r' U' r D') R2' U2 R",
+   "B L' B' (L2 U2 L' U2) B' U' B",
+   "U2 L U2 L' B' R' U2 R U' B",
+   "U2 (R' U' R U) (M B U' B' M')",
+   "U (R' U' R U') (M B U B' M')",
+   "U2 (R' U R U) (M B U B' M')",
+   "y U' F D (f' U' f D') F2' U2 F",
+   "R B' R' (B2 U2 B' U2) R' U' R",
+   "U2 B U2 B' R' F' U2 F U' R"
+  ],
+  "name": "V Id'",
+  "group": "V-",
+  "algset": "ZBLS",
+  "scramble": "S' R U R' S U' F' U F U2'"
+ },
+ "274": {
+  "a": [
+   "U' (R U R' U2) R U' R'",
+   "U' (F U F' U2) F U' F'",
+   "U' (L U L' U2) L U' L'",
+   "U' (B U B' U2) B U' B'"
+  ],
+  "name": "W T",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "R U R' U2 R U' R' U"
+ },
+ "275": {
+  "a": [
+   "U2 (↓F R U R' U' F2) U F",
+   "U2 (↓L F U F' U' L2) U L",
+   "U2 (↓B L U L' U' B2) U B",
+   "U2 (↓R B U B' U' R2) U R"
+  ],
+  "name": "W L",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "F' U' F2 U R U' R' F' U2"
+ },
+ "276": {
+  "a": [
+   "U f' U (F U' F' U') f",
+   "U l' U (L U' L' U') l",
+   "U b' U (B U' B' U') b",
+   "U r' U (R U' R' U') r"
+  ],
+  "name": "W VP",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "f' U F U F' U' f U'"
+ },
+ "277": {
+  "a": [
+   "f' (F' L' U' L U F) f",
+   "l' (L' B' U' B U L) l",
+   "b' (B' R' U' R U B) b",
+   "r' (R' F' U' F U R) r"
+  ],
+  "name": "W VY",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "f' F' U' L' U L F f"
+ },
+ "278": {
+  "a": [
+   "U2 R (B U B' U2) R'",
+   "U2 F (R U R' U2) F'",
+   "U2 L (F U F' U2) L'",
+   "U2 B (L U L' U2) B'"
+  ],
+  "name": "W IL",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B U' B' R' U2"
+ },
+ "279": {
+  "a": [
+   "U' (r U R' U') (M R U2' R')",
+   "U' (f U F' U') (S' F U2' F')",
+   "U' (l U L' U') (M' L U2' L')",
+   "U' (b U B' U') (S B U2' B')"
+  ],
+  "name": "W IZ",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "R U2 M' R' U R U' r' U"
+ },
+ "280": {
+  "a": [
+   "U' R U (B U' B' U) R'",
+   "U' F U (R U' R' U) F'",
+   "U' L U (F U' F' U) L'",
+   "U' B U (L U' L' U) B'"
+  ],
+  "name": "W IY",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U B' U' R' U"
+ },
+ "281": {
+  "a": [
+   "U' F' U F (R B U2' B' U R')",
+   "U' L' U L (F R U2' R' U F')",
+   "U' B' U B (L F U2' F' U L')",
+   "U' R' U R (B L U2' L' U B')"
+  ],
+  "name": "W D",
+  "group": "W+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U2 B' R' F' U' F U"
+ },
+ "282": {
+  "a": [
+   "U (F' U' F U2') F' U F",
+   "U (L' U' L U2') L' U L",
+   "U (B' U' B U2') B' U B",
+   "U (R' U' R U2') R' U R"
+  ],
+  "name": "W T'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F U2 F' U F U'"
+ },
+ "283": {
+  "a": [
+   "U2' (↓R' F' U' F U R2') U' R'",
+   "U2' (↓F' L' U' L U F2') U' F'",
+   "U2' (↓L' B' U' B U L2') U' L'",
+   "U2' (↓B' R' U' R U B2') U' B'"
+  ],
+  "name": "W L'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "R U R2 U' F' U F R U2"
+ },
+ "284": {
+  "a": [
+   "U' r U' (R' U R U) r'",
+   "U' f U' (F' U F U) f'",
+   "U' l U' (L' U L U) l'",
+   "U' b U' (B' U B U) b'"
+  ],
+  "name": "W VP'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "r U' R' U' R U r' U"
+ },
+ "285": {
+  "a": [
+   "r (R B U B' U' R') r'",
+   "f (F R U R' U' F') f'",
+   "l (L F U F' U' L') l'",
+   "b (B L U L' U' B') b'"
+  ],
+  "name": "W VY'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "r R U B U' B' R' r'"
+ },
+ "286": {
+  "a": [
+   "U2 F' (L' U' L U2) F",
+   "U2 L' (B' U' B U2) L",
+   "U2 B' (R' U' R U2) B",
+   "U2 R' (F' U' F U2) R"
+  ],
+  "name": "W IL'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L' U L F U2"
+ },
+ "287": {
+  "a": [
+   "U (f' U' F U) (S F' U2 F)",
+   "U (l' U' L U) (M L' U2 L)",
+   "U (b' U' B U) (S' B' U2 B)",
+   "U (r' U' R U) (M' R' U2 R)"
+  ],
+  "name": "W IZ'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 S' F U' F' U f U'"
+ },
+ "288": {
+  "a": [
+   "U F' U' (L' U L U') F",
+   "U L' U' (B' U B U') L",
+   "U B' U' (R' U R U') B",
+   "U R' U' (F' U F U') R"
+  ],
+  "name": "W IY'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U' L U F U'"
+ },
+ "289": {
+  "a": [
+   "U R U' R' (F' L' U2 L U' F)",
+   "U F U' F' (L' B' U2 B U' L)",
+   "U L U' L' (B' R' U2 R U' B)",
+   "U B U' B' (R' F' U2 F U' R)"
+  ],
+  "name": "W D'",
+  "group": "W-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U2 L F R U R' U'"
+ },
+ "290": {
+  "a": [
+   "R' U2' R2 U R2' U R",
+   "F' U2' F2 U F2' U F",
+   "L' U2' L2 U L2' U L",
+   "B' U2' B2 U B2' U B"
+  ],
+  "name": "X T",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R' U' R2 U' R2' U2 R"
+ },
+ "291": {
+  "a": [
+   "(F U F2' U F2 U2 F') R U' R'",
+   "(L U L2' U L2 U2 L') F U' F'",
+   "(B U B2' U B2 U2 B') L U' L'",
+   "(R U R2' U R2 U2 R') B U' B'"
+  ],
+  "name": "X L",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R U R' F U2 F2 U' F2 U' F'"
+ },
+ "292": {
+  "a": [
+   "U (F' U2 F U') R U R'",
+   "U (L' U2 L U') F U F'",
+   "U (B' U2 B U') L U L'",
+   "U (R' U2 R U') B U B'"
+  ],
+  "name": "X VP",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R U' R' U F' U2 F U'"
+ },
+ "293": {
+  "a": [
+   "S' (R' U2' R2 U R2' U R) S",
+   "M' (F' U2' F2 U F2' U F) M",
+   "S (L' U2' L2 U L2' U L) S'",
+   "M (B' U2' B2 U B2' U B) M'"
+  ],
+  "name": "X VY",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "S' R' U' R2 U' R2 U2 R S"
+ },
+ "294": {
+  "a": [
+   "(F' U2 F U) (R B U2' B' R')",
+   "(L' U2 L U) (F R U2' R' F')",
+   "(B' U2 B U) (L F U2' F' L')",
+   "(R' U2 R U) (B L U2' L' B')"
+  ],
+  "name": "X IO",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R B U2 B' R' U' F' U2 F"
+ },
+ "295": {
+  "a": [
+   "R (B U B' U) (B U' B' U) R'",
+   "F (R U R' U) (R U' R' U) F'",
+   "L (F U F' U) (F U' F' U) L'",
+   "B (L U L' U) (L U' L' U) B'"
+  ],
+  "name": "X IZ",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R U' B U B' U' B U' B' R'"
+ },
+ "296": {
+  "a": [
+   "R U' (B U2' B' U2) R'",
+   "F U' (R U2' R' U2) F'",
+   "L U' (F U2' F' U2) L'",
+   "B U' (L U2' L' U2) B'"
+  ],
+  "name": "X IP",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "R U2 B U2 B' U R'"
+ },
+ "297": {
+  "a": [
+   "U (M U M' U2) (M R U M' R')",
+   "U (S' U S U2) (S' F U S F')",
+   "U (M' U M U2) (M' L U M L')",
+   "U (S U S' U2) (S B U S' B')"
+  ],
+  "name": "X D",
+  "group": "X+",
+  "algset": "ZBLS",
+  "scramble": "M R U' M' R' U2 M U' M' U'"
+ },
+ "298": {
+  "a": [
+   "F U2 F2' U' F2 U' F'",
+   "L U2 L2' U' L2 U' L'",
+   "B U2 B2' U' B2 U' B'",
+   "R U2 R2' U' R2 U' R'"
+  ],
+  "name": "X T'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F U F2' U F2 U2' F'"
+ },
+ "299": {
+  "a": [
+   "(R' U' R2 U' R2' U2' R) F' U F",
+   "(F' U' F2 U' F2' U2' F) L' U L",
+   "(L' U' L2 U' L2' U2' L) B' U B",
+   "(B' U' B2 U' B2' U2' B) R' U R"
+  ],
+  "name": "X L'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F' U' F R' U2 R2 U R2 U R"
+ },
+ "300": {
+  "a": [
+   "U' (R U2' R' U) F' U' F",
+   "U' (F U2' F' U) L' U' L",
+   "U' (L U2' L' U) B' U' B",
+   "U' (B U2' B' U) R' U' R"
+  ],
+  "name": "X VP'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F' U F U' R U2 R' U"
+ },
+ "301": {
+  "a": [
+   "M' (F U2 F2' U' F2 U' F') M",
+   "S (L U2 L2' U' L2 U' L') S'",
+   "M (B U2 B2' U' B2 U' B') M'",
+   "S' (R U2 R2' U' R2 U' R') S"
+  ],
+  "name": "X VY'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "M' F U F2 U F2 U2 F' M"
+ },
+ "302": {
+  "a": [
+   "(R U2' R' U') (F' L' U2 L F)",
+   "(F U2' F' U') (L' B' U2 B L)",
+   "(L U2' L' U') (B' R' U2 R B)",
+   "(B U2' B' U') (R' F' U2 F R)"
+  ],
+  "name": "X IO'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F' L' U2 L F U R U2 R'"
+ },
+ "303": {
+  "a": [
+   "F' (L' U' L U') (L' U L U') F",
+   "L' (B' U' B U') (B' U B U') L",
+   "B' (R' U' R U') (R' U R U') B",
+   "R' (F' U' F U') (F' U F U') R"
+  ],
+  "name": "X IZ'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F' U L' U' L U L' U L F"
+ },
+ "304": {
+  "a": [
+   "F' U (L' U2 L U2') F",
+   "L' U (B' U2 B U2') L",
+   "B' U (R' U2 R U2') B",
+   "R' U (F' U2 F U2') R"
+  ],
+  "name": "X IP'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "F' U2 L' U2 L U' F"
+ },
+ "305": {
+  "a": [
+   "U' (S U' S' U2') (S F' U' S' F)",
+   "U' (M U' M' U2') (M L' U' M' L)",
+   "U' (S' U' S U2') (S' B' U' S B)",
+   "U' (M' U' M U2') (M' R' U' M R)"
+  ],
+  "name": "X D'",
+  "group": "X-",
+  "algset": "ZBLS",
+  "scramble": "S F' U S' F U2 S U S' U"
+ }
+}

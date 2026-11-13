@@ -1,0 +1,128 @@
+{
+ "1": [
+  "L' U' L U U2' F"
+ ],
+ "2": [
+  "L F' L' F U2' F U"
+ ],
+ "3": [
+  "F U' F' U2' F U"
+ ],
+ "4": [
+  "L' U L U F U2'"
+ ],
+ "5": [
+  "L' U' L U2 L' U L U' U F U"
+ ],
+ "6": [
+  "l' U L U L' U' l U' U2' F U"
+ ],
+ "7": [
+  "L' U' L U2 L' U2' L U' U2' F U"
+ ],
+ "8": [
+  "l U L2' U L2 U2 l' U F U2'"
+ ],
+ "9": [
+  "F U' F' U L' U' L U' U F U"
+ ],
+ "10": [
+  "L' U L U L' U L U' U2' F U"
+ ],
+ "11": [
+  "F U' F' U L' U2 L U' U2' F U"
+ ],
+ "12": [
+  "L U L2' U L2 U2' L' U2' F U"
+ ],
+ "13": [
+  "L' U' L F' L F L' U L' U' L U2' F U"
+ ],
+ "14": [
+  "L' U L U L' U' L U' U2' F U"
+ ],
+ "15": [
+  "L' U' L U L' U' L U2 L' U L U2' F U"
+ ],
+ "16": [
+  "F U' F' U2 L' U' L U2' F U"
+ ],
+ "17": [
+  "L' U L U' L' U2 L U2' F U"
+ ],
+ "18": [
+  "L' U' L U L' U' L F' L F L' U2' F U"
+ ],
+ "19": [
+  "L' U' L U L' U2 L U U F U"
+ ],
+ "20": [
+  "L' U' L F' L F L2 U' L U' U2' F U"
+ ],
+ "21": [
+  "L' U' L U L' U L F U"
+ ],
+ "22": [
+  "F R U2 R' F' U F U"
+ ],
+ "23": [
+  "L' U' L U L' U' L U' L' U' L U U2' F U"
+ ],
+ "24": [
+  "L' U' L F' L' U' L U F U2' F U"
+ ],
+ "25": [
+  "L' U L F' L F L' U' F R U' R'"
+ ],
+ "26": [
+  "L F' L' F L' U' L U U' F R U' R'"
+ ],
+ "27": [
+  "L' U L U' L' U L F R U' R'"
+ ],
+ "28": [
+  "L' U' L F U R' F R F' U R U' R'"
+ ],
+ "29": [
+  "L' U' L U F' L F L' U' F R U' R'"
+ ],
+ "30": [
+  "F U' R U R'"
+ ],
+ "31": [
+  "L' U' L F' L F L' U' L' U L U2 F"
+ ],
+ "32": [
+  "L' U L U' L F' L' F U' L' U L U2 F"
+ ],
+ "33": [
+  "L' U' L U2 L' U' L U' L' U L U2 F"
+ ],
+ "34": [
+  "L' U L U2 L' U L U L' U L U2 F"
+ ],
+ "35": [
+  "L F' L' F L' U L U2 L' U L U2 F"
+ ],
+ "36": [
+  "L' U L U' F U' F' U L' U L U2 F"
+ ],
+ "37": [
+  "L' U L' U2 F' L2 F U2 L2 F U' R' F R F'"
+ ],
+ "38": [
+  "L' U' L U2 L' U L U' L' U' L F U' R' F R F'"
+ ],
+ "39": [
+  "F U2 R U' R' U R U R'"
+ ],
+ "40": [
+  "L' U L R' F R U2 R' F' R F U' R' F R F'"
+ ],
+ "41": [
+  "l' U l U2 l' U' l L' U' L F U' R' F R F'"
+ ],
+ "42": [
+  "F R U' R'"
+ ]
+}

@@ -1,0 +1,1595 @@
+{
+ "1": {
+  "a": [
+   "R' F R F' R' F R F'"
+  ],
+  "name": "TCLL+ Hammer 1 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R F'"
+ },
+ "2": {
+  "a": [
+   "R U2 R' U2 R2 U R2 U' R2"
+  ],
+  "name": "TCLL+ Hammer 1 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R F'"
+ },
+ "3": {
+  "a": [
+   "y' R2 U' R2 U R2 U2 R' U2 R"
+  ],
+  "name": "TCLL+ Hammer 1 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R F'"
+ },
+ "4": {
+  "a": [
+   "y' R' U2 R U' F R' F'"
+  ],
+  "name": "TCLL+ Hammer 2 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R U' F R' F'"
+ },
+ "5": {
+  "a": [
+   "F R' F' R U R U2 R' U R U' R'"
+  ],
+  "name": "TCLL+ Hammer 2 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R U' F R' F'"
+ },
+ "6": {
+  "a": [
+   "F R' F' U' R U' R U2 R"
+  ],
+  "name": "TCLL+ Hammer 2 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R U' F R' F'"
+ },
+ "7": {
+  "a": [
+   "R' F R U' R2 U R2 U' R2 F"
+  ],
+  "name": "TCLL+ Hammer 2 (Alg 4)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R U' F R' F'"
+ },
+ "8": {
+  "a": [
+   "F' U2 R U2 R' U2 R' F R"
+  ],
+  "name": "TCLL+ Hammer 2 (Alg 5)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R U' F R' F'"
+ },
+ "9": {
+  "a": [
+   "y' R' U' R U' R2 F R F' R"
+  ],
+  "name": "TCLL+ Hammer 3 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' R2 F R F' R"
+ },
+ "10": {
+  "a": [
+   "F R' F' R2 U' R' U2 R U R'"
+  ],
+  "name": "TCLL+ Hammer 3 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' R2 F R F' R"
+ },
+ "11": {
+  "a": [
+   "R U2 F R F' U R' U R U' R'"
+  ],
+  "name": "TCLL+ Hammer 3 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' R2 F R F' R"
+ },
+ "12": {
+  "a": [
+   "F2 R' F2 R2 U' R' U2 F"
+  ],
+  "name": "TCLL+ Hammer 3 (Alg 4)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' R2 F R F' R"
+ },
+ "13": {
+  "a": [
+   "F R' F' R' U R2 U' R2"
+  ],
+  "name": "TCLL+ Hammer 3 (Alg 5)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' R2 F R F' R"
+ },
+ "14": {
+  "a": [
+   "R' F' R U2 R U R' F2"
+  ],
+  "name": "TCLL+ Hammer 4 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F' R U2 R U R' F2"
+ },
+ "15": {
+  "a": [
+   "y F R U R' U R' F R F2"
+  ],
+  "name": "TCLL+ Hammer 4 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F' R U2 R U R' F2"
+ },
+ "16": {
+  "a": [
+   "R U R' F R' F' R U F R' F' R"
+  ],
+  "name": "TCLL+ Hammer 4 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F' R U2 R U R' F2"
+ },
+ "17": {
+  "a": [
+   "y' R' U R' F R F' R U' R' U' R"
+  ],
+  "name": "TCLL+ Hammer 4 (Alg 4)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' F' R U2 R U R' F2"
+ },
+ "18": {
+  "a": [
+   "R' U R U' R U' R2 F R2 F'"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "19": {
+  "a": [
+   "R' U R' U2 F R F' R U' R"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "20": {
+  "a": [
+   "R' F' R U2 R U' R2 F2 R F2"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "21": {
+  "a": [
+   "y F' R' F' R U R U R2 F' R"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 4)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "22": {
+  "a": [
+   "R2 U' R2 U2 R U R' F R2 F'"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 5)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "23": {
+  "a": [
+   "F' U R' F2 R2 U R' U' R' F R"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 6)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "24": {
+  "a": [
+   "F R' F' R2 U2 R' U' F R' F' R"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 7)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "25": {
+  "a": [
+   "F' U R U' R2 F2 R U' R' F R"
+  ],
+  "name": "TCLL+ Hammer 5 (Alg 8)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "R' U R U' R U' R2 F R2 F'"
+ },
+ "26": {
+  "a": [
+   "y' R' U' R' F R F' R U R' U' R"
+  ],
+  "name": "TCLL+ Hammer 6 (Alg 1)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R' F R F' R U R' U' R"
+ },
+ "27": {
+  "a": [
+   "R U R' F R F' R U R' U R'"
+  ],
+  "name": "TCLL+ Hammer 6 (Alg 2)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R' F R F' R U R' U' R"
+ },
+ "28": {
+  "a": [
+   "R U R' F R U R' y' R U' R'"
+  ],
+  "name": "TCLL+ Hammer 6 (Alg 3)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R' F R F' R U R' U' R"
+ },
+ "29": {
+  "a": [
+   "y' R' U' F R' F' R2 U R' U' R"
+  ],
+  "name": "TCLL+ Hammer 6 (Alg 4)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R' F R F' R U R' U' R"
+ },
+ "30": {
+  "a": [
+   "R U' R' U2 R' F R F' R U2 R'"
+  ],
+  "name": "TCLL+ Hammer 6 (Alg 5)",
+  "group": "Hammer",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R' F R F' R U R' U' R"
+ },
+ "31": {
+  "a": [
+   "y' R' U' R U R' U' R"
+  ],
+  "name": "TCLL+ Spaceship 1 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U' R"
+ },
+ "32": {
+  "a": [
+   "y' R U2 R' U2 R2 U' R"
+  ],
+  "name": "TCLL+ Spaceship 1 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U' R"
+ },
+ "33": {
+  "a": [
+   "R2 U R' U R' U2 R' U R'"
+  ],
+  "name": "TCLL+ Spaceship 1 (Alg 3)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U' R"
+ },
+ "34": {
+  "a": [
+   "R' F R F' R' F R U R U' R' F'"
+  ],
+  "name": "TCLL+ Spaceship 2 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R U R U' R' F'"
+ },
+ "35": {
+  "a": [
+   "y F R U' R' U' R U' R' U F'"
+  ],
+  "name": "TCLL+ Spaceship 2 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R U R U' R' F'"
+ },
+ "36": {
+  "a": [
+   "F' U R' F' R U' R' F' R F"
+  ],
+  "name": "TCLL+ Spaceship 2 (Alg 3)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' R' F R U R U' R' F'"
+ },
+ "37": {
+  "a": [
+   "R U' R' U R2 U' R' F R' F'"
+  ],
+  "name": "TCLL+ Spaceship 3 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R2 U' R' F R' F'"
+ },
+ "38": {
+  "a": [
+   "y' R U2 R' F R F' R' U2 R'"
+  ],
+  "name": "TCLL+ Spaceship 3 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R2 U' R' F R' F'"
+ },
+ "39": {
+  "a": [
+   "R U' R2 F R U R U' R' F'"
+  ],
+  "name": "TCLL+ Spaceship 4 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R U R U' R' F'"
+ },
+ "40": {
+  "a": [
+   "R U' R' U2 R U' R' U' R' F R F'"
+  ],
+  "name": "TCLL+ Spaceship 4 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R U R U' R' F'"
+ },
+ "41": {
+  "a": [
+   "y R U R' U' R' F R2 U2 R' U F'"
+  ],
+  "name": "TCLL+ Spaceship 4 (Alg 3)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R U R U' R' F'"
+ },
+ "42": {
+  "a": [
+   "y R U' R' F U' R' F2 R2 U' R' F"
+  ],
+  "name": "TCLL+ Spaceship 4 (Alg 4)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R U R U' R' F'"
+ },
+ "43": {
+  "a": [
+   "R U2 R' U R' F R F' R U' R'"
+  ],
+  "name": "TCLL+ Spaceship 5 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' U R' F R F' R U' R'"
+ },
+ "44": {
+  "a": [
+   "y F2 R' F R U2 R U' R'"
+  ],
+  "name": "TCLL+ Spaceship 5 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' U R' F R F' R U' R'"
+ },
+ "45": {
+  "a": [
+   "R U' R' F R F' R U R2 U' R U' R'"
+  ],
+  "name": "TCLL+ Spaceship 6 (Alg 1)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' F R F' R U R2 U' R U' R'"
+ },
+ "46": {
+  "a": [
+   "R' U' R U' R' F R F' R' F R' F'"
+  ],
+  "name": "TCLL+ Spaceship 6 (Alg 2)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' F R F' R U R2 U' R U' R'"
+ },
+ "47": {
+  "a": [
+   "R' F2 R U' R' F2 R2 U R' F2"
+  ],
+  "name": "TCLL+ Spaceship 6 (Alg 3)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' F R F' R U R2 U' R U' R'"
+ },
+ "48": {
+  "a": [
+   "R' F' R U2 R' F' R2 U R' F2"
+  ],
+  "name": "TCLL+ Spaceship 6 (Alg 4)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' F R F' R U R2 U' R U' R'"
+ },
+ "49": {
+  "a": [
+   "y R' F' R U F' R U2 R' U R U2 R'"
+  ],
+  "name": "TCLL+ Spaceship 6 (Alg 5)",
+  "group": "Spaceship",
+  "algset": "TCLL+",
+  "scramble": "R U' R' F R F' R U R2 U' R U' R'"
+ },
+ "50": {
+  "a": [
+   "R U R' U F' R U' R' F2"
+  ],
+  "name": "TCLL+ Stollery 1 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' U F' R U' R' F2"
+ },
+ "51": {
+  "a": [
+   "y' R2 U' R2 U R' U2 R U2 R'"
+  ],
+  "name": "TCLL+ Stollery 1 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' U F' R U' R' F2"
+ },
+ "52": {
+  "a": [
+   "R' U2 R U2 R' U R2 U' R2"
+  ],
+  "name": "TCLL+ Stollery 1 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' U F' R U' R' F2"
+ },
+ "53": {
+  "a": [
+   "R U R' U R2 U2 R' U' R U' R2"
+  ],
+  "name": "TCLL+ Stollery 1 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' U F' R U' R' F2"
+ },
+ "54": {
+  "a": [
+   "R' F R U' F' R U2 R' F2"
+  ],
+  "name": "TCLL+ Stollery 2 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' F R U' F' R U2 R' F2"
+ },
+ "55": {
+  "a": [
+   "y' R' F R2 F' R2 U' R U R'"
+  ],
+  "name": "TCLL+ Stollery 2 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' F R U' F' R U2 R' F2"
+ },
+ "56": {
+  "a": [
+   "y' R U' R' U F R F' R2"
+  ],
+  "name": "TCLL+ Stollery 2 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' F R U' F' R U2 R' F2"
+ },
+ "57": {
+  "a": [
+   "R U F R' F' U' R' U R U' R'"
+  ],
+  "name": "TCLL+ Stollery 2 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' F R U' F' R U2 R' F2"
+ },
+ "58": {
+  "a": [
+   "y' R2 F' R U R U' R' F U' R"
+  ],
+  "name": "TCLL+ Stollery 2 (Alg 5)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' F R U' F' R U2 R' F2"
+ },
+ "59": {
+  "a": [
+   "F R' F' R U2 R U R2 F R F'"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "60": {
+  "a": [
+   "R U' R' U' R U' R' U R' F R F'"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "61": {
+  "a": [
+   "R U R' U F R F' R U R2"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "62": {
+  "a": [
+   "y' R' U' R U R2 F R F' R U2 R' U R"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "63": {
+  "a": [
+   "F R' F' R2 U2 R' U' R U R'"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 5)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "64": {
+  "a": [
+   "R U' R' U' R U R' U R' F R F'"
+  ],
+  "name": "TCLL+ Stollery 3 (Alg 6)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U2 R U R2 F R F'"
+ },
+ "65": {
+  "a": [
+   "R U R' F R' F' R U R U R'"
+  ],
+  "name": "TCLL+ Stollery 4 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' F R' F' R U R U R'"
+ },
+ "66": {
+  "a": [
+   "R U R' F R' F' U' R U R"
+  ],
+  "name": "TCLL+ Stollery 4 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' F R' F' R U R U R'"
+ },
+ "67": {
+  "a": [
+   "R U R' F R U R' U' R' F' R"
+  ],
+  "name": "TCLL+ Stollery 4 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' F R' F' R U R U R'"
+ },
+ "68": {
+  "a": [
+   "y F' R U R2 F' R2 U R' U R U2 R'"
+  ],
+  "name": "TCLL+ Stollery 4 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R U R' F R' F' R U R U R'"
+ },
+ "69": {
+  "a": [
+   "R2 F R F' U R U' R U' R2"
+  ],
+  "name": "TCLL+ Stollery 5 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R2 F R F' U R U' R U' R2"
+ },
+ "70": {
+  "a": [
+   "R U' R2 F2 R F2 R' F2 R"
+  ],
+  "name": "TCLL+ Stollery 5 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R2 F R F' U R U' R U' R2"
+ },
+ "71": {
+  "a": [
+   "y' R' U2 R U R' U' R' F R F' R"
+  ],
+  "name": "TCLL+ Stollery 5 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R2 F R F' U R U' R U' R2"
+ },
+ "72": {
+  "a": [
+   "y R' U' R U2 R' F2 R' F R2"
+  ],
+  "name": "TCLL+ Stollery 5 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R2 F R F' U R U' R U' R2"
+ },
+ "73": {
+  "a": [
+   "y R' F R U R U' R' F R' F R"
+  ],
+  "name": "TCLL+ Stollery 5 (Alg 5)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R2 F R F' U R U' R U' R2"
+ },
+ "74": {
+  "a": [
+   "R' U' F R F' U R2 U' R'"
+  ],
+  "name": "TCLL+ Stollery 6 (Alg 1)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' U' F R F' U R2 U' R'"
+ },
+ "75": {
+  "a": [
+   "R' U R2 U' R2 U' F R F'"
+  ],
+  "name": "TCLL+ Stollery 6 (Alg 2)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' U' F R F' U R2 U' R'"
+ },
+ "76": {
+  "a": [
+   "y' F' U F U' R2 U' R2 U R'"
+  ],
+  "name": "TCLL+ Stollery 6 (Alg 3)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' U' F R F' U R2 U' R'"
+ },
+ "77": {
+  "a": [
+   "R2 U' R' U2 R U R' U' F R F'"
+  ],
+  "name": "TCLL+ Stollery 6 (Alg 4)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' U' F R F' U R2 U' R'"
+ },
+ "78": {
+  "a": [
+   "y' R2 U' R U R' F R F' R U' R'"
+  ],
+  "name": "TCLL+ Stollery 6 (Alg 5)",
+  "group": "Stollery",
+  "algset": "TCLL+",
+  "scramble": "R' U' F R F' U R2 U' R'"
+ },
+ "79": {
+  "a": [
+   "y' F' R U R U2 R2 F' U R F'"
+  ],
+  "name": "TCLL+ Pinwheel 1 (Alg 1)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' F' R U R U2 R2 F' U R F'"
+ },
+ "80": {
+  "a": [
+   "y R U2 R' U2 R U2 R' F' R U R' F'"
+  ],
+  "name": "TCLL+ Pinwheel 1 (Alg 2)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' F' R U R U2 R2 F' U R F'"
+ },
+ "81": {
+  "a": [
+   "R' U2 R U2 R' U2 R U' R U' R2"
+  ],
+  "name": "TCLL+ Pinwheel 1 (Alg 3)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' F' R U R U2 R2 F' U R F'"
+ },
+ "82": {
+  "a": [
+   "F' U R U' R2 F2 R y' R U R'"
+  ],
+  "name": "TCLL+ Pinwheel 1 (Alg 4)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' F' R U R U2 R2 F' U R F'"
+ },
+ "83": {
+  "a": [
+   "F' U R U' R' U R' U' F2 U R"
+  ],
+  "name": "TCLL+ Pinwheel 1 (Alg 5)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' F' R U R U2 R2 F' U R F'"
+ },
+ "84": {
+  "a": [
+   "y' R' U' R U R' U2 F R' F' R U R"
+  ],
+  "name": "TCLL+ Pinwheel 2 (Alg 1)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U2 F R' F' R U R"
+ },
+ "85": {
+  "a": [
+   "R' F' U' F R2 U' R U2 R"
+  ],
+  "name": "TCLL+ Pinwheel 2 (Alg 2)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U2 F R' F' R U R"
+ },
+ "86": {
+  "a": [
+   "R U F R' F' R2 U' R2 U' R U2 R"
+  ],
+  "name": "TCLL+ Pinwheel 2 (Alg 3)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U2 F R' F' R U R"
+ },
+ "87": {
+  "a": [
+   "R F R F' R2 U2 R U2 R"
+  ],
+  "name": "TCLL+ Pinwheel 2 (Alg 4)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U2 F R' F' R U R"
+ },
+ "88": {
+  "a": [
+   "R' F R2 U' R' U R U' R' F R U R' F'"
+  ],
+  "name": "TCLL+ Pinwheel 2 (Alg 5)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U R' U2 F R' F' R U R"
+ },
+ "89": {
+  "a": [
+   "F R F' U2 R U' R2 F R2 F'"
+  ],
+  "name": "TCLL+ Pinwheel 3 (Alg 1)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "F R F' U2 R U' R2 F R2 F'"
+ },
+ "90": {
+  "a": [
+   "R U' R2 y R U' R' U' R U' R'"
+  ],
+  "name": "TCLL+ Pinwheel 3 (Alg 2)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "F R F' U2 R U' R2 F R2 F'"
+ },
+ "91": {
+  "a": [
+   "y' R' F2 R U' R' U2 R' F R2"
+  ],
+  "name": "TCLL+ Pinwheel 3 (Alg 3)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "F R F' U2 R U' R2 F R2 F'"
+ },
+ "92": {
+  "a": [
+   "F U F2 R' F R2 U' R' F'"
+  ],
+  "name": "TCLL+ Pinwheel 3 (Alg 4)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "F R F' U2 R U' R2 F R2 F'"
+ },
+ "93": {
+  "a": [
+   "y R2 U R' F R F' U2 R U' R2"
+  ],
+  "name": "TCLL+ Pinwheel 3 (Alg 5)",
+  "group": "Pinwheel",
+  "algset": "TCLL+",
+  "scramble": "F R F' U2 R U' R2 F R2 F'"
+ },
+ "94": {
+  "a": [
+   "y' R2 U' R2 U R' U R U' R'"
+  ],
+  "name": "TCLL+ Two-Face 1 (Alg 1)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "y' R2 U' R2 U R' U R U' R'"
+ },
+ "95": {
+  "a": [
+   "R U R' U' R2 U R2 U' R2"
+  ],
+  "name": "TCLL+ Two-Face 1 (Alg 2)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "y' R2 U' R2 U R' U R U' R'"
+ },
+ "96": {
+  "a": [
+   "y' R' U2 R' F R F' R"
+  ],
+  "name": "TCLL+ Two-Face 2 (Alg 1)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R' F R F' R"
+ },
+ "97": {
+  "a": [
+   "R' F2 R U' R U R' F2"
+  ],
+  "name": "TCLL+ Two-Face 2 (Alg 2)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "y' R' U2 R' F R F' R"
+ },
+ "98": {
+  "a": [
+   "R U' R' U F' R' F' R F"
+  ],
+  "name": "TCLL+ Two-Face 3 (Alg 1)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U F' R' F' R F"
+ },
+ "99": {
+  "a": [
+   "y' R' F' U' F R U R' U' R"
+  ],
+  "name": "TCLL+ Two-Face 3 (Alg 2)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U F' R' F' R F"
+ },
+ "100": {
+  "a": [
+   "R U R' U2 R' F R F' U R U2 R'"
+  ],
+  "name": "TCLL+ Two-Face 4 (Alg 1)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' U R U2 R'"
+ },
+ "101": {
+  "a": [
+   "R' U R F R' F' R U' R2"
+  ],
+  "name": "TCLL+ Two-Face 4 (Alg 2)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' U R U2 R'"
+ },
+ "102": {
+  "a": [
+   "R' U R U' R U' F R F' R"
+  ],
+  "name": "TCLL+ Two-Face 4 (Alg 3)",
+  "group": "Two-Face",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' U R U2 R'"
+ },
+ "103": {
+  "a": [
+   "R U' R' U R U' R'"
+  ],
+  "name": "TCLL+ Turtle 1 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R U' R'"
+ },
+ "104": {
+  "a": [
+   "y' R' U R' U2 R' U R' U R2"
+  ],
+  "name": "TCLL+ Turtle 1 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R U' R'"
+ },
+ "105": {
+  "a": [
+   "R U' R' U R U R' U' R U' R'"
+  ],
+  "name": "TCLL+ Turtle 1 (Alg 3)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R U' R'"
+ },
+ "106": {
+  "a": [
+   "y R U' R' F2 R U R' F' R' F R"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "107": {
+  "a": [
+   "F' R' F R2 U' R' F2 R U R'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "108": {
+  "a": [
+   "R U R' F' R2 F' R2 F R2"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 3)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "109": {
+  "a": [
+   "y F U2 R U' R2 F R F2"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 4)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "110": {
+  "a": [
+   "y R' F' R U F' R U R2 F R F' R U R'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 5)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "111": {
+  "a": [
+   "x U2 R' F2 R F' R U' R'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 6)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "112": {
+  "a": [
+   "R' U2 F2 R U R U' R2 F U' F'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 7)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "113": {
+  "a": [
+   "R' U' F R' F' U R U' R U2 R'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 8)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "114": {
+  "a": [
+   "F R' F' R U F R' F' R U R U R'"
+  ],
+  "name": "TCLL+ Turtle 2 (Alg 9)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y R U' R' F2 R U R' F' R' F R"
+ },
+ "115": {
+  "a": [
+   "F R' F' R U' R' F R F' R U' R'"
+  ],
+  "name": "TCLL+ Turtle 3 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U' R' F R F' R U' R'"
+ },
+ "116": {
+  "a": [
+   "R' F R2 U R' F' R U' R' F'"
+  ],
+  "name": "TCLL+ Turtle 3 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U' R' F R F' R U' R'"
+ },
+ "117": {
+  "a": [
+   "R' F R F' R' U2 R' U2 R"
+  ],
+  "name": "TCLL+ Turtle 3 (Alg 3)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U' R' F R F' R U' R'"
+ },
+ "118": {
+  "a": [
+   "y R U R' F' R U R2 F' R2 U R'"
+  ],
+  "name": "TCLL+ Turtle 3 (Alg 4)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "F R' F' R U' R' F R F' R U' R'"
+ },
+ "119": {
+  "a": [
+   "y' R' U' R U' F R2 F'"
+  ],
+  "name": "TCLL+ Turtle 4 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' F R2 F'"
+ },
+ "120": {
+  "a": [
+   "R' U R' F' U F U' R U2 R U2 R'"
+  ],
+  "name": "TCLL+ Turtle 4 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "y' R' U' R U' F R2 F'"
+ },
+ "121": {
+  "a": [
+   "R' F R F' U2 R U2 R'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "122": {
+  "a": [
+   "R U F R F' U R'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "123": {
+  "a": [
+   "y' R' U' R U2 F R' F'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 3)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "124": {
+  "a": [
+   "y' F R U R U' R F'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 4)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "125": {
+  "a": [
+   "y' F U' R' U R U R2 F'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 5)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "126": {
+  "a": [
+   "y F U R U R' U F'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 6)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "127": {
+  "a": [
+   "y R' F2 R U2 F' R U R'"
+  ],
+  "name": "TCLL+ Turtle 5 (Alg 7)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U2 R U2 R'"
+ },
+ "128": {
+  "a": [
+   "R U R2 F R F' U2 R U' R'"
+  ],
+  "name": "TCLL+ Turtle 6 (Alg 1)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U R2 F R F' U2 R U' R'"
+ },
+ "129": {
+  "a": [
+   "y' R' U R U2 R' F R' F' R2"
+  ],
+  "name": "TCLL+ Turtle 6 (Alg 2)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U R2 F R F' U2 R U' R'"
+ },
+ "130": {
+  "a": [
+   "R' U F R F' R2 U2 R"
+  ],
+  "name": "TCLL+ Turtle 6 (Alg 3)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U R2 F R F' U2 R U' R'"
+ },
+ "131": {
+  "a": [
+   "F' R U2 R' F2 U2 R' F R"
+  ],
+  "name": "TCLL+ Turtle 6 (Alg 4)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U R2 F R F' U2 R U' R'"
+ },
+ "132": {
+  "a": [
+   "R U' R2 F R2 U' R' U' R U R' F'"
+  ],
+  "name": "TCLL+ Turtle 6 (Alg 5)",
+  "group": "Turtle",
+  "algset": "TCLL+",
+  "scramble": "R U R2 F R F' U2 R U' R'"
+ },
+ "133": {
+  "a": [
+   "R2 F R2 F' R' U' F R F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 1 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R2 F R2 F' R' U' F R F'"
+ },
+ "134": {
+  "a": [
+   "y R U R' U' R U2 R' F' R U R' F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 1 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R2 F R2 F' R' U' F R F'"
+ },
+ "135": {
+  "a": [
+   "y' R2 U R' U R U2 R' U R U' R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 1 (Alg 3)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R2 F R2 F' R' U' F R F'"
+ },
+ "136": {
+  "a": [
+   "R U R' F R U R' F U' R U R' U' F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 1 (Alg 4)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R2 F R2 F' R' U' F R F'"
+ },
+ "137": {
+  "a": [
+   "y F U' R2 U' R' F R' F2"
+  ],
+  "name": "TCLL+ Pinwheel Poser 1 (Alg 5)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R2 F R2 F' R' U' F R F'"
+ },
+ "138": {
+  "a": [
+   "R' F R2 F' R U R' U2 R'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 2 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R' F R2 F' R U R' U2 R'"
+ },
+ "139": {
+  "a": [
+   "R' F R F' R' F R2 U R' U' F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 2 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R' F R2 F' R U R' U2 R'"
+ },
+ "140": {
+  "a": [
+   "y R' F' R U R F' U' R' U' R2 U R'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 2 (Alg 3)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R' F R2 F' R U R' U2 R'"
+ },
+ "141": {
+  "a": [
+   "R U R' U2 R' F R F' R U' R'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 3 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' R U' R'"
+ },
+ "142": {
+  "a": [
+   "R' U2 R2 U' F R F' U2 R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 3 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' R U' R'"
+ },
+ "143": {
+  "a": [
+   "R U' R2 F R2 F' U' R' U' R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 3 (Alg 3)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' R U' R'"
+ },
+ "144": {
+  "a": [
+   "y F' R U R' U2 R2 F R U' R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 3 (Alg 4)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U R' U2 R' F R F' R U' R'"
+ },
+ "145": {
+  "a": [
+   "y F' R U R2 F' R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 4 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "y F' R U R2 F' R"
+ },
+ "146": {
+  "a": [
+   "F2 R U R' U2 F"
+  ],
+  "name": "TCLL+ Pinwheel Poser 4 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "y F' R U R2 F' R"
+ },
+ "147": {
+  "a": [
+   "y' R2 F R F' U2 R"
+  ],
+  "name": "TCLL+ Pinwheel Poser 4 (Alg 3)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "y F' R U R2 F' R"
+ },
+ "148": {
+  "a": [
+   "R' F R F2 U' F"
+  ],
+  "name": "TCLL+ Pinwheel Poser 4 (Alg 4)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "y F' R U R2 F' R"
+ },
+ "149": {
+  "a": [
+   "R U' R2 F R F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 5 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R F'"
+ },
+ "150": {
+  "a": [
+   "y F U2 R' F R F2"
+  ],
+  "name": "TCLL+ Pinwheel Poser 5 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "R U' R2 F R F'"
+ },
+ "151": {
+  "a": [
+   "F' U R' F2 R F"
+  ],
+  "name": "TCLL+ Pinwheel Poser 6 (Alg 1)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "F' U R' F2 R F"
+ },
+ "152": {
+  "a": [
+   "R F R2 F' U R'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 6 (Alg 2)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "F' U R' F2 R F"
+ },
+ "153": {
+  "a": [
+   "y' R' U2 R F R2 F'"
+  ],
+  "name": "TCLL+ Pinwheel Poser 6 (Alg 3)",
+  "group": "Pinwheel Poser",
+  "algset": "TCLL+",
+  "scramble": "F' U R' F2 R F"
+ },
+ "154": {
+  "a": [
+   "R U' R' U2 R U2 R'"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "155": {
+  "a": [
+   "R U2 R' F' R U' R' F2"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "156": {
+  "a": [
+   "R U' R' U' R U' R' U2 R U' R'"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 3)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "157": {
+  "a": [
+   "y' R' U R' U' R2 U R2"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 4)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "158": {
+  "a": [
+   "R2 U R2 U' R' U R'"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 5)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "159": {
+  "a": [
+   "R2 U' R2 U2 R2 U R' U R'"
+  ],
+  "name": "TCLL+ Gun 1 (Alg 6)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U2 R U2 R'"
+ },
+ "160": {
+  "a": [
+   "y F' R' F2 R F' R' F R2 U' R'"
+  ],
+  "name": "TCLL+ Gun 2 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "y F' R' F2 R F' R' F R2 U' R'"
+ },
+ "161": {
+  "a": [
+   "R' F' R2 U R' F' R U2 R' F'"
+  ],
+  "name": "TCLL+ Gun 2 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "y F' R' F2 R F' R' F R2 U' R'"
+ },
+ "162": {
+  "a": [
+   "F R' F' R2 U R' F R' F' R2 U R'"
+  ],
+  "name": "TCLL+ Gun 2 (Alg 3)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "y F' R' F2 R F' R' F R2 U' R'"
+ },
+ "163": {
+  "a": [
+   "F' U R U2 R' F U2 R' F R"
+  ],
+  "name": "TCLL+ Gun 2 (Alg 4)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "y F' R' F2 R F' R' F R2 U' R'"
+ },
+ "164": {
+  "a": [
+   "R' F R F' U R U' R'"
+  ],
+  "name": "TCLL+ Gun 3 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U R U' R'"
+ },
+ "165": {
+  "a": [
+   "R U' R' F' U' F"
+  ],
+  "name": "TCLL+ Gun 3 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U R U' R'"
+ },
+ "166": {
+  "a": [
+   "y R' F' R U F' R U R'"
+  ],
+  "name": "TCLL+ Gun 3 (Alg 3)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R' F R F' U R U' R'"
+ },
+ "167": {
+  "a": [
+   "R U' R' U R U2 R' F R' F' R"
+  ],
+  "name": "TCLL+ Gun 4 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R U2 R' F R' F' R"
+ },
+ "168": {
+  "a": [
+   "y F' R U R2 F' R2 U R' U' R' F R F'"
+  ],
+  "name": "TCLL+ Gun 4 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U' R' U R U2 R' F R' F' R"
+ },
+ "169": {
+  "a": [
+   "R U R' U R U R2 F R F'"
+  ],
+  "name": "TCLL+ Gun 5 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U R' U R U R2 F R F'"
+ },
+ "170": {
+  "a": [
+   "R' F' R2 U' R2 F R U' F'"
+  ],
+  "name": "TCLL+ Gun 5 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U R' U R U R2 F R F'"
+ },
+ "171": {
+  "a": [
+   "y' R2 F R F' R U R' U R"
+  ],
+  "name": "TCLL+ Gun 5 (Alg 3)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U R' U R U R2 F R F'"
+ },
+ "172": {
+  "a": [
+   "R U' R' F R F' R U R' U2 R'"
+  ],
+  "name": "TCLL+ Gun 5 (Alg 4)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U R' U R U R2 F R F'"
+ },
+ "173": {
+  "a": [
+   "R U' R2 F R2 U R' U' F'"
+  ],
+  "name": "TCLL+ Gun 5 (Alg 5)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U R' U R U R2 F R F'"
+ },
+ "174": {
+  "a": [
+   "R U2 R' F R F' R U R2"
+  ],
+  "name": "TCLL+ Gun 6 (Alg 1)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' F R F' R U R2"
+ },
+ "175": {
+  "a": [
+   "R F' U F R' U2 R'"
+  ],
+  "name": "TCLL+ Gun 6 (Alg 2)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' F R F' R U R2"
+ },
+ "176": {
+  "a": [
+   "y F2 R' F R U' R U2 R'"
+  ],
+  "name": "TCLL+ Gun 6 (Alg 3)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' F R F' R U R2"
+ },
+ "177": {
+  "a": [
+   "y F R' F R F' U2 F'"
+  ],
+  "name": "TCLL+ Gun 6 (Alg 4)",
+  "group": "Gun",
+  "algset": "TCLL+",
+  "scramble": "R U2 R' F R F' R U R2"
+ }
+}

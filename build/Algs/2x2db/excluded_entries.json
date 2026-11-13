@@ -1,0 +1,119 @@
+[
+ {
+  "name": "TEG-2+ Two-Face 1 (Alg 1)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 1)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 1 (Alg 3)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 3)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 5)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 7)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 9)",
+  "notation": "y' (U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2+ Two-Face 3 (Alg 11)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2+",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2- Pinwheel 2 (Alg 1)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2-",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2- Pinwheel 2 (Alg 3)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2-",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "TEG-2- Pinwheel 2 (Alg 10)",
+  "notation": "(U",
+  "caseNotation": "(U",
+  "set": "TEG-2",
+  "subset": "TEG-2-",
+  "stage": "Last layer",
+  "puzzle": "2x2"
+ },
+ {
+  "name": "B-CLL Pi Pi-E 3 (Alg 4)",
+  "notation": "B2",
+  "caseNotation": "(U2) F2 R' F2 R U' R U' R'",
+  "set": "Fake Bar",
+  "subset": "B-CLL Pi",
+  "stage": "Last layer",
+  "puzzle": "Fake Bar"
+ },
+ {
+  "name": "B-CLL H Ha, Hb 4 (Alg 8)",
+  "notation": "B2",
+  "caseNotation": "(U) F U2 R' F R F' R U' R' F2",
+  "set": "Fake Bar",
+  "subset": "B-CLL H",
+  "stage": "Last layer",
+  "puzzle": "Fake Bar"
+ }
+]

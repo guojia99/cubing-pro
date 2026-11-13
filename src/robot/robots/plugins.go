@@ -20,7 +20,6 @@ func NewPlugins(svc *svc.Svc) []types.Plugin {
 		//&PersonValPlugin{Svc: svc},
 
 		&tools.TRandom{},
-		&tools.TAlgDB{Svc: svc},
 		&tools.TScramble{Svc: svc},
 
 		&tools.TWca{Cache: cache.New(cache.DefaultExpiration, cache.NoExpiration), DB: svc.DB},

@@ -4,10 +4,12 @@ import (
 	"errors"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/internel/groupcomp"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"gorm.io/gorm"
 )
@@ -19,18 +21,23 @@ func AdminDeleteComp(svc *svc.Svc) gin.HandlerFunc {
 		if err := app_utils.BindAll(ctx, &req); err != nil {
 			return
 		}
+		req.CompId = ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition).ID
 
 		err := svc.DB.Transaction(func(tx *gorm.DB) error {
-			var comp competition.Competition
-			if err := tx.First(&comp, "id = ?", req.CompId).Error; err != nil {
+			if _, err := groupcomp.Lock(tx, req.CompId); err != nil {
 				return err
 			}
 
-			tx.Where("comp_id = ?", req.CompId).Delete(&result.Results{})
-			tx.Where("comp_id = ?", req.CompId).Delete(&result.PreResults{})
-			tx.Where("comps_id = ?", req.CompId).Delete(&result.Record{})
-			tx.Where("comp_id = ?", req.CompId).Delete(&competition.Registration{})
-			tx.Where("comp_id = ?", req.CompId).Delete(&competition.AssCompetitionSponsorsUsers{})
+			for _, op := range []struct {
+				model  interface{}
+				column string
+			}{
+				{&result.Results{}, "comp_id"}, {&result.PreResults{}, "comp_id"}, {&result.Record{}, "comps_id"}, {&competition.Registration{}, "comp_id"}, {&competition.AssCompetitionSponsorsUsers{}, "comp_id"},
+			} {
+				if err := tx.Where(op.column+" = ?", req.CompId).Delete(op.model).Error; err != nil {
+					return err
+				}
+			}
 			return tx.Delete(&competition.Competition{}, "id = ?", req.CompId).Error
 		})
 		if err != nil {

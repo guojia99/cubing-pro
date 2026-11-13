@@ -1,0 +1,41 @@
+{
+ "1": [
+  "Rw' F R' F' R U' R U Rw"
+ ],
+ "2": [
+  "Lw F R' F' R U' R U Lw'"
+ ],
+ "3": [
+  "x' M' F R' F' R U' R U M x"
+ ],
+ "4": [
+  "Rw2' F2' U2' Rw2' U2' F2' Rw2'"
+ ],
+ "5": [
+  "x' U2' Rw2' U2 Rw U2' Rw' U2 Rw U2' x U2 Rw U2' Rw B2' Rw2'"
+ ],
+ "6": [
+  "F2' Rw2' F2' U2' Rw U2' Rw' U2' Rw2' F2' 3Rw U2' 3Rw' U2' Rw"
+ ],
+ "7": [
+  "Rw2' U2 Lw' U2' 3Rw U2 Rw' U2' x' U2 Rw' U2' Rw' y2'"
+ ],
+ "8": [
+  "F2' Lw F2' U2' Lw2' U2' Lw F2' Lw2' U2' Lw U2' F2' Lw2'"
+ ],
+ "9": [
+  "Rw2' U2 Rw' U2' Rw U2 Rw' U2' Rw' B2' Rw' U2 Rw U2' Rw B2'"
+ ],
+ "10": [
+  "Rw U2' Rw2' U2' Rw' U2' Rw U2' Rw' U2' Rw2' U2' Rw"
+ ],
+ "11": [
+  "Rw' U2' Rw2' U2' Rw U2' Rw' U2' Rw U2' Rw2' U2' Rw'"
+ ],
+ "12": [
+  "Rw2' U2' Rw' F2' Lw2' F2' Rw B2' Rw B2' U2' Rw U2' Rw"
+ ],
+ "13": [
+  "r U R U' r2' U' R U r2' U R U' r'"
+ ]
+}

@@ -1,0 +1,745 @@
+{
+ "1": {
+  "a": [
+   "U R U2 R' U R U' R'",
+   "r U' R' U2 M2 r U r'",
+   "U R U B' R B R2",
+   "r U' R' U2 M R U R'"
+  ],
+  "name": "U UB",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U2' R' U'"
+ },
+ "2": {
+  "a": [
+   "R U2 R' U' R U R'",
+   "R U R' U' M R U R' U' r U R'",
+   "r U2 r' U' R U R'"
+  ],
+  "name": "U UR",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "R U' R' U R U2' R'"
+ },
+ "3": {
+  "a": [
+   "M' r U' r' U2 r U r'",
+   "R U' R' U' R U R' U2 R U R'",
+   "r U2 r' U' M' r U r'",
+   "U2 R2 U2 R' U' R U' R2"
+  ],
+  "name": "U UF",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U r' M"
+ },
+ "4": {
+  "a": [
+   "R U' R' U2 R U R'",
+   "U2 R U R' U R U' R'",
+   "R B U2 B' R'",
+   "U2 R B' R B R2"
+  ],
+  "name": "U UL",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U' R' U2'"
+ },
+ "5": {
+  "a": [
+   "U2 r U r' U r U' r'",
+   "R2 U R2 U R2 U2 R2",
+   "R U R' U' R U R' U' R U R' U'",
+   "U' r2 U' r2 U' r2 U r2"
+  ],
+  "name": "U FR",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U r' U' r U' r' U2'"
+ },
+ "6": {
+  "a": [
+   "R U' r' U2 r U r'"
+  ],
+  "name": "U DB",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U R'"
+ },
+ "7": {
+  "a": [
+   "U2 r U r' F' U' F",
+   "R U' R' U2 M' r U r'",
+   "R U M' U R' U' r U r'",
+   "M2 U R U2 R' U R U' R'"
+  ],
+  "name": "U DF",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' M U2' R U R'"
+ },
+ "8": {
+  "a": [
+   "r U' r' U2 r U r'",
+   "F' r' F2 r F",
+   "U2 F' U' F r U r'",
+   "U2 R U R' F' U' F"
+  ],
+  "name": "U UBm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U r'"
+ },
+ "9": {
+  "a": [
+   "U r U2 r' U r U' r'",
+   "U' R U R2 F R F' R U' R'",
+   "U2 r U R' M' U M' r U' r'",
+   "R U R' U R U R' U' r U R'"
+  ],
+  "name": "U URm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U r' U' r U2' r' U'"
+ },
+ "10": {
+  "a": [
+   "M' U R U2 R' U R U' R'",
+   "M' U R U2 R2 F R F'",
+   "R' F R F' R U' R' U R U' R'",
+   "M U2 r U r' F' U' F"
+  ],
+  "name": "U UFm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U2' R' U' M"
+ },
+ "11": {
+  "a": [
+   "r U' r' U2 M' r U r'",
+   "U' F' U2 F r U r'",
+   "U M' r U2 R' U r U' r'",
+   "R U' r' U2 M' r U R'"
+  ],
+  "name": "U ULm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' M U2' r U r'"
+ },
+ "12": {
+  "a": [
+   "R U2 R' U' r U r'",
+   "U' R' F R F' R U' R'",
+   "R U' R' U2 r U r'",
+   "r U' r' U2 R U R'"
+  ],
+  "name": "U FRm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' R U R'"
+ },
+ "13": {
+  "a": [
+   "R U' R' U2 M R U R'",
+   "R U' R' U2 M2 r U r'",
+   "M U R U2 R' U R U' R'",
+   "U2 M' r U r' F' U' F"
+  ],
+  "name": "U DBm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U2' R' U' M'"
+ },
+ "14": {
+  "a": [
+   "U' B r2 B' r2 B'",
+   "U2 R U R' U r U' r'",
+   "U' f U2 F' U2 f'",
+   "R U' M' R' U2 R U R'"
+  ],
+  "name": "U DFm",
+  "group": "Corner on U facing up",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U M2' r'"
+ },
+ "15": {
+  "a": [
+   "R U R'",
+   "l F R'"
+  ],
+  "name": "Up UB",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R'"
+ },
+ "16": {
+  "a": [
+   "U' R U' R' U R U R'",
+   "U' M' U M2 r U r'",
+   "U' M' U M R U R'"
+  ],
+  "name": "Up UR",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U' R U R' U"
+ },
+ "17": {
+  "a": [
+   "r U' r' U' r U' r'",
+   "U2 R U' R' U' R U R'",
+   "U M' U' M R U R'",
+   "U' M U' M' U2 R U R'"
+  ],
+  "name": "Up UF",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U' R U' R' U"
+ },
+ "18": {
+  "a": [
+   "R' U2 R2 U R2 U R",
+   "R U' R' U R U' R' U2 R U' R'",
+   "r M' U2 M2 U' R'",
+   "U2 M' U2 M R U R'"
+  ],
+  "name": "Up UL",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U2' M U2' M'"
+ },
+ "19": {
+  "a": [
+   "U R U R' U2 R U R'",
+   "U' R U2 R' U R U R'",
+   "U R' D' R U' R' D R",
+   "U2 R' D' R U2 R' D R"
+  ],
+  "name": "Up FR",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U' R U2' R' U"
+ },
+ "20": {
+  "a": [
+   "M' r U r'",
+   "R' r2 U r'",
+   "R M2 U r'"
+  ],
+  "name": "Up DB",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "r U' r' M"
+ },
+ "21": {
+  "a": [
+   "R U2 M2 U' R'",
+   "r U2 M' U' r'",
+   "U2 M U2 r U r'"
+  ],
+  "name": "Up DF",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "r U M U2' r'"
+ },
+ "22": {
+  "a": [
+   "r U2 M2 U' R'",
+   "r' U2 R2 U R2 U R",
+   "U2 M U2 M' r U r'",
+   "r M' U2 M' U' r'"
+  ],
+  "name": "Up UBm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U M2' U2' r'"
+ },
+ "23": {
+  "a": [
+   "R U' R' U2 F' U' F",
+   "U M U' M' r U r'",
+   "U' M' U' M U2 r U r'",
+   "R U' R' U' r' R2 U' R'"
+  ],
+  "name": "Up URm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "r U' r' M U M' U'"
+ },
+ "24": {
+  "a": [
+   "r U r'",
+   "L F L'",
+   "U r' D' r U' r' D r",
+   "U' F' U F"
+  ],
+  "name": "Up UFm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "r U' r'"
+ },
+ "25": {
+  "a": [
+   "U r U r' U2 r U r'",
+   "U M' U M U2 r U r'",
+   "U2 F' L' U' L U2 F",
+   "U' r U' r' U R U R'"
+  ],
+  "name": "Up ULm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U' r U r' U"
+ },
+ "26": {
+  "a": [
+   "U2 F' U' F U R U' R'",
+   "U2 R' F R F' U2 R U R'",
+   "R U M U' M2 U R'",
+   "R U R' U R U' R' r U r'"
+  ],
+  "name": "Up FRm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U M' r U r'"
+ },
+ "27": {
+  "a": [
+   "R M U R'",
+   "M2 r U R'",
+   "M R U R'",
+   "R2 r' U R'"
+  ],
+  "name": "Up DBm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' M'"
+ },
+ "28": {
+  "a": [
+   "R U2 M' U' R'",
+   "U2 M2 U2 r U r'",
+   "U2 M' U2 R U R'",
+   "U' r U r' U R U R'"
+  ],
+  "name": "Up DFm",
+  "group": "Corner on U oriented",
+  "algset": "SBLS",
+  "scramble": "R U' R' U' r U' r' U"
+ },
+ "29": {
+  "a": [
+   "M' U' M U2 R U' R'",
+   "U' R U R' U' R U2 R'",
+   "U2 M U' L F' L'",
+   "U' R U R' U2 R U' R'"
+  ],
+  "name": "Um UB",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U M' U2'"
+ },
+ "30": {
+  "a": [
+   "U R U' R'",
+   "R' F R F'",
+   "U2 r U2 r'",
+   "U2 R U2 R'"
+  ],
+  "name": "Um UR",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U R' U'"
+ },
+ "31": {
+  "a": [
+   "M U r U' r'",
+   "U2 r U M U R'",
+   "U2 r U r' R U R'",
+   "R' D' R U' R' D F R F'"
+  ],
+  "name": "Um UF",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U' M'"
+ },
+ "32": {
+  "a": [
+   "U' M U2 r U' r'",
+   "U' R U2 R' U2 R U' R'",
+   "U' R U2 R' U' R U2 R'",
+   "U r U2 M U R'"
+  ],
+  "name": "Um UL",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U2' M' U"
+ },
+ "33": {
+  "a": [
+   "U' R U' R' U2 R U' R'",
+   "U' R U' R' U' R U2 R'",
+   "U r U r' U' r U' r'"
+  ],
+  "name": "Um FR",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U2' R' U R U R' U"
+ },
+ "34": {
+  "a": [
+   "U' M2 U2 R U' R'",
+   "U2 R U M2 U R'",
+   "U' M2 U' R U2 R'"
+  ],
+  "name": "Um DB",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U2' R' U M2' U"
+ },
+ "35": {
+  "a": [
+   "U M' r U' r'",
+   "U M2 R U' R'"
+  ],
+  "name": "Um DF",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U R' M2' U'"
+ },
+ "36": {
+  "a": [
+   "M2 U r U' r'",
+   "M' U M2 R U' R'",
+   "U' R U' R' U2 R M U' r'",
+   "U' R U' R' U F' U' F"
+  ],
+  "name": "Um UBm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U' M2'"
+ },
+ "37": {
+  "a": [
+   "U' M' U2 M2 R U' R'",
+   "U M' r U2 M U r'",
+   "U' M2 U2 r U' r'",
+   "U' R U2 R' U F' U' F"
+  ],
+  "name": "Um URm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U2' M2' U"
+ },
+ "38": {
+  "a": [
+   "U2 r U' M2 U' r'",
+   "M' U' R U R' U2 R U' R'",
+   "U R U' R' U R U' R' U' F' U F",
+   "U F' U F U' F' U' F"
+  ],
+  "name": "Um UFm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U M2' U2'"
+ },
+ "39": {
+  "a": [
+   "F' U' F",
+   "U M R U' R'",
+   "U r' R2 U' R'"
+  ],
+  "name": "Um ULm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U R' M' U'"
+ },
+ "40": {
+  "a": [
+   "U2 R U M' U R'",
+   "U2 R U R' r U r'",
+   "U' R U R' M' U2 R U' R'",
+   "U' R U R2 r U' r U2 R'"
+  ],
+  "name": "Um FRm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U' M U' R' U2'"
+ },
+ "41": {
+  "a": [
+   "U r U' r'"
+  ],
+  "name": "Um DBm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "r U r' U'"
+ },
+ "42": {
+  "a": [
+   "U' M U2 R U' R'",
+   "U' M U' R U2 R'"
+  ],
+  "name": "Um DFm",
+  "group": "Corner on U misoriented",
+  "algset": "SBLS",
+  "scramble": "R U2' R' U M' U"
+ },
+ "43": {
+  "a": [
+   "U' r U' M U R'",
+   "R' U' R' U' R' U R U R",
+   "U' R' F R F' R U R'",
+   "U' F' R U R' U' R' F R"
+  ],
+  "name": "D U",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U' M' U r' U"
+ },
+ "44": {
+  "a": [
+   "R U M2 U' R'",
+   "r U M' U' R'"
+  ],
+  "name": "D DB",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U M U' r'"
+ },
+ "45": {
+  "a": [
+   "R U' M2 U R'"
+  ],
+  "name": "D DF",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U' M2' U R'"
+ },
+ "46": {
+  "a": [
+   "U r U2 r' U' r U' r'",
+   "U2 r U r' U r U2 r'",
+   "U2 R U' R' r U r'",
+   "U' r U M2 U' R'"
+  ],
+  "name": "D Um",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U M2' U' r' U"
+ },
+ "47": {
+  "a": [
+   "R U' M2 U2 M' U' R'",
+   "R2 U2 F R2 F' U2 R' U R'",
+   "R U M2 U2 M U R'",
+   "R U M U2 M2 U R' M2"
+  ],
+  "name": "D FRm",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U M U2' M2' U R'"
+ },
+ "48": {
+  "a": [
+   "R U' M U R'"
+  ],
+  "name": "D DBm",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U' M' U R'"
+ },
+ "49": {
+  "a": [
+   "R U M' U' R'",
+   "R U M' U R' U' R U' R'"
+  ],
+  "name": "D DFm",
+  "group": "Corner on D solved",
+  "algset": "SBLS",
+  "scramble": "R U M U' R'"
+ },
+ "50": {
+  "a": [
+   "R U' R' U R U' R'",
+   "R U2 B' R B R2",
+   "r U' R' U R U' r'",
+   "r U' R' U R U' R'"
+  ],
+  "name": "Dp U",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U R'"
+ },
+ "51": {
+  "a": [
+   "R U R' U' R U2 R' U' R U R'",
+   "R U' R' U2 M U' r U' r'",
+   "R2 U2 R' U' R U' R' U2 R'",
+   "R U' R' U2 M U' r U' R'"
+  ],
+  "name": "Dp FR",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "r U r' U M' U2' R U R'"
+ },
+ "52": {
+  "a": [
+   "r U' R' U r U' r'",
+   "R U' R' U M2 R U' R'",
+   "M2 U' R U' R' U R U' r'"
+  ],
+  "name": "Dp DB",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "r U r' U' R U r'"
+ },
+ "53": {
+  "a": [
+   "M2 U R U' R' U R U' R'",
+   "r U2 r' U' R U2 R2 F R F'",
+   "r U' r' U2 r U' M U' r'",
+   "r U2 r' U' R U2 R' U R U' R'"
+  ],
+  "name": "Dp DF",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U R' U' M2'"
+ },
+ "54": {
+  "a": [
+   "U R' F R F' U R U' R'",
+   "U' r U' R' M' U r U' r'",
+   "U' R U' R' F' U' F",
+   "U' M' r U' R' U r U' r'"
+  ],
+  "name": "Dp Um",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "R U R' U' R U R' U' M U'"
+ },
+ "55": {
+  "a": [
+   "R U' R' M2 U r U' r'",
+   "R U' R U B U' B' R2",
+   "R U R' M' U R U R' U R U' R'",
+   "R U' R' M' U r M' U' r'"
+  ],
+  "name": "Dp FRm",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "r U r' U' M' r U r'"
+ },
+ "56": {
+  "a": [
+   "R U' R' U r U' r'",
+   "M' U' R U' R' U R U' R'",
+   "r U' r' U' R U' R' U2 R U' R'"
+  ],
+  "name": "Dp DBm",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "r U r' U' R U R'"
+ },
+ "57": {
+  "a": [
+   "M U R U' R' U R U' R'",
+   "M U R U' R2 F R F'",
+   "R U' r' U2 M U' r U' r'"
+  ],
+  "name": "Dp DFm",
+  "group": "Corner on D facing forward",
+  "algset": "SBLS",
+  "scramble": "r U r' U M' U2' r U R'"
+ },
+ "58": {
+  "a": [
+   "R U R' U' R U R'",
+   "U' R U2 R' U2 R U R'",
+   "U' R U' f R2 f' R'",
+   "U' M2 r U r' U' r U R'"
+  ],
+  "name": "Dm U",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "R U' R' U R U' R'"
+ },
+ "59": {
+  "a": [
+   "r U r' U' R U2 M' U' R'",
+   "R U2 R U R' U R U2 R2",
+   "r U r' U M2 U2 r U r'",
+   "R U2 R' U R U' R' U R U R'"
+  ],
+  "name": "Dm FR",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "R U' R' U2' M U' r U' r'"
+ },
+ "60": {
+  "a": [
+   "r U r' U' r U r'"
+  ],
+  "name": "Dm DB",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' U r U' r'"
+ },
+ "61": {
+  "a": [
+   "R U2 r' U2 r U r'",
+   "M2 U' R U R' U' R U R' U'",
+   "M2 U' R U R' U' R U R'"
+  ],
+  "name": "Dm DF",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U2' R'"
+ },
+ "62": {
+  "a": [
+   "U R U R' U' r U r'",
+   "U F' U F2 R' F' R",
+   "U' r U2 r' U2 r U r'",
+   "U2 F' L' U2 L U' F"
+  ],
+  "name": "Dm Um",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' U R U' R' U'"
+ },
+ "63": {
+  "a": [
+   "r U r' U' M' r U r'",
+   "R2 B U B' U' R' U R'",
+   "R U' R' F' r' F2 r F",
+   "R U F R U R' U' F' R'"
+  ],
+  "name": "Dm FRm",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' M U r U' r'"
+ },
+ "64": {
+  "a": [
+   "M' U' R U R' U' R U R'",
+   "R U2 R' M2 U2 r U r'",
+   "R U2 R' M' U2 R U R'",
+   "r' R2 U2 r' U2 r U r'"
+  ],
+  "name": "Dm DBm",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' U2' r U2' R' M'"
+ },
+ "65": {
+  "a": [
+   "R M2 U R' U' r U r'",
+   "R U2 R' U2 M R U R'",
+   "M' r U r' U' r U r'"
+  ],
+  "name": "Dm DFm",
+  "group": "Corner on D facing side",
+  "algset": "SBLS",
+  "scramble": "r U' r' U r U' r' M"
+ }
+}

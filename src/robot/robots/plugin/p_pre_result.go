@@ -3,13 +3,14 @@ package plugin
 import (
 	"fmt"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
-	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	"github.com/guojia99/cubing-pro/src/internel/groupcomp"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
 	"github.com/guojia99/cubing-pro/src/robot/types"
@@ -36,7 +37,13 @@ func (c *PreResultPlugin) Help() string {
 }
 
 func (c *PreResultPlugin) Do(message types.InMessage) (*types.OutMessage, error) {
-	msg := types.RemoveID(message.Message, c.ID())
+	msg := strings.TrimSpace(message.Message)
+	for _, id := range c.ID() {
+		if strings.HasPrefix(msg, id) {
+			msg = strings.TrimPrefix(msg, id)
+			break
+		}
+	}
 	msg = c.cutMsg(msg)
 
 	// 0. 判断用户
@@ -44,11 +51,24 @@ func (c *PreResultPlugin) Do(message types.InMessage) (*types.OutMessage, error)
 	if err != nil || usr.ID == 0 {
 		return message.NewOutMessage("用户不存在, 请绑定QQ后重试"), nil
 	}
-	var group competition.CompetitionGroup
-	gms := fmt.Sprintf("%%%v%%", message.GroupID)
-	if err = c.Svc.DB.Where("qq_groups LIKE ? or qq_group_uid LIKE ?", gms, gms).First(&group).Error; err != nil {
+	var groups []competition.CompetitionGroup
+	if err = c.Svc.DB.Order("id ASC").Find(&groups).Error; err != nil {
+		return message.NewOutMessage("查询比赛群组失败"), nil
+	}
+	var matched []competition.CompetitionGroup
+	for _, g := range groups {
+		field := g.QQGroups
+		if message.QQ == 0 && message.QQBot != "" {
+			field = g.QQGroupUid
+		}
+		if groupcomp.MatchesGroup(field, fmt.Sprint(message.GroupID)) {
+			matched = append(matched, g)
+		}
+	}
+	if len(matched) != 1 {
 		return message.NewOutMessage("本群比赛群组未创建或不存在"), nil
 	}
+	group := matched[0]
 
 	if len(msg) == 0 {
 		return c.getPreResults(msg, message, usr)
@@ -66,14 +86,16 @@ func (c *PreResultPlugin) cutMsg(msg string) string {
 	msg = utils.ReplaceAll(msg, ")", "）")
 
 	// 最后一步
-	msg = strings.TrimLeft(msg, " ")
+	msg = strings.TrimSpace(msg)
 	return msg
 }
 
 func (c *PreResultPlugin) getPreResults(msg string, message types.InMessage, usr user.User) (*types.OutMessage, error) {
 	var pre []result.PreResults
 
-	c.Svc.DB.Where("finish = ?", false).Where("user_id = ?", usr.ID).Find(&pre)
+	if err := c.Svc.DB.Where("finish = ?", false).Where("user_id = ?", usr.ID).Find(&pre).Error; err != nil {
+		return message.NewOutMessage("查询待审核成绩失败"), nil
+	}
 	if len(pre) == 0 {
 		return message.NewOutMessage("当前没有需要审核的成绩"), nil
 	}
@@ -99,18 +121,25 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	// {-CompID} ...{Event}{[RoundNum]} {Results}
 
 	// 1. 判断是否有比赛
-	var comp competition.Competition
-	compDB := c.Svc.DB.Where("group_id = ?", group.ID).Where("is_done = ?", false)
+	var explicitID uint
 	if msg[0] == '-' {
 		first := strings.Index(msg, " ")
 		if first == -1 {
 			return message.NewOutMessage("格式错误"), nil
 		}
-		compDB = compDB.Where("id = ?", msg[1:first+1])
+		id, err := strconv.ParseUint(msg[1:first], 10, 32)
+		if err != nil || id == 0 {
+			return message.NewOutMessage("比赛ID格式错误"), nil
+		}
+		explicitID = uint(id)
 		msg = msg[first+1:]
 	}
-	if err := compDB.Order("created_at DESC").First(&comp).Error; err != nil {
-		return message.NewOutMessage("本群未创建比赛或该比赛已经结束"), nil
+	comp, err := groupcomp.SelectRobotCompetition(c.Svc.DB, group.ID, explicitID, time.Now())
+	if err != nil {
+		if explicitID == 0 {
+			return message.NewOutMessage("本群没有可默认录入的已审批未结束群赛；请使用 录入-ID 指定已审批的历史比赛"), nil
+		}
+		return message.NewOutMessage("指定比赛不属于本群、未审批或不允许预录入，不能回退其他比赛"), nil
 	}
 
 	// 2. 解析 并编辑录入
@@ -124,17 +153,28 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	playerBestResult, _ := c.Svc.Cov.PlayerBestResult(usr.ID, []string{}, nil) // 玩家最佳成绩
 	allBest, _ := c.Svc.Cov.SelectAllPlayerBestResult()
 
-	for _, resStr := range utils.Split(msg, "\n") {
+	batch := utils.Split(msg, "\n")
+	if comp.IsGroupCompetition() {
+		batch = groupcomp.SplitBatch(msg)
+	}
+	for _, resStr := range batch {
 		if len(resStr) == 0 {
 			continue
 		}
-		resStr = utils.ReplaceAll(resStr, "", "(", ")")
+		if comp.IsGroupCompetition() {
+			resStr = strings.NewReplacer("(", "[", ")", "]").Replace(resStr)
+		} else {
+			resStr = utils.ReplaceAll(resStr, "", "(", ")")
+		}
 		resStr = utils.ReplaceAll(resStr, " ", ",", ";")
 		resStr = utils.ReplaceAll(resStr, "[", " [", "  [", "   [")
 		resStr = utils.ReplaceAll(resStr, "] ", "]")
 
 		// 获取轮次和项目
 		split := utils.Split(resStr, " ")
+		if comp.IsGroupCompetition() {
+			split = strings.Fields(resStr)
+		}
 		split = slices.DeleteFunc(split, func(s string) bool { return len(s) == 0 })
 		if len(split) <= 1 {
 			return message.NewOutMessage(fmt.Sprintf("存在成绩录入格式错误, 或有空数据`%s`", resStr)), nil
@@ -149,42 +189,36 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 			return message.NewOutMessage(fmt.Sprintf("'%s'本次%s比赛未开放`%s`赛程", resStr, comp.Name, ev.ID)), nil
 		}
 		schedule, err := evWithComp.CurRunningSchedule(round, nil)
+		if comp.IsGroupCompetition() {
+			_, schedule, err = groupcomp.Validate(comp, ev.ID, round, usr.ID, time.Now(), true, true)
+		}
 		if err != nil {
 			return message.NewOutMessage(fmt.Sprintf("'%s'本次%s比赛未开放`%s` '%v'赛程", resStr, comp.Name, ev.ID, round)), nil
 		}
 
-		// todo 晋级机制?
-		//if !schedule.FirstRound && !schedule.NoRestrictions && !slices.Contains(schedule.AdvancedToThisRound, usr.ID) {
-		//	return message.NewOutMessage(fmt.Sprintf("`%s`,录入错误,你不在晋级名单中", resStr)), nil
-		//}
-
-		// 查看是否有旧的数据存在，如果有则覆盖
-		var pre result.PreResults
-		if err = c.Svc.DB.First(&pre, "comp_id = ? and round_number = ? and user_id = ? and event_id = ?", comp.ID, schedule.RoundNum, usr.ID, ev.ID).Error; err == nil && pre.ID != 0 {
-			if pre.Finish { // 已经处理的就重新生成一个
-				pre = result.PreResults{}
-			}
-		}
-
 		// 写入数据
 		var results []float64
-		for idx, r := range split[1:] {
-			if ev.BaseRouteType.RouteMap().Repeatedly && idx == 0 {
-				sp2 := utils.Split(r, "/")
-				if !strings.Contains(r, "/") || len(sp2) != 2 {
-					return message.NewOutMessage("多盲格式不符合'x/y time'的格式"), nil
+		if comp.IsGroupCompetition() {
+			results, err = groupcomp.ParseValues(split[1:], evWithComp.EventRoute)
+		} else {
+			for idx, r := range split[1:] {
+				if ev.BaseRouteType.RouteMap().Repeatedly && idx == 0 {
+					parts := utils.Split(r, "/")
+					if !strings.Contains(r, "/") || len(parts) != 2 {
+						return message.NewOutMessage("多盲格式不符合'x/y time'的格式"), nil
+					}
+					results = append(results, utils.GetNum(parts[0]), utils.GetNum(parts[1]))
+					continue
 				}
-				results = append(results, utils.GetNum(sp2[0]), utils.GetNum(sp2[1]))
-				continue
+				results = append(results, result.TimeParserS2F(r))
 			}
-			results = append(results, result.TimeParserS2F(r))
+		}
+		if err != nil {
+			return message.NewOutMessage(err.Error()), nil
 		}
 
 		preResult := result.PreResults{
 			Results: result.Results{
-				Model: basemodel.Model{
-					//ID: pre.ID,
-				},
 				CompetitionID:   comp.ID,
 				CompetitionName: comp.Name,
 				Round:           schedule.Round,
@@ -202,6 +236,9 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 			RoundName: schedule.Round,
 			Recorder:  usr.Name,
 			Source:    fmt.Sprintf("robot-group-%d", group.ID),
+		}
+		if comp.IsGroupCompetition() {
+			preResult.Result = result.UpdateOrgResult(preResult.Result, evWithComp.EventRoute, schedule.Cutoff, schedule.CutoffNumber, schedule.TimeLimit)
 		}
 		if err = preResult.Update(); err != nil {
 			return message.NewOutMessage(fmt.Sprintf("`%s`成绩存在格式错误: %s", resStr, err.Error())), nil
@@ -258,7 +295,15 @@ func (c *PreResultPlugin) setResults(msg string, message types.InMessage, usr us
 	}
 
 	out += "录入成功!\n"
-	c.Svc.DB.Save(&pres)
+	var saveErr error
+	if comp.IsGroupCompetition() {
+		saveErr = groupcomp.SavePending(c.Svc.DB, pres)
+	} else {
+		saveErr = c.Svc.DB.Save(&pres).Error
+	}
+	if err := saveErr; err != nil {
+		return message.NewOutMessage("录入失败: " + err.Error()), nil
+	}
 
 	return message.NewOutMessage(out), nil
 }

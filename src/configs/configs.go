@@ -16,7 +16,6 @@ type GlobalConfig struct {
 	DB              DBConfig    `yaml:"db"`
 	EmailConfig     EmailConfig `yaml:"emailConfig"`
 	Scramble        Scramble    `yaml:"scramble"`
-	AlgPath         string      `yaml:"algPath"`
 	WcaDB           WcaDB       `yaml:"wcaDB"`
 	AlgTrainersPath string      `yaml:"algTrainersPath"`
 	WcaAuth2        WcaAuth2    `yaml:"wcaAuth2"`
@@ -46,12 +45,6 @@ type Scramble struct {
 	ScrambleDrawType string `yaml:"scrambleDrawType"` // 2mf8
 	ScrambleUrl      string `yaml:"scramble"`
 }
-
-//type AlgPath struct {
-//	Csp       string `yaml:"csp"`
-//	CspImages string `yaml:"cspImages"`
-//	Bld       string `yaml:"bld"`
-//}
 
 type DBConfig struct {
 	Driver string `yaml:"driver"`

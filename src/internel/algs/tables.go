@@ -1,7 +1,7 @@
 package algs
 
 var CubeKeyList = []string{
-	"222", "333", "333oh", "megaminx", "skewb", "sq1", "special", "bigCube",
+	"222", "333", "333oh", "megaminx", "skewb", "sq1", "fto", "special", "bigCube",
 }
 var algsDataKey = map[string][]string{
 	"222": {
@@ -49,17 +49,27 @@ var algsDataKey = map[string][]string{
 	},
 	"special": {
 		"Pyraminx-L4E-Trainer",
+	},
+	"fto": {
 		"Octaminx-L3T-Trainer",
 		"Octaminx-TCP-Trainer",
+		"FTO-LL-Trainer",
+		"FTO-LT-Trainer",
+		"FTO-LBT-Trainer",
+		"FTO-L3C-Trainer",
+		"FTO-BTLT-Trainer",
+		"FTO-FTLT-Trainer",
+		"FTO-L6X-Trainer",
 	},
 	"bigCube": {
 		"4x4-PLLP-Trainer",
 		"5x5-L2E-Trainer",
+		"5x5-LCE-Trainer",
 	},
 }
 
 var algsNameMap = map[string]string{
-	"2x2-OLL-Trainer":  "COLL",
+	"2x2-OLL-Trainer":  "OLL",
 	"2x2-PBL-Trainer":  "PBL",
 	"2x2-EG-Trainer":   "EG",
 	"2x2-FH-Trainer":   "FH",
@@ -99,6 +109,15 @@ var algsNameMap = map[string]string{
 	"Octaminx-L3T-Trainer": "FTO L3T",
 	"Octaminx-TCP-Trainer": "FTO TCP",
 
+	"FTO-LL-Trainer":   "FTO LL",
+	"FTO-LT-Trainer":   "FTO LT",
+	"FTO-LBT-Trainer":  "FTO LBT",
+	"FTO-L3C-Trainer":  "FTO L3C",
+	"FTO-BTLT-Trainer": "FTO BTLT",
+	"FTO-FTLT-Trainer": "FTO FTLT",
+	"FTO-L6X-Trainer":  "FTO L6X",
+
 	"5x5-L2E-Trainer":  "L2E",
+	"5x5-LCE-Trainer":  "LCE",
 	"4x4-PLLP-Trainer": "PLLP",
 }

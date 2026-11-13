@@ -1,0 +1,418 @@
+{
+ "1": {
+  "a": [
+   "M"
+  ],
+  "name": "Arrow (UF DF)",
+  "group": "Arrow",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M'"
+ },
+ "2": {
+  "a": [
+   "M' U M"
+  ],
+  "name": "Arrow (UB UR)",
+  "group": "Arrow",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M"
+ },
+ "3": {
+  "a": [
+   "U M' U2 M U M"
+  ],
+  "name": "Arrow (UF UR)",
+  "group": "Arrow",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U' M' U2' M U'"
+ },
+ "4": {
+  "a": [
+   "U' M U' M' U' M"
+  ],
+  "name": "Arrow (DF DB)",
+  "group": "Arrow",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M U M' U"
+ },
+ "5": {
+  "a": [
+   "M' U M' U M U M"
+  ],
+  "name": "1 / 1 (UF UR)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U' M U' M"
+ },
+ "6": {
+  "a": [
+   "M U M' U M U M'",
+   "U' M' U M' U2 M U M"
+  ],
+  "name": "1 / 1 (UF DF)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U' M' U' M U' M'"
+ },
+ "7": {
+  "a": [
+   "M U' M' U2 M' U2 M' U M"
+  ],
+  "name": "1 / 1 (UF UB)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U' M U2' M U2' M U M'"
+ },
+ "8": {
+  "a": [
+   "M U' M' U' M'"
+  ],
+  "name": "1 / 1 (UR UB)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U M U M'"
+ },
+ "9": {
+  "a": [
+   "U' M' U M' U2 M U M'"
+  ],
+  "name": "1 / 1 (UR UL)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U' M' U2' M U' M U"
+ },
+ "10": {
+  "a": [
+   "M' U' M' U' M'"
+  ],
+  "name": "1 / 1 (UR DF)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U M U M"
+ },
+ "11": {
+  "a": [
+   "M U M' U M U M"
+  ],
+  "name": "1 / 1 (UR DB)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U' M U' M'"
+ },
+ "12": {
+  "a": [
+   "U M' U2 M U M U M' U M'"
+  ],
+  "name": "1 / 1 (UB DF)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U' M U' M' U' M' U2' M U'"
+ },
+ "13": {
+  "a": [
+   "U' M' U M' U2 M'"
+  ],
+  "name": "1 / 1 (UB DB)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U2' M U' M U"
+ },
+ "14": {
+  "a": [
+   "M' U' M' U2 M' U2 M' U M"
+  ],
+  "name": "1 / 1 (DF DB)",
+  "group": "1 / 1",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U' M U2' M U2' M U M"
+ },
+ "15": {
+  "a": [
+   "U M' U2 M U M U M"
+  ],
+  "name": "2 Adj / 2 (UF UL)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U' M' U2' M U'"
+ },
+ "16": {
+  "a": [
+   "M' U' M U2 M U2 M' U M'"
+  ],
+  "name": "2 Adj / 2 (UF UR)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U' M U2' M' U2' M' U M"
+ },
+ "17": {
+  "a": [
+   "U M' U' M' U' M' U' M"
+  ],
+  "name": "2 Adj / 2 (UF UB)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U M U M U M U'"
+ },
+ "18": {
+  "a": [
+   "U' M2 U M'"
+  ],
+  "name": "2 Adj / 2 (UL UB)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U' M2' U"
+ },
+ "19": {
+  "a": [
+   "U' M2 U M U M"
+  ],
+  "name": "2 Adj / 2 (UF DF)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U' M2' U"
+ },
+ "20": {
+  "a": [
+   "U2 M' U2 M' U M'"
+  ],
+  "name": "2 Adj / 2 (UL DF)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U' M U2' M U2'"
+ },
+ "21": {
+  "a": [
+   "U M' U' M' U' M' U' M'"
+  ],
+  "name": "2 Adj / 2 (DF DB)",
+  "group": "2 Adj / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M U M U M U'"
+ },
+ "22": {
+  "a": [
+   "U M' U' M' U2 M"
+  ],
+  "name": "2 Adj / 0 (UF UL)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U2' M U M U'"
+ },
+ "23": {
+  "a": [
+   "M' U2 M' U' M' U' M U' M"
+  ],
+  "name": "2 Adj / 0 (UF UR)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M' U M U M U2' M"
+ },
+ "24": {
+  "a": [
+   "M' U M U M' U2 M U' M"
+  ],
+  "name": "2 Adj / 0 (UF UB)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M' U2' M U' M' U' M"
+ },
+ "25": {
+  "a": [
+   "U M' U' M' U M U' M' U' M"
+  ],
+  "name": "2 Adj / 0 (UL UB)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M U M' U' M U M U'"
+ },
+ "26": {
+  "a": [
+   "U2 M U M' U2 M U' M'"
+  ],
+  "name": "2 Adj / 0 (UF DF)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M' U2' M U' M' U2'"
+ },
+ "27": {
+  "a": [
+   "M' U M' U2 M' U M"
+  ],
+  "name": "2 Adj / 0 (UL DF)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M U2' M U' M"
+ },
+ "28": {
+  "a": [
+   "M' U M' U2 M' U' M'"
+  ],
+  "name": "2 Adj / 0 (DF DB)",
+  "group": "2 Adj / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M U2' M U' M"
+ },
+ "29": {
+  "a": [
+   "M' U2 M' U2 M U M"
+  ],
+  "name": "2 Opp / 2 (UF UR)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U2' M U2' M"
+ },
+ "30": {
+  "a": [
+   "M2 U' M' U2 M' U2 M"
+  ],
+  "name": "2 Opp / 2 (UR UL)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U2' M U2' M U M2'"
+ },
+ "31": {
+  "a": [
+   "M2 U' M' U2 M' U2 M' U M'"
+  ],
+  "name": "2 Opp / 2 (UF DF)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U' M U2' M U2' M U M2'"
+ },
+ "32": {
+  "a": [
+   "M' U2 M' U2 M'"
+  ],
+  "name": "2 Opp / 2 (DF DB)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U2' M U2' M"
+ },
+ "33": {
+  "a": [
+   "M' U2 M U M U2 M' U' M'"
+  ],
+  "name": "2 Opp / 2 (UR DF)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U M U2' M' U' M' U2' M"
+ },
+ "34": {
+  "a": [
+   "M' U2 M' U2 M U' M U' M' U2 M"
+  ],
+  "name": "2 Opp / 2 (UF UB)",
+  "group": "2 Opp / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U2' M U M' U M' U2' M U2' M"
+ },
+ "35": {
+  "a": [
+   "M' U' M U M' U M'"
+  ],
+  "name": "2 Opp / 0 (UF UR)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U' M U' M' U M"
+ },
+ "36": {
+  "a": [
+   "M' U' M U M' U' M'"
+  ],
+  "name": "2 Opp / 0 (UF UB)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M U' M' U M"
+ },
+ "37": {
+  "a": [
+   "M U M' U' M U' M'"
+  ],
+  "name": "2 Opp / 0 (UF DF)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M' U M U' M'"
+ },
+ "38": {
+  "a": [
+   "M' U M U' M"
+  ],
+  "name": "2 Opp / 0 (UR DF)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M' U' M"
+ },
+ "39": {
+  "a": [
+   "M' U' M' U' M' U2 M U' M'"
+  ],
+  "name": "2 Opp / 0 (UR UL)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U M' U2' M U M U M"
+ },
+ "40": {
+  "a": [
+   "R U R' U' M' U R U' r'",
+   "U S R' F R S' R' F' R"
+  ],
+  "name": "2 Opp / 0 (DF DB)",
+  "group": "2 Opp / 0",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U r U R' U' M U R U' R'"
+ },
+ "41": {
+  "a": [
+   "M' U' M' U M'"
+  ],
+  "name": "0 / 2 (UF UR)",
+  "group": "0 / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M U' M U M"
+ },
+ "42": {
+  "a": [
+   "M' U' M U' M U2 M' U' M"
+  ],
+  "name": "0 / 2 (UL UR)",
+  "group": "0 / 2",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U M U2' M' U M' U M"
+ },
+ "43": {
+  "a": [
+   "U M' U' M' U M U M"
+  ],
+  "name": "0 / 2 (UF DF)",
+  "group": "0 / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U' M' U' M U M U'"
+ },
+ "44": {
+  "a": [
+   "M' U' M' U M U' M'"
+  ],
+  "name": "0 / 2 (DF DB)",
+  "group": "0 / 2",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M U M' U' M U M"
+ },
+ "45": {
+  "a": [
+   "U' M U M' U' M U' M' U2 M"
+  ],
+  "name": "All 6 (UF DF)",
+  "group": "All 6",
+  "algset": "LSE EOLR",
+  "scramble": "M' U M2 U M' U2' M U M' U M U' M' U"
+ },
+ "46": {
+  "a": [
+   "M' U' M' U' M U' M' U2 M' U' M"
+  ],
+  "name": "All 6 (DF DB)",
+  "group": "All 6",
+  "algset": "LSE EOLR",
+  "scramble": "U M2 U M' U M U2' M U M' U M U M"
+ }
+}

@@ -1,16 +1,18 @@
 package organizers
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
-	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
+	"github.com/guojia99/cubing-pro/src/internel/groupcomp"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 	"github.com/guojia99/cubing-pro/src/internel/utils"
+	"gorm.io/gorm"
 )
 
 type CreateCompReq struct {
@@ -42,13 +44,23 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
 
 		var req CreateCompReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		if err := ctx.ShouldBind(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+			return
+		}
+		var group competition.CompetitionGroup
+		if req.GroupID > 0 && svc.DB.First(&group, "id = ? AND orgId = ?", req.GroupID, org.ID).Error != nil {
+			exception.ErrResultCreate.ResponseWithError(ctx, "群组不存在或不属于该主办团队")
+			return
+		}
+		if req.GroupID > 0 && (req.CompStartTime.IsZero() || req.CompEndTime.IsZero() || req.CompEndTime.In(competition.Beijing).Format("2006-01-02") < req.CompStartTime.In(competition.Beijing).Format("2006-01-02")) {
+			exception.ErrResultCreate.ResponseWithError(ctx, "比赛日期无效")
 			return
 		}
 
 		comps := competition.Competition{
 			StrId:              req.StrId,
-			Status:             competition.Reviewing,
+			Status:             competition.Temporary,
 			Name:               req.Name,
 			Illustrate:         req.Illustrate,
 			IllustrateHTML:     req.IllustrateHTML,
@@ -60,7 +72,7 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 			CompJSON:           req.CompJSON,
 			Genre:              competition.OnlineInformal,
 			Count:              req.Count,
-			CanPreResult:       true,
+			CanPreResult:       req.CanPreResult,
 			CanStartedAddEvent: req.CanStartedAddEvent,
 			CompStartTime:      req.CompStartTime,
 			CompEndTime:        req.CompEndTime,
@@ -69,6 +81,10 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 		}
 		if req.Apply {
 			comps.Status = competition.Reviewing
+		}
+		if !comps.IsGroupCompetition() {
+			comps.Status = competition.Reviewing
+			comps.CanPreResult = true
 		}
 		if comps.StrId == "" {
 			comps.StrId = utils.RandomString(32)
@@ -86,7 +102,18 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
 		}
-		
+		comps.CompJSON.ResultClosedAt = nil
+		if comps.IsGroupCompetition() {
+			for i := range comps.CompJSON.Events {
+				for j := range comps.CompJSON.Events[i].Schedule {
+					s := &comps.CompJSON.Events[i].Schedule[j]
+					s.IsRunning = true
+					s.ActualStartTime, s.ActualEndTime = time.Time{}, time.Time{}
+					s.AdvancedToThisRound = nil
+				}
+			}
+		}
+
 		if err = svc.DB.Create(&comps).Error; err != nil {
 			exception.ErrResultCreate.ResponseWithError(ctx, err)
 			return
@@ -96,33 +123,38 @@ func CreateComp(svc *svc.Svc) gin.HandlerFunc {
 }
 
 type ApplyCompReq struct {
-	CompId uint `uri:"CompId"`
+	CompId uint `uri:"compId"`
 }
 
 func ApplyComp(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req ApplyCompReq
 
-		if err := app_utils.BindAll(ctx, &req); err != nil {
+		if err := ctx.ShouldBindUri(&req); err != nil {
+			exception.ErrRequestBinding.ResponseWithError(ctx, err)
 			return
 		}
 
 		org := ctx.Value(org_mid.OrgAuthMiddlewareKey).(user.Organizers)
-		var comp competition.Competition
-		if err := svc.DB.First(&comp, "id = ? and orgId = ?", req.CompId, org.ID).Error; err != nil {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
-			return
-		}
-
-		switch comp.Status {
-		case competition.Reject, competition.Temporary:
-		default:
-			exception.ErrResultUpdate.ResponseWithError(ctx, "该状态无法审批")
-			return
-		}
-
-		comp.Status = competition.Reviewing
-		if err := svc.DB.Save(&comp); err != nil {
+		req.CompId = ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition).ID
+		err := svc.DB.WithContext(ctx.Request.Context()).Transaction(func(tx *gorm.DB) error {
+			comp, err := groupcomp.Lock(tx, req.CompId)
+			if err != nil {
+				return err
+			}
+			if comp.OrganizersID != org.ID {
+				return errors.New("比赛不属于该团队")
+			}
+			if comp.Status != competition.Reject && comp.Status != competition.Temporary {
+				return errors.New("该状态无法申请审批")
+			}
+			comp.Status = competition.Reviewing
+			if comp.IsGroupCompetition() {
+				comp.RejectMsg = ""
+			}
+			return tx.Save(&comp).Error
+		})
+		if err != nil {
 			exception.ErrResultUpdate.ResponseWithError(ctx, err)
 			return
 		}

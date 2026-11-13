@@ -125,21 +125,43 @@ func (c *Competition) UpdateEvent(ev CompetitionEvent) {
 	}
 }
 
-// IsRunningTime 是否在比赛时间段内 todo 验证正确性
+// IsRunningTime checks approved, unfinished competitions using whole Beijing dates.
 func (c *Competition) IsRunningTime() bool {
-	if c.Status != Running {
+	return c.IsRunningTimeAt(time.Now())
+}
+
+var Beijing = time.FixedZone("Asia/Shanghai", 8*60*60)
+
+func (c *Competition) IsRunningTimeAt(now time.Time) bool {
+	if !c.IsGroupCompetition() {
+		// Preserve HEAD behavior outside group competitions, including its date semantics.
+		start := time.Date(now.Year(), now.Month(), now.Day()-1, 0, 0, 0, 0, now.Location())
+		end := time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, now.Location())
+		return c.Status == Running && now.After(start) && now.Before(end)
+	}
+	return c.Status == Running && !c.IsDone && c.ContainsResultTime(now)
+}
+
+func (c *Competition) IsGroupCompetition() bool {
+	return c.Genre == OnlineInformal && c.GroupID > 0
+}
+
+func (c *Competition) ContainsResultTime(now time.Time) bool {
+	if c.CompStartTime.IsZero() || c.CompEndTime.IsZero() {
 		return false
 	}
-	now := time.Now()
-	location := now.Location()
-
-	start := time.Date(now.Year(), now.Month(), now.Day()-1, 0, 0, 0, 0, location)
-	end := time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, location)
-	return now.After(start) && now.Before(end)
+	s, e := c.CompStartTime.In(Beijing), c.CompEndTime.In(Beijing)
+	start := time.Date(s.Year(), s.Month(), s.Day(), 0, 0, 0, 0, Beijing)
+	end := time.Date(e.Year(), e.Month(), e.Day()+1, 0, 0, 0, 0, Beijing)
+	return end.After(start) && !now.Before(start) && now.Before(end)
 }
 
 func (c *Competition) CheckRegisterTime() error {
-	if c.RegistrationStartTime != nil && time.Since(*c.RegistrationRestartTime) < 0 {
+	start := c.RegistrationRestartTime
+	if c.IsGroupCompetition() {
+		start = c.RegistrationStartTime
+	}
+	if c.RegistrationStartTime != nil && time.Since(*start) < 0 {
 		return errors.New("未到比赛报名开放时间")
 	}
 	if c.RegistrationEndTime != nil && time.Since(*c.RegistrationEndTime) > 0 {

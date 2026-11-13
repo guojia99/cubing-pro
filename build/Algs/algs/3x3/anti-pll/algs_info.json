@@ -1,0 +1,255 @@
+{
+ "1": {
+  "a": [
+   "r R2 U r' F2 R F' r' F2 r2 U' M",
+   "U2 R U' R2 D' r U r' D R2 U' R' U' R U R' U' R U' R'",
+   "L' U' L U' L' U L U' L' U' L2 D l' U l D' L2 U' L U2",
+   "M' R' U L' U2 R U' r' U2 r L U' M"
+  ],
+  "name": "Aa",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "M' U L' r' U2' r U R' U2' L U' R M"
+ },
+ "2": {
+  "a": [
+   "R U R' U R U' R' U R U R2 D' r U' r' D R2 U R' U2",
+   "U2 M R U' L U2 R' U r U2 r' L' U M' U2",
+   "R' L2 F' R F2 L' F R U2 R2 F R L'",
+   "M' U L' r' U2 r U R' U2 L U' r' R2"
+  ],
+  "name": "Ab",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "L R' F' R2' U2' R' F' L F2' R' F L2' R"
+ },
+ "3": {
+  "a": [
+   "R2 U2 R2 U' R2 U' R' U2 R' F R' F' R2 U R' U R' F R F' U'",
+   "r' U r S' U f r' F' R U R' U' R' F r F'",
+   "R' F R U2 r U' r' U2 F' U2 r U R' U' M",
+   "R2 D R' U R D' R2 B' U' R' F U R U' F' U f"
+  ],
+  "name": "E",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "M' U R U' r' U2' F U2' r U r' U2' R' F' R"
+ },
+ "4": {
+  "a": [
+   "r U R' U' M r' F R2 U' R' U' R U R' F' U M' U",
+   "r U R' U' M2 R' F R2 U' R' U' R U R' F' U M' U",
+   "M' U R l U2 R2 F r U' R U2 L' U r' U",
+   "S' R U R' S U' M' R' F R2 U' R' U' R U R' F' M U2"
+  ],
+  "name": "F",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "M' U' r' L' U2' L r U' R' U r' F2' R F' R U'"
+ },
+ "5": {
+  "a": [
+   "U R U2 R' F R' F' R2 U2 R' F R U' R' U' R U R' F'",
+   "U' R' D' r U' r' D R2 U R' U' F' U2 F",
+   "L' U2 L F' L F L2 U2 L F' L F L' U' L' U L U2"
+  ],
+  "name": "Ga",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "F' U2' F U R U' R2' D' r U r' D R U"
+ },
+ "6": {
+  "a": [
+   "U F R U' R' U R U R' F' R U2 R2 F R F' R U2 R' U2",
+   "U F' U2 F U R U' R2 D' r U r' D R"
+  ],
+  "name": "Gb",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R' D' r U' r' D R2' U R' U' F' U2' F U'"
+ },
+ "7": {
+  "a": [
+   "U2 R U2 R' F R' F' R2 U2 R' F R' F' R U R U' R' U2",
+   "M' F' U F R2 r' U' R' F' r U' r' F2",
+   "U' S' R' U R S y R U' R' F' r U' r' F2 U"
+  ],
+  "name": "Gc",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "F2' r U r' F R U r R2' F' U' F M"
+ },
+ "8": {
+  "a": [
+   "U' R U R' U' R' F R F' R U2 R2 F R F' R U2 R' U2",
+   "U F R U' R2 D' r U' r' D R F R' F' R F'",
+   "U F' L' U L U' L' U' L F L' U2 L2 F' L' F L' U2 L U'"
+  ],
+  "name": "Gd",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "F R' F R F' R' D' r U r' D R2' U R' F' U'"
+ },
+ "9": {
+  "a": [
+   "r U R' U' M2 U R U' R' U' M' U2",
+   "S R' U' R U R U R U' R' S'",
+   "M U R U R' U' M2 U R U' r'",
+   "S' R U R' S U' M' U R U' r' U"
+  ],
+  "name": "H",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "r U R' U' M2' U R U' R' U' M'"
+ },
+ "10": {
+  "a": [
+   "U' R' U R2 F2 D r' U r D' F2 R2 U' R U2",
+   "U R' U R2 F2 D r' U' r D' F2 R2 U' R",
+   "U2 R' F2 R2 U2 R' F R U2 R2 F2 R2 U2 R' U' R U' R' U",
+   "U2 F U R' U2 R2 U R2 U R U R' U' F' U F R F'"
+  ],
+  "name": "Ja",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "F R' F' U' F U R U' R' U' R2' U' R2' U2' R U' F' U2'"
+ },
+ "11": {
+  "a": [
+   "U' R U' R2 B2 D' r U r' D B2 R2 U R'",
+   "U' R D' F2 R2 U' r U r' U R2 F2 D R'",
+   "F R' F' R U S' R' U' R S R U' R2 U2 R U' R U' R' U"
+  ],
+  "name": "Jb",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R D' F2' R2' U' r U' r' U R2' F2' D R' U"
+ },
+ "12": {
+  "a": [
+   "R2 U2 R' U2 F' U2 F f R2 f' U2 R U2 R2 U2",
+   "L' F U2 L2 F L' F2 L F' L2 U2 F' L",
+   "F R U' R' U' R U R' F' U' F R U R' U' R' F' r U R U' r'",
+   "L' B L2 D2 B l' U2 l B' D2 L2 B' L"
+  ],
+  "name": "Na",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "L' F U2' L2' F L' F2' L F' L2' U2' F' L"
+ },
+ "13": {
+  "a": [
+   "U' R' F2 L F L2 U2 L U2 L' U2 L2 F' L' F2 R",
+   "R2 U2 R U2 F' U2 F f R2 f' U2 R' U2 R2 U'",
+   "R F' U2 R2 F' R F2 R' F R2 U2 F R' U",
+   "R B' R2 D2 B' r U2 r' B D2 R2 B R' U"
+  ],
+  "name": "Nb",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R' F2' L F L2' U2' L U2' L' U2' L2' F' L' F2' R U"
+ },
+ "14": {
+  "a": [
+   "M' U2 M U2 M' U' M U2 M' U2 M U",
+   "M' U' M' U' M' U' M' U' M U' M U' M U' M U'",
+   "M' U' M' U' M' U' M' U M' U' M' U' M' U' M' U"
+  ],
+  "name": "Pure",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "U' M' U2' M U2' M' U M U2' M' U2' M"
+ },
+ "15": {
+  "a": [
+   "x' R' F R2 U2 F R' U R F' U2 R2 F' R x",
+   "F R' F' R U' R U R' S R' F R U R U' R' f' R U R' U2",
+   "U' F' U F2 R2 U F' R' F U' R2 F2 U' F U",
+   "U' R U R2 F R F' R U2 R2 U' R f U R U' R' F' R S' U"
+  ],
+  "name": "Ra",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "U' F' U F2' R2' U F' R F U' R2' F2' U' F U"
+ },
+ "16": {
+  "a": [
+   "U2 R U' R2 F2 U' R F' R' U F2 R2 U R'",
+   "F' L F L' U L' U' L S' L F' L' U' L' U L f L' U' L",
+   "R U' R2 F2 U' R F R' U F2 R2 U R' U2"
+  ],
+  "name": "Rb",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R U' R2' F2' U' R F R' U F2' R2' U R' U2'"
+ },
+ "17": {
+  "a": [
+   "F R' F R2 U R' U' F2 U' r U' r' F"
+  ],
+  "name": "T",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "F' r U r' U F2' U R U' R2' F' R F'"
+ },
+ "18": {
+  "a": [
+   "R' U' R U' M U R' U r U2 M U M' U'",
+   "U S U2 R' U' R U R U S' R U' R' U2",
+   "U2 L' U' L U' M' U L' U l U2 M' U M U",
+   "U R U R' U' M' U R U' R' U M U2 M' U M U"
+  ],
+  "name": "Ua",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R U R' U M' U' R U' r' U2' M' U' M U"
+ },
+ "19": {
+  "a": [
+   "U2 R U R' U M' U' R U' r' U2 M' U' M U",
+   "U S U2 R U R' U' R' U' S' R' U R U2",
+   "U2 f' L' U' L U f L U L F' L' F U' L' U2",
+   "U' M U' M' U2 r' U' R U' M' U R' U R"
+  ],
+  "name": "Ub",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "R' U' R U' M U R' U r U2' M U M' U"
+ },
+ "20": {
+  "a": [
+   "U' F R' F' R U R U' R' f R f' U' r' U' R U M'",
+   "U2 R U' R' U' R2 y R' F' R U' R U R' U' R U' R' F' U",
+   "U2 x' z' D R2 U F U2 F D F' U F R D' F2 R2 D'",
+   "F R U R' U R U' R' U2 F2 r U r' F U F' U"
+  ],
+  "name": "V",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "x' z' D R2' F2' D R' F' U' F D' F' U2' F' U' R2' D' z x U2'"
+ },
+ "21": {
+  "a": [
+   "U2 F R U' R' S U' R U R' f' r U R' U' M r' F R F' M' U2",
+   "R U' R' S R' F R f' R U' B U2 B' R' U'",
+   "U2 R U2 r' U2 F' R U' R' F R' F' R F U2 M' U2",
+   "S' R U' R' S R' F R F' R U' B U2 B' R' U'"
+  ],
+  "name": "Y",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "L R' F2' U' L' U L U' L F L' U F2' R U2' L'"
+ },
+ "22": {
+  "a": [
+   "U r U' M2 U r' U2 r U' M2 U r' U'",
+   "R2 S' R2 U' S2 U' R2 S' R2",
+   "r' U M2 U' r U2 r' U M2 U' r",
+   "U' l U' M2 U R' F2 R U' M2 U l' U"
+  ],
+  "name": "Z",
+  "group": "Anti PLL",
+  "algset": "Anti PLL",
+  "scramble": "r' U M2' U' r U2' r' U M2' U' r"
+ }
+}

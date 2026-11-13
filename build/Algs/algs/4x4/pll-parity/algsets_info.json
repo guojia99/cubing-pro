@@ -1,0 +1,7 @@
+{
+ "PLL Parity": [
+  "Edge Swap",
+  "Adj Corner Swap",
+  "Diag Corner Swap"
+ ]
+}

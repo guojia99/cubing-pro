@@ -1,0 +1,83 @@
+{
+ "1": {
+  "a": [
+   "R U R' U R U2 R'"
+  ],
+  "name": "Sune",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "R U2' R' U' R U' R'"
+ },
+ "2": {
+  "a": [
+   "R U2 R' U' R U' R'"
+  ],
+  "name": "Antisune",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "R U R' U R U2' R'"
+ },
+ "3": {
+  "a": [
+   "U R U R' U R U' R' U R U2 R'"
+  ],
+  "name": "H CMLL",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "R U2' R' U' R U R' U' R U' R' U'"
+ },
+ "4": {
+  "a": [
+   "R U R' U' R' F R F'"
+  ],
+  "name": "T CMLL",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "F R' F' R U R U' R'"
+ },
+ "5": {
+  "a": [
+   "F R' F' R U R U' R'"
+  ],
+  "name": "L CMLL",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "R U R' U' R' F R F'"
+ },
+ "6": {
+  "a": [
+   "F R U R' U' F'"
+  ],
+  "name": "U CMLL",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "F U R U' R' F'"
+ },
+ "7": {
+  "a": [
+   "F R U R' U' R U R' U' F'"
+  ],
+  "name": "Pi CMLL",
+  "group": "Orient",
+  "algset": "2 Look CMLL",
+  "scramble": "F U R U' R' U R U' R' F'"
+ },
+ "8": {
+  "a": [
+   "R U R' F' R U R' U' R' F R2 U' R' U'"
+  ],
+  "name": "Adjacent Swap",
+  "group": "Permute",
+  "algset": "2 Look CMLL",
+  "scramble": "U R U R2' F' R U R U' R' F R U' R'"
+ },
+ "9": {
+  "a": [
+   "F R U' R' U' R U R' F' R U R' U' R' F R F'"
+  ],
+  "name": "Diagonal Swap",
+  "group": "Permute",
+  "algset": "2 Look CMLL",
+  "scramble": "F R' F' R U R U' R' F R U' R' U R U R' F'"
+ }
+}

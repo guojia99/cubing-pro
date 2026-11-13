@@ -1,0 +1,479 @@
+{
+ "1": {
+  "a": [
+   "U' R U2 R' U' R U' R' U'",
+   "U2 R' U' R U' R' U2 R",
+   "L' U' L U' L' U2 L U2",
+   "U L U2 L' U' L U' L' U"
+  ],
+  "name": "AS 1",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "R' U2' R U R' U R U'"
+ },
+ "2": {
+  "a": [
+   "R2 D R' U R D' R' U R' U' R U' R' U2",
+   "U' R' U' R U' R' U R' D' R U R' D R2 U'",
+   "U2 R U R' f' U' R U2 R' U' R U' R' f R U' R'"
+  ],
+  "name": "AS 2",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "R2' D' R U' R' D R U' R U R' U R"
+ },
+ "3": {
+  "a": [
+   "R2 D R' U2 R D' R2 U' R U' R' U2",
+   "U2 R' U' F' R U R' U' R' F R2 U' R' U R",
+   "M F' r U R' U2 r' F2 r U2",
+   "f' L F L' U2 L' U2 L U2 S"
+  ],
+  "name": "AS 3",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "R' U2' R U2' L U' R' U R L' U2"
+ },
+ "4": {
+  "a": [
+   "R' U' R U' R2 D' R U2 R' D R2 U2",
+   "R U2 R' U2 r' F R F' M' U2",
+   "U2 R' U' R U R' F R U R' U' R' F' R2",
+   "R U2 R' U2 L' U R U' R' L U2"
+  ],
+  "name": "AS 4",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "R2' F R U R U' R' F' R U' R' U R U2"
+ },
+ "5": {
+  "a": [
+   "r' F R F' r U R' U2",
+   "U2 R' U L U' R U L'",
+   "L' U R U' L U R' U2",
+   "R' F R F' r U R' U' M U'"
+  ],
+  "name": "AS 5",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "L U' R' U L' U' R U2"
+ },
+ "6": {
+  "a": [
+   "U2 R U' R' U2 R U' R' U2 R' D' R U R' D R",
+   "U2 R U2 r' F R' F' r U' R U' R' U'",
+   "U2 R U R' F' R U2 R' U' R U' R' F R U' R'",
+   "L U2 R' U L' U' R U' L U' L' U"
+  ],
+  "name": "AS 6",
+  "group": "S-",
+  "algset": "COLL",
+  "scramble": "R' D' R U' R' D R U2' R U R' U2' R U R' U2"
+ },
+ "7": {
+  "a": [
+   "R U R' U R U2 R'",
+   "U' R' U2 R U R' U R U",
+   "U L' U2 L U L' U L U'",
+   "U2 L U L' U L U2 L' U2"
+  ],
+  "name": "S 1",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "R U2' R' U' R U' R'"
+ },
+ "8": {
+  "a": [
+   "U2 R U R' U R2 D R' U2 R D' R2 U2",
+   "r' F2 r U2 R U' r' F M'",
+   "L' U2 L U2 R U' L' U L R'",
+   "L' U2 L U2 l F' L' F M'"
+  ],
+  "name": "S 2",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "R L' U' L U R' U2' L' U2' L"
+ },
+ "9": {
+  "a": [
+   "L' R U R' U' L U2 R U2 R'",
+   "M F R' F' r U2 R U2 R'",
+   "U2 R2 D' R U2 R' D R2 U R' U R U2",
+   "f R' F' R U2 R U2 R' U2 S'"
+  ],
+  "name": "S 3",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "R U2' R' U2' L' U R U' R' L"
+ },
+ "10": {
+  "a": [
+   "U' R U R' U R U' R D R' U' R D' R2 U",
+   "R U R' U' R' F R F' r U R' U R U2 r'",
+   "U' F R' U2 R F' R' F U2 F' R U",
+   "L F' U2 F L' F' L U2 L' F"
+  ],
+  "name": "S 4",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "R2' D R' U R D' R' U R' U' R U' R' y"
+ },
+ "11": {
+  "a": [
+   "R U' L' U R' U' L",
+   "R U' r' F R' F' r",
+   "l F' L' F l' U' L",
+   "r U' r' F R' F' r U M U'"
+  ],
+  "name": "S 5",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "L' U R U' L U R'"
+ },
+ "12": {
+  "a": [
+   "U2 R U R' F' R U R' U R U2 R' F R U' R' U2",
+   "U2 R U R' U r' F R F' r U2 R'",
+   "U2 R U R' U L' U R U' L U2 R'",
+   "F' R U2 R' U2 R' F2 R U R U' R' F'"
+  ],
+  "name": "S 6",
+  "group": "S+",
+  "algset": "COLL",
+  "scramble": "F R U R' U' R' F2' R U2' R U2' R' F"
+ },
+ "13": {
+  "a": [
+   "U' R U R' U R U' R' U R U' R' U R U2 R' U",
+   "U' R U2 R' U' R U R' U' R U R' U' R U' R' U",
+   "U2 R' U2 R U R' U' R U R' U' R U R' U R U2",
+   "R' U' R U' R' U2 R U' R U R' U R U2 R'"
+  ],
+  "name": "L 1",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R U R' U R U' R' U R U' R' U R U2' R' y"
+ },
+ "14": {
+  "a": [
+   "R' U2 R' D' R U2 R' D R2",
+   "U2 L' U2 L' D' L U2 L' D L2 U2",
+   "U' R' U2 R U R2 D' R U R' D R2 U",
+   "U' r D r' U r D' r' U y R U2 R' U"
+  ],
+  "name": "L 2",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R2' D' R U2' R' D R U2' R"
+ },
+ "15": {
+  "a": [
+   "U R U2 R D R' U2 R D' R2 U'",
+   "U2 R U2 R2 D' R U' R' D R2 U' R'",
+   "R' F' R U R' U' R' F R2 U' R' U2 R",
+   "U R' U' R U2 L' U R' U' L U' R U'"
+  ],
+  "name": "L 3",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R2' D R' U2' R D' R' U2' R' y'"
+ },
+ "16": {
+  "a": [
+   "U F R' F' r U R U' r' U'",
+   "U2 R2 D R' U R D' R' U' R' U2",
+   "R U R' U' R' F R U R U' R' F'",
+   "U F l' U' L U R U' r' U'"
+  ],
+  "name": "L 4",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R U R D R' U' R D' R2' y2'"
+ },
+ "17": {
+  "a": [
+   "U2 F' r U R' U' r' F R U2",
+   "U x R' U R D' R' U' R D x' U'",
+   "r U R U' r' F R' F'",
+   "U' R2 D' R U' R' D R U R U"
+  ],
+  "name": "L 5",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R' F' r U R U' r' F y2'"
+ },
+ "18": {
+  "a": [
+   "U r U2 R2 F R F' R U2 r' U",
+   "U' R' U' R U R' F' R U R' U' R' F R2 U",
+   "U F R U R2 F R F' R U' R' F' U'"
+  ],
+  "name": "L 6",
+  "group": "L",
+  "algset": "COLL",
+  "scramble": "R2' F' R U R U' R' F R U' R' U R y"
+ },
+ "19": {
+  "a": [
+   "R' U' R U' R' U2 R2 U R' U R U2 R'",
+   "U2 R U R' U R U2 R2 U' R U' R' U2 R U2",
+   "U R U2 R' U' R U' R' U' R U R' U R U2 R' U'",
+   "U' R U R' U' R U' R' U2 R U' R' U2 R U R' U"
+  ],
+  "name": "U 1",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "R U2' R' U' R U' R2' U2' R U R' U R"
+ },
+ "20": {
+  "a": [
+   "R' F R U' R' U' R U R' F' R U R' U' R' F R F' R",
+   "U' r U R' U' r' F R2 U' R' U' R U2 R' U' F' U",
+   "U' R' U' R F R2 D' R U R' D R2 U' F' U",
+   "U F U R U2 R' U R U R2 F' r U R U' r' U'"
+  ],
+  "name": "U 2",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "R' F R' F' R U R U' R' F R U' R' U R U R' F' R"
+ },
+ "21": {
+  "a": [
+   "U2 R2 D R' U2 R D' R' U2 R' U2",
+   "R U' R' U' R U2 R' U' R' D' R U2 R' D R",
+   "R' U R U R' F' R U R' U' R' F R2 U' R' U' R",
+   "L2 D L' U2 L D' L' U2 L'"
+  ],
+  "name": "U 3",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "R U2' R D R' U2' R D' R2' y2'"
+ },
+ "22": {
+  "a": [
+   "F R U' R' U R U R' U R U' R' F'",
+   "U2 R' F2 R U2 R U2 R' F2 R U2 R' U2",
+   "U' F U2 R' D' R U2 R' D R F' U",
+   "U2 R U2 R' U2 L' U2 R U2 R' U2 L U2"
+  ],
+  "name": "U 4",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "F R U R' U' R U' R' U' R U R' F'"
+ },
+ "23": {
+  "a": [
+   "R2 D' R U2 R' D R U2 R",
+   "U2 L2 D' L U2 L' D L U2 L U2",
+   "R2 F' R U R' U' R' F R' U' R2 U2 R2 U R' U R",
+   "L U' R U' L' U R' U2 L U' L'"
+  ],
+  "name": "U 5",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "R' U2' R' D' R U2' R' D R2'"
+ },
+ "24": {
+  "a": [
+   "R2 D' R U R' D R U R U' R' U' R U",
+   "R' U2 R F U' R' U' R U F'",
+   "R U' R' U' R U R D R' U R D' R2",
+   "R' U2 R U2 R' F' R U R' U' R' F R2 U"
+  ],
+  "name": "U 6",
+  "group": "U",
+  "algset": "COLL",
+  "scramble": "F U' R' U R U F' R' U2' R"
+ },
+ "25": {
+  "a": [
+   "R U2 R' U' R U' R2 U2 R U R' U R",
+   "U' R U R2 U' R2 U' R2 U2 R U' R U' R' U",
+   "R U2 R' r' F2 r U' R U' R' U' r' F r",
+   "U' R U R' U R U2 R' L' U' L U' L' U2 L U"
+  ],
+  "name": "T 1",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "R' U' R U' R' U2' R2' U R' U R U2' R'"
+ },
+ "26": {
+  "a": [
+   "R' U R U2 R' L' U R U' L",
+   "R' U R U2 r' R' F R F' r",
+   "U2 R' F R U R' U' R' F' R2 U' R' U2 R U2",
+   "U2 R U' R' U2 L R U' R' U L' U2"
+  ],
+  "name": "T 2",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "L' U R' U' L R U2' R' U' R"
+ },
+ "27": {
+  "a": [
+   "U R' F' r U R U' r' F U'",
+   "U l' U' L U R U' r' F U'",
+   "U2 R' U' R' D' R U R' D R2 U2",
+   "U l' U' L U l F' L' F U'"
+  ],
+  "name": "T 3",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "F' r U R' U' L' U l y'"
+ },
+ "28": {
+  "a": [
+   "U2 F R U R' U' R U' R' U' R U R' F' U2",
+   "U2 F R' D' R U2 R' D R U2 F' U2",
+   "U2 R F R' U R U2 R' U R U F' R' U2",
+   "U R U2 R' F2 R U2 R' U2 R' F2 R U'"
+  ],
+  "name": "T 4",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "F R U' R' U R U R' U R U' R' F' y2'"
+ },
+ "29": {
+  "a": [
+   "U' r U R' U' r' F R F' U",
+   "R U R D R' U' R D' R2",
+   "U2 x' D R U' R' D' R U R' x U2",
+   "R U R' U R' D' R U' R' D R2 U' R'"
+  ],
+  "name": "T 5",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "F R' F' r U R U' r' y"
+ },
+ "30": {
+  "a": [
+   "R' U R2 D r' U2 r D' R2 U' R",
+   "U2 R U' R2 D' r U2 r' D R2 U R' U2",
+   "U R' U' R U R2 D' R U2 R' D R2 U' R' U R U'",
+   "U R U R' U' R2 D R' U2 R D' R2 U R U' R' U'"
+  ],
+  "name": "T 6",
+  "group": "T",
+  "algset": "COLL",
+  "scramble": "R' U R2' D r' U2' r D' R2' U' R"
+ },
+ "31": {
+  "a": [
+   "R U2 R2 U' R2 U' R2 U2 R",
+   "R' U2 R2 U R2 U R2 U2 R'",
+   "U2 L' U2 L2 U L2 U L2 U2 L' U2",
+   "R U R' U R U2 R' U' R U R' U R U2 R'"
+  ],
+  "name": "Pi 1",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "R' U2' R2' U R2' U R2' U2' R'"
+ },
+ "32": {
+  "a": [
+   "U F U R U' R' U R U' R2 F' R U R U' R' U'",
+   "R' F2 R U2 R U2 R' F2 U' R U' R'",
+   "U2 L' U' L U L F' L2 U' L U L' U' L U F U2",
+   "R U R' U R' F R2 U' R' U' R U R' F' U R U' R'"
+  ],
+  "name": "Pi 2",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "R U R' U F2' R U2' R' U2' R' F2' R"
+ },
+ "33": {
+  "a": [
+   "R' U' F' R U R' U' R' F R2 U2 R' U2 R",
+   "U F U R U' R' U R U2 R' U' R U R' F' U'",
+   "U F R2 U' R2 U R2 U S R2 f' U'",
+   "U' R U R' U R U2 R2 F' r U R U' r' F U"
+  ],
+  "name": "Pi 3",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "R' U2' R U2' R2' F' R U R U' R' F U R"
+ },
+ "34": {
+  "a": [
+   "R U R' U' R' F R2 U R' U' R U R' U' F'",
+   "R U2 R' U' R U R' U2 r' F R F' M'",
+   "U' R' U2 R U R' U R2 U' L' U R' U' L U",
+   "R B2 R' U2 R' U2 R B2 U R' U R"
+  ],
+  "name": "Pi 4",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "F U R U' R' U R U' R2' F' R U R U' R'"
+ },
+ "35": {
+  "a": [
+   "R U' L' U R' U L U L' U L",
+   "U' R U2 R' U R' D' R U2 R' D R2 U' R' U",
+   "U' R U R' U F' R U2 R' U2 R' F R U2",
+   "U2 L' U R U' L U' R' U' R U' R' U2"
+  ],
+  "name": "Pi 5",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "L' U' L U' L' U' R U' L U R'"
+ },
+ "36": {
+  "a": [
+   "R' F' U' F U' R U S' R' U R S",
+   "U' r U R' U R' F R F' R U' R' U R U2 r' U",
+   "R2 D' R U R' D R U R U' R' U R U R' U R",
+   "R U D' R U R' D R2 U' R' U' R2 U2 R"
+  ],
+  "name": "Pi 6",
+  "group": "Pi",
+  "algset": "COLL",
+  "scramble": "R' U2' R2' U R U R2' D' R U' R' D U' R'"
+ },
+ "37": {
+  "a": [
+   "R U R' U R U' R' U R U2 R'",
+   "U' R U2 R' U' R U R' U' R U' R' U",
+   "U R U2 R' U' R U R' U' R U' R' U'",
+   "U' R' U2 R U R' U' R U R' U R U"
+  ],
+  "name": "H 1",
+  "group": "H",
+  "algset": "COLL",
+  "scramble": "R U2' R' U' R U R' U' R U' R'"
+ },
+ "38": {
+  "a": [
+   "F R U' R' U R U2 R' U' R U R' U' F'",
+   "f R2 S' U' R2 U' R2 U R2 F'",
+   "U2 f R U R' U' R F' R U R' U' R' S' U2",
+   "f R U R' U' f' R U R' U' R' F R F' U'"
+  ],
+  "name": "H 2",
+  "group": "H",
+  "algset": "COLL",
+  "scramble": "F U R U' R' U R U2' R' U' R U R' F'"
+ },
+ "39": {
+  "a": [
+   "R U R' U R U L' U R' U' L",
+   "R U R' U R U r' F R' F' r",
+   "R' F' R U2 R U2 R' F U' R U' R'",
+   "R U R2 D' R U2 R' D R U' R U2 R' U'"
+  ],
+  "name": "H 3",
+  "group": "H",
+  "algset": "COLL",
+  "scramble": "L' U R U' L U' R' U' R U' R'"
+ },
+ "40": {
+  "a": [
+   "U F R U R' U' R U R' U' R U R' U' F' U'",
+   "U F U R U' R' U R U' R' U R U' R' F' U'",
+   "U' F R U R' U' R U R' U' R U R' U' F' U"
+  ],
+  "name": "H 4",
+  "group": "H",
+  "algset": "COLL",
+  "scramble": "F U R U' R' U R U' R' U R U' R' F' y'"
+ }
+}

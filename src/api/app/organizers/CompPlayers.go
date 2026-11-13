@@ -2,6 +2,7 @@ package organizers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
@@ -21,6 +22,7 @@ func CompPlayers(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var regs []competition.Registration
+		req.CompId = ctx.Value(org_mid.CompMiddlewareKey).(competition.Competition).ID
 		if err := svc.DB.Find(&regs, "comp_id = ?", req.CompId).Error; err != nil {
 			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return

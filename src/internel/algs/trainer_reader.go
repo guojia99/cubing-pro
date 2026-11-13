@@ -69,9 +69,6 @@ func ReadTrainerFiles(filePath string) (*AlgorithmConfigWithTrainer, error) {
 	if err := writeJsonToObj(path.Join(filePath, algsetsInfoFile), &out.AlgsetsInfo); err != nil {
 		return nil, err
 	}
-	if err := writeJsonToObj(path.Join(filePath, algImagesInfoFile), &out.Images); err != nil {
-		return nil, err
-	}
 	if err := writeJsonToObj(path.Join(filePath, algGroupFile), &out.GroupsInfo); err != nil {
 		return nil, err
 	}

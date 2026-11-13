@@ -43,19 +43,9 @@ func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 		}
 		for _, alg := range algs.GetAlgorithms() {
 			for _, k := range alg.ClassList {
-				algData := k.Sets[0].AlgorithmGroups[0].Algorithms[0].Algs[0]
-				for _, a := range k.Sets[0].AlgorithmGroups[0].Algorithms[0].Algs {
-					if strings.Contains(a, "x") || strings.Contains(a, "y") || strings.Contains(a, "z") {
-						continue
-					}
-					algData = a
-					break
-				}
-
 				o := outputClass{
 					Name:      k.Name,
-					Image:     k.Sets[0].AlgorithmGroups[0].Algorithms[0].Image,
-					Alg:       algData,
+					Alg:       previewAlgorithm(k),
 					CaseCount: countClassCases(k),
 				}
 				resp.ClassMap[alg.Cube] = append(resp.ClassMap[alg.Cube], o)
@@ -63,6 +53,31 @@ func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 		}
 		ctx.JSON(http.StatusOK, resp)
 	}
+}
+
+func previewAlgorithm(class algs.AlgorithmClass) string {
+	for _, set := range class.Sets {
+		for _, group := range set.AlgorithmGroups {
+			for _, algorithm := range group.Algorithms {
+				fallback := ""
+				for _, formula := range algorithm.Algs {
+					if strings.TrimSpace(formula) == "" {
+						continue
+					}
+					if fallback == "" {
+						fallback = formula
+					}
+					if !strings.ContainsAny(formula, "xyz") {
+						return formula
+					}
+				}
+				if fallback != "" {
+					return fallback
+				}
+			}
+		}
+	}
+	return ""
 }
 
 type AlgorithmGroupsWithCubeResponse struct {

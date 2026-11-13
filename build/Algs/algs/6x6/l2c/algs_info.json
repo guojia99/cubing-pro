@@ -1,0 +1,291 @@
+{
+ "1": {
+  "a": [
+   "3L' U 3R U' 3L U 3R'"
+  ],
+  "name": "L2C 1",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' 3L' U 3R' U' 3L"
+ },
+ "2": {
+  "a": [
+   "U F Rw U' 3L' U Rw' U' 3L",
+   "3L' U 2R U' 3L U 2R'"
+  ],
+  "name": "L2C 2",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3L' U Rw U' 3L U Rw' F' U'"
+ },
+ "3": {
+  "a": [
+   "U Rw U 3R U Rw' U' 3R'"
+  ],
+  "name": "L2C 3",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3R' U' Rw' U'"
+ },
+ "4": {
+  "a": [
+   "U' Rw U' 3R U' Rw' U 3R'"
+  ],
+  "name": "L2C 4",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' Rw U 3R' U Rw' U"
+ },
+ "5": {
+  "a": [
+   "U' Rw U' Rw' U' 3R U Rw U' Rw' U Rw U' 3Rw'"
+  ],
+  "name": "L2C 5",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw U Rw' U' Rw U Rw' U' 3R' U Rw U Rw' U"
+ },
+ "6": {
+  "a": [
+   "U Rw U Rw' U 3R U' Rw U Rw' U' Rw U 3Rw'"
+  ],
+  "name": "L2C 6",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw U' Rw' U Rw U' Rw' U 3R' U' Rw U' Rw' U'"
+ },
+ "7": {
+  "a": [
+   "U Rw U Lw' 3R U Rw' U' Lw 3R'"
+  ],
+  "name": "L2C 7",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R Lw' U Rw U' 3R' Lw U' Rw' U'"
+ },
+ "8": {
+  "a": [
+   "U' Rw U 3Lw' U Rw' U' 3Lw"
+  ],
+  "name": "L2C 8",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Lw' U Rw U' 3Lw U' Rw' U"
+ },
+ "9": {
+  "a": [
+   "Rw U Rw' U2 Rw U' 3Lw' U Rw' U' 3Lw"
+  ],
+  "name": "L2C 9",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Lw' U Rw U' 3Lw U Rw' U2' Rw U' Rw'"
+ },
+ "10": {
+  "a": [
+   "Rw U Rw' U2 Rw U 3R U' Rw' U 3R'"
+  ],
+  "name": "L2C 10",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' Rw U 3R' U' Rw' U2' Rw U' Rw'"
+ },
+ "11": {
+  "a": [
+   "Rw U' Rw' U2 Rw U' 3R U Rw' U' 3R'"
+  ],
+  "name": "L2C 11",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3R' U Rw' U2' Rw U Rw'"
+ },
+ "12": {
+  "a": [
+   "U2 Rw U Rw' U2 Rw U' 3R U Rw' U' 3R'"
+  ],
+  "name": "L2C 12",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3R' U Rw' U2' Rw U' Rw' U2'"
+ },
+ "13": {
+  "a": [
+   "U2 Rw U' Rw' U2 Rw U 3R U' Rw' U 3R'"
+  ],
+  "name": "L2C 13",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' Rw U 3R' U' Rw' U2' Rw U Rw' U2'"
+ },
+ "14": {
+  "a": [
+   "U' Rw U Rw' U Rw 3L' U' Rw' U 3L"
+  ],
+  "name": "L2C 14",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3L' U' Rw U 3L Rw' U' Rw U' Rw' U"
+ },
+ "15": {
+  "a": [
+   "U Rw U' Rw' U' Rw 3L' U Rw' U' 3L"
+  ],
+  "name": "L2C 15",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3L' U Rw U' 3L Rw' U Rw U Rw' U'"
+ },
+ "16": {
+  "a": [
+   "U Rw U Rw' U 3Rw U' Rw' U 3R'"
+  ],
+  "name": "L2C 16",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' Rw U 3Rw' U' Rw U' Rw' U'"
+ },
+ "17": {
+  "a": [
+   "U' Rw U' Rw' U' 3Rw U Rw' U' 3R'"
+  ],
+  "name": "L2C 17",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3Rw' U Rw U Rw' U"
+ },
+ "18": {
+  "a": [
+   "3Rw U' Rw' U' Rw U2 3Rw' U Rw U Rw'"
+  ],
+  "name": "L2C 18",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "Rw U' Rw' U' 3Rw U2' Rw' U Rw U 3Rw'"
+ },
+ "19": {
+  "a": [
+   "3R U' Rw U 3Rw'"
+  ],
+  "name": "L2C 19",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw U' Rw' U 3R'"
+ },
+ "20": {
+  "a": [
+   "U' 3Rw U Rw' U' 3R'"
+  ],
+  "name": "L2C 20",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3Rw' U"
+ },
+ "21": {
+  "a": [
+   "U2 3Lw' U' Lw U 3L U Rw U Rw'"
+  ],
+  "name": "L2C 21",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "Rw U' Rw' U' 3L' U' Lw' U 3Lw U2'"
+ },
+ "22": {
+  "a": [
+   "U 3Lw' U Lw U' 3L U' Rw U' Rw'"
+  ],
+  "name": "L2C 22",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "Rw U Rw' U 3L' U Lw' U' 3Lw U'"
+ },
+ "23": {
+  "a": [
+   "Rw' 3L F' Rw F 3L'"
+  ],
+  "name": "L2C 23",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3L F' Rw' F 3L' Rw"
+ },
+ "24": {
+  "a": [
+   "U' 3L F Rw' F' 3L' Rw"
+  ],
+  "name": "L2C 24",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "Rw' 3L F Rw F' 3L' U"
+ },
+ "25": {
+  "a": [
+   "U' 3R U Rw U' Rw' U Rw U' 3Rw'"
+  ],
+  "name": "L2C 25",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw U Rw' U' Rw U Rw' U' 3R' U"
+ },
+ "26": {
+  "a": [
+   "3R U' Rw U Rw' U' Rw U 3Rw'"
+  ],
+  "name": "L2C 26",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw U' Rw' U Rw U' Rw' U 3R'"
+ },
+ "27": {
+  "a": [
+   "Rw U2 3Lw' U Rw' U' 3Lw"
+  ],
+  "name": "L2C 27",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Lw' U Rw U' 3Lw U2' Rw'"
+ },
+ "28": {
+  "a": [
+   "Rw U2 Rw' U Rw 3L' U' Rw' U 3L"
+  ],
+  "name": "L2C 28",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3L' U' Rw U 3L Rw' U' Rw U2' Rw'"
+ },
+ "29": {
+  "a": [
+   "U2 Rw U' Rw' U2 3Rw U Rw' U' 3R'"
+  ],
+  "name": "L2C 29",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U Rw U' 3Rw' U2' Rw U Rw' U2'"
+ },
+ "30": {
+  "a": [
+   "U Rw U Rw' U2 3Rw U' Rw' U 3R'"
+  ],
+  "name": "L2C 30",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3R U' Rw U 3Rw' U2' Rw U' Rw' U'"
+ },
+ "31": {
+  "a": [
+   "U' Rw U2 Rw' U' 3R' F Rw' F' 3Rw"
+  ],
+  "name": "L2C 31",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw' F Rw F' 3R U Rw U2' Rw' U"
+ },
+ "32": {
+  "a": [
+   "Rw U2 Rw' U 3R' F' Rw' F 3Rw"
+  ],
+  "name": "L2C 32",
+  "group": "Last Two Centers",
+  "algset": "Last Two Centers",
+  "scramble": "3Rw' F' Rw F 3R U' Rw U2' Rw'"
+ }
+}

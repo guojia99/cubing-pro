@@ -1,0 +1,173 @@
+{
+ "1": [
+  "L' U' L U' L' U2 L U'"
+ ],
+ "2": [
+  "R U R' U R U2' R' U"
+ ],
+ "3": [
+  "F R' F' r U R U' r' U2"
+ ],
+ "4": [
+  "R' F' r U R U' r' F U'"
+ ],
+ "5": [
+  "R U2 R D R' U2 R D' R2'"
+ ],
+ "6": [
+  "R' U2' R2 U R2' U R2 U2' R'"
+ ],
+ "7": [
+  "R U R' U R U' R' U R U2' R' U'"
+ ],
+ "8": [
+  "R U' R' S' R U R' S U"
+ ],
+ "9": [
+  "R' F R S R' F' R S'"
+ ],
+ "10": [
+  "F U R U' R' F'"
+ ],
+ "11": [
+  "F R' F' R U R U' R'"
+ ],
+ "12": [
+  "l' U' L U' L' U2 l"
+ ],
+ "13": [
+  "r U R' U R U2' r'"
+ ],
+ "14": [
+  "R U R' U' R' F R F'"
+ ],
+ "15": [
+  "R U2' R' F R' F' R2 U2' R'"
+ ],
+ "16": [
+  "R' U' F R' F' R U R"
+ ],
+ "17": [
+  "M U' R' U r U f R' f'"
+ ],
+ "18": [
+  "S R U R' U' R' F R f'"
+ ],
+ "19": [
+  "S' L' U' L U L F' L' f"
+ ],
+ "20": [
+  "R' F R U R' F' R F U' F' U"
+ ],
+ "21": [
+  "L F' L' U' L F L' F' U F U'"
+ ],
+ "22": [
+  "F R' F' R U R U R' U' R U' R'"
+ ],
+ "23": [
+  "F' L F L' U' L' U' L U L' U L"
+ ],
+ "24": [
+  "f U R U' R' f'"
+ ],
+ "25": [
+  "f' U' L' U L f"
+ ],
+ "26": [
+  "f R' F' R U R U' R' S'"
+ ],
+ "27": [
+  "f' L F L' U' L' U L S"
+ ],
+ "28": [
+  "r U2' R' U' R U' r'"
+ ],
+ "29": [
+  "l' U2 L U L' U l"
+ ],
+ "30": [
+  "M U' R U2' R' U' R U' R' M'"
+ ],
+ "31": [
+  "M U L' U2 L U L' U L M'"
+ ],
+ "32": [
+  "S' U' F U R U' R' F' S"
+ ],
+ "33": [
+  "S U F' U' L' U L F S'"
+ ],
+ "34": [
+  "S' U' F R' F' R U R U' R' S"
+ ],
+ "35": [
+  "S U F' L F L' U' L' U L S'"
+ ],
+ "36": [
+  "l' U' l U' L' U L l' U l"
+ ],
+ "37": [
+  "r U r' U R U' R' r U' r'"
+ ],
+ "38": [
+  "R U R' U' R' F R2 U R' U' F'"
+ ],
+ "39": [
+  "L' U' L U L F' L2' U' L U F"
+ ],
+ "40": [
+  "F (R U R' U')2 F' U2"
+ ],
+ "41": [
+  "R U R' U R U' B U' B' R' U2"
+ ],
+ "42": [
+  "r U r' (R U R' U')2 r U' r'"
+ ],
+ "43": [
+  "F U' R2 D R' U2 R D' R2' U F' U"
+ ],
+ "44": [
+  "R' F R2 B' R2' F' R2 B R'"
+ ],
+ "45": [
+  "R B' R2' F R2 B R2' F' R"
+ ],
+ "46": [
+  "F (U R U' R')2 F'"
+ ],
+ "47": [
+  "F' (U' L' U L)2 F"
+ ],
+ "48": [
+  "r U2' R' U' R U R' U' R U' r'"
+ ],
+ "49": [
+  "l' U' L U' L' U L U' L' U2 l U'"
+ ],
+ "50": [
+  "F U R U' R' F' U f U R U' R' f' U"
+ ],
+ "51": [
+  "F U R U' R' F' U' f U R U' R' f' y"
+ ],
+ "52": [
+  "F S' R U' R' S R U2' R' U' F' U2"
+ ],
+ "53": [
+  "f U R U' R' S' U R U' R' F' U2"
+ ],
+ "54": [
+  "F R' F' R U S' R U' R' S"
+ ],
+ "55": [
+  "S' R U R' S U' R' F R F'"
+ ],
+ "56": [
+  "F R' F' R U2' F R' F' R2 U2' R'"
+ ],
+ "57": [
+  "S R' U' R U R U R U' R' S' U"
+ ]
+}

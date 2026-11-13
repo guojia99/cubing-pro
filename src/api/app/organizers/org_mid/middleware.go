@@ -1,6 +1,7 @@
 package org_mid
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +10,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	user2 "github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"gorm.io/gorm"
 )
 
 const OrgAuthMiddlewareKey = "organizerID"
@@ -82,6 +84,42 @@ func CheckCompMiddleware(svc *svc.Svc) gin.HandlerFunc {
 			return
 		}
 		ctx.Set(CompMiddlewareKey, comp)
+		ctx.Next()
+	}
+}
+
+// Admin routes already enforce JWT and admin roles; resolve the actual owner here.
+func AdminCompMiddleware(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req CheckCompMiddlewareReq
+		if err := ctx.ShouldBindUri(&req); err != nil || req.CompId == 0 {
+			exception.ErrRequestBinding.ResponseWithError(ctx, "无效比赛ID")
+			ctx.Abort()
+			return
+		}
+		var c competition.Competition
+		if err := svc.DB.First(&c, "id = ?", req.CompId).Error; err != nil {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+			ctx.Abort()
+			return
+		}
+		// DELETE existed for all competition types in HEAD; new management APIs are group-only.
+		if !c.IsGroupCompetition() && ctx.Request.Method != "DELETE" {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, "该管理接口仅支持群赛")
+			return
+		}
+		var org user2.Organizers
+		if err := svc.DB.First(&org, "id = ?", c.OrganizersID).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) && (ctx.Request.Method == "GET" || ctx.Request.Method == "DELETE") {
+				org.ID = c.OrganizersID
+			} else {
+				exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+				ctx.Abort()
+				return
+			}
+		}
+		ctx.Set(CompMiddlewareKey, c)
+		ctx.Set(OrgAuthMiddlewareKey, org)
 		ctx.Next()
 	}
 }

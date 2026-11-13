@@ -1,0 +1,1190 @@
+{
+ "1": [
+  "(U) R' F2 R U2 R2 F2 R'"
+ ],
+ "2": [
+  "(U) F R' F2 U R' F2 R F' R2"
+ ],
+ "3": [
+  "(U) R U2 R' U R2 F2 U R2 U' R2"
+ ],
+ "4": [
+  "R U2 R U' R2 F2 U' F2 U R2"
+ ],
+ "5": [
+  "R U' R' F2 R U2 R2 F2 U R' F"
+ ],
+ "6": [
+  "(U2) R' F' R U2 R2 F2 R' U R"
+ ],
+ "7": [
+  "(U) R U2 R' U R2 F2 U R2 U' R2"
+ ],
+ "8": [
+  "(U') F' R2 U2 R' U2 F' R2 F' R2"
+ ],
+ "9": [
+  "F R' F R2 U' F2 R U' R' F"
+ ],
+ "10": [
+  "(U) R2 F U' F2 R F' U R'"
+ ],
+ "11": [
+  "F R U F2 R U' R' F R2"
+ ],
+ "12": [
+  "R U' R2 F2 U R' F U' R"
+ ],
+ "13": [
+  "R U R' U2 R U2 R F2 R2"
+ ],
+ "14": [
+  "F R' F R2 U' F2 R U' R' F"
+ ],
+ "15": [
+  "R U R' U2 R U2 R F2 R2"
+ ],
+ "16": [
+  "R U R' U2 R U2 R F2 R2"
+ ],
+ "17": [
+  "(U) R2 F2 U' R' U R' F R F' R"
+ ],
+ "18": [
+  "(U') F' U' R2 F' R2 F' R2"
+ ],
+ "19": [
+  "(U2) R' U' F' R2 U2 R' F R2"
+ ],
+ "20": [
+  "R' F2 R' F' R2 F' R' U R2"
+ ],
+ "21": [
+  "F' R U' R B2"
+ ],
+ "22": [
+  "F' U' R2 F2 R' U' R"
+ ],
+ "23": [
+  "F' R U' R B2"
+ ],
+ "24": [
+  "R2 F2 U R F R' F' R2"
+ ],
+ "25": [
+  "F R' F R' F2 U R U R"
+ ],
+ "26": [
+  "y' (U') R' F2 R2 U' R' F2 R F'"
+ ],
+ "27": [
+  "R2 U R' F U' R U R2 F2"
+ ],
+ "28": [
+  "(U') R U' R2 U R2 U' F2 R F R"
+ ],
+ "29": [
+  "(U) F' R' F2 U' R2 U R' F2 R'"
+ ],
+ "30": [
+  "R2 U R' F U' R U R2 F2"
+ ],
+ "31": [
+  "(U2) R U' R2 F U R' U' F R2"
+ ],
+ "32": [
+  "R2 F2 R' U R' F' U' F"
+ ],
+ "33": [
+  "(U') R' U2 R U2 R' F2 R2"
+ ],
+ "34": [
+  "F2 R2 F R U' R' F2"
+ ],
+ "35": [
+  "F R' F2 R F' U' R2 F2"
+ ],
+ "36": [
+  "F' U' R' F R2 F' U' R2 F"
+ ],
+ "37": [
+  "F R' U' F' U2 R U2 F'"
+ ],
+ "38": [
+  "R U F2 R2 U' R' F R"
+ ],
+ "39": [
+  "R' F2 R U' R2 F2 R' U R"
+ ],
+ "40": [
+  "F R' F2 R U' R F' U F'"
+ ],
+ "41": [
+  "(U2) F2 R2 U' R U R' F2 U F2"
+ ],
+ "42": [
+  "R2 U' R U R' U F2 R2"
+ ],
+ "43": [
+  "F U F2 R2 U R' U' F2 R"
+ ],
+ "44": [
+  "R U' F2 R U' R2 U R F"
+ ],
+ "45": [
+  "R' U' R2 U R2 F' U F' R2"
+ ],
+ "46": [
+  "R U' R2 F2 U F U' R U F'"
+ ],
+ "47": [
+  "(U) F' R2 F2 U R U R2"
+ ],
+ "48": [
+  "R' F2 R' F R' F2 R U R2"
+ ],
+ "49": [
+  "R U' R2 F2 U F U' R U F'"
+ ],
+ "50": [
+  "(U) F' R2 F2 U R U R2"
+ ],
+ "51": [
+  "R2 U F2 U2 R U F' U R2"
+ ],
+ "52": [
+  "R2 F U F R U' R F R2 F'"
+ ],
+ "53": [
+  "(U') R U F' U F' R2"
+ ],
+ "54": [
+  "R2 F2 U2 F R F' U2 R2"
+ ],
+ "55": [
+  "(U) F R2 U' R' U F' U' R"
+ ],
+ "56": [
+  "(U) F U2 R' F' U R U2 R2 F'"
+ ],
+ "57": [
+  "R2 U F2 U2 R U F' U R2"
+ ],
+ "58": [
+  "R2 F U F R U' R F R2 F'"
+ ],
+ "59": [
+  "(U) F U2 R' F' U R U2 R2 F'"
+ ],
+ "60": [
+  "R2 F U F R U' R F R2 F'"
+ ],
+ "61": [
+  "(U) F U2 R' F' U R U2 R2 F'"
+ ],
+ "62": [
+  "(U) F U2 R' F' U R U2 R2 F'"
+ ],
+ "63": [
+  "F R U2 F2 U F U2 R' F"
+ ],
+ "64": [
+  "F R' U' F2 U2 R' F U2 R"
+ ],
+ "65": [
+  "R' F U' F' R U2 R U2 F'"
+ ],
+ "66": [
+  "F R' F R2 F' R' F2 R U' F2"
+ ],
+ "67": [
+  "F2 R2 U2 F U F' U F2"
+ ],
+ "68": [
+  "R2 U2 F R F' U2 F2 R2"
+ ],
+ "69": [
+  "(U') F R2 F R2 F2 U2 F'"
+ ],
+ "70": [
+  "F R F' R U' R U2 F2 R2"
+ ],
+ "71": [
+  "R' F2 U F R U F' U2 R"
+ ],
+ "72": [
+  "(U) F R2 F R2 U' R U' R' F'"
+ ],
+ "73": [
+  "(U') R' F2 R' U2 R' F U2 F2"
+ ],
+ "74": [
+  "(U) F' R U R' U2 R F' U F'"
+ ],
+ "75": [
+  "F R F' R U' R U2 F2 R2"
+ ],
+ "76": [
+  "R' F2 U F R U F' U2 R"
+ ],
+ "77": [
+  "R' F' R U' R2 U R' U' F2"
+ ],
+ "78": [
+  "(U') F' R U2 R2 U R U2 F'"
+ ],
+ "79": [
+  "(U') R U2 F2 R2 U' R' F R"
+ ],
+ "80": [
+  "(U) F' R' F' R U' F' R2 F2"
+ ],
+ "81": [
+  "(U2) R2 U R2 U R' U2 F2 R2"
+ ],
+ "82": [
+  "R U F2 R2 U2 R' F2 R"
+ ],
+ "83": [
+  "(U') F' R U2 R2 U R U2 F'"
+ ],
+ "84": [
+  "(U') R U2 F2 R2 U' R' F R"
+ ],
+ "85": [
+  "(U2) R2 U R2 U R' U2 F2 R2"
+ ],
+ "86": [
+  "R U F2 R2 U2 R' F2 R"
+ ],
+ "87": [
+  "(U') F' R U2 R2 U R U2 F'"
+ ],
+ "88": [
+  "(U2) R2 U R2 U R' U2 F2 R2"
+ ],
+ "89": [
+  "R U F2 R2 U2 R' F2 R"
+ ],
+ "90": [
+  "(U') F' R U2 R2 U R U2 F'"
+ ],
+ "91": [
+  "R U F2 R2 U2 R' F2 R"
+ ],
+ "92": [
+  "R' F' U R U2 F' U R U2"
+ ],
+ "93": [
+  "R' U' F2 U' F U R2 F'"
+ ],
+ "94": [
+  "R' F R F2 R U' R F2"
+ ],
+ "95": [
+  "R' F R' F2 U R U' R"
+ ],
+ "96": [
+  "R2 F' U R U' F' R"
+ ],
+ "97": [
+  "F R U' R U R2 U' F2"
+ ],
+ "98": [
+  "R' U' F2 U' F U R2 F'"
+ ],
+ "99": [
+  "R2 F' U R U' F' R"
+ ],
+ "100": [
+  "(U') R2 F' R2 F' R' U' R"
+ ],
+ "101": [
+  "R' F R' F R2 U' F' U' F'"
+ ],
+ "102": [
+  "F' R U R2 U R' F U R"
+ ],
+ "103": [
+  "F' U' R2 F R2 F' R2 F"
+ ],
+ "104": [
+  "R2 F2 R' U R2 U2 R' U2 R"
+ ],
+ "105": [
+  "(U) R' U' R2 F2 R' U2 R' F"
+ ],
+ "106": [
+  "R' F R' F R2 U' F' U' F'"
+ ],
+ "107": [
+  "F' R U R2 U R' F U R"
+ ],
+ "108": [
+  "F' U' R2 F R2 F' R2 F"
+ ],
+ "109": [
+  "F' R U R2 U R' F U R"
+ ],
+ "110": [
+  "F' U' R2 F R2 F' R2 F"
+ ],
+ "111": [
+  "y' R U R' U' R2 B U' B R2"
+ ],
+ "112": [
+  "(U) R U' F2 R' U2 R' F2"
+ ],
+ "113": [
+  "(U') F' R2 F U2 F R2"
+ ],
+ "114": [
+  "R F' U F' R2"
+ ],
+ "115": [
+  "(U) F' U2 R2 F R2 F' R2 F"
+ ],
+ "116": [
+  "(U) R2 U R' F R' F R2"
+ ],
+ "117": [
+  "y' R U R' U' R2 B U' B R2"
+ ],
+ "118": [
+  "(U) R U' F2 R' U2 R' F2"
+ ],
+ "119": [
+  "(U) F' U2 R2 F R2 F' R2 F"
+ ],
+ "120": [
+  "(U) R2 U R' F R' F R2"
+ ],
+ "121": [
+  "y' (U) R' U2 R' F2 R2 U' R' F R"
+ ],
+ "122": [
+  "F' U' R2 F2 U F R' F'"
+ ],
+ "123": [
+  "F R U' F' U F' R' U R"
+ ],
+ "124": [
+  "(U) F2 R U2 R2 F2 R' F U' F"
+ ],
+ "125": [
+  "(U') R2 F2 R F' U' F R' U R"
+ ],
+ "126": [
+  "F' U R2 U2 R U' F R' F"
+ ],
+ "127": [
+  "y' (U) R' U2 R' F2 R2 U' R' F R"
+ ],
+ "128": [
+  "F R U' F' U F' R' U R"
+ ],
+ "129": [
+  "F' U R2 U2 R U' F R' F"
+ ],
+ "130": [
+  "y' (U) R' U2 R' F2 R2 U' R' F R"
+ ],
+ "131": [
+  "F' U R2 U2 R U' F R' F"
+ ],
+ "132": [
+  "(U') F' U' R2 F U2 F R2"
+ ],
+ "133": [
+  "(U2) F R F' R2 U R' U F2 R2"
+ ],
+ "134": [
+  "(U) F' R U2 F' U F' R"
+ ],
+ "135": [
+  "(U2) R2 F2 U R2 U R U2 R2"
+ ],
+ "136": [
+  "R2 U F R2 F R' U2 R' F'"
+ ],
+ "137": [
+  "R' F R2 U' R U R2 U' F2"
+ ],
+ "138": [
+  "(U) F' R U2 F' U F' R"
+ ],
+ "139": [
+  "(U2) R2 F2 U R2 U R U2 R2"
+ ],
+ "140": [
+  "R' F' U2 R2 U' R' U2 F R'"
+ ],
+ "141": [
+  "F R' U' R2 U R' F2 U R2"
+ ],
+ "142": [
+  "(U) R' U' R' F U2 R' U' F R"
+ ],
+ "143": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "144": [
+  "R2 F2 U2 R' U' R U' R2 U"
+ ],
+ "145": [
+  "R2 U' R' U2 F2 R U' F' U R"
+ ],
+ "146": [
+  "R' F' U2 R2 U' R' U2 F R'"
+ ],
+ "147": [
+  "(U) R' U' R' F U2 R' U' F R"
+ ],
+ "148": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "149": [
+  "R2 U' R' U2 F2 R U' F' U R"
+ ],
+ "150": [
+  "(U) R' U' R' F U2 R' U' F R"
+ ],
+ "151": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "152": [
+  "R2 U' R' U2 F2 R U' F' U R"
+ ],
+ "153": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "154": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "155": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "156": [
+  "y (U') R' U R' F R2 U2 R' U2 R"
+ ],
+ "157": [
+  "R2 U F2 U F' R' F U' R2"
+ ],
+ "158": [
+  "F2 R U' R2 U F' R U' F2"
+ ],
+ "159": [
+  "y (U) R' F' U R' F R2 U"
+ ],
+ "160": [
+  "(U') R' U R' F' U R U' F2 R"
+ ],
+ "161": [
+  "F R' U' F' R U2 R U2 F'"
+ ],
+ "162": [
+  "(U) F' U2 R2 F2 R' U' R U"
+ ],
+ "163": [
+  "F2 R U' R2 U F' R U' F2"
+ ],
+ "164": [
+  "(U') R' U R' F' U R U' F2 R"
+ ],
+ "165": [
+  "F R' U' F' R U2 R U2 F'"
+ ],
+ "166": [
+  "(U') R' U R' F' U R U' F2 R"
+ ],
+ "167": [
+  "(U') R' U R' F' U R U' F2 R"
+ ],
+ "168": [
+  "R2 U F R F R2 F"
+ ],
+ "169": [
+  "F U2 R' U R' U2 F R"
+ ],
+ "170": [
+  "(U) R2 F U' F U' R'"
+ ],
+ "171": [
+  "F2 U' F U' F U2 R2 F2"
+ ],
+ "172": [
+  "R2 U F2 R' U' R' U F2"
+ ],
+ "173": [
+  "R' U R2 U' R' F2 R2 F"
+ ],
+ "174": [
+  "R2 U F R F R2 F"
+ ],
+ "175": [
+  "F U2 R' U R' U2 F R"
+ ],
+ "176": [
+  "R' U R2 U' R' F2 R2 F"
+ ],
+ "177": [
+  "F U2 R' U R' U2 F R"
+ ],
+ "178": [
+  "F U2 R' U2 F U R F'"
+ ],
+ "179": [
+  "R U F2 R U' R2 U R U' F"
+ ],
+ "180": [
+  "R' F2 U R' F U' F R F'"
+ ],
+ "181": [
+  "(U) R' U R' F R' U' F R' F'"
+ ],
+ "182": [
+  "(U') F R' F R U2 R2 F2 R'"
+ ],
+ "183": [
+  "(U) F U' F U2 R2 F2 R"
+ ],
+ "184": [
+  "R U F2 R U' R2 U R U' F"
+ ],
+ "185": [
+  "R' F2 U R' F U' F R F'"
+ ],
+ "186": [
+  "R' F2 U R' F U' F R F'"
+ ],
+ "187": [
+  "R2 F2 U R' F2 R F R' F2"
+ ],
+ "188": [
+  "R' F2 U R' F U2 R' U R"
+ ],
+ "189": [
+  "(U) R2 F2 U' R U' R' U R2"
+ ],
+ "190": [
+  "F2 U' F2 R U' R' U R2 F2"
+ ],
+ "191": [
+  "(U2) F R' U' R2 U2 R' F U R2"
+ ],
+ "192": [
+  "F R U2 R2 F R' F2 R2"
+ ],
+ "193": [
+  "R' F2 U R' F U2 R' U R"
+ ],
+ "194": [
+  "R' F2 U R U' R2 F2 U' F'"
+ ],
+ "195": [
+  "(U') F' R U' F U2 R' F2 U R' F'"
+ ],
+ "196": [
+  "R2 U' F2 U F2 R2 U R' U2 R'"
+ ],
+ "197": [
+  "R' U R' U F R' F R2 F'"
+ ],
+ "198": [
+  "R2 F2 R U' R U' R2 U2 R"
+ ],
+ "199": [
+  "R2 F U' F R' U R U2 R'"
+ ],
+ "200": [
+  "(U') F' R U' F U2 R' F2 U R' F'"
+ ],
+ "201": [
+  "R2 U' F2 U F2 R2 U R' U2 R'"
+ ],
+ "202": [
+  "R' U R' U F R' F R2 F'"
+ ],
+ "203": [
+  "R2 F2 R U' R U' R2 U2 R"
+ ],
+ "204": [
+  "(U2) F R' U R' U R2 F' R2 F"
+ ],
+ "205": [
+  "R' U F2 R U2 R' F2 R' F"
+ ],
+ "206": [
+  "(U2) R' U R' U F R F R2 F'"
+ ],
+ "207": [
+  "(U) F' R' F2 R' F U2 F R2 U2"
+ ],
+ "208": [
+  "(U) R2 U' R' U' F2 R2 F"
+ ],
+ "209": [
+  "R' F2 R U2 R2 U' R F' R2"
+ ],
+ "210": [
+  "(U2) R' U R' U F R F R2 F'"
+ ],
+ "211": [
+  "(U) R2 U' R' U' F2 R2 F"
+ ],
+ "212": [
+  "(U2) F R' U R' U R2 F' R2 F"
+ ],
+ "213": [
+  "(U2) F R' U R' U R2 F' R2 F"
+ ],
+ "214": [
+  "R' U F2 R U2 R' F2 R' F"
+ ],
+ "215": [
+  "(U2) R' U R' U F R F R2 F'"
+ ],
+ "216": [
+  "(U) F' R' F2 R' F U2 F R2 U2"
+ ],
+ "217": [
+  "(U) R2 U' R' U' F2 R2 F"
+ ],
+ "218": [
+  "R' F2 R U2 R2 U' R F' R2"
+ ],
+ "219": [
+  "R' U F2 R U2 R' F2 R' F"
+ ],
+ "220": [
+  "R U' F U' F U2 R' F2"
+ ],
+ "221": [
+  "F R' U' F U R' F2"
+ ],
+ "222": [
+  "(U') R' U' R' U' F2 R F' R F'"
+ ],
+ "223": [
+  "(U) R2 F' R F' R' U' R2"
+ ],
+ "224": [
+  "R2 F' R U2 R2 F U R"
+ ],
+ "225": [
+  "y' R2 F' R U' R"
+ ],
+ "226": [
+  "F R' U' F U R' F2"
+ ],
+ "227": [
+  "y' R2 F' R U' R"
+ ],
+ "228": [
+  "F' R U2 R' U R2 F2 R U2 R"
+ ],
+ "229": [
+  "R' F' R' F2 U R2 U' R2 U R'"
+ ],
+ "230": [
+  "(U) R' F2 U R U' R2 U' F'"
+ ],
+ "231": [
+  "F U' F2 R' F2 R F' U R2 F2"
+ ],
+ "232": [
+  "R' F2 R U2 R' F2 R' F2"
+ ],
+ "233": [
+  "(U2) R2 F2 R U2 R' U2 R"
+ ],
+ "234": [
+  "R' F U' F U R' F2"
+ ],
+ "235": [
+  "(U2) R U R2 U R' U F2 R2 F'"
+ ],
+ "236": [
+  "R2 F2 U' R' F2 R F' R' F2"
+ ],
+ "237": [
+  "R2 F2 U2 R' U R2 U' R2 U R2"
+ ],
+ "238": [
+  "(U2) R F2 R2 U2 R' F2 R"
+ ],
+ "239": [
+  "F2 R U2 R' U2 R2 F2 R U2 R"
+ ],
+ "240": [
+  "R2 F2 U' R' F2 R F' R' F2"
+ ],
+ "241": [
+  "(U2) R F2 R2 U2 R' F2 R"
+ ],
+ "242": [
+  "R2 F2 U' R' F2 R F' R' F2"
+ ],
+ "243": [
+  "F' R U2 R' U2 R' F R' F2 R2"
+ ],
+ "244": [
+  "y2 R2 B2 R' U2 R'"
+ ],
+ "245": [
+  "x U' R' F U' R U R'"
+ ],
+ "246": [
+  "R' U R' F2 U R2 U' R2 F'"
+ ],
+ "247": [
+  "R' F R U2 R U2 R F' R2 F'"
+ ],
+ "248": [
+  "F U' R U R' U2 R2 F2 R"
+ ],
+ "249": [
+  "y2 R2 B2 R' U2 R'"
+ ],
+ "250": [
+  "R U2 R2 U R' F2 R F' R"
+ ],
+ "251": [
+  "(U') R U2 R' F' U R U' R F2"
+ ],
+ "252": [
+  "R2 U' R2 F2 U R U' R2 U' F2"
+ ],
+ "253": [
+  "R U2 R B2 R2"
+ ],
+ "254": [
+  "F' R U' R2 U' R' U R' F2 R"
+ ],
+ "255": [
+  "(U) F' R2 U' R' U' F R2 F"
+ ],
+ "256": [
+  "R U2 R2 U R' F2 R F' R"
+ ],
+ "257": [
+  "F R' F2 R2 U2 R' F R2 B2"
+ ],
+ "258": [
+  "F U2 R2 U' R U2 R' U F2 R"
+ ],
+ "259": [
+  "F' R U' R2 U R' F R U2 R'"
+ ],
+ "260": [
+  "F' R2 F2 R' U' R2 U' R'"
+ ],
+ "261": [
+  "(U') R U R' F2 R' U R' F"
+ ],
+ "262": [
+  "R' F R F' R U2 R B2 R2"
+ ],
+ "263": [
+  "R' F R F' R U2 R B2 R2"
+ ],
+ "264": [
+  "(U2) R' U F' R U R2 U2 F2 R"
+ ],
+ "265": [
+  "(U) R' F2 R2 U2 R U' R' U F'"
+ ],
+ "266": [
+  "F' R2 U F R' F"
+ ],
+ "267": [
+  "F2 R2 U' R' U' R2 F U R"
+ ],
+ "268": [
+  "R U R' U2 R2 F U' F R'"
+ ],
+ "269": [
+  "(U) R U R' F2 R' U R' U' F"
+ ],
+ "270": [
+  "R U R' U2 R2 F U' F R'"
+ ],
+ "271": [
+  "F' R' F U R F' R2 F"
+ ],
+ "272": [
+  "F' U F2 U' R U' R' U2 R2 F2"
+ ],
+ "273": [
+  "(U') F2 U' F2 U R' U R' F"
+ ],
+ "274": [
+  "F' U' R2 U' R' U R2 F' R2"
+ ],
+ "275": [
+  "F2 R2 U' R' F2 R F2 U F'"
+ ],
+ "276": [
+  "R2 U R' U F U' F R' F"
+ ],
+ "277": [
+  "F' R' F2 U R F' R2 F"
+ ],
+ "278": [
+  "(U2) R' F' U R' F R2 U' R"
+ ],
+ "279": [
+  "R2 U2 F2 R U' R2 U' F2 R'"
+ ],
+ "280": [
+  "(U) R2 F2 U2 R U2 R' U R'"
+ ],
+ "281": [
+  "(U2) F' R2 F R U' R2 U' R F2"
+ ],
+ "282": [
+  "(U') R2 U F2 U R U' R2 F"
+ ],
+ "283": [
+  "(U2) F' R2 F R U' R2 U' R F2"
+ ],
+ "284": [
+  "(U') R2 U F2 U R U' R2 F"
+ ],
+ "285": [
+  "y' (U') R' F R' F' R U R' F' R U' R"
+ ],
+ "286": [
+  "F' R2 F' U R U R2 F"
+ ],
+ "287": [
+  "F2 R2 U' F U F2"
+ ],
+ "288": [
+  "R' U R' F R2 U' R U R2"
+ ],
+ "289": [
+  "R2 F2 R U' F R' F' R2 U R"
+ ],
+ "290": [
+  "F' R' U2 F U F' R2 U' R"
+ ],
+ "291": [
+  "y' (U') R' F R' F' R U R' F' R U' R"
+ ],
+ "292": [
+  "R2 F2 R U' F R' F' R2 U R"
+ ],
+ "293": [
+  "(U) F R' F R' F2 U2 R"
+ ],
+ "294": [
+  "(U) F' R2 F2 U' R' U2 F R' F'"
+ ],
+ "295": [
+  "y2 (U) R U' R' U F' R U"
+ ],
+ "296": [
+  "(U) F2 R' U2 R U' R' F R'"
+ ],
+ "297": [
+  "R' F R' F2 R U2 R2 U R"
+ ],
+ "298": [
+  "R' U R2 U R' F2 R2 F"
+ ],
+ "299": [
+  "R' F R' F2 R U2 R2 U R"
+ ],
+ "300": [
+  "(U) F' R2 F2 U F U2 R2 F R"
+ ],
+ "301": [
+  "(U) F R' U' F2 U F' R' F2"
+ ],
+ "302": [
+  "y' (U') R' U R U R2 F' R U' R"
+ ],
+ "303": [
+  "F U R' U R' U' F2 R F'"
+ ],
+ "304": [
+  "y F' R U R' U2 R' F' R' F2 R2"
+ ],
+ "305": [
+  "R' F' R U R' U2 R"
+ ],
+ "306": [
+  "R' U R' F2 R2 F'"
+ ],
+ "307": [
+  "(U') R U' R B2 R2"
+ ],
+ "308": [
+  "(U) y2 R2 B2 R' U' R'"
+ ],
+ "309": [
+  "(U2) R U R B2 R' U' R' F R' F' R"
+ ],
+ "310": [
+  "y' R' U R' F2 R2 U2 R' F R"
+ ],
+ "311": [
+  "R2 U F2 U F2 U' F2 U' R2"
+ ],
+ "312": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "313": [
+  "(U2) R2 F2 U R2 U' R2"
+ ],
+ "314": [
+  "(U') x' R' F' R U2 R' U R' U2"
+ ],
+ "315": [
+  "R' F U2 R' F R U2 R U R2"
+ ],
+ "316": [
+  "(U2) R2 U R2 U' F2 R2"
+ ],
+ "317": [
+  "R2 U F2 U F2 U' F2 U' R2"
+ ],
+ "318": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "319": [
+  "(U2) R2 F2 U R2 U' R2"
+ ],
+ "320": [
+  "(U') x' R' F' R U2 R' U R' U2"
+ ],
+ "321": [
+  "R' F U2 R' F R U2 R U R2"
+ ],
+ "322": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "323": [
+  "(U2) R2 F2 U R2 U' R2"
+ ],
+ "324": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "325": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "326": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "327": [
+  "R U R' U' R2 F2 R' U' R'"
+ ],
+ "328": [
+  "(U) R' F' U R' U' F R2 U' R"
+ ],
+ "329": [
+  "(U') R2 U' R' F2 R F' U2 R F2 R'"
+ ],
+ "330": [
+  "F2 R2 F R' F R2 U' R' F2"
+ ],
+ "331": [
+  "(U') F R' F2 U' R2 U2 R' F R2"
+ ],
+ "332": [
+  "(U') F' R U R2 F2 U R' U' F"
+ ],
+ "333": [
+  "(U') y2 R U R' U' R F' R U' R'"
+ ],
+ "334": [
+  "(U) R' F' U R' U' F R2 U' R"
+ ],
+ "335": [
+  "(U') R2 U' R' F2 R F' U2 R F2 R'"
+ ],
+ "336": [
+  "(U') F R' F2 U' R2 U2 R' F R2"
+ ],
+ "337": [
+  "(U') y2 R U R' U' R F' R U' R'"
+ ],
+ "338": [
+  "(U') R2 U' R' F2 R F' U2 R F2 R'"
+ ],
+ "339": [
+  "(U') F R' F2 U' R2 U2 R' F R2"
+ ],
+ "340": [
+  "(U) R' U R2 F' U R U' F R"
+ ],
+ "341": [
+  "R U' R' F' U R2 F' R2 F' R2"
+ ],
+ "342": [
+  "R' F2 R U2 R2 F' R F' R'"
+ ],
+ "343": [
+  "F R2 U R2 U' F R2 U2 F'"
+ ],
+ "344": [
+  "F' U R U' F' U R' F' R2"
+ ],
+ "345": [
+  "F' R U R2 F2 R' F2"
+ ],
+ "346": [
+  "R' F2 R U2 R2 F' R F' R'"
+ ],
+ "347": [
+  "F R2 U R2 U' F R2 U2 F'"
+ ],
+ "348": [
+  "R' F2 R U2 R2 F' R F' R'"
+ ],
+ "349": [
+  "(U') y' R' U R U R' F R' F R2"
+ ],
+ "350": [
+  "R U R' U' R' F2 U R' U' R2 U2 F'"
+ ],
+ "351": [
+  "(U') R2 F R2 F R2 F"
+ ],
+ "352": [
+  "(U') y R2 F2 R U2 R U2 R' U2 R"
+ ],
+ "353": [
+  "R U2 F' R' U2 R U' F' R2 F"
+ ],
+ "354": [
+  "(U') F2 U' R' U R' F R2"
+ ],
+ "355": [
+  "(U') y' R' U R U R' F R' F R2"
+ ],
+ "356": [
+  "R U R' U' R' F2 U R' U' R2 U2 F'"
+ ],
+ "357": [
+  "(U') R2 F R2 F R2 F"
+ ],
+ "358": [
+  "(U') y R2 F2 R U2 R U2 R' U2 R"
+ ],
+ "359": [
+  "(U') y' R' U R U R' F R' F R2"
+ ],
+ "360": [
+  "(U') y R2 F2 R U2 R U2 R' U2 R"
+ ],
+ "361": [
+  "(U') y R2 F2 R U2 R U2 R' U2 R"
+ ],
+ "362": [
+  "(U') y R2 F2 R U2 R U2 R' U2 R"
+ ],
+ "363": [
+  "(U2) y' R2 F' R U' R U' R' F' R"
+ ],
+ "364": [
+  "(U) R U' R U R' F R' F R2"
+ ],
+ "365": [
+  "(U) R U2 R' U F R F' R U B2 R2"
+ ],
+ "366": [
+  "y F R2 U R' U2 R' U R2 F'"
+ ],
+ "367": [
+  "F R' U2 R U2 R F' R2 F2"
+ ],
+ "368": [
+  "(U) F R' F2 R U R2 F2 R'"
+ ],
+ "369": [
+  "(U2) y' R2 F' R U' R U' R' F' R"
+ ],
+ "370": [
+  "(U) R U2 R' U F R F' R U B2 R2"
+ ],
+ "371": [
+  "(U) R' U R' F U2 F2 R' U' R F2"
+ ],
+ "372": [
+  "(U) R2 U R' U' F2 R U2 R' U2 R"
+ ],
+ "373": [
+  "F R2 U' R' U R2 F' U R2"
+ ],
+ "374": [
+  "y' (U2) R2 F2 R U' F2 U R"
+ ],
+ "375": [
+  "y' (U2) R2 F U' F R' U' F2"
+ ],
+ "376": [
+  "R2 F R2 U2 R' U' R U F2"
+ ],
+ "377": [
+  "y' (U2) R2 F2 R U' F2 U R"
+ ],
+ "378": [
+  "U' R U R' F' R U' R F2"
+ ],
+ "379": [
+  "(U2) R2 F R U' R U R2 F2"
+ ],
+ "380": [
+  "(U) R' F' R F' R2 F U' F2 R F'"
+ ],
+ "381": [
+  "(U2) F' R' F2 R F' R2 F2"
+ ],
+ "382": [
+  "R U2 R' U2 R U2 F' U F' R2"
+ ],
+ "383": [
+  "(U2) F' R U R2 F2 U R' F"
+ ],
+ "384": [
+  "(U) R2 U2 R2 F2 U' R' F U' R' F2"
+ ],
+ "385": [
+  "(U2) F2 R' U R' F R U' R'"
+ ],
+ "386": [
+  "(U) R' U' F2 R' U2 R' U2 F"
+ ],
+ "387": [
+  "R' F' R U R2 F' R F' U R'"
+ ],
+ "388": [
+  "F' U R2 F2 U2 F R F' R"
+ ],
+ "389": [
+  "R2 U R2 F' R F' R U' R2 F"
+ ],
+ "390": [
+  "(U) F2 R2 U' R' U R' F' R2"
+ ],
+ "391": [
+  "R U2 R F' R' F' U' R2 U' R U2"
+ ],
+ "392": [
+  "R2 U F' R' F2 R F' R2 U F"
+ ],
+ "393": [
+  "(U) F R' U2 F R U2 R2 U' F2 R"
+ ],
+ "394": [
+  "(U) R2 F2 U R2 U R' U2 R' U2 R'"
+ ],
+ "395": [
+  "(U) R2 F' R2 F R2 F' R2 F2"
+ ],
+ "396": [
+  "(U) F2 R2 U' R' U R' F' R2"
+ ]
+}

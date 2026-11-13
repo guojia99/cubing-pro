@@ -5,9 +5,10 @@ import (
 	"sort"
 	"time"
 
+	"gorm.io/gorm"
+
 	"github.com/guojia99/cubing-pro/src/internel/database/model/wca/utils"
 	"github.com/guojia99/cubing-pro/src/wca/types"
-	"gorm.io/gorm"
 )
 
 func (w *wca) GetPersonRankTimer(wcaId string) ([]types.StaticWithTimerRank, error) {
@@ -374,26 +375,32 @@ func (w *wca) GetPersonBestRanks(wcaID string) (types.PersonBestRanks, error) {
 	for _, result := range results {
 		// 单次
 		if result.Single > 0 {
-			if _, ok := out.WithWR.Best[result.EventID]; !ok || result.SingleWorldRank < out.WithWR.Best[result.EventID].WorldRank {
+			if _, ok := out.WithWR.Best[result.EventID]; !ok ||
+				result.SingleWorldRank < out.WithWR.Best[result.EventID].WorldRank {
 				out.WithWR.Best[result.EventID] = buildResult(result, false)
 			}
-			if _, ok := out.WithCR.Best[result.EventID]; !ok || result.SingleContinentRank < out.WithCR.Best[result.EventID].ContinentRank {
+			if _, ok := out.WithCR.Best[result.EventID]; !ok ||
+				result.SingleContinentRank < out.WithCR.Best[result.EventID].ContinentRank {
 				out.WithCR.Best[result.EventID] = buildResult(result, false)
 			}
-			if _, ok := out.WithNR.Best[result.EventID]; !ok || result.SingleCountryRank < out.WithNR.Best[result.EventID].CountryRank {
+			if _, ok := out.WithNR.Best[result.EventID]; !ok ||
+				result.SingleCountryRank < out.WithNR.Best[result.EventID].CountryRank {
 				out.WithNR.Best[result.EventID] = buildResult(result, false)
 			}
 		}
 
 		// 平均
 		if result.Average > 0 {
-			if _, ok := out.WithWR.Avg[result.EventID]; !ok || result.AvgWorldRank < out.WithWR.Avg[result.EventID].WorldRank {
+			if _, ok := out.WithWR.Avg[result.EventID]; !ok ||
+				result.AvgWorldRank < out.WithWR.Avg[result.EventID].WorldRank {
 				out.WithWR.Avg[result.EventID] = buildResult(result, true)
 			}
-			if _, ok := out.WithCR.Avg[result.EventID]; !ok || result.AvgContinentRank < out.WithCR.Avg[result.EventID].ContinentRank {
+			if _, ok := out.WithCR.Avg[result.EventID]; !ok ||
+				result.AvgContinentRank < out.WithCR.Avg[result.EventID].ContinentRank {
 				out.WithCR.Avg[result.EventID] = buildResult(result, true)
 			}
-			if _, ok := out.WithNR.Avg[result.EventID]; !ok || result.AvgCountryRank < out.WithNR.Avg[result.EventID].CountryRank {
+			if _, ok := out.WithNR.Avg[result.EventID]; !ok ||
+				result.AvgCountryRank < out.WithNR.Avg[result.EventID].CountryRank {
 				out.WithNR.Avg[result.EventID] = buildResult(result, true)
 			}
 		}

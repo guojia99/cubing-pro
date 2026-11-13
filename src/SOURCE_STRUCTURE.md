@@ -178,20 +178,6 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `rust_scramble.h` / `librust_scramble.a` | Rust 静态库头文件与二进制（构建产物，版本库可能包含）。 |
 | `*_test.go` | 对应包的单元测试。 |
 
-### `internel/algdb/`
-
-魔方公式数据库（多项目：222/333、Pyraminx、BLD、SQ1 CSP 等）。
-
-| 文件模式 | 作用 |
-|----------|------|
-| `cube_*_db.go` | 各阶/项目公式数据访问。 |
-| `alg_db.go` / `cube_db.go` | 通用或聚合入口。 |
-| `bigbld_db.go` / `bld_db.go` | 盲拧相关。 |
-| `sq1_csp_db.go` | SQ1 CSP。 |
-| `cube_py_db.go` | Pyraminx 等。 |
-| `mihlefeld_type.go` | 类型或枚举辅助。 |
-| `script/` | `commutator.go` 等交换子/脚本辅助；含 `.js`/`.py` 为工具脚本。 |
-
 ### `internel/algs/`
 
 Trainer 算法集、表驱动与读取逻辑。
@@ -201,7 +187,6 @@ Trainer 算法集、表驱动与读取逻辑。
 | `algs.go` | 初始化与对外 API。 |
 | `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
-| `speeddb/` | SpeedDB 生成的 JSON/HTML/Python 工具及 `to_tr.go` 转换脚本；各 `*-Trainer` 子目录为算法集数据文件。 |
 
 ### `internel/wca_api/`
 

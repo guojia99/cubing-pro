@@ -3,37 +3,27 @@ package result
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
-	app_utils "github.com/guojia99/cubing-pro/src/api/utils"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
+	"github.com/guojia99/cubing-pro/src/api/middleware"
+	"github.com/guojia99/cubing-pro/src/internel/groupcomp"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"strconv"
 )
-
-type DeletePreResultReq struct {
-	PreId uint `uri:"pre_id"`
-}
 
 func DeletePreResult(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var req DeletePreResultReq
-		if err := app_utils.BindAll(ctx, &req); err != nil {
-			exception.ErrRequestBinding.ResponseWithError(ctx, err)
+		id, err := strconv.ParseUint(ctx.Param("pre_id"), 10, 32)
+		if err != nil || id == 0 {
+			exception.ErrRequestBinding.ResponseWithError(ctx, "无效预成绩ID")
 			return
 		}
-
-		var pre result.PreResults
-		if err := svc.DB.First(&pre, "id = ?", req.PreId).Error; err != nil {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
+		u, err := middleware.GetAuthUser(ctx)
+		if err != nil {
 			return
 		}
-		if pre.Finish {
-			exception.ErrResultDelete.ResponseWithError(ctx, "该预录入成绩已经审核完成，无法删除")
-			return
-		}
-		if err := svc.DB.Delete(&pre, "id = ?", pre.ID).Error; err != nil {
+		if err = groupcomp.DeletePending(svc.DB.WithContext(ctx.Request.Context()), uint(id), u.ID); err != nil {
 			exception.ErrResultDelete.ResponseWithError(ctx, err)
 			return
 		}
-
 		exception.ResponseOK(ctx, nil)
 	}
 }

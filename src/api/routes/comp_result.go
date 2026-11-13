@@ -76,7 +76,7 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 			compId.GET("/pre_results", organizers2.GetCompPlayerPreResult(svc))                           // 获取预录入成绩
 			compId.POST("/pre_results/:result_id/approval", organizers2.ApprovalCompPlayerPreResult(svc)) // 审批预录入成绩
 
-			compId.PUT("/:reg_id/:compId/refresh_event", organizers2.RefreshEvent(svc)) // 刷新项目的轮次信息
+			compId.PUT("/refresh_event", organizers2.RefreshEvent(svc)) // 手动开放/关闭轮次
 		}
 
 	}
@@ -85,6 +85,7 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 func CompWithUserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	userComp := router.Group(
 		"/player_comp",
+		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer),
 	)
 

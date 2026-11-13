@@ -1,0 +1,299 @@
+{
+ "1": {
+  "a": [
+   "D U R U' R' D'"
+  ],
+  "name": "A+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U' D'"
+ },
+ "2": {
+  "a": [
+   "D d' L' U L D'"
+  ],
+  "name": "A-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D L' U' L d D'"
+ },
+ "3": {
+  "a": [
+   "D R U R' D'"
+  ],
+  "name": "B+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' D'"
+ },
+ "4": {
+  "a": [
+   "D F' U' F D'"
+  ],
+  "name": "B-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D F' U F D'"
+ },
+ "5": {
+  "a": [
+   "D U2 R U' R' U' R U R' D'"
+  ],
+  "name": "R+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U R U R' U2' D'"
+ },
+ "6": {
+  "a": [
+   "D U' R U' R' d R' U' R D'"
+  ],
+  "name": "R-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R' U R d' R U R' U D'"
+ },
+ "7": {
+  "a": [
+   "D U' R U' R' U R U R' D'"
+  ],
+  "name": "K+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U' R U R' U D'"
+ },
+ "8": {
+  "a": [
+   "D y U L' U L U' L' U' L D'"
+  ],
+  "name": "K-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D L' U L U L' U' L U' y' D'"
+ },
+ "9": {
+  "a": [
+   "D R U' R' U R U' R' U2 R U' R' D'"
+  ],
+  "name": "X+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U2' R U R' U' R U R' D'"
+ },
+ "10": {
+  "a": [
+   "D U' R U2 R' d R' U' R D'"
+  ],
+  "name": "X-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R' U R d' R U2' R' U D'"
+ },
+ "11": {
+  "a": [
+   "D U' R U R' U2 R U' R' D'"
+  ],
+  "name": "W+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U2' R U' R' U D'"
+ },
+ "12": {
+  "a": [
+   "D U' r U' R' U R U r' D'"
+  ],
+  "name": "W-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D r U' R' U' R U r' U D'"
+ },
+ "13": {
+  "a": [
+   "D U' R U2 R' U2 R U' R' D'"
+  ],
+  "name": "M+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U2' R U2' R' U D'"
+ },
+ "14": {
+  "a": [
+   "D d R' U2 R U2 R' U R D'"
+  ],
+  "name": "M-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R' U' R U2' R' U2' R d' D'"
+ },
+ "15": {
+  "a": [
+   "D U R U2 R' U R U' R' D'"
+  ],
+  "name": "Q+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U' R U2' R' U' D'"
+ },
+ "16": {
+  "a": [
+   "D d' L' U2 L U' L' U L D'"
+  ],
+  "name": "Q-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D L' U' L U L' U2' L d D'"
+ },
+ "17": {
+  "a": [
+   "D R U' R' U2 R U R' D'"
+  ],
+  "name": "P+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U2' R U R' D'"
+ },
+ "18": {
+  "a": [
+   "D U2 R U R' F' U' F D'"
+  ],
+  "name": "P-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D F' U F R U' R' U2' D'"
+ },
+ "19": {
+  "a": [
+   "D R' D' R U' R' D R U R U' R' D'"
+  ],
+  "name": "I+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U' R' D' R U R' D R D'"
+ },
+ "20": {
+  "a": [
+   "D R U' R' U2 F' U' F D'"
+  ],
+  "name": "I-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D F' U F U2' R U R' D'"
+ },
+ "21": {
+  "a": [
+   "D R U2 R' U' R U R' D'"
+  ],
+  "name": "H+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U R U2' R' D'"
+ },
+ "22": {
+  "a": [
+   "D y L' U2 L U L' U' L D'"
+  ],
+  "name": "H-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D L' U L U' L' U2' L y' D'"
+ },
+ "23": {
+  "a": [
+   "D U R U' R' U' R U' R' U R U' R' D'"
+  ],
+  "name": "G+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U' R U R' U R U R' U' D'"
+ },
+ "24": {
+  "a": [
+   "D U' R U R2 F R F' R U' R' D'"
+  ],
+  "name": "G-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' F R' F' R2' U' R' U D'"
+ },
+ "25": {
+  "a": [
+   "D R U' R' U R U' R' D'"
+  ],
+  "name": "J+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' U' R U R' D'"
+ },
+ "26": {
+  "a": [
+   "D y L' U L U' L' U L D'"
+  ],
+  "name": "J-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D L' U' L U L' U' L y' D'"
+ },
+ "27": {
+  "a": [
+   "D R U R' U' R U R' D'"
+  ],
+  "name": "L+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U R U' R' D'"
+ },
+ "28": {
+  "a": [
+   "D U2 R U' R' F' U' F D'"
+  ],
+  "name": "L-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D F' U F R U R' U2' D'"
+ },
+ "29": {
+  "a": [
+   "D U' R' F R F' R U' R' D'"
+  ],
+  "name": "T",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U R' F R' F' R U D'"
+ },
+ "30": {
+  "a": [
+   "D U2 R U' R' U' F' U' F D'"
+  ],
+  "name": "V+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D F' U F U R U R' U2' D'"
+ },
+ "31": {
+  "a": [
+   "D U F' U' F U' R U R' D'"
+  ],
+  "name": "V-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' U F' U F U' D'"
+ },
+ "32": {
+  "a": [
+   "D r U' r' U2 r U r' R U R' D'"
+  ],
+  "name": "C+",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D R U' R' r U' r' U2' r U r' D'"
+ },
+ "33": {
+  "a": [
+   "D R U' R' r U' r' U2 r U r' D'"
+  ],
+  "name": "C-",
+  "group": "Pseudoslotting",
+  "algset": "Pseudoslotting",
+  "scramble": "D r U' r' U2' r U r' R U R' D'"
+ }
+}

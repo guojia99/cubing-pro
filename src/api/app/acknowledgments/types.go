@@ -8,6 +8,7 @@ type Thank struct {
 	Amount   float64 `json:"amount"`
 	Avatar   string  `json:"avatar"`
 	Other    string  `json:"other"`
+	Pinned   bool    `json:"pinned"`
 }
 
 type Thanks []Thank

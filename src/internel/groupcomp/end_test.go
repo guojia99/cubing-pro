@@ -206,7 +206,7 @@ func TestGroupStillRejectsUnapprovedAndCrossCompetition(t *testing.T) {
 	}
 }
 
-func TestGroupTimeRelaxationKeepsAdvancementAndPreviousResult(t *testing.T) {
+func TestGroupApprovalChecksPreviousResultAfterSubmission(t *testing.T) {
 	db, c, u := fixture(t)
 	c.IsDone = true
 	c.CompJSON.Events[0].Schedule[0].IsRunning = false
@@ -216,15 +216,18 @@ func TestGroupTimeRelaxationKeepsAdvancementAndPreviousResult(t *testing.T) {
 	second := pending(c, u)
 	second.RoundNumber = 2
 	second.Round = "第二轮"
-	if err := SavePending(db, []result.PreResults{second}); err == nil {
-		t.Fatal("unqualified second round accepted")
-	}
-	c.CompJSON.Events[0].Schedule[1].AdvancedToThisRound = []uint{u.ID}
-	if err := db.Save(&c).Error; err != nil {
+	ps := []result.PreResults{second}
+	if err := SavePending(db, ps); err != nil {
 		t.Fatal(err)
 	}
-	if err := SavePending(db, []result.PreResults{second}); err == nil {
-		t.Fatal("second round without previous result accepted")
+	if err := Approve(db, c.ID, ps[0].ID, result.DetailOk, u); err == nil || err.Error() != "上轮无成绩无法录入" {
+		t.Fatalf("second round approval without previous result: %v", err)
+	}
+	if err := db.Transaction(func(tx *gorm.DB) error {
+		_, err := AddResult(tx, c, u, "333", 2, []float64{1, 2, 3, 4, 5}, nil, time.Now(), true)
+		return err
+	}); err == nil || err.Error() != "上轮无成绩无法录入" {
+		t.Fatalf("direct second round without previous result: %v", err)
 	}
 	var first result.Results
 	if err := db.Transaction(func(tx *gorm.DB) error {
@@ -234,8 +237,10 @@ func TestGroupTimeRelaxationKeepsAdvancementAndPreviousResult(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	ps := []result.PreResults{second}
-	if err := SavePending(db, ps); err != nil {
+	if err := db.Transaction(func(tx *gorm.DB) error {
+		_, err := AddResult(tx, c, u, "333", 2, []float64{1, 2, 3, 4, 5}, nil, time.Now(), true)
+		return err
+	}); err != nil {
 		t.Fatal(err)
 	}
 	if err := Approve(db, c.ID, ps[0].ID, result.DetailOk, u); err != nil {

@@ -2,8 +2,10 @@ package groupcomp
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"slices"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -48,6 +50,136 @@ func fixture(t *testing.T) (*gorm.DB, competition.Competition, user.User) {
 
 func pending(c competition.Competition, u user.User) result.PreResults {
 	return result.PreResults{Results: result.Results{CompetitionID: c.ID, CompetitionName: c.Name, Round: "第一轮", RoundNumber: 1, UserID: u.ID, CubeID: u.CubeID, PersonName: u.Name, EventID: "333", EventName: "三阶", EventRoute: event.RouteType5RoundsAvgHT, Result: []float64{1, 2, 3, 4, 5}}, Source: "web-api"}
+}
+
+func TestMultiRoundBatchDefersPreviousResultCheckUntilApproval(t *testing.T) {
+	db, c, u := fixture(t)
+	c.CompJSON.Events = nil
+	for _, eventID := range []string{"555", "pyram"} {
+		ev := competition.CompetitionEvent{EventID: eventID, EventName: eventID, EventRoute: event.RouteType5RoundsAvgHT}
+		for round := 1; round <= 7; round++ {
+			ev.Schedule = append(ev.Schedule, competition.Schedule{Round: fmt.Sprintf("round %d", round), RoundNum: round, FirstRound: round == 1})
+		}
+		c.CompJSON.Events = append(c.CompJSON.Events, ev)
+	}
+	if err := db.Save(&c).Error; err != nil {
+		t.Fatal(err)
+	}
+	const message = `555[1] 1:04.97 1:09.56 1:15.17 1:09.61 1:01.19
+555[2] 1:02.38 1:01.65 1:07.66 58.96 1:03.98
+555[3] 1:07.19 1:08.66 1:06.82 1:01.27 1:08.77
+555[4] 1:09.76 1:02.22 1:03.88 1:03.05 1:01.52
+555[5] 59.41 1:08.64 1:07.77 1:06.04 1:00.32
+555[6] 1:04.15 58.29 1:01.11 1:06.83 1:09.98
+555[7] 1:09.96 1:05.02 1:07.53 1:06.63 1:02.52
+pyram[1] 8.08 8.41 8.03 6.46 9.83
+pyram[2] 7.63 6.99 12.16 8.19 7.21
+pyram[3] 7.71 9.89 7.39 6.17 5.85
+pyram[4] 6.76 5.98 5.24 5.29 5.35
+pyram[5] 8.25 6.02 7.87 4.36 8.36
+pyram[6] 7.27 5.22 7.13 7.19 8.08
+pyram[7] 6.08 7.46 9.61 6.29 11.58`
+	var ps []result.PreResults
+	for i, line := range SplitBatch(message) {
+		fields := strings.Fields(line)
+		eventID, _, _ := strings.Cut(fields[0], "[")
+		p := pending(c, u)
+		p.EventID, p.RoundNumber = eventID, i%7+1
+		_, _, err := Validate(c, eventID, p.RoundNumber, u.ID, time.Now(), true, true)
+		if err != nil {
+			t.Fatalf("robot submission validation for %s: %v", fields[0], err)
+		}
+		p.Result, err = ParseValues(fields[1:], p.EventRoute)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ps = append(ps, p)
+	}
+	if err := SavePending(db, ps); err != nil {
+		t.Fatal(err)
+	}
+	var n int64
+	if err := db.Model(&result.PreResults{}).Where("finish = ?", false).Count(&n).Error; err != nil || n != 14 {
+		t.Fatalf("pending count = %d, err = %v", n, err)
+	}
+	for _, model := range []interface{}{&competition.Registration{}, &result.Results{}} {
+		if err := db.Model(model).Count(&n).Error; err != nil || n != 0 {
+			t.Fatalf("submission created %T: count = %d, err = %v", model, n, err)
+		}
+	}
+	for _, index := range []int{1, 8} {
+		if err := Approve(db, c.ID, ps[index].ID, result.DetailOk, u); err == nil || err.Error() != "上轮无成绩无法录入" {
+			t.Fatalf("second round approval without previous result: %v", err)
+		}
+		var saved result.PreResults
+		if err := db.First(&saved, ps[index].ID).Error; err != nil {
+			t.Fatal(err)
+		}
+		if saved.Finish || saved.ResultID != nil || saved.Detail != "" || saved.ProcessorID != 0 {
+			t.Fatalf("failed approval changed pending state: %+v", saved)
+		}
+	}
+	if err := db.Model(&competition.Registration{}).Count(&n).Error; err != nil || n != 0 {
+		t.Fatalf("failed approval created registration: count = %d, err = %v", n, err)
+	}
+	for _, p := range ps {
+		if err := Approve(db, c.ID, p.ID, result.DetailOk, u); err != nil {
+			t.Fatalf("approve %s round %d: %v", p.EventID, p.RoundNumber, err)
+		}
+	}
+	if err := db.Model(&result.Results{}).Count(&n).Error; err != nil || n != 14 {
+		t.Fatalf("approved results = %d, err = %v", n, err)
+	}
+	var reg competition.Registration
+	if err := db.First(&reg, "comp_id = ? AND user_id = ?", c.ID, u.ID).Error; err != nil {
+		t.Fatal(err)
+	}
+	if reg.Status != competition.RegisterStatusPass || reg.AcceptationTime == nil || !slices.Contains(reg.EventsList(), "555") || !slices.Contains(reg.EventsList(), "pyram") {
+		t.Fatalf("automatic registration incomplete: %+v", reg)
+	}
+}
+
+func TestGroupRecordingKeepsExistingRegistrationStatus(t *testing.T) {
+	for _, mode := range []string{"approval", "direct"} {
+		for _, status := range []string{competition.RegisterStatusPass, competition.RegisterStatusWaitApply, competition.RegisterStatusNotApply} {
+			t.Run(mode+"/"+status, func(t *testing.T) {
+				db, c, u := fixture(t)
+				reg := competition.Registration{CompID: c.ID, UserID: u.ID, Status: status}
+				reg.SetEvent("444")
+				if err := db.Create(&reg).Error; err != nil {
+					t.Fatal(err)
+				}
+				if mode == "approval" {
+					ps := []result.PreResults{pending(c, u)}
+					if err := SavePending(db, ps); err != nil {
+						t.Fatal(err)
+					}
+					var before competition.Registration
+					if err := db.First(&before, reg.ID).Error; err != nil {
+						t.Fatal(err)
+					}
+					if before.Status != status || slices.Contains(before.EventsList(), "333") {
+						t.Fatalf("submission changed registration: %+v", before)
+					}
+					if err := Approve(db, c.ID, ps[0].ID, result.DetailOk, u); err != nil {
+						t.Fatal(err)
+					}
+				} else if err := db.Transaction(func(tx *gorm.DB) error {
+					_, err := AddResult(tx, c, u, "333", 1, []float64{1, 2, 3, 4, 5}, nil, time.Now(), true)
+					return err
+				}); err != nil {
+					t.Fatal(err)
+				}
+				var saved competition.Registration
+				if err := db.First(&saved, reg.ID).Error; err != nil {
+					t.Fatal(err)
+				}
+				if saved.Status != status || !slices.Contains(saved.EventsList(), "333") || !slices.Contains(saved.EventsList(), "444") {
+					t.Fatalf("existing registration not preserved and extended: %+v", saved)
+				}
+			})
+		}
+	}
 }
 
 func TestPendingOverwriteApprovalAndScope(t *testing.T) {

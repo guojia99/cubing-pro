@@ -51,7 +51,7 @@ func Lock(db *gorm.DB, id uint) (competition.Competition, error) {
 	return c, err
 }
 
-func Validate(c competition.Competition, eventID string, round interface{}, userID uint, _ time.Time, pending bool, _ bool) (competition.CompetitionEvent, competition.Schedule, error) {
+func Validate(c competition.Competition, eventID string, round interface{}, _ uint, _ time.Time, pending bool, _ bool) (competition.CompetitionEvent, competition.Schedule, error) {
 	if !c.IsGroupCompetition() {
 		return competition.CompetitionEvent{}, competition.Schedule{}, errors.New("群赛校验不可用于其他比赛")
 	}
@@ -72,9 +72,7 @@ func Validate(c competition.Competition, eventID string, round interface{}, user
 	if s.RoundNum < 1 {
 		return ev, s, errors.New("轮次编号无效")
 	}
-	if s.RoundNum > 1 && !s.NoRestrictions && !slices.Contains(s.AdvancedToThisRound, userID) {
-		return ev, s, errors.New("选手不在晋级名单中")
-	}
+	// OnlineInformal competitions do not require an advancement list.
 	return ev, s, nil
 }
 
@@ -88,9 +86,6 @@ func CheckPlayer(db *gorm.DB, c competition.Competition, s competition.Schedule,
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			now := time.Now()
 			reg = competition.Registration{CompID: c.ID, CompName: c.Name, UserID: u.ID, UserName: u.Name, Status: competition.RegisterStatusPass, RegistrationTime: now, AcceptationTime: &now}
-		}
-		if reg.Status != competition.RegisterStatusPass {
-			return errors.New("选手报名未通过审批")
 		}
 		reg.SetEvent(eventID)
 		if err := db.Save(&reg).Error; err != nil {
@@ -142,9 +137,7 @@ func SavePending(db *gorm.DB, pres []result.PreResults) error {
 			}
 			p.CubeID, p.PersonName = u.CubeID, u.Name
 			p.CompetitionName, p.CompsName = c.Name, c.Name
-			if err = CheckPlayer(tx, c, s, p.EventID, u, true); err != nil {
-				return err
-			}
+			// Registration and previous-round results are checked on approval.
 			var old result.PreResults
 			err = tx.Where("comp_id = ? AND user_id = ? AND event_id = ? AND round_number = ? AND finish = ?", c.ID, p.UserID, p.EventID, p.RoundNumber, false).Order("id ASC").First(&old).Error
 			if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {

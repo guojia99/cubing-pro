@@ -2,6 +2,7 @@ package system
 
 import (
 	"encoding/json"
+	"errors"
 	"sync"
 	"time"
 
@@ -43,7 +44,9 @@ func SetKeyJSONValue(db *gorm.DB, key string, value interface{}, description str
 			ID: key,
 		},
 	}
-	db.First(&kv, "id = ?", key)
+	if err = db.First(&kv, "id = ?", key).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
+	}
 	if description != "" {
 		kv.Description = description
 	}

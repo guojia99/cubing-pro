@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/acknowledgments"
+	"github.com/guojia99/cubing-pro/src/api/app/advertisements"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
@@ -81,6 +82,13 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		systemResult.PUT("/acknowledgments", acknowledgments.SetAcknowledgments(svc)) // 赞助列表设置
 		systemResult.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
 
+		systemResult.GET("/advertisements", advertisements.Get(svc.DB, false))
+		systemResult.PUT("/advertisements", advertisements.Put(svc.DB))
+		systemResult.POST("/advertisements/image", advertisements.UploadImage(svc.DB, svc.Cfg.APIConfig.StaticPath, func(c *gin.Context) (uint, error) {
+			user, err := middleware.GetAuthUser(c)
+			return user.ID, err
+		}))
+
 		systemResult.PUT("/otherLinks", other_link.SetOtherLinks(svc)) // 外部链接设置
 		systemResult.GET("/otherLinks", other_link.GetOtherLinks(svc)) // 外部链接
 	}
@@ -104,15 +112,15 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	// 用户管理（管理员与超级管理员均可操作）
 	user := admin.Group("/users")
 	{
-		user.POST("/create_user", users.CreateUser(svc))                  // 添加一个用户
-		user.PUT("/update_user_name", users.UpdateUserName(svc))          // 修改用户名称
-		user.PUT("/update_cube_id", users.UpdateUserCubeID(svc))          // 修改用户 CubeID
+		user.POST("/create_user", users.CreateUser(svc))         // 添加一个用户
+		user.PUT("/update_user_name", users.UpdateUserName(svc)) // 修改用户名称
+		user.PUT("/update_cube_id", users.UpdateUserCubeID(svc)) // 修改用户 CubeID
 		user.POST("/", users.AdminUsers(svc))
 		user.PUT("/ban", users.BanUser(svc))                              // 禁用用户
 		user.PUT("/reset_password", users.RetrievePasswordWithAdmin(svc)) // 授权重置用户密码
 		user.PUT("/update_wca_id", users.UpdateUserWCAID(svc))            // 更新用户WCAID
-		user.PUT("/update_qq", users.UpdateUserQQ(svc))                  // 更新 QQ / QQUniID
-		user.POST("/soft_delete", users.SoftDeleteUser(svc))            // 软删除用户
+		user.PUT("/update_qq", users.UpdateUserQQ(svc))                   // 更新 QQ / QQUniID
+		user.POST("/soft_delete", users.SoftDeleteUser(svc))              // 软删除用户
 		user.POST("/purge", users.PurgeUser(svc))                         // 彻底删除已软删除用户
 		user.POST("/merge_user", users.MergeUser(svc))                    // 合并两个用户
 		user.POST("/update_auth", users.UpdateAuth(svc))                  // 修改用户权限

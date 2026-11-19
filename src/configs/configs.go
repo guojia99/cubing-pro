@@ -54,7 +54,7 @@ type DBConfig struct {
 type APIConfig struct {
 	Host       string `yaml:"host"`
 	Port       int    `yaml:"port"`
-	StaticPath string `yaml:"staticPath"`
+	StaticPath string `yaml:"staticPath"` // API 图片根目录：avatar/、advertisements/；空值使用工作目录，生产路径由部署配置
 }
 
 // DynamicRouteFallbackConfig 未命中物理文件时，将 URL 回退到预构建的 __dynamic__ 占位页（Next 静态导出动态 ID 路由）。
@@ -68,9 +68,9 @@ type GatewayConfig struct {
 	PrivateKey string `yaml:"privateKey"`
 	HttpPort   int    `yaml:"httpPort"`
 	// Port 兼容 yaml 中的 port（与 httpPort 二选一，httpPort 优先）
-	Port      int    `yaml:"port"`
-	HTTPSPort int    `yaml:"httpsPort"`
-	HTTPSHost string `yaml:"httpsHost"`
+	Port       int    `yaml:"port"`
+	HTTPSPort  int    `yaml:"httpsPort"`
+	HTTPSHost  string `yaml:"httpsHost"`
 	XFile      string `yaml:"xFile"`      // 其他特殊文件
 	IndexPath  string `yaml:"indexPath"`  // 前端启动文件（遗留 Umi 单页，或 Next 多页时指向 dist/index.html）
 	StaticPath string `yaml:"staticPath"` // 遗留 Umi：打包资源目录（如 build/static）；Next 多页静态导出请留空并设 spa: false

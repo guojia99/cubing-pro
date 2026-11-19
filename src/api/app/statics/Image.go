@@ -1,9 +1,7 @@
 package statics
 
 import (
-	"fmt"
 	"net/http"
-	"path"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
@@ -36,7 +34,6 @@ func Image(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		if len(img.LocalPath) != 0 {
-			ctx.Header("Content-Type", fmt.Sprintf("image/%s", path.Ext(img.LocalPath)))
 			ctx.File(img.LocalPath)
 			return
 		}

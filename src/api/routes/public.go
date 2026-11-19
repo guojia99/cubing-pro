@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/acknowledgments"
+	"github.com/guojia99/cubing-pro/src/api/app/advertisements"
 	"github.com/guojia99/cubing-pro/src/api/app/comp"
 	"github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
@@ -34,7 +35,8 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 		public.GET("/pkTimers", pktimer.GetPKtimer(svc))
 		public.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
-		public.GET("/otherLinks", other_link.GetOtherLinks(svc))                // 外链列表
+		public.GET("/advertisements", advertisements.Get(svc.DB, true))
+		public.GET("/otherLinks", other_link.GetOtherLinks(svc)) // 外链列表
 	}
 
 	player := public.Group("/player") //middleware.CacheMiddleware(time.Minute),

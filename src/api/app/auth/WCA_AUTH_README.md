@@ -1,231 +1,25 @@
-下面是一份 完整、安全、可运行 的 Go + Gin 项目示例，用于：
-接入 World Cube Association (WCA) OAuth2
-使用 授权码模式（Authorization Code Flow）
-回调后换取 access_token
-调用 WCA /api/v0/me 获取用户信息
-生成 JWT（JSON Web Token） 作为本地登录凭证
-包含 state 防 CSRF、错误处理、环境变量配置等最佳实践
+# WCA OAuth 实现索引
 
+本目录使用项目现有 Gin 路由、数据库和 JWT 中间件实现 WCA 登录，无需另建示例项目或执行 `go mod init`。前端参数、配置与响应说明见 [WCA 登录前端对接手册](../../../../docs/WCA_LOGIN_FRONTEND_GUIDE.md)。
 
+## 实现位置
 
-✅ 前提条件
-在 WCA OAuth Applications 创建应用：
-Redirect URI: http://localhost:8000/auth/wca/callback
-记下 Client ID 和 Client Secret
-安装依赖：
-```
-go mod init wca-jwt-login
-go get github.com/gin-gonic/gin
-go get golang.org/x/oauth2
-go get github.com/golang-jwt/jwt/v5
-```
-/auth/wca 接收 ?redirect=/your-page
-将 redirect 地址和随机 nonce 一起编码为 state
-回调时解码 state，验证 nonce，然后跳转到 redirect
-我们采用 JSON 编码 + Base64 的方式将 {target: "...", nonce: "..."} 存入 state。
+| 文件 | 职责 |
+| --- | --- |
+| [wca.go](wca.go) | `WcaAuthInit` 发起授权、持久化 state；`WcaAuthCallback` 换取 WCA token、读取用户信息并生成本地 JWT；`WcaAuthMe` 返回当前鉴权用户 |
+| [routes/auth.go](../../routes/auth.go) | 注册 `/v3/cube-api/auth/wca`、`/callback` 和需 JWT/选手权限的 `/me` 路由 |
+| [middleware/jwt.go](../../middleware/jwt.go) | 与账号密码登录共用的 JWT 生成和解析逻辑 |
+| [user/oauth_state.go](../../../internel/database/model/user/oauth_state.go) | 数据库中的 nonce、前端跳转地址与 state 过期时间 |
+| [configs/global.go](../../../configs/global.go) | `global.wcaAuth2` 配置结构 |
+| [convenient/migrate.go](../../../internel/convenient/migrate.go) | 服务初始化时尝试迁移用户及 OAuth state 表；旧 MySQL 库的条件补迁移见[脚本说明](../../../../scripts/README.md) |
 
-示例代码
-```go
-package main
+## 对接要点
 
-import (
-	"context"
-	"crypto/rand"
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"log"
-	"net/http"
-	"net/url"
-	"os"
-	"strings"
-	"time"
+- 配置位于 **`global.wcaAuth2`**，不从旧示例中的 `WCA_CLIENT_ID` 等环境变量读取。凭据仅放本地/部署配置，不提交仓库。
+- 回调使用 `redirectBase`，为空时回退到 `global.baseHost`，再拼接 `/v3/cube-api/auth/wca/callback`。
+- 前端 `redirect` 允许列表优先使用非空 `redirectURLs`；只有列表为空时才使用 `frontendBase` 和不同的 `redirectBase`。空值或 `debug` 返回 JSON 调试结果。
+- 正常发起授权使用 **307** 跳转；登录成功后使用 **302** 跳回前端并在查询参数中附带本地 JWT。
+- state 记录保存在业务数据库，当前有效期为 10 分钟；回调消费后删除。查不到/过期 state 或换 token 失败时，当前代码会尝试重新发起授权。
+- WCA 用户需有 WCA ID；本地按 `wca_id` 查找或创建用户。WCA access token 不作为前端 API 的 Bearer token，也不会通过用户模型 JSON 返回。
 
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/oauth2"
-)
-
-var (
-	wcaOAuthConfig = &oauth2.Config{
-		ClientID:     os.Getenv("WCA_CLIENT_ID"),
-		ClientSecret: os.Getenv("WCA_CLIENT_SECRET"),
-		RedirectURL:  "http://localhost:8000/auth/wca/callback",
-		Scopes:       []string{"public", "email", "dob", "profile", "openid"},
-		Endpoint: oauth2.Endpoint{
-			AuthURL:  "https://www.worldcubeassociation.org/oauth/authorize",
-			TokenURL: "https://www.worldcubeassociation.org/oauth/token",
-		},
-	}
-	jwtSecret        = []byte(os.Getenv("JWT_SECRET"))
-	frontendBaseURL  = "http://localhost:3000" // 前端域名（用于安全校验）
-	validStateNonces = make(map[string]time.Time) // 仅存 nonce，不存完整 URL
-)
-
-// StatePayload 用于构造 state
-type StatePayload struct {
-	Redirect string `json:"r"` // 用户想回到的前端页面（必须是 frontendBaseURL 下的路径）
-	Nonce    string `json:"n"` // 随机字符串，防重放
-}
-
-// 生成随机 nonce
-func generateNonce() string {
-	b := make([]byte, 16)
-	rand.Read(b)
-	return base64.RawURLEncoding.EncodeToString(b)
-}
-
-// 安全校验 redirect 是否属于你的前端域
-func isValidRedirectURI(redirect string) bool {
-	if redirect == "" {
-		return true // 允许空，默认跳首页
-	}
-	u, err := url.Parse(redirect)
-	if err != nil {
-		return false
-	}
-	return u.Scheme+ "://" + u.Host == frontendBaseURL
-}
-
-func main() {
-	if os.Getenv("WCA_CLIENT_ID") == "" {
-		log.Fatal("Missing WCA_CLIENT_ID")
-	}
-	if os.Getenv("WCA_CLIENT_SECRET") == "" {
-		log.Fatal("Missing WCA_CLIENT_SECRET")
-	}
-	if len(jwtSecret) == 0 {
-		log.Fatal("Missing JWT_SECRET")
-	}
-
-	r := gin.Default()
-
-	// 1. 发起 WCA 登录，支持 ?redirect=...
-	r.GET("/auth/wca", func(c *gin.Context) {
-		redirect := c.Query("redirect")
-
-		// 安全校验（防止开放重定向漏洞）
-		if !isValidRedirectURI(redirect) {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid redirect URI"})
-			return
-		}
-
-		nonce := generateNonce()
-		validStateNonces[nonce] = time.Now().Add(5 * time.Minute)
-
-		stateData := StatePayload{
-			Redirect: redirect,
-			Nonce:    nonce,
-		}
-		stateBytes, _ := json.Marshal(stateData)
-		state := base64.RawURLEncoding.EncodeToString(stateBytes)
-
-		authURL := wcaOAuthConfig.AuthCodeURL(state, oauth2.AccessTypeOnline)
-		c.Redirect(http.StatusTemporaryRedirect, authURL)
-	})
-
-	// 2. 回调处理
-	r.GET("/auth/wca/callback", func(c *gin.Context) {
-		code := c.Query("code")
-		state := c.Query("state")
-
-		if code == "" || state == "" {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "missing code or state"})
-			return
-		}
-
-		// 解码 state
-		stateBytes, err := base64.RawURLEncoding.DecodeString(state)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid state format"})
-			return
-		}
-
-		var payload StatePayload
-		if err := json.Unmarshal(stateBytes, &payload); err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid state payload"})
-			return
-		}
-
-		// 校验 nonce
-		if createdAt, ok := validStateNonces[payload.Nonce]; !ok || time.Since(createdAt) > 5*time.Minute {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid or expired state"})
-			return
-		}
-		delete(validStateNonces, payload.Nonce)
-
-		// 换 token、获取用户信息、生成 JWT（同之前逻辑）
-		token, err := wcaOAuthConfig.Exchange(context.Background(), code)
-		if err != nil {
-			log.Printf("Token exchange error: %v", err)
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "auth failed"})
-			return
-		}
-
-		client := wcaOAuthConfig.Client(context.Background(), token)
-		resp, err := client.Get("https://www.worldcubeassociation.org/api/v0/me")
-		if err != nil || resp.StatusCode != http.StatusOK {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch user"})
-			return
-		}
-		defer resp.Body.Close()
-
-		var wcaUser struct {
-			ID    int    `json:"id"`
-			WCAID string `json:"wca_id"`
-			Name  string `json:"name"`
-			Email string `json:"email"`
-		}
-		json.NewDecoder(resp.Body).Decode(&wcaUser)
-
-		// 生成 JWT
-		jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": wcaUser.ID,
-			"wca_id":  wcaUser.WCAID,
-			"email":   wcaUser.Email,
-			"name":    wcaUser.Name,
-			"exp":     time.Now().Add(24 * time.Hour).Unix(),
-		})
-		tokenStr, _ := jwtToken.SignedString(jwtSecret)
-
-		// 构造最终跳转地址
-		target := payload.Redirect
-		if target == "" {
-			target = frontendBaseURL // 默认跳首页
-		}
-
-		// 添加 token 到 URL（前端可读取）
-		finalURL := target
-		if strings.Contains(target, "?") {
-			finalURL += "&token=" + url.QueryEscape(tokenStr)
-		} else {
-			finalURL += "?token=" + url.QueryEscape(tokenStr)
-		}
-
-		c.Redirect(http.StatusFound, finalURL)
-	})
-
-	// 示例：受保护路由
-	r.GET("/api/test", func(c *gin.Context) {
-		auth := c.GetHeader("Authorization")
-		if !strings.HasPrefix(auth, "Bearer ") {
-			c.AbortWithStatus(401)
-			return
-		}
-		// 验证 token...
-		c.JSON(200, gin.H{"msg": "protected data"})
-	})
-
-	log.Println("Server running on :8000")
-	r.Run(":8000")
-}
-```
-
-
-✅ 效果
-用户访问 http://localhost:3000/secret
-前端跳转到：
-http://localhost:8000/auth/wca?redirect=http%3A%2F%2Flocalhost%3A3000%2Fsecret
-登录成功后，自动跳回：
-http://localhost:3000/secret?token=eyJhbGciOiJIUzI1NiIs...
-前端读取 token 并存入 localStorage / memory，后续请求带上
+启动与测试可能涉及数据库和导入包初始化，请先阅读[开发指南](../../../../docs/development.md)。

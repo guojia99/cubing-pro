@@ -28,7 +28,12 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `configs.go` | 定义 `GlobalConfig`、`APIConfig`、`GatewayConfig`、`QQBotConfig`、`WcaAuth2` 等配置结构，以及从 YAML 加载配置的 `Load` 方法。 |
+| `configs.go` | 顶层 `Config`、`APIConfig`、日志/任务配置，以及 YAML `Load`；兼容 `apiGateway` 与 `gateway.port` 旧键。 |
+| `global.go` | `GlobalConfig` 与业务 DB、邮件、打乱、WCA 数据库、`WcaAuth2` 配置。 |
+| `gateway.go` | 网关、静态站点、本地代理配置与 `StaticSiteConfig.StableID`。 |
+| `robot.go` | QQ、CQHTTP、WeChat 机器人配置。 |
+
+以上是同一 `configs` 包内的文件拆分，不改变导入路径、配置键或加载语义。字段与配置示例见[配置说明](../docs/configuration.md)。
 
 ---
 
@@ -36,7 +41,7 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `gateway.go` | 网关服务：Gin 实例、静态文件扩展名策略、反向代理 API/tNoodle、安全头（secure）、gzip 等；与前端部署、HTTPS 证书路径等相关。 |
+| `gateway.go` | 网关构造、HTTP/TLS 监听与 gzip；路由、静态站点、代理和 tNoodle 代理在同目录其他文件实现。 |
 
 ---
 
@@ -137,7 +142,10 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 负责读配置、连库、初始化打乱与算法 Trainer、WCA 与定时任务门面。 |
+| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 按序读配置、连库、构造打乱、加载公式、初始化 WCA 与业务门面。 |
+| `database.go` | 同包 `newDB`，按业务库配置选择 SQLite/MySQL 并设置数据库日志；不是独立命令。 |
+
+`api`、`gateway`、`robot` 等服务子命令共享此初始化链，业务门面会尝试自动迁移。`-j`、`-w` 不控制所有导入包的 `init()` 副作用，详见[开发指南](../docs/development.md)。
 
 ### `internel/database/model/`
 
@@ -155,16 +163,23 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `sports/` | 运动扩展成绩。 |
 | `system/` | 系统键值、图片等。 |
 | `user/` | 用户、角色、OAuth state、校验、赞助关联等。 |
-| `wca/` | 与 WCA 同步或 API 结果相关的表；`utils/results.go` 为结果工具与测试。 |
-| `README.md` | 模型层说明（若存在）。 |
+| `wca/` | WCA 赛事、成绩缓存和同步相关模型。 |
 
 ### `internel/convenient/`
 
 | 文件/目录 | 作用 |
 |-----------|------|
-| `convenient.go` | 「便捷门面」实现，聚合业务用例供 `Svc` 使用。 |
+| `convenient.go` | 「便捷门面」实现，聚合业务接口、缓存和任务，调用同包迁移及任务组装逻辑。 |
+| `migrate.go` | 业务模型 AutoMigrate；初始化时调用，当前错误被忽略，启动继续不代表迁移成功。 |
+| `jobs.go` | 任务列表与禁用项过滤，按配置加入静态站点自动更新任务；由门面根据 `runJob` 决定运行循环。 |
 | `interface/` | 接口定义：`i_user`、`i_competition`、`i_result`、`i_wca_results` 及结果类型/工具抽象，便于测试与解耦。 |
 | `job/` | 定时任务：更新 Cubing China、DIY 排行、记录任务等（`job.go` 为调度入口或汇总）。 |
+
+`migrate.go`、`jobs.go` 均仍属于 `convenient` 包，拆分不改变调用顺序或任务开关语义。
+
+### `internel/groupcomp/`
+
+群比赛的选择、分组、轮次、录入/审批、结束和删除逻辑。测试以模型和内存 SQLite 为夹具，路由契约通过读取/解析源码检查，不导入 `svc` 或 Handler；可单独选择该包验证，范围与 CGO 条件见[开发指南](../docs/development.md)。
 
 ### `internel/scramble/`
 
@@ -174,8 +189,8 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `tnoodle_scramble.go` | 对接 tNoodle 的打乱实现。 |
 | `auto_scramble.go` | 自动/备用打乱路径。 |
 | `scramble_images.go` | 打乱图生成。 |
-| `rust_scramble.go` / `rust_scramble_darwin.go` | 通过 CGO/静态库调用 Rust 打乱（平台相关）。 |
-| `rust_scramble.h` / `librust_scramble.a` | Rust 静态库头文件与二进制（构建产物，版本库可能包含）。 |
+| `rust_scramble.go` / `rust_scramble_darwin.go` | 非 macOS 经 CGO/静态库调用 Rust；macOS 为占位实现，返回 `[macOS-disabled]`，不生成真实打乱。 |
+| `rust_scramble.h` / `librust_scramble.a` | Rust 头文件与已跟踪静态库；构建时仍需匹配系统/架构与原生链接条件。 |
 | `*_test.go` | 对应包的单元测试。 |
 
 ### `internel/algs/`
@@ -196,7 +211,7 @@ Trainer 算法集、表驱动与读取逻辑。
 |------|------|
 | `person.go` / `person_types.go` / `person_result.go` | 人员与成绩 DTO 及请求。 |
 | `db.go` | 本地缓存或 DB 访问辅助。 |
-| `wcaSeniors*.go` | Seniors 相关类型与数据；`*_test.go` 为测试；`wca_seniors_cache.json` 等为缓存数据。 |
+| `wcaSeniors*.go` | Seniors 类型与数据；`wcaSeniors.go` 的 `init()` 启动缓存加载/定时更新协程，缺失或过期时可能联网并写 `wca_seniors_cache.json`，不受 CLI `-j` / `-w` 控制。 |
 | `cubing_citys.go` | 城市相关。 |
 
 ### `internel/crawler/`
@@ -230,7 +245,7 @@ Trainer 算法集、表驱动与读取逻辑。
 
 ## `wca/`
 
-本地 WCA 数据层（MySQL/SQLite 等）、同步与静态榜单数据。
+独立 WCA 数据层、同步与静态榜单数据。当前 `NewWCA` 的查询连接根据 `dbPath/wca.txt` 选择 MySQL 库；SQLite 导出不等于使用业务 SQLite 即可运行 WCA 查询。
 
 | 文件/目录 | 作用 |
 |-----------|------|
@@ -241,7 +256,7 @@ Trainer 算法集、表驱动与读取逻辑。
 | `types/` | `wca_types.go`、`static_types.go` 等领域类型。 |
 | `utils/` | `bitset`、`top_heap`、结果工具等。 |
 | `citys_data/*.json` | 中/省/市/区等行政区划静态 JSON。 |
-| `test.json` 等 | 测试或样例数据。 |
+| `*_test.go` | 含真实数据库、同步与文件生成测试，运行前需逐个核对并显式选择。 |
 
 ---
 
@@ -279,12 +294,16 @@ Trainer 算法集、表驱动与读取逻辑。
 ## 与其他仓库路径的关系
 
 - 可执行入口在仓库根目录 `cubing-pro/main.go`，通过 `cmd/` 子命令启动 `api`、`robot`、`gateway` 等；**不在 `src/` 内**，但与 `src` 紧密配合。
-- 配置文件示例在 `cubing-pro/etc/`、`local/` 等，由 `configs` 加载。
+- 公开配置示例在 `etc/`；`local/` 为忽略的私人配置目录，可由 `make init-config` 非覆盖创建。见[配置说明](../docs/configuration.md)。
+- `build/Algs/`、`build/Alg-Trainers/` 是公式资源；`build/` 仍承载运行数据，不能因维护工具迁出而整体删除。原始导入快照位于忽略的 `test/`，不随公开克隆提供。见[脚本说明](../scripts/README.md)。
+- CPU 负载实验入口为 [`tools/loadtest/main.go`](../tools/loadtest/main.go)，使用边界见[工具说明](../tools/README.md)；禁止作为默认测试或生产服务。
+- WCA 离线 SQLite 维护脚本为 [`scripts/wca_sync_to_sqlite.py`](../scripts/wca_sync_to_sqlite.py)，依赖、cwd 输出与删除行为见[脚本说明](../scripts/README.md#wca-离线-sqlite-维护)；不替代服务器 WCA MySQL 查询。
 
 ---
 
 ## 维护说明
 
 - 新增 HTTP 接口：在 `api/app/<领域>/` 增加 Handler → 在 `api/routes/*.go` 注册 → 必要时加中间件。
-- 新增数据表：在 `internel/database/model/` 增加模型并迁移（项目若使用自动迁移则在启动或独立命令中完成）。
+- 新增数据表：在 `internel/database/model/` 增加模型并审查 `internel/convenient/migrate.go`；旧库的补迁移按实际结构选择，不能盲跑全部 SQL。
+- 开始验证前阅读[开发指南](../docs/development.md)；不要默认全量测试无外部副作用。
 - 本文若与代码不一致，以当前代码为准；`api/app` 下文件较多，未逐文件列名的 `.go` 均可按「单文件单 Handler」理解。

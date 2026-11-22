@@ -17,7 +17,7 @@ GORM `AutoMigrate` 会先探测表是否存在再发送不带 `IF NOT EXISTS` �
   - 锁名称分别为 `cubing_pro_formula_init`（保护 `algs.InitCatalog` 的 6 张目录表 `AutoMigrate` 与首次事务导入）和 `cubing_pro_forum_migrate`（保护 `formulaforum.Migrate` 的 3 张论坛表 `AutoMigrate`）。
   - 零额外组件、零新增锁表；非 MySQL 方言（如单元测试使用的 SQLite）直接执行迁移回调不加锁。
 - 错误严格向上传播（fail-fast）：
-  - `algs.InitCatalog` 与 `formulaforum.Migrate` 均在 `svc.NewAPISvc` 中执行并检查返回错误（不再放在忽略错误的 `convenient.NewConvenient` 中），任意一步建表、获取/释放锁或导入校验失败均直接中止启动，避免进程带病运行到访问阶段才报错。
+  - `algs.InitCatalog` 与 `formulaforum.Migrate` 均在 `svc.NewAPISvc` 中执行并严格检查返回错误，任意一步建表、获取/释放锁或导入校验失败均直接中止启动，避免进程带病运行到访问阶段才报错。
   - 若需改为由外部发布脚本单进程完成迁移，只需要去掉上述两处的 `WithMigrationLock` 包裹并移除 `migration_lock.go`。
 
 ## 公式目录入库、稳定 ID 与维护方式

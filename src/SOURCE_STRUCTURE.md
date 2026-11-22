@@ -112,6 +112,7 @@ src/
 | `auth/` | 注册、登录、验证码、找回/重置密码、头像、用户消息、资料更新、`wca.go`（WCA OAuth）、`WCA_AUTH_README.md`（说明文档）。 |
 | `comp/` | 用户侧：比赛详情、报名、退赛、成绩列表、报名进度与回调等。 |
 | `events/` | 赛事内「项目（Events）」的创建、删除、列表（组织者侧逻辑，与路由绑定一致）。 |
+| `formulaforum/` | 公式论坛公开查询（计数、评论列表、最近讨论）、用户发评/回复通知及管理员删评接口。 |
 | `notify/` | 站内通知的增删改查与列表。 |
 | `organizers/` | 主办方：创建/更新/删除比赛、选手与成绩录入、预审、结束比赛、组织成员等；`org_mid/middleware.go` 为组织者相关中间件。 |
 | `other_link/` | 站点外链配置的读写与类型定义。 |
@@ -137,7 +138,13 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 负责读配置、连库、初始化打乱与算法 Trainer、WCA 与定时任务门面。 |
+| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 负责读配置、连库、初始化打乱、带锁迁移公式目录（`algs.InitCatalog`）与论坛表（`formulaforum.Migrate`）并传播错误、初始化 WCA 与定时任务门面。 |
+
+### `internel/database/`
+
+| 文件 | 作用 |
+|------|------|
+| `migration_lock.go` | `WithMigrationLock`：使用 MySQL 会话级 `GET_LOCK` / `RELEASE_LOCK` 串行化多进程并发启动时的建表与首次导入（非 MySQL 方言自动跳过）。 |
 
 ### `internel/database/model/`
 
@@ -149,6 +156,7 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `competition/` | 比赛、报名、分组、讨论等。 |
 | `crawler/` | 爬虫侧发邮件等模型。 |
 | `event/` | 项目定义、路线、对外 DTO（`out.go`）。 |
+| `formulaforum/` | 公式论坛讨论主题、评论与回复通知模型及带锁 `Migrate`。 |
 | `pktimer/` | PK 计时相关表。 |
 | `post/` | 帖子、通知表单。 |
 | `result/` | 成绩、预成绩、记录、`results_utils` 与测试。 |
@@ -185,7 +193,7 @@ Trainer 算法集、表驱动与读取逻辑。
 | 文件 | 作用 |
 |------|------|
 | `algs.go` | 首次迁移时装配新目录与旧 Trainer。 |
-| `catalog.go` | 公式库表结构、事务导入与校对、按分类读取。 |
+| `catalog.go` | 公式库表结构、16 位小写 hex 稳定 ID、带 `WithMigrationLock` 的并发安全建表与首次事务导入、按分类读取（详见 `docs/formula-forum.md`）。 |
 | `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
 

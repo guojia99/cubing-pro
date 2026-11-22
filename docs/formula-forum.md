@@ -41,7 +41,7 @@ GORM `AutoMigrate` 会先探测表是否存在再发送不带 `IF NOT EXISTS` �
 | 权限 | 方法 | 路径 | 说明 |
 | --- | --- | --- | --- |
 | 公开 | GET | `/public/formula-forum/counts` | 按 `cube`、`class` 返回各组与解法的活跃评论数 |
-| 公开 | GET | `/public/formula-forum/targets/:kind/:targetId/comments` | 读取分组/解法讨论，支持 `commentId` 居中定位与越界 `page` 收敛 |
+| 公开 | GET | `/public/formula-forum/targets/:kind/:targetId/comments` | 读取分组/解法讨论，支持 `commentId` 居中定位与越界 `page` 收敛。指定评论已删除且不再可见时，仍按收敛后的页码打开讨论 |
 | 公开 | GET | `/public/formula-forum/recent` | 最近活跃讨论列表，返回 `lastCommentId` 便于直达最新评论 |
 | 登录用户 | POST | `/user/formula-forum/targets/:kind/:targetId/comments` | 发评/回复（1–400 字校验、屏蔽词返回 422 `keyword_blocked`） |
 | 登录用户 | GET | `/user/formula-forum/notifications` | 「回复我的」通知列表与未读数 |

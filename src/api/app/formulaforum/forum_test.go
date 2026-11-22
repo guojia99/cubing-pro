@@ -153,7 +153,10 @@ func TestDiscussionLifecycle(t *testing.T) {
 	if page["page"] != 2.0 || top(page)["replyToName"] != "Alice" || top(page)["id"] != float64(reply) {
 		t.Fatal(page)
 	}
-	request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, reply), "", "", 404)
+	page = request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, reply), "", "", 200)
+	if page["page"] != 1.0 || page["total"] != 1.0 || top(page)["id"] != float64(other) {
+		t.Fatal(page)
+	}
 	notify := request("GET", notices, alice, "", 200)
 	if notify["unread"] != 1.0 || top(notify)["commentId"] != float64(reply) {
 		t.Fatal(notify)
@@ -206,7 +209,10 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal("deleted reply exposed in notification")
 	}
 	// Only the immediate parent of the surviving reply still occupies a page.
-	request("GET", fmt.Sprintf("/public%s?commentId=%d", sol, first), "", "", 404)
+	page = request("GET", fmt.Sprintf("/public%s?commentId=%d&page=99&size=1", sol, first), "", "", 200)
+	if page["page"] != 2.0 || page["total"] != 2.0 || top(page)["id"] != float64(self) {
+		t.Fatal(page)
+	}
 	page = request("GET", fmt.Sprintf("/public%s?commentId=%d&size=1", sol, reply), "", "", 200)
 	if page["total"] != 2.0 || page["count"] != 1.0 || page["page"] != 1.0 || top(page)["id"] != float64(reply) || top(page)["deleted"] != true {
 		t.Fatal(page)

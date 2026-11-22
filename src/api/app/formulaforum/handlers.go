@@ -118,6 +118,7 @@ func Comments(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
+		req.clamp(stats.Total)
 		if req.CommentID != 0 {
 			var position, found int64
 			err = visible.Session(&gorm.Session{}).Select("COUNT(*), COUNT(CASE WHEN c.id = ? THEN 1 END)", req.CommentID).
@@ -125,13 +126,9 @@ func Comments(db *gorm.DB) gin.HandlerFunc {
 			if !success(ctx, err) {
 				return
 			}
-			if found == 0 {
-				exception.ErrResourceNotFound.ResponseWithError(ctx, nil)
-				return
+			if found != 0 {
+				req.Page = int(position-1)/req.Size + 1
 			}
-			req.Page = int(position-1)/req.Size + 1
-		} else {
-			req.clamp(stats.Total)
 		}
 
 		items := []Comment{}

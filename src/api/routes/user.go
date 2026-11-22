@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/app/formulaforum"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
@@ -13,6 +14,11 @@ func UserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		middleware.JWT().MiddlewareFunc(),
 		middleware.CheckAuthMiddlewareFunc(user.AuthPlayer),
 	)
+
+	forum := userGroup.Group("/formula-forum")
+	forum.POST("/targets/:kind/:targetId/comments", formulaforum.Create(svc.DB))
+	forum.GET("/notifications", formulaforum.Notifications(svc.DB))
+	forum.PUT("/notifications/:id/read", formulaforum.MarkRead(svc.DB))
 
 	kv := userGroup.Group("kv")
 	{

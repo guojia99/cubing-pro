@@ -2,6 +2,7 @@ global:
   baseHost: "http://127.0.0.1"
   #  baseHost: https://cubing.pro
   debug: true
+  algTrainersPath: "./build/Alg-Trainers" # 首次启动导入公式目录
   xStaticPath: "/x-static" # 后端资源文件
   xFilePath: "/x-file" # 其他资源文件
   db:

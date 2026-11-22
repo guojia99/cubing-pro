@@ -56,10 +56,8 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 		)
 	}
 
-	if cfg.GlobalConfig.AlgTrainersPath != "" {
-		if err = algs.Init(cfg.GlobalConfig.AlgTrainersPath); err != nil {
-			return nil, err
-		}
+	if err = algs.InitCatalog(c.DB, cfg.GlobalConfig.AlgTrainersPath); err != nil {
+		return nil, err
 	}
 
 	c.Wca = wca.NewWCA(

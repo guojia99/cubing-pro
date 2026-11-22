@@ -184,7 +184,8 @@ Trainer 算法集、表驱动与读取逻辑。
 
 | 文件 | 作用 |
 |------|------|
-| `algs.go` | 初始化与对外 API。 |
+| `algs.go` | 首次迁移时装配新目录与旧 Trainer。 |
+| `catalog.go` | 公式库表结构、事务导入与校对、按分类读取。 |
 | `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
 

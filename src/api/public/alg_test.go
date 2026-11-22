@@ -147,7 +147,7 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 				for _, group := range set.AlgorithmGroups {
 					for _, c := range group.Algorithms {
 						if c.Name == name && len(c.Algs) == n {
-							if group.GroupID == "" || c.CaseID == "" || len(c.SolutionIDs) != n {
+							if len(group.GroupID) != 16 || len(c.CaseID) != 16 || len(c.SolutionIDs) != n {
 								t.Fatalf("%s has incomplete identifiers", name)
 							}
 							return c
@@ -164,7 +164,7 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 			t.Fatal("identical occurrences must have distinct solution IDs")
 		}
 		for _, id := range duplicate.SolutionIDs[1:] {
-			if _, err := hex.DecodeString(*id); err != nil || len(*id) != 64 {
+			if _, err := hex.DecodeString(*id); err != nil || len(*id) != 16 {
 				t.Fatalf("invalid solution ID %q", *id)
 			}
 		}

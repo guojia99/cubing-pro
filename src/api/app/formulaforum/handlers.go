@@ -19,6 +19,17 @@ type paging struct {
 	Size int `form:"size,default=20" binding:"min=1,max=100"`
 }
 
+func (p *paging) clamp(total int64) {
+	if total <= 0 {
+		p.Page = 1
+		return
+	}
+	maxPage := int((total-1)/int64(p.Size)) + 1
+	if p.Page > maxPage {
+		p.Page = maxPage
+	}
+}
+
 func (p paging) window(q *gorm.DB) *gorm.DB {
 	return q.Offset((p.Page - 1) * p.Size).Limit(p.Size)
 }
@@ -119,6 +130,8 @@ func Comments(db *gorm.DB) gin.HandlerFunc {
 				return
 			}
 			req.Page = int(position-1)/req.Size + 1
+		} else {
+			req.clamp(stats.Total)
 		}
 
 		items := []Comment{}
@@ -179,11 +192,13 @@ func Recent(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		items := []struct {
-			Target       Target    `json:"target" gorm:"embedded;embeddedPrefix:target_"`
-			Count        int64     `json:"count"`
-			LastActivity time.Time `json:"lastActivity"`
+			Target        Target    `json:"target" gorm:"embedded;embeddedPrefix:target_"`
+			Count         int64     `json:"count"`
+			LastActivity  time.Time `json:"lastActivity"`
+			LastCommentID uint      `json:"lastCommentId"`
 		}{}
-		err := req.window(q).Joins("JOIN formula_comments c ON c.id = activity.last_id").Select(targetColumns + ", activity.count, c.created_at AS last_activity").
+		req.clamp(total)
+		err := req.window(q).Joins("JOIN formula_comments c ON c.id = activity.last_id").Select(targetColumns + ", activity.count, c.created_at AS last_activity, activity.last_id AS last_comment_id").
 			Order("c.created_at DESC, c.id DESC").Scan(&items).Error
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{"items": items, "total": total, "page": req.Page})
@@ -207,6 +222,7 @@ func AdminComments(db *gorm.DB) gin.HandlerFunc {
 			Comment
 			Target Target `json:"target" gorm:"embedded;embeddedPrefix:target_"`
 		}{}
+		req.clamp(total)
 		err := req.window(withAuthors(q)).Select(commentColumns + ", " + targetColumns).Order("c.id DESC").Scan(&items).Error
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{"items": items, "total": total, "page": req.Page})
@@ -256,6 +272,7 @@ func Notifications(db *gorm.DB) gin.HandlerFunc {
 			CreatedAt  time.Time  `json:"createdAt"`
 			ReadAt     *time.Time `json:"readAt"`
 		}{}
+		req.clamp(stats.Total)
 		err = req.window(q).Joins("LEFT JOIN users a ON a.id = c.author_id").
 			Select(targetColumns + ", n.id, n.comment_id, n.read_at, c.created_at, c.body, COALESCE(a.name,'') AS author_name").
 			Order("n.id DESC").Scan(&items).Error

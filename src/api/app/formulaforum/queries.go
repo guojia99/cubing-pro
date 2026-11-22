@@ -21,7 +21,7 @@ type Target struct {
 
 type targetKey struct {
 	Kind string `uri:"kind" binding:"required,oneof=group solution"`
-	ID   string `uri:"targetId" binding:"required,len=64,hexadecimal,lowercase"`
+	ID   string `uri:"targetId" binding:"required,len=16,hexadecimal,lowercase"`
 }
 
 func (k targetKey) discussion() model.FormulaDiscussion {

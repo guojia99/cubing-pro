@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/guojia99/cubing-pro/src/internel/database"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -18,7 +19,7 @@ func catalogID(parts ...string) string {
 	for _, part := range parts {
 		fmt.Fprintf(h, "%d:%s", len(part), part)
 	}
-	return hex.EncodeToString(h.Sum(nil))
+	return hex.EncodeToString(h.Sum(nil)[:8])
 }
 
 type formulaCatalogImport struct {
@@ -27,7 +28,7 @@ type formulaCatalogImport struct {
 }
 
 type formulaClass struct {
-	ID       string       `gorm:"size:64;primaryKey"`
+	ID       string       `gorm:"size:32;primaryKey"`
 	Cube     string       `gorm:"size:32;not null;uniqueIndex:idx_formula_class_name"`
 	Name     string       `gorm:"size:191;not null;uniqueIndex:idx_formula_class_name"`
 	Position int          `gorm:"not null"`
@@ -35,24 +36,24 @@ type formulaClass struct {
 }
 
 type formulaSet struct {
-	ID       string         `gorm:"size:64;primaryKey"`
-	ClassID  string         `gorm:"size:64;not null;index"`
+	ID       string         `gorm:"size:32;primaryKey"`
+	ClassID  string         `gorm:"size:32;not null;index"`
 	Name     string         `gorm:"type:text;not null"`
 	Position int            `gorm:"not null"`
 	Groups   []formulaGroup `gorm:"foreignKey:SetID"`
 }
 
 type formulaGroup struct {
-	ID       string        `gorm:"size:64;primaryKey"`
-	SetID    string        `gorm:"size:64;not null;index"`
+	ID       string        `gorm:"size:32;primaryKey"`
+	SetID    string        `gorm:"size:32;not null;index"`
 	Name     string        `gorm:"type:text;not null"`
 	Position int           `gorm:"not null"`
 	Cases    []formulaCase `gorm:"foreignKey:GroupID"`
 }
 
 type formulaCase struct {
-	ID        string            `gorm:"size:64;primaryKey"`
-	GroupID   string            `gorm:"size:64;not null;index"`
+	ID        string            `gorm:"size:32;primaryKey"`
+	GroupID   string            `gorm:"size:32;not null;index"`
 	Name      string            `gorm:"type:text;not null"`
 	Position  int               `gorm:"not null"`
 	Scrambles []string          `gorm:"serializer:json;type:text"`
@@ -60,13 +61,19 @@ type formulaCase struct {
 }
 
 type formulaSolution struct {
-	ID       string `gorm:"size:64;primaryKey"`
-	CaseID   string `gorm:"size:64;not null;index:idx_formula_solution_position"`
+	ID       string `gorm:"size:32;primaryKey"`
+	CaseID   string `gorm:"size:32;not null;index:idx_formula_solution_position"`
 	Position int    `gorm:"not null;index:idx_formula_solution_position"`
 	Moves    string `gorm:"type:text;not null"`
 }
 
 func InitCatalog(db *gorm.DB, trainerPath string) error {
+	return database.WithMigrationLock(db, "cubing_pro_formula_init", func(conn *gorm.DB) error {
+		return initCatalog(conn, trainerPath)
+	})
+}
+
+func initCatalog(db *gorm.DB, trainerPath string) error {
 	if err := db.AutoMigrate(&formulaCatalogImport{}, &formulaClass{}, &formulaSet{}, &formulaGroup{}, &formulaCase{}, &formulaSolution{}); err != nil {
 		return err
 	}

@@ -3,13 +3,14 @@ package formulaforum
 import (
 	"time"
 
+	"github.com/guojia99/cubing-pro/src/internel/database"
 	"gorm.io/gorm"
 )
 
 type FormulaDiscussion struct {
 	ID         uint    `gorm:"primaryKey"`
-	GroupID    *string `gorm:"type:varchar(64);uniqueIndex;check:chk_formula_discussion_target,(group_id IS NULL) <> (solution_id IS NULL)"`
-	SolutionID *string `gorm:"type:varchar(64);uniqueIndex"`
+	GroupID    *string `gorm:"type:varchar(32);uniqueIndex;check:chk_formula_discussion_target,(group_id IS NULL) <> (solution_id IS NULL)"`
+	SolutionID *string `gorm:"type:varchar(32);uniqueIndex"`
 }
 
 type FormulaComment struct {
@@ -30,5 +31,7 @@ type FormulaReplyNotification struct {
 }
 
 func Migrate(db *gorm.DB) error {
-	return db.AutoMigrate(&FormulaDiscussion{}, &FormulaComment{}, &FormulaReplyNotification{})
+	return database.WithMigrationLock(db, "cubing_pro_forum_migrate", func(conn *gorm.DB) error {
+		return conn.AutoMigrate(&FormulaDiscussion{}, &FormulaComment{}, &FormulaReplyNotification{})
+	})
 }

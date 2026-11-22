@@ -12,6 +12,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/algs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/formulaforum"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"github.com/guojia99/cubing-pro/src/wca"
 	"gorm.io/gorm/logger"
@@ -57,6 +58,10 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 	}
 
 	if err = algs.InitCatalog(c.DB, cfg.GlobalConfig.AlgTrainersPath); err != nil {
+		return nil, err
+	}
+
+	if err = formulaforum.Migrate(c.DB); err != nil {
 		return nil, err
 	}
 

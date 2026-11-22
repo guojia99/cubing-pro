@@ -45,8 +45,8 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	class, set := strings.Repeat("1", 64), strings.Repeat("2", 64)
-	group, caseID, solution := strings.Repeat("3", 64), strings.Repeat("4", 64), strings.Repeat("5", 64)
+	class, set := strings.Repeat("1", 16), strings.Repeat("2", 16)
+	group, caseID, solution := strings.Repeat("3", 16), strings.Repeat("4", 16), strings.Repeat("a", 16)
 	for _, row := range []struct {
 		table  string
 		values map[string]any
@@ -123,7 +123,10 @@ func TestDiscussionLifecycle(t *testing.T) {
 		return int(request("POST", "/user"+target, token, string(b), 200)["id"].(float64))
 	}
 
-	initial := request("GET", "/public"+sol, "", "", 200)
+	for _, invalid := range []string{strings.Repeat(solution, 4), strings.ToUpper(solution), "g" + solution[1:]} {
+		request("POST", "/user/formula-forum/targets/solution/"+invalid+"/comments", alice, `{"body":"test"}`, 400)
+	}
+	initial := request("GET", "/public"+sol+"?page=2", "", "", 200)
 	if initial["count"] != 0.0 || initial["page"] != 1.0 || initial["target"].(map[string]any)["caseName"] != "OLL 45" {
 		t.Fatalf("initial solution: %#v", initial)
 	}
@@ -146,7 +149,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 	if counts["groups"].(map[string]any)[group] != 1.0 || counts["solutions"].(map[string]any)[solution] != 3.0 {
 		t.Fatal(counts)
 	}
-	page := request("GET", fmt.Sprintf("/public%s?commentId=%d&size=1", sol, reply), "", "", 200)
+	page := request("GET", fmt.Sprintf("/public%s?commentId=%d&size=1&page=99", sol, reply), "", "", 200)
 	if page["page"] != 2.0 || top(page)["replyToName"] != "Alice" || top(page)["id"] != float64(reply) {
 		t.Fatal(page)
 	}
@@ -174,24 +177,27 @@ func TestDiscussionLifecycle(t *testing.T) {
 	// the previous visible activity, even when the discussion is still active.
 	latestGroup := post(grp, bob, "另一组的留言", 0)
 	unreadReply := post(sol, bob, "又试了一次", first)
-	if view := request("GET", notices, alice, "", 200); view["unread"] != 1.0 {
+	if view := request("GET", notices+"?page=2&size=1", alice, "", 200); view["page"] != 2.0 || view["unread"] != 1.0 || top(view)["commentId"] != float64(reply) {
 		t.Fatal(view)
 	}
 	del(unreadReply)
-	if view := request("GET", notices, alice, "", 200); view["unread"] != 0.0 || view["total"] != 1.0 {
+	if view := request("GET", notices+"?page=2&size=1", alice, "", 200); view["page"] != 1.0 || view["unread"] != 0.0 || view["total"] != 1.0 || top(view)["commentId"] != float64(reply) {
 		t.Fatal(view)
 	}
-	if view := request("GET", recent, "", "", 200); top(view)["target"].(map[string]any)["id"] != group {
+	if view := request("GET", recent, "", "", 200); top(view)["target"].(map[string]any)["id"] != group || top(view)["lastCommentId"] != float64(latestGroup) {
 		t.Fatal(view)
 	}
 	del(latestGroup)
+	if view := request("GET", "/public"+grp+"?page=2&size=1", "", "", 200); view["page"] != 1.0 || view["total"] != 1.0 || top(view)["id"] != float64(other) {
+		t.Fatal(view)
+	}
 	del(first)
 	thread := request("GET", "/public"+sol, "", "", 200)
 	if thread["count"] != 2.0 || thread["total"] != 3.0 || top(thread)["deleted"] != true || top(thread)["body"] != "" || top(thread)["authorName"] != "" {
 		t.Fatal(thread)
 	}
 	request("POST", "/user"+sol, bob, fmt.Sprintf(`{"body":"已删","parentId":%d}`, first), 404)
-	if view := request("GET", recent, "", "", 200); top(view)["target"].(map[string]any)["id"] != solution || top(view)["count"] != 2.0 {
+	if view := request("GET", recent, "", "", 200); top(view)["target"].(map[string]any)["id"] != solution || top(view)["count"] != 2.0 || top(view)["lastCommentId"] != float64(self) {
 		t.Fatal(view)
 	}
 	del(reply)
@@ -219,7 +225,10 @@ func TestDiscussionLifecycle(t *testing.T) {
 	if thread = request("GET", "/public"+sol, "", "", 200); thread["total"] != 0.0 || thread["count"] != 0.0 {
 		t.Fatal(thread)
 	}
-	if view := request("GET", recent, "", "", 200); view["total"] != 1.0 || top(view)["target"].(map[string]any)["id"] != group {
+	if view := request("GET", recent+"?page=2&size=1", "", "", 200); view["page"] != 1.0 || view["total"] != 1.0 || top(view)["target"].(map[string]any)["id"] != group || top(view)["lastCommentId"] != float64(other) {
+		t.Fatal(view)
+	}
+	if view := request("GET", mod+"?page=2&size=1", admin, "", 200); view["page"] != 1.0 || view["total"] != 1.0 || top(view)["id"] != float64(other) {
 		t.Fatal(view)
 	}
 
@@ -230,6 +239,9 @@ func TestDiscussionLifecycle(t *testing.T) {
 	focused := request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, last), "", "", 200)
 	if focused["page"] != 2.0 || len(items(focused)) != 1 || top(focused)["id"] != float64(last) {
 		t.Fatal(focused)
+	}
+	if view := request("GET", "/public"+grp+"?page=99", "", "", 200); view["page"] != 2.0 || len(items(view)) != 1 || top(view)["id"] != float64(last) {
+		t.Fatal(view)
 	}
 
 	root := post(sol, alice, "测试解法", 0)

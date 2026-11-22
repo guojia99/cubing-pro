@@ -13,7 +13,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/formulaforum"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -52,7 +51,6 @@ func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI 
 	_ = db.AutoMigrate(&user.UserKV{})     // 用户业务数据表
 
 	// 讨论表和通知表
-	_ = formulaforum.Migrate(db)
 	_ = db.AutoMigrate(&post.Forum{})        // 板块表
 	_ = db.AutoMigrate(&post.Topic{})        // 主题表
 	_ = db.AutoMigrate(&post.Posts{})        // 恢复表

@@ -10,9 +10,7 @@ import (
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
-	"github.com/guojia99/cubing-pro/src/internel/algs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/formulaforum"
 	"github.com/guojia99/cubing-pro/src/internel/scramble"
 	"github.com/guojia99/cubing-pro/src/wca"
 	"gorm.io/gorm/logger"
@@ -57,14 +55,6 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 		)
 	}
 
-	if err = algs.MigrateCatalog(c.DB); err != nil {
-		return nil, err
-	}
-
-	if err = formulaforum.Migrate(c.DB); err != nil {
-		return nil, err
-	}
-
 	c.Wca = wca.NewWCA(
 		c.Cfg.GlobalConfig.WcaDB.MysqlUrl,
 		c.Cfg.GlobalConfig.WcaDB.DbPath,
@@ -91,9 +81,6 @@ func newDB(cfg configs.GlobalConfig) (*gorm.DB, error) {
 	switch cfg.DB.Driver {
 	case "sqlite":
 		db, err = gorm.Open(sqlite.Open(cfg.DB.DSN), &gorm.Config{Logger: dbLog})
-		if err == nil {
-			err = db.Exec("PRAGMA busy_timeout = 5000").Error
-		}
 	case "mysql":
 		db, err = gorm.Open(
 			mysql.New(mysql.Config{DSN: cfg.DB.DSN}), &gorm.Config{

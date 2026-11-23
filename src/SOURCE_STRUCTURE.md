@@ -42,6 +42,8 @@ src/
 
 ## `api/`
 
+[`cmd/api/api.go`](../cmd/api/api.go) 在启动 HTTP 服务前迁移 6 张公式目录表和 3 张论坛表。仅当 `server.yaml` 配置了 `global.algTrainersPath` 且数据库尚未完成首次导入时，`api` 才读取公式源文件；`gateway` 和 `robot` 均不执行这部分初始化。
+
 ### `api/api.go`
 
 | 文件 | 作用 |
@@ -138,13 +140,7 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 读配置、连库、初始化打乱、WCA 与定时任务，带锁迁移目录表（`algs.MigrateCatalog`）与论坛表（`formulaforum.Migrate`）。服务启动不读取公式文件。 |
-
-### `internel/database/`
-
-| 文件 | 作用 |
-|------|------|
-| `migration_lock*.go` | `WithMigrationLock` 串行化目录/论坛建表与首次导入。MySQL 使用会话级 `GET_LOCK` / `RELEASE_LOCK`；文件型 SQLite 按库路径互斥并锁定 `.migrate.lock`（Linux/macOS 使用 `flock`），内存库跳过文件锁。 |
+| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 读配置、连库、初始化打乱、WCA 与定时任务，不负责公式目录和论坛的初始化。 |
 
 ### `internel/database/model/`
 
@@ -156,7 +152,7 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `competition/` | 比赛、报名、分组、讨论等。 |
 | `crawler/` | 爬虫侧发邮件等模型。 |
 | `event/` | 项目定义、路线、对外 DTO（`out.go`）。 |
-| `formulaforum/` | 公式论坛讨论主题、评论与回复通知模型及带锁 `Migrate`。新建 MySQL 论坛表与目录表均使用 InnoDB、`utf8mb4_unicode_ci`，支持 emoji。 |
+| `formulaforum/` | 讨论主题、评论与回复通知模型；`Migrate` 迁移这 3 张论坛表。 |
 | `pktimer/` | PK 计时相关表。 |
 | `post/` | 帖子、通知表单。 |
 | `result/` | 成绩、预成绩、记录、`results_utils` 与测试。 |
@@ -192,8 +188,8 @@ Trainer 算法集、表驱动与读取逻辑。
 
 | 文件 | 作用 |
 |------|------|
-| `algs.go` | 独立导入时装配 `Alg-Trainers` 与其同级 `Algs/catalog.json` 指定的公式数据。 |
-| `catalog.go` | 公式库表结构、16 位小写 hex 稳定 ID、带锁建表与分类读取。`cubing-pro init formulas --path /绝对路径/Alg-Trainers` 调用 `algs.InitCatalog` 进行首次事务导入，可重复执行；`make install` 只安装二进制。详见 [公式论坛运维说明](../docs/formula-forum.md)。 |
+| `algs.go` | 首次导入时读取 `Alg-Trainers` 与其同级 `Algs/catalog.json` 指定的公式数据。 |
+| `catalog.go` | 公式目录表结构、16 位小写 hex 稳定 ID 与分类读取。`InitCatalog` 迁移目录表；首次导入在同一事务中写入目录数据与完成标记，后续启动保留库内修改。详见 [公式论坛运维说明](../docs/formula-forum.md)。 |
 | `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
 

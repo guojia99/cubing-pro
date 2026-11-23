@@ -20,7 +20,6 @@ require (
 	github.com/guojia99/go-tables v0.1.3
 	github.com/json-iterator/go v1.1.12
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
-	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/mozillazg/go-pinyin v0.20.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
@@ -73,6 +72,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lestrrat-go/strftime v1.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect

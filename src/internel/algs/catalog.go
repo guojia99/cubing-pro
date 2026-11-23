@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/guojia99/cubing-pro/src/internel/database"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -72,17 +71,11 @@ func MigrateCatalog(db *gorm.DB) error {
 }
 
 func InitCatalog(db *gorm.DB, trainerPath string) error {
-	return database.WithMigrationLock(db, "cubing_pro_formula_init", func(conn *gorm.DB) error {
-		return initCatalog(conn, trainerPath)
-	})
+	return initCatalog(db, trainerPath)
 }
 
 func initCatalog(db *gorm.DB, trainerPath string) error {
-	schema := db
-	if db.Dialector.Name() == "mysql" {
-		schema = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")
-	}
-	if err := schema.AutoMigrate(&formulaCatalogImport{}, &formulaClass{}, &formulaSet{}, &formulaGroup{}, &formulaCase{}, &formulaSolution{}); err != nil {
+	if err := db.AutoMigrate(&formulaCatalogImport{}, &formulaClass{}, &formulaSet{}, &formulaGroup{}, &formulaCase{}, &formulaSolution{}); err != nil {
 		return err
 	}
 	if trainerPath == "" {

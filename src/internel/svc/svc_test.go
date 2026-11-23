@@ -21,11 +21,11 @@ func TestNewAPISvcWithoutTrainerFiles(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer pool.Close()
-	var classes, timeout int
-	if err := service.DB.Raw("SELECT COUNT(*) FROM formula_classes").Row().Scan(&classes); err != nil || classes != 0 {
-		t.Fatalf("expected empty catalog schema: classes=%d, err=%v", classes, err)
+	var tables []string
+	if err := service.DB.Raw("SELECT name FROM sqlite_master WHERE type = 'table' AND name GLOB 'formula_*'").Scan(&tables).Error; err != nil {
+		t.Fatal(err)
 	}
-	if err := service.DB.Raw("PRAGMA busy_timeout").Row().Scan(&timeout); err != nil || timeout != 5000 {
-		t.Fatalf("busy_timeout = %d, err=%v", timeout, err)
+	if len(tables) != 0 {
+		t.Fatalf("shared service initialization created formula tables: %v", tables)
 	}
 }

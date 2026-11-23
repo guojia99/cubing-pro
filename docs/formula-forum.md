@@ -2,23 +2,20 @@
 
 公式库和论坛共用服务数据库（MySQL 或 SQLite）。论坛接口实现见 [handlers.go](../src/api/app/formulaforum/handlers.go)。
 
-## 安装与首次导入
+## API 启动与首次导入
 
-`make install` 只安装二进制并重启服务，不复制公式文件，也不执行导入。`api`、`gateway` 和 `robot` 启动时只迁移目录表和论坛表，不读取 `Alg-Trainers` 或 `Algs/catalog.json`。新库可以先启动；目录列表为空时不写缓存，首次导入提交后下一次请求即可看到数据。
+只有 `api` 在开始处理请求前迁移 6 张目录表和 3 张论坛表。`gateway` 和 `robot` 不迁移这些表，也不读取公式源文件。
 
-在有公式源文件的机器上，使用与服务相同的数据库配置单独导入。对 SQLite，跨工作目录运行时，配置中的 DSN 也要指向同一个数据库文件（建议用绝对路径）。例如：
+首次导入时，在 `api` 使用的 `server.yaml` 中设置 `global.algTrainersPath`，建议使用绝对路径：
 
-```sh
-cubing-pro init formulas --config /etc/cubing-pro/server.yaml --path /srv/cubing/build/Alg-Trainers
+```yaml
+global:
+  algTrainersPath: "/srv/cubing/build/Alg-Trainers"
 ```
 
-`--path`（`-p`）指向 Trainer 目录，同级须有 `Algs/catalog.json` 及清单引用的数据文件。不传路径时读取 `global.algTrainersPath`。开发环境可在仓库根目录执行 `make init_formulas FORMULAS_CONFIG=/path/to/server.yaml`。导入和完成标记在同一事务内提交；导入失败可修正后重试，成功后重跑不会覆盖库内修改。
-
-## 并发启动与字符集
-
-- [迁移锁](../src/internel/database/migration_lock.go) 保护目录建表、首次导入和论坛建表。MySQL 在同一物理连接上获取和释放命名锁：`cubing_pro_formula_init` 用于目录，`cubing_pro_forum_migrate` 用于论坛。获取、执行和释放失败均向调用方返回错误。
-- 文件型 SQLite 按数据库绝对路径共用进程内互斥锁，并锁定同目录的 `<数据库文件>.migrate.lock`（Linux/macOS 使用 `flock`）。服务账号须能在该目录创建锁文件；运行期间不要删除或替换锁文件。内存库不创建锁文件。
-- MySQL 连接使用 `charset=utf8mb4`。新建的目录表和论坛表使用 InnoDB、`utf8mb4_unicode_ci`，可保存含 emoji 的公式说明、评论及回复。若已有表使用三字节 `utf8`，需另行转换相关表和文本列；更换 DSN 不会转换既有数据表。
+- **路径留空或未配置**：只迁移表，直接使用数据库，不读取公式源文件。新库的目录列表为空时不写缓存。
+- **已配置路径、数据库尚未完成导入**：`api` 自动读取 Trainer 目录、同级的 `Algs/catalog.json` 及清单引用的数据文件。目录数据和 `formula_catalog_imports.complete` 在同一事务中提交。若源文件缺失，`api` 启动报错；修正路径或文件后重新启动即可。
+- **数据库已完成导入**：重启时跳过读取源文件，保留库内修改。原导入目录不再需要。
 
 ## 公式目录入库、稳定 ID 与维护方式
 

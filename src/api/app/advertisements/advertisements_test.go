@@ -21,28 +21,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
-	"gorm.io/driver/sqlite"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 // This fixture deliberately avoids svc/NewConvenient and their shared migrations.
 func testDB(t *testing.T) *gorm.DB {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{Logger: logger.Discard})
-	if err != nil {
-		t.Fatal(err)
-	}
-	sqlDB, err := db.DB()
-	if err != nil {
-		t.Fatal(err)
-	}
-	sqlDB.SetMaxOpenConns(1)
-	t.Cleanup(func() {
-		if err := sqlDB.Close(); err != nil {
-			t.Error(err)
-		}
-	})
+	db := testutil.OpenMySQL(t)
 	if err := db.AutoMigrate(&system.KeyValue{}, &system.Image{}); err != nil {
 		t.Fatal(err)
 	}

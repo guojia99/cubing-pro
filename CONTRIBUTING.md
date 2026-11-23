@@ -44,7 +44,7 @@ Go 依赖以 `go.mod`、`go.sum` 为准。`vendor/` 被 `.gitignore` 忽略，�
 ```bash
 # 基础配置包，不加载 svc
 make config-test
-# 群比赛逻辑：当前夹具使用内存 SQLite，需要 CGO/C 编译器
+# 群比赛逻辑：数据库测试需先配置 CUBING_TEST_MYSQL_DSN，未配置时跳过
 go test -mod=mod ./src/internel/groupcomp
 # 根入口构建：不执行应用 init，但仍需编译资源和原生依赖
 make build

@@ -4,14 +4,14 @@
 
 ## 环境与首次配置
 
-`go.mod` 要求 Go 1.25.0 起。准备 Make、启用 CGO 的 Go 环境和 C 编译器；SQLite 驱动依赖 `go-sqlite3`。非 macOS 的打乱包还会链接 `src/internel/scramble/librust_scramble.a`，库文件必须匹配目标系统与架构。
+`go.mod` 要求 Go 1.25.0 起。准备 Make、启用 CGO 的 Go 环境和 C 编译器；业务数据库仅支持 MySQL 8.0.16+；保留的 WCA 离线 SQLite 导出依赖 `go-sqlite3`。非 macOS 的打乱包还会链接 `src/internel/scramble/librust_scramble.a`，库文件必须匹配目标系统与架构。
 
 ```bash
 go mod download
 make init-config
 ```
 
-`init-config` 默认将 `etc/server.yaml` 复制到 `local/server_local_dev.yaml`，指定 `CONFIG` 时改用该目标路径，不会覆盖已有文件。公开示例使用本地 HTTP、SQLite，机器人默认禁用；检查路径、端口和依赖后再启动。不要直接使用包含线上地址或凭据的私人配置。相对文件路径按进程工作目录解析，不按 YAML 所在目录解析，因此本地命令应在仓库根目录运行。
+`init-config` 默认将 `etc/server.yaml` 复制到 `local/server_local_dev.yaml`，指定 `CONFIG` 时改用该目标路径，不会覆盖已有文件。公开示例使用本地 HTTP、MySQL，机器人默认禁用；准备数据库并修改示例 DSN，检查路径、端口和依赖后再启动。不要直接使用包含线上地址或凭据的私人配置。相对文件路径按进程工作目录解析，不按 YAML 所在目录解析，因此本地命令应在仓库根目录运行。
 
 Makefile 的 `CONFIG` 默认值为 `local/server_local_dev.yaml`；根 Cobra 命令自身的 `--config` 默认值则为 `./etc/server.yaml`。直接使用 Go 命令时应明确指定配置，避免混淆：
 
@@ -36,11 +36,11 @@ make robot CONFIG=local/server_local_dev.yaml
 
 1. `main.go` 调用 `cmd.NewRootCmd().Execute()`。导入包的 `init()` 会在 `main()` 前执行。
 2. `cmd/root.go` 的 `PersistentPreRunE` 调用 `svc.NewAPISvc(config, runJob, syncWca, runScramble)`。`--job/-j`、`--sync-wca/-w` 默认均为 `false`；打乱组件的内部开关当前为 `true`，没有开放对应命令行标志。
-3. `src/internel/svc/svc.go` 加载 YAML、创建内存缓存，通过同包 `database.go` 的 `newDB` 连接业务 SQLite/MySQL，然后构造打乱组件。
-4. 若 `global.algTrainersPath` 非空，调用 `algs.Init`。它先加载该路径相邻的 `Algs/catalog.json` 及其中列出的公式文件，失败会阻止服务初始化；再尝试加载未被替换的 Trainer。不是启动时自动下载资源。
+3. `src/internel/svc/svc.go` 加载 YAML、创建内存缓存，通过同包 `database.go` 的 `newDB` 连接业务 MySQL，然后构造打乱组件。
+4. 公式数据导入由 API 子模块在 `NewAPI` 中引导；共享服务初始化不读取公式源文件。
 5. `wca.NewWCA` 创建独立 WCA 数据访问对象，先尝试读取 `global.wcaDB.dbPath/wca.txt` 并连接其中指定的 MySQL 库；`-w` 开启同步循环，否则仍有定期重新读取本地指针的循环。
-6. `convenient.NewConvenient` 调用同包 `migrate.go` 的迁移逻辑，尝试对业务模型 `AutoMigrate`（包括 User 和 OAuthState），随后通过 `jobs.go` 组装任务。`-j` 才运行任务循环；迁移不受 `-j` 控制，且当前迁移错误被忽略，进程继续不等于迁移成功。
-7. 根命令设置滚动日志，才进入子命令 `RunE`。`api` 调用 `src/api.NewAPI`，初始化 JWT、鉴权和 `/v3/cube-api` 路由，最后监听 `api.host:api.port`；`gateway`、`robot` 分别进入对应实现。
+6. `convenient.NewConvenient` 调用同包 `migrate.go` 的迁移逻辑，尝试对业务模型 `AutoMigrate`（包括 User、OAuthState、公式目录和公式论坛表），随后通过 `jobs.go` 组装任务。`-j` 才运行任务循环；迁移不受 `-j` 控制，且当前迁移错误被忽略，进程继续不等于迁移成功。
+7. 根命令设置滚动日志，才进入子命令 `RunE`。`api` 调用 `src/api.NewAPI`，导入公式目录数据，初始化 JWT、鉴权和 `/v3/cube-api` 路由，最后监听 `api.host:api.port`；`gateway`、`robot` 分别进入对应实现。
 
 因此 Gateway、Robot 等服务子命令也会走共享服务初始化，可能连接和迁移业务数据库。不要把它们理解成只读取 YAML 的轻量工具。以上文件拆分仍在原包内，不增加新的启动步骤或改变行为。
 
@@ -54,7 +54,7 @@ macOS 由 `rust_scramble_darwin.go` 提供 `rust_twisty` 占位实现，返回 `
 
 ### WCA、任务与联网
 
-业务库可使用 SQLite，但当前 `wca.NewWCA` / `updateDb` 的查询路径使用独立 MySQL 数据库；SQLite 导出功能不代表可用业务 SQLite 代替 WCA 查询库。没有准备 WCA 数据时不能据此宣称相关接口可用。
+业务库与 `wca.NewWCA` / `updateDb` 的 WCA 查询库均只支持 MySQL，二者配置独立。SQLite 仅用于 WCA 离线导出，不作为业务或查询数据库。没有准备 WCA 数据时不能据此宣称相关接口可用。
 
 `-w` 会进入 WCA 远程下载、解压、MySQL 导入、索引与清理流程，涉及数据库删除/创建和本地文件写入，需隔离数据库、足够磁盘及 `mysql` 等外部命令条件。`-j` 可运行成绩/赛事更新；启用静态站点自动更新时，还可能执行 `git pull` 和配置的构建命令。两者都应显式按需启用。
 
@@ -82,7 +82,18 @@ go test -mod=mod ./src/configs
 go test -mod=mod ./src/internel/groupcomp
 ```
 
-已按源码核对：该包及测试使用模型、工具和 GORM，不导入 `svc`、`convenient`、打乱或 `wca_api`。`results_test.go` 的夹具使用 `sqlite.Open(":memory:")` 并在内存库迁移模型；`contract_test.go` 通过 AST/文件读取检查路由，不导入 HTTP Handler。可独立选择此包做群比赛回归，但仍需 CGO/C 编译器；依赖下载或 Go 构建缓存写入也需考虑。这个结论不能推广到父目录或 `./...`。
+该包及测试使用模型、工具和 GORM，不导入 `svc`、`convenient`、打乱或 `wca_api`。`results_test.go` 使用隔离 MySQL 数据库；`contract_test.go` 通过 AST/文件读取检查路由，不导入 HTTP Handler。这个结论不能推广到父目录或 `./...`。
+
+### MySQL 数据库测试
+
+业务数据库唯一指定为 MySQL 8.0.16+。数据库测试统一通过 `src/internel/testutil.OpenMySQL` 创建独立库，结束后自动删除；不使用 SQLite 夹具或兼容分支。
+
+设置 `CUBING_TEST_MYSQL_DSN` 指向专用测试服务器，账号须有创建和删除数据库权限。夹具只操作随机生成的 `cubing_test_*` 数据库，不复用 DSN 中的库名。未设置该变量时数据库测试会跳过，不能据此宣称数据库回归通过。
+
+```bash
+export CUBING_TEST_MYSQL_DSN='tester:TEST_PASSWORD@tcp(127.0.0.1:3306)/?parseTime=true'
+go test ./src/internel/convenient ./src/internel/groupcomp ./src/api ./src/api/public ./src/api/app/formulaforum
+```
 
 ### 构建与全量测试的区别
 

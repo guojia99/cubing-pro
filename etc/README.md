@@ -13,7 +13,7 @@ make build
 
 `make init-config` 将本目录的示例复制到 `./local/server_local_dev.yaml`，目标存在时保留原文件（包括符号链接），也可以用 `CONFIG=/absolute/path/config.yaml` 指定另一份副本。它不会合并配置或迁移数据。修改公开示例不会覆盖已有私人配置或 `/etc/cubing_pro/config.yaml`；直接使用 `--config ./etc/server.yaml` 的进程则会在下次加载时读到新版示例。
 
-示例保留 SQLite 的 `./cubingPro.db` 和 API 的 `localhost:20000`，网关改用 HTTP `8080`，显式关闭 TLS，前端静态产物示例位置为 `./local/frontend/out`，上传资源为 `./local/static`，所有机器人实例默认禁用。邮件、WCA OAuth、WCA 数据、公式库及打乱服务等需要单独准备，详见配置参考。所有相对文件路径都按进程工作目录解析。
+示例使用 MySQL，须修改 `global.db.dsn` 的账号、密码和库名；API 使用 `localhost:20000`，网关改用 HTTP `8080`，显式关闭 TLS，前端静态产物示例位置为 `./local/frontend/out`，上传资源为 `./local/static`，所有机器人实例默认禁用。邮件、WCA OAuth、WCA 数据、公式库及打乱服务等需要单独准备，详见配置参考。所有相对文件路径都按进程工作目录解析。
 
 ## systemd 文件
 

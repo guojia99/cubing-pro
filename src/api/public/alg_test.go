@@ -13,21 +13,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/algs"
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 	"github.com/patrickmn/go-cache"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
 func TestSyncedAlgorithmEndpoints(t *testing.T) {
-	db, err := gorm.Open(sqlite.Open(filepath.Join(t.TempDir(), "catalog.db")), &gorm.Config{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := algs.MigrateCatalog(db); err != nil {
-		t.Fatal(err)
-	}
+	db := testutil.OpenMySQL(t)
 	service := &svc.Svc{DB: db, Cache: cache.New(cache.NoExpiration, 0)}
+	service.Cov = convenient.NewConvenient(db, false, service.Cfg)
 	router := gin.New()
 	router.GET("/algorithm/", AlgorithmGroups(service))
 	router.GET("/algorithm/:cubeID/:classID", AlgorithmGroupsWithCube(service))

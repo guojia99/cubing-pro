@@ -18,7 +18,7 @@ Makefile 的 `CONFIG ?= ./local/server_local_dev.yaml` 保留旧默认值，应�
 
 加载器读取文件后用 `yaml.v3` 解码，没有环境变量替换、自动读取 `.env` 或按环境覆盖字段的逻辑。`"${PASSWORD}"` 会作为字面字符串读取，`""` 只是空值。没有严格拒绝未知字段，所以拼错键可能被静默忽略。除下述消费者默认值外，缺失的字符串、数字、布尔、列表分别为 `""`、`0`、`false`、空列表。
 
-所有相对文件路径以**进程当前工作目录（cwd）**为基准，不以配置文件所在目录为基准；把 YAML 移到 `local/` 不会改变 `./cubingPro.db` 的位置。`make` 在仓库根目录运行时，本地路径指向仓库；现有 systemd 文件的 cwd 为 `/usr/local/bin`。部署应使用绝对文件路径。URL 路径（如动态页 `placeholder`）和明确相对于资源根目录的子路径不属于 cwd 文件路径。
+所有相对文件路径以**进程当前工作目录（cwd）**为基准，不以配置文件所在目录为基准；把 YAML 移到 `local/` 不会改变 `./logs` 的位置。`make` 在仓库根目录运行时，本地路径指向仓库；现有 systemd 文件的 cwd 为 `/usr/local/bin`。部署应使用绝对文件路径。URL 路径（如动态页 `placeholder`）和明确相对于资源根目录的子路径不属于 cwd 文件路径。
 
 ## 日志 `log`
 
@@ -34,9 +34,9 @@ Makefile 的 `CONFIG ?= ./local/server_local_dev.yaml` 保留旧默认值，应�
 | 字段 | 行为 / 默认 |
 | --- | --- |
 | `baseHost` | 对外 URL 根地址，邮件链接和 WCA OAuth 回调地址的后备值，不决定监听地址。示例 `http://127.0.0.1:8080`，生产需自行设置。 |
-| `debug` | 启用 SQLite SQL 调试日志；也会跳过账号密码登录中的验证码检查。示例 `true`，仅用于受控本地开发；缺省 `false`。不是统一的功能或网络开关。 |
-| `db.driver` | 主业务库仅实现 `sqlite` / `mysql` 分支；没有有效驱动的后备选择。 |
-| `db.dsn` | SQLite 文件路径或 MySQL DSN；示例 `./cubingPro.db`。须提供可用值，服务初始化会自动迁移业务表。不是 WCA 数据库配置。 |
+| `debug` | 启用 MySQL SQL 调试日志；也会跳过账号密码登录中的验证码检查。示例 `true`，仅用于受控本地开发；缺省 `false`。不是统一的功能或网络开关。 |
+| `db.driver` | 主业务库唯一支持值为 `mysql`，其他值或空值会报错；不提供 SQLite 回退。 |
+| `db.dsn` | MySQL DSN，形如 `USER:PASSWORD@tcp(HOST:3306)/cubing_pro?charset=utf8mb4&parseTime=True&loc=Local`。须提供可用值，服务初始化会自动迁移业务表。不是 WCA 数据库配置。 |
 | `algTrainersPath` | 非空时启动期间调用公式库初始化；空值跳过，公式功能缺少数据。路径及约束见下文。 |
 
 ### 打乱 `global.scramble`
@@ -68,7 +68,7 @@ Makefile 的 `CONFIG ?= ./local/server_local_dev.yaml` 保留旧默认值，应�
 
 | 字段 | 行为 / 默认 |
 | --- | --- |
-| `mysqlUrl` | 独立 WCA MySQL DSN 前缀，形如 `USER:PASSWORD@tcp(HOST:3306)/`，由代码拼接数据库名及查询参数。不要填写实际凭据到公开文件；不能用主业务 SQLite 替代。 |
+| `mysqlUrl` | 独立 WCA MySQL DSN 前缀，形如 `USER:PASSWORD@tcp(HOST:3306)/`，由代码拼接数据库名及查询参数。不要填写实际凭据到公开文件；不能用主业务库配置替代独立 WCA 库配置。 |
 | `dbPath` | WCA 解压数据及 `wca.txt` 数据库名指针所在目录；不是 SQLite 文件。空值时指针读取位置是 cwd 的 `wca.txt`。 |
 | `syncPath` | WCA 下载 ZIP 的暂存目录。启用同步前需配置为可写目录。 |
 

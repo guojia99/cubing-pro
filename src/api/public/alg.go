@@ -28,6 +28,11 @@ type AlgorithmGroupsResponse struct {
 
 const catalogOverviewCache = "formula-catalog-overview"
 
+// InitAlgorithms imports catalog data used by the algorithm endpoints.
+func InitAlgorithms(svc *svc.Svc) error {
+	return algs.InitCatalog(svc.DB, svc.Cfg.GlobalConfig.AlgTrainersPath)
+}
+
 func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if resp, ok := svc.Cache.Get(catalogOverviewCache); ok {

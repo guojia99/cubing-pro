@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -16,10 +14,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"gorm.io/driver/mysql"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 )
 
 const (
@@ -37,20 +32,7 @@ type announcementResponse struct {
 }
 
 func TestSiteAnnouncementRoutes(t *testing.T) {
-	var dialector gorm.Dialector = sqlite.Open(filepath.Join(t.TempDir(), "test.sqlite"))
-	// Only point this at an empty, disposable test DB with permission to create tables.
-	if dsn := os.Getenv("CUBING_ANNOUNCEMENT_TEST_MYSQL_DSN"); dsn != "" {
-		dialector = mysql.Open(dsn)
-	}
-	db, err := gorm.Open(dialector, &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)})
-	if err != nil {
-		t.Fatal(err)
-	}
-	sqlDB, err := db.DB()
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = sqlDB.Close() })
+	db := testutil.OpenMySQL(t)
 	if err := db.AutoMigrate(&system.KeyValue{}, &user.User{}); err != nil {
 		t.Fatal(err)
 	}

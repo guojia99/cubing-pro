@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guojia99/cubing-pro/src/api/public"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
 
 	"github.com/guojia99/cubing-pro/src/api/middleware"
@@ -17,7 +18,11 @@ type API struct {
 	engine *gin.Engine
 }
 
-func NewAPI(svc *svc.Svc) *API {
+func NewAPI(svc *svc.Svc) (*API, error) {
+	if err := public.InitAlgorithms(svc); err != nil {
+		return nil, fmt.Errorf("initialize formula catalog: %w", err)
+	}
+
 	if svc.Cfg.APIConfig.StaticPath != "" {
 		_ = os.MkdirAll(svc.Cfg.APIConfig.StaticPath, os.ModePerm)
 	}
@@ -60,7 +65,7 @@ func NewAPI(svc *svc.Svc) *API {
 	routes.WcaRouters(group, svc)
 
 	//group.Static("/assets", svc.Cfg.APIConfig.AssetsPath)
-	return a
+	return a, nil
 }
 
 func (a *API) Run(host string, post int) error {

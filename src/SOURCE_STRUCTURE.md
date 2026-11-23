@@ -143,8 +143,8 @@ src/
 
 | 文件 | 作用 |
 |------|------|
-| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 按序读配置、连库、构造打乱、加载公式、初始化 WCA 与业务门面。 |
-| `database.go` | 同包 `newDB`，按业务库配置选择 SQLite/MySQL 并设置数据库日志；不是独立命令。 |
+| `svc.go` | 服务容器：`Svc` 聚合 `*gorm.DB`、配置、`Convenient`、打乱组件、`wca.WCA`、内存缓存等；`NewAPISvc` 按序读配置、连库、构造打乱、初始化 WCA 与业务门面；公式数据由 API 子模块导入。 |
+| `database.go` | 同包 `newDB`，仅连接 MySQL，校验驱动配置并设置数据库日志；不是独立命令。 |
 
 `api`、`gateway`、`robot` 等服务子命令共享此初始化链，业务门面会尝试自动迁移。`-j`、`-w` 不控制所有导入包的 `init()` 副作用，详见[开发指南](../docs/development.md)。
 
@@ -178,9 +178,13 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 
 `migrate.go`、`jobs.go` 均仍属于 `convenient` 包，拆分不改变调用顺序或任务开关语义。
 
+### `internel/testutil/`
+
+业务数据库测试夹具：`OpenMySQL` 根据 `CUBING_TEST_MYSQL_DSN` 创建并清理隔离测试库；未配置时跳过数据库测试，不使用 SQLite。
+
 ### `internel/groupcomp/`
 
-群比赛的选择、分组、轮次、录入/审批、结束和删除逻辑。测试以模型和内存 SQLite 为夹具，路由契约通过读取/解析源码检查，不导入 `svc` 或 Handler；可单独选择该包验证，范围与 CGO 条件见[开发指南](../docs/development.md)。
+群比赛的选择、分组、轮次、录入/审批、结束和删除逻辑。测试以模型和隔离 MySQL 数据库为夹具，路由契约通过读取/解析源码检查，不导入 `svc` 或 Handler；可单独选择该包验证，范围与测试库配置见[开发指南](../docs/development.md)。
 
 ### `internel/scramble/`
 
@@ -248,7 +252,7 @@ Trainer 算法集、表驱动与读取逻辑。
 
 ## `wca/`
 
-独立 WCA 数据层、同步与静态榜单数据。当前 `NewWCA` 的查询连接根据 `dbPath/wca.txt` 选择 MySQL 库；SQLite 导出不等于使用业务 SQLite 即可运行 WCA 查询。
+独立 WCA 数据层、同步与静态榜单数据。当前 `NewWCA` 的查询连接根据 `dbPath/wca.txt` 选择 MySQL 库；SQLite 只用于离线导出；业务库与 WCA 查询库均只支持 MySQL。
 
 | 文件/目录 | 作用 |
 |-----------|------|

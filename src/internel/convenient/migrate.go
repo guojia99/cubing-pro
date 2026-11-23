@@ -4,6 +4,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/formula"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -29,6 +30,11 @@ func migrate(db *gorm.DB) {
 	_ = db.AutoMigrate(&post.Notification{}) // 通知表
 	_ = db.AutoMigrate(&post.AssPostsLike{}) // post 点赞
 	_ = db.AutoMigrate(&post.AssTopicLike{}) // 主题点赞
+
+	// 公式目录、讨论和通知表
+	_ = db.AutoMigrate(&formula.FormulaCatalogImport{})
+	_ = db.AutoMigrate(&formula.FormulaClass{}, &formula.FormulaSet{}, &formula.FormulaGroup{}, &formula.FormulaCase{}, &formula.FormulaSolution{})
+	_ = migrateFormulaForum(db)
 
 	//资源表
 	_ = db.AutoMigrate(&event.Event{})       // 项目表

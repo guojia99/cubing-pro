@@ -56,7 +56,7 @@ func ListKeyValues(svc *svc.Svc) gin.HandlerFunc {
 		}
 
 		var rows []userKVListItem
-		// LENGTH：按字节计，与 MaxKVLength 一致（MySQL / SQLite 均支持）
+		// LENGTH：按字节计，与 MaxKVLength 一致（MySQL）
 		err = svc.DB.Model(&user.UserKV{}).
 			Select("`key`, `type`, `updated_at`, LENGTH(`value`) as value_len").
 			Where("user_id = ?", usr.ID).

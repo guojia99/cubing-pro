@@ -4,7 +4,7 @@
 
 ## 本地开发与构建
 
-仓库 `go.mod` 声明 Go 1.25.0，需兼容的 Go 工具链。业务 SQLite 驱动需要 CGO / C 工具链；非 macOS 的打乱包还链接 `librust_scramble`，即使运行时选择 tNoodle 也不能跳过构建链接依赖。macOS 的 Rust 打乱实现为占位，不能据此认为完整打乱功能可用。
+仓库 `go.mod` 声明 Go 1.25.0，需兼容的 Go 工具链。WCA 离线 SQLite 导出驱动需要 CGO / C 工具链；非 macOS 的打乱包还链接 `librust_scramble`，即使运行时选择 tNoodle 也不能跳过构建链接依赖。macOS 的 Rust 打乱实现为占位，不能据此认为完整打乱功能可用。
 
 在仓库根目录运行：
 
@@ -50,7 +50,7 @@ sudo cp -n etc/server.yaml /etc/cubing_pro/config.yaml
 sudo chmod 0600 /etc/cubing_pro/config.yaml
 ```
 
-3. 在机器上编辑 `/etc/cubing_pro/config.yaml`，改为真实部署参数。所有可配置的数据、日志、资源、公式及证书路径使用绝对路径，例如业务 SQLite `/var/lib/cubing-pro/cubingPro.db`、API 上传资源 `/var/lib/cubing-pro/static`、日志 `/var/log/cubing-pro`、前端产物 `/srv/cubing-pro/frontend/out`。自行创建目录、放置产物并授予实际运行账号权限；后端不会复制前端文件或下载公式库。不要将这些数据放到二进制目录或配置目录。
+3. 在机器上编辑 `/etc/cubing_pro/config.yaml`，改为真实部署参数。所有可配置的数据、日志、资源、公式及证书路径使用绝对路径，例如 API 上传资源 `/var/lib/cubing-pro/static`、日志 `/var/log/cubing-pro`、前端产物 `/srv/cubing-pro/frontend/out`。自行创建目录、放置产物并授予实际运行账号权限；后端不会复制前端文件或下载公式库。不要将这些数据放到二进制目录或配置目录。
 
 4. 手动安装所需的 service 文件并重新加载 systemd（以下列出全部三个，按部署范围选择）：
 
@@ -75,7 +75,7 @@ sudo journalctl -u cubing_pro_api.service -u cubing_pro_gw.service -n 100 --no-p
 
 现有 service 默认 root 运行。若改为专用账号，先创建账号和所需目录，通过 `sudo systemctl edit <service>` 配置本机 override 的 `User` / `Group`，再授予配置读取、父目录遍历、日志 / 数据目录写入权限；上面的配置 `0600` / 目录 `0750` 也要按实际账号调整属主或组权限。证书私钥只需可读，不应公开。监听 80/443 等特权端口需要相应权限或能力，也可在前置反代后使用非特权端口。网关自身绑定所有网卡，应配置防火墙及入口访问策略。
 
-所有相对文件路径按 cwd 解析。现有 service 的 `/usr/local/bin` 会使 `./cubingPro.db`、`./logs`、`./local/static` 等落到二进制目录下，因此不能直接部署本地示例。Seniors 缓存固定使用 cwd 下 `wca_seniors_cache.json`，QQ webhook 另有 cwd 下的 `logs/`，它们不随 `log.path` 改动。应通过本机 override 为需要的服务设置可写的专用 `WorkingDirectory`，同时将可配置文件路径改为绝对路径；只修改绝对路径不能迁移这些硬编码相对路径。变更工作目录前确认旧数据位置，避免无意新建另一个空 SQLite 库。
+所有相对文件路径按 cwd 解析。现有 service 的 `/usr/local/bin` 会使 `./logs`、`./local/static` 等落到二进制目录下，因此不能直接部署本地示例。Seniors 缓存固定使用 cwd 下 `wca_seniors_cache.json`，QQ webhook 另有 cwd 下的 `logs/`，它们不随 `log.path` 改动。应通过本机 override 为需要的服务设置可写的专用 `WorkingDirectory`，同时将可配置文件路径改为绝对路径；只修改绝对路径不能迁移这些硬编码相对路径。变更工作目录前确认旧资源和缓存位置。业务库通过 MySQL DSN 连接。
 
 需要公式功能时，必须成对部署同级目录：
 

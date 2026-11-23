@@ -6,18 +6,16 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"gorm.io/driver/sqlite"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 	"gorm.io/gorm"
 )
 
-func TestInitFormulaService(t *testing.T) {
-	t.Run("empty path migrates schema only", func(t *testing.T) {
+func TestNewAPIInitializesFormulaModules(t *testing.T) {
+	t.Run("convenient migrates schema before API initialization", func(t *testing.T) {
 		t.Chdir(t.TempDir())
-		service := openFormulaTestService(t, filepath.Join(t.TempDir(), "catalog.db"), "")
-		if err := initFormulaService(service); err != nil {
-			t.Fatal(err)
-		}
+		service := openFormulaTestService(t, nil, "")
 		for _, table := range []string{
 			"formula_catalog_imports", "formula_classes", "formula_sets", "formula_groups", "formula_cases", "formula_solutions",
 			"formula_discussions", "formula_comments", "formula_reply_notifications",
@@ -25,6 +23,9 @@ func TestInitFormulaService(t *testing.T) {
 			if !service.DB.Migrator().HasTable(table) {
 				t.Errorf("missing table %s", table)
 			}
+		}
+		if _, err := NewAPI(service); err != nil {
+			t.Fatal(err)
 		}
 		assertFormulaCount(t, service.DB.Table("formula_classes"), 0)
 		assertFormulaCount(t, service.DB.Table("formula_catalog_imports").Where("complete = ?", true), 0)
@@ -43,9 +44,8 @@ func TestInitFormulaService(t *testing.T) {
 		if err := os.WriteFile(filepath.Join(library, "catalog.json"), []byte(`[{"cube":"333","name":"2 Look OLL","path":"oll","cases":2}]`), 0600); err != nil {
 			t.Fatal(err)
 		}
-		dbFile := filepath.Join(t.TempDir(), "catalog.db")
-		service := openFormulaTestService(t, dbFile, trainers)
-		if err := initFormulaService(service); err != nil {
+		service := openFormulaTestService(t, nil, trainers)
+		if _, err := NewAPI(service); err != nil {
 			t.Fatal(err)
 		}
 		assertFormulaCount(t, service.DB.Table("formula_catalog_imports").Where("complete = ?", true), 1)
@@ -56,8 +56,8 @@ func TestInitFormulaService(t *testing.T) {
 			if err := service.DB.Table("formula_classes").Where("cube = ? AND name = ?", "333", "2 Look OLL").Update("name", "Edited OLL").Error; err != nil {
 				t.Fatal(err)
 			}
-			restarted := openFormulaTestService(t, dbFile, filepath.Join(root, "missing"))
-			if err := initFormulaService(restarted); err != nil {
+			restarted := openFormulaTestService(t, service.DB, filepath.Join(root, "missing"))
+			if _, err := NewAPI(restarted); err != nil {
 				t.Fatal(err)
 			}
 			assertFormulaCount(t, restarted.DB.Table("formula_classes"), 1)
@@ -68,31 +68,22 @@ func TestInitFormulaService(t *testing.T) {
 
 	t.Run("missing path fails initial import", func(t *testing.T) {
 		root := t.TempDir()
-		service := openFormulaTestService(t, filepath.Join(root, "catalog.db"), filepath.Join(root, "missing"))
-		if err := initFormulaService(service); !errors.Is(err, os.ErrNotExist) {
+		service := openFormulaTestService(t, nil, filepath.Join(root, "missing"))
+		if api, err := NewAPI(service); !errors.Is(err, os.ErrNotExist) || api != nil {
 			t.Fatalf("got %v, want missing import source error", err)
 		}
 		assertFormulaCount(t, service.DB.Table("formula_catalog_imports").Where("complete = ?", true), 0)
 	})
 }
 
-func openFormulaTestService(t *testing.T, dbFile, trainerPath string) *svc.Svc {
+func openFormulaTestService(t *testing.T, db *gorm.DB, trainerPath string) *svc.Svc {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(dbFile))
-	if err != nil {
-		t.Fatal(err)
+	if db == nil {
+		db = testutil.OpenMySQL(t)
 	}
-	pool, err := db.DB()
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() {
-		if err := pool.Close(); err != nil {
-			t.Error(err)
-		}
-	})
 	service := &svc.Svc{DB: db}
 	service.Cfg.GlobalConfig.AlgTrainersPath = trainerPath
+	service.Cov = convenient.NewConvenient(db, false, service.Cfg)
 	return service
 }
 

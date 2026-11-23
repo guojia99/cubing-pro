@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/guojia99/cubing-pro/src/internel/database/model/formula"
+
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -21,68 +23,13 @@ func catalogID(parts ...string) string {
 	return hex.EncodeToString(h.Sum(nil)[:8])
 }
 
-type formulaCatalogImport struct {
-	ID       int  `gorm:"primaryKey;autoIncrement:false"`
-	Complete bool `gorm:"not null"`
-}
-
-type formulaClass struct {
-	ID       string       `gorm:"size:32;primaryKey"`
-	Cube     string       `gorm:"size:32;not null;uniqueIndex:idx_formula_class_name"`
-	Name     string       `gorm:"size:191;not null;uniqueIndex:idx_formula_class_name"`
-	Position int          `gorm:"not null"`
-	Sets     []formulaSet `gorm:"foreignKey:ClassID"`
-}
-
-type formulaSet struct {
-	ID       string         `gorm:"size:32;primaryKey"`
-	ClassID  string         `gorm:"size:32;not null;index"`
-	Name     string         `gorm:"type:text;not null"`
-	Position int            `gorm:"not null"`
-	Groups   []formulaGroup `gorm:"foreignKey:SetID"`
-}
-
-type formulaGroup struct {
-	ID       string        `gorm:"size:32;primaryKey"`
-	SetID    string        `gorm:"size:32;not null;index"`
-	Name     string        `gorm:"type:text;not null"`
-	Position int           `gorm:"not null"`
-	Cases    []formulaCase `gorm:"foreignKey:GroupID"`
-}
-
-type formulaCase struct {
-	ID        string            `gorm:"size:32;primaryKey"`
-	GroupID   string            `gorm:"size:32;not null;index"`
-	Name      string            `gorm:"type:text;not null"`
-	Position  int               `gorm:"not null"`
-	Scrambles []string          `gorm:"serializer:json;type:text"`
-	Solutions []formulaSolution `gorm:"foreignKey:CaseID"`
-}
-
-type formulaSolution struct {
-	ID       string `gorm:"size:32;primaryKey"`
-	CaseID   string `gorm:"size:32;not null;index:idx_formula_solution_position"`
-	Position int    `gorm:"not null;index:idx_formula_solution_position"`
-	Moves    string `gorm:"type:text;not null"`
-}
-
-func MigrateCatalog(db *gorm.DB) error {
-	return InitCatalog(db, "")
-}
-
+// InitCatalog imports catalog data after convenient has migrated the schema.
 func InitCatalog(db *gorm.DB, trainerPath string) error {
-	return initCatalog(db, trainerPath)
-}
-
-func initCatalog(db *gorm.DB, trainerPath string) error {
-	if err := db.AutoMigrate(&formulaCatalogImport{}, &formulaClass{}, &formulaSet{}, &formulaGroup{}, &formulaCase{}, &formulaSolution{}); err != nil {
-		return err
-	}
 	if trainerPath == "" {
 		return nil
 	}
 	return db.Transaction(func(tx *gorm.DB) error {
-		importState := formulaCatalogImport{ID: 1}
+		importState := formula.FormulaCatalogImport{ID: 1}
 		if err := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(&importState).Error; err != nil {
 			return err
 		}
@@ -108,22 +55,22 @@ func initCatalog(db *gorm.DB, trainerPath string) error {
 }
 
 func importClass(tx *gorm.DB, cube string, position int, class AlgorithmClass) error {
-	row := formulaClass{ID: catalogID(cube, class.Name), Cube: cube, Name: class.Name, Position: position}
+	row := formula.FormulaClass{ID: catalogID(cube, class.Name), Cube: cube, Name: class.Name, Position: position}
 	if err := tx.Create(&row).Error; err != nil {
 		return err
 	}
-	var sets []formulaSet
-	var groups []formulaGroup
-	var cases []formulaCase
-	var solutions []formulaSolution
+	var sets []formula.FormulaSet
+	var groups []formula.FormulaGroup
+	var cases []formula.FormulaCase
+	var solutions []formula.FormulaSolution
 	for si, set := range class.Sets {
 		setID := catalogID(row.ID, set.Name)
 		class.Sets[si].SetID = setID
-		sets = append(sets, formulaSet{ID: setID, ClassID: row.ID, Name: set.Name, Position: si})
+		sets = append(sets, formula.FormulaSet{ID: setID, ClassID: row.ID, Name: set.Name, Position: si})
 		for gi := range set.AlgorithmGroups {
 			group := &set.AlgorithmGroups[gi]
 			group.GroupID = catalogID(setID, group.Name)
-			groups = append(groups, formulaGroup{ID: group.GroupID, SetID: setID, Name: group.Name, Position: gi})
+			groups = append(groups, formula.FormulaGroup{ID: group.GroupID, SetID: setID, Name: group.Name, Position: gi})
 			for ci := range group.Algorithms {
 				c, caseSolutions := importCase(&group.Algorithms[ci], group.GroupID, ci)
 				cases = append(cases, c)
@@ -161,11 +108,11 @@ func importClass(tx *gorm.DB, cube string, position int, class AlgorithmClass) e
 	return nil
 }
 
-func importCase(alg *Algorithm, groupID string, position int) (formulaCase, []formulaSolution) {
+func importCase(alg *Algorithm, groupID string, position int) (formula.FormulaCase, []formula.FormulaSolution) {
 	alg.CaseID = catalogID(groupID, alg.sourceKey)
 	alg.SolutionIDs = make([]*string, len(alg.Algs))
 	occurrences := make(map[string]int)
-	solutions := make([]formulaSolution, len(alg.Algs))
+	solutions := make([]formula.FormulaSolution, len(alg.Algs))
 	for i, moves := range alg.Algs {
 		var id string
 		switch {
@@ -177,13 +124,13 @@ func importCase(alg *Algorithm, groupID string, position int) (formulaCase, []fo
 		default:
 			id = catalogID(alg.CaseID, moves, fmt.Sprint(occurrences[moves]))
 		}
-		solutions[i] = formulaSolution{ID: id, CaseID: alg.CaseID, Position: i, Moves: moves}
+		solutions[i] = formula.FormulaSolution{ID: id, CaseID: alg.CaseID, Position: i, Moves: moves}
 		if moves != "" {
 			alg.SolutionIDs[i] = &solutions[i].ID
 			occurrences[moves]++
 		}
 	}
-	c := formulaCase{
+	c := formula.FormulaCase{
 		ID: alg.CaseID, GroupID: groupID, Name: alg.Name, Position: position,
 		Scrambles: alg.Scrambles,
 	}
@@ -198,11 +145,11 @@ func insertRows[T any](db *gorm.DB, rows []T) error {
 }
 
 func ReadClass(db *gorm.DB, cube, class string) (*AlgorithmClass, error) {
-	var row formulaClass
+	var row formula.FormulaClass
 	inOrder := func(q *gorm.DB) *gorm.DB { return q.Order("position") }
 	err := db.Preload("Sets", inOrder).Preload("Sets.Groups", inOrder).Preload("Sets.Groups.Cases", inOrder).
 		Preload("Sets.Groups.Cases.Solutions", inOrder).
-		Where(&formulaClass{Cube: cube, Name: class}).First(&row).Error
+		Where(&formula.FormulaClass{Cube: cube, Name: class}).First(&row).Error
 	if err != nil {
 		return nil, err
 	}
@@ -215,7 +162,7 @@ func ReadClass(db *gorm.DB, cube, class string) (*AlgorithmClass, error) {
 		for _, group := range set.Groups {
 			g := AlgorithmGroup{GroupID: group.ID, Name: group.Name, Algorithms: []Algorithm{}}
 			for _, c := range group.Cases {
-				g.Algorithms = append(g.Algorithms, c.algorithm())
+				g.Algorithms = append(g.Algorithms, catalogAlgorithm(&c))
 			}
 			s.AlgorithmGroups = append(s.AlgorithmGroups, g)
 			s.GroupsKeys = append(s.GroupsKeys, g.Name)
@@ -226,7 +173,7 @@ func ReadClass(db *gorm.DB, cube, class string) (*AlgorithmClass, error) {
 	return result, nil
 }
 
-func (c *formulaCase) algorithm() Algorithm {
+func catalogAlgorithm(c *formula.FormulaCase) Algorithm {
 	a := Algorithm{
 		CaseID: c.ID, Name: c.Name, Scrambles: c.Scrambles,
 		Algs: make([]string, len(c.Solutions)), SolutionIDs: make([]*string, len(c.Solutions)),

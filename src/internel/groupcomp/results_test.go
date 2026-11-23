@@ -15,34 +15,24 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
-	"gorm.io/driver/sqlite"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
-// Only an isolated in-memory database is used. No svc/config/init or production DSN.
+// Each fixture uses an isolated MySQL database on the configured test server.
 func fixture(t *testing.T) (*gorm.DB, competition.Competition, user.User) {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)})
-	if err != nil {
-		t.Fatal(err)
-	}
-	sqlDB, err := db.DB()
-	if err != nil {
-		t.Fatal(err)
-	}
-	sqlDB.SetMaxOpenConns(1)
-	t.Cleanup(func() { sqlDB.Close() })
-	if err = db.AutoMigrate(&competition.Competition{}, &competition.Registration{}, &user.User{}, &result.Results{}, &result.PreResults{}); err != nil {
+	db := testutil.OpenMySQL(t)
+	if err := db.AutoMigrate(&competition.Competition{}, &competition.Registration{}, &user.User{}, &result.Results{}, &result.PreResults{}); err != nil {
 		t.Fatal(err)
 	}
 	now := time.Now()
 	c := competition.Competition{Model: basemodel.Model{ID: 1}, Name: "group test", Status: competition.Running, Genre: competition.OnlineInformal, GroupID: 7, CanPreResult: true, CompStartTime: now.AddDate(0, 0, -1), CompEndTime: now.AddDate(0, 0, 1), CompJSON: competition.CompetitionJson{Events: []competition.CompetitionEvent{{EventID: "333", EventName: "三阶", EventRoute: event.RouteType5RoundsAvgHT, Schedule: []competition.Schedule{{Round: "第一轮", RoundNum: 1, FirstRound: true, IsRunning: true, ActualStartTime: now.Add(-time.Hour)}, {Round: "第二轮", RoundNum: 2, Competitors: 2}}}}}}
 	u := user.User{Model: basemodel.Model{ID: 1}, CubeID: "test-player", Name: "Test Player"}
-	if err = db.Create(&c).Error; err != nil {
+	if err := db.Create(&c).Error; err != nil {
 		t.Fatal(err)
 	}
-	if err = db.Create(&u).Error; err != nil {
+	if err := db.Create(&u).Error; err != nil {
 		t.Fatal(err)
 	}
 	return db, c, u

@@ -193,7 +193,7 @@ Apply=false 保存 Temporary；Apply=true 保存 Reviewing。CanPreResult 按请
 
 ## 验证范围与限制
 
-使用独立内存 SQLite 创建测试表，不读取业务配置或生产 DSN，不执行旧集成测试。生产实现使用现有 GORM 事务及比赛行 FOR UPDATE；SQLite 测试连接串行用于验证幂等结果，不替代 MySQL/InnoDB 行锁压力验证。
+使用隔离 MySQL 数据库创建测试表，不读取业务配置或生产 DSN，不执行旧集成测试。设置 `CUBING_TEST_MYSQL_DSN` 指向测试服务器，夹具自动创建并清理临时数据库；未配置时跳过数据库测试。实现使用 GORM 事务及比赛行 FOR UPDATE。
 不新增依赖，不修改生产 schema，不修复历史坏记录。群组历史重复映射会拒绝机器人录入，需人工清理。
 
 已通过的验证命令：

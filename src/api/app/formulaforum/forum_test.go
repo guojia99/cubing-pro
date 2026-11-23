@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http/httptest"
 	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 	"testing/synctest"
@@ -15,11 +14,12 @@ import (
 	forumapi "github.com/guojia99/cubing-pro/src/api/app/formulaforum"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/api/routes"
-	"github.com/guojia99/cubing-pro/src/internel/algs"
+	"github.com/guojia99/cubing-pro/src/configs"
+	"github.com/guojia99/cubing-pro/src/internel/convenient"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/formulaforum"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"gorm.io/driver/sqlite"
+	"github.com/guojia99/cubing-pro/src/internel/testutil"
 	"gorm.io/gorm"
 )
 
@@ -49,24 +49,8 @@ var forumTestService svc.Svc
 
 func newForumFixture(t *testing.T, cube, className, setName, groupName, caseName string) *forumFixture {
 	t.Helper()
-	db, err := gorm.Open(sqlite.Open(filepath.Join(t.TempDir(), "forum.db")), &gorm.Config{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	conn, err := db.DB()
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { conn.Close() })
-	if err = algs.InitCatalog(db, ""); err != nil {
-		t.Fatal(err)
-	}
-	if err = formulaforum.Migrate(db); err != nil {
-		t.Fatal(err)
-	}
-	if err = db.AutoMigrate(&user.User{}); err != nil {
-		t.Fatal(err)
-	}
+	db := testutil.OpenMySQL(t)
+	cov := convenient.NewConvenient(db, false, configs.Config{})
 
 	const caseID = "4444444444444444"
 	for _, row := range []struct {
@@ -79,12 +63,13 @@ func newForumFixture(t *testing.T, cube, className, setName, groupName, caseName
 		{"formula_cases", map[string]any{"id": caseID, "group_id": group, "name": caseName, "position": 0}},
 		{"formula_solutions", map[string]any{"id": solution, "case_id": caseID, "position": 0, "moves": "F (R U R' U') F'"}},
 	} {
-		if err = db.Table(row.table).Create(row.values).Error; err != nil {
+		if err := db.Table(row.table).Create(row.values).Error; err != nil {
 			t.Fatal(err)
 		}
 	}
 	s := &forumTestService
 	s.DB = db
+	s.Cov = cov
 	s.Cfg.GlobalConfig.Debug = true
 	middleware.InitJWT(s)
 	middleware.InitCheckAuth(s)

@@ -5,7 +5,7 @@
 ## 环境要求
 
 - Go **1.25.0 起**，版本要求见 [go.mod](go.mod)；安装 Git 和 Make。
-- SQLite 使用 `gorm.io/driver/sqlite` / `go-sqlite3`，需启用 CGO 并安装适合目标平台的 C 编译器（如 GCC 或 Clang）。
+- 业务数据库仅支持 MySQL 8.0.16+。WCA 离线 SQLite 导出仍依赖 CGO / C 编译器。
 - 非 macOS 构建会链接 `src/internel/scramble/librust_scramble.a`，需要与目标系统、架构兼容的原生库和链接环境；配置为 `tnoodle` 也不会移除这项编译依赖。
 - macOS 的 `rust_twisty` 实现是占位实现，会返回 `[macOS-disabled]`，不能作为真实打乱。使用 `tnoodle` 时需单独运行提供代码所调用 `/frontend/...` 接口的外部服务，见[开发指南](docs/development.md)。
 
@@ -20,7 +20,7 @@ go mod download
 make init-config
 ```
 
-`make init-config` 默认从 `etc/server.yaml` 创建 `local/server_local_dev.yaml`，已有文件不会覆盖；指定 `CONFIG` 时改用该目标路径。示例采用本地 HTTP、SQLite，并禁用机器人；首次运行前检查生成配置中的路径和端口。`local/` 已被 Git 忽略，不要提交私人配置。
+`make init-config` 默认从 `etc/server.yaml` 创建 `local/server_local_dev.yaml`，已有文件不会覆盖；指定 `CONFIG` 时改用该目标路径。示例采用本地 HTTP、MySQL，并禁用机器人；首次运行前准备数据库并修改示例 DSN，检查路径和端口。`local/` 已被 Git 忽略，不要提交私人配置。
 
 ```bash
 make config-test
@@ -45,7 +45,7 @@ make gateway CONFIG=local/server_local_dev.yaml
 | --- | --- |
 | tNoodle 打乱 | 外部 HTTP 服务；`global.scramble.endpoint` 应与其接口匹配，Go API 不负责启动该服务 |
 | 打乱图片 | 当前 `2mf8` 绘图分支访问代码内固定的外部服务；`global.scramble.scramble` 不会覆盖该地址 |
-| WCA 本地数据查询与同步 | 独立的 WCA MySQL 数据、`global.wcaDB` 路径；同步还涉及下载、导入和清理，不能用业务 SQLite 替代 |
+| WCA 本地数据查询与同步 | 独立的 WCA MySQL 数据、`global.wcaDB` 路径；同步还涉及下载、导入和清理，不能用业务数据库替代独立 WCA 库 |
 | WCA OAuth 登录 | WCA 应用凭据、准确的回调地址和前端跳转允许列表，见[前端对接手册](docs/WCA_LOGIN_FRONTEND_GUIDE.md) |
 | 邮件 | `global.emailConfig` 中可用的 SMTP 配置 |
 | 公式库 | 配置 `global.algTrainersPath` 时会读取相邻的 `Algs/catalog.json` 和 Trainer 数据；来源与导入条件见[脚本说明](scripts/README.md) |

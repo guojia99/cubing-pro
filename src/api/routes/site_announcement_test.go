@@ -2,6 +2,7 @@ package routes
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -26,6 +27,7 @@ const (
 )
 
 type announcementResponse struct {
+	ID       string `json:"id"`
 	Active   bool   `json:"active"`
 	Revision string `json:"revision"`
 	Text     string `json:"text"`
@@ -101,78 +103,165 @@ func TestSiteAnnouncementRoutes(t *testing.T) {
 		}
 		return envelope.Data
 	}
-	adminRequest := func(method, body string) announcementResponse {
+	adminMutation := func(method, id, body string) announcementResponse {
 		t.Helper()
-		raw := request(method, announcementAdmin, body, admin, http.StatusOK)
+		path := announcementAdmin
+		if id != "" {
+			path += "/" + id
+		}
+		raw := request(method, path, body, admin, http.StatusOK)
 		var out announcementResponse
 		if err := json.Unmarshal(raw, &out); err != nil {
 			t.Fatal(err)
 		}
 		return out
 	}
-	expectPublic := func(want *announcementResponse) {
+	adminList := func() []announcementResponse {
+		t.Helper()
+		raw := request(http.MethodGet, announcementAdmin, "", admin, http.StatusOK)
+		var list []announcementResponse
+		if err := json.Unmarshal(raw, &list); err != nil || list == nil {
+			t.Fatalf("expected an admin array, got %s (%v)", raw, err)
+		}
+		return list
+	}
+	expectPublic := func(want ...announcementResponse) {
 		t.Helper()
 		raw := request(http.MethodGet, announcementPublic, "", "", http.StatusOK)
-		if want == nil {
-			if string(raw) != "null" {
-				t.Fatalf("expected a null public announcement, got %s", raw)
+		var fields []map[string]string
+		if err := json.Unmarshal(raw, &fields); err != nil || fields == nil || len(fields) != len(want) {
+			t.Fatalf("expected %d public announcements, got %s (%v)", len(want), raw, err)
+		}
+		for i, entry := range fields {
+			if len(entry) != 4 || entry["id"] != want[i].ID || entry["revision"] != want[i].Revision || entry["text"] != want[i].Text || entry["href"] != want[i].Href {
+				t.Fatalf("unexpected public fields: %s", raw)
 			}
-			return
-		}
-		var fields map[string]string
-		if err := json.Unmarshal(raw, &fields); err != nil {
-			t.Fatal(err)
-		}
-		if len(fields) != 3 || fields["revision"] != want.Revision || fields["text"] != want.Text || fields["href"] != want.Href {
-			t.Fatalf("unexpected public fields: %s", raw)
 		}
 	}
 
-	for _, method := range []string{http.MethodGet, http.MethodPut, http.MethodDelete} {
-		request(method, announcementAdmin, "", "", http.StatusUnauthorized)
-		request(method, announcementAdmin, "", ordinary, http.StatusUnauthorized)
+	for _, tc := range []struct{ method, suffix string }{
+		{http.MethodGet, ""}, {http.MethodPost, ""},
+		{http.MethodPut, "/some-id"}, {http.MethodDelete, "/some-id"},
+	} {
+		request(tc.method, announcementAdmin+tc.suffix, "", "", http.StatusUnauthorized)
+		request(tc.method, announcementAdmin+tc.suffix, "", ordinary, http.StatusUnauthorized)
 	}
-	expectPublic(nil)
-	if got := adminRequest(http.MethodGet, ""); got != (announcementResponse{}) {
-		t.Fatalf("unexpected initial config: %+v", got)
+	expectPublic()
+	if got := adminList(); len(got) != 0 {
+		t.Fatalf("unexpected initial state: %+v", got)
 	}
-	if got := adminRequest(http.MethodDelete, ""); got != (announcementResponse{}) {
-		t.Fatalf("withdrawing unused slot unexpectedly changed it: %+v", got)
-	}
-	request(http.MethodPut, announcementAdmin, `{"text":"   "}`, admin, http.StatusUnprocessableEntity)
-	request(http.MethodPut, announcementAdmin, `{"text":"公告","href":"http://example.com/"}`, admin, http.StatusUnprocessableEntity)
-	request(http.MethodPut, announcementAdmin, `{"text":`, admin, http.StatusBadRequest)
+	request(http.MethodPut, announcementAdmin+"/unknown", `{"text":"公告"}`, admin, http.StatusNotFound)
+	request(http.MethodDelete, announcementAdmin+"/unknown", "", admin, http.StatusNotFound)
+	request(http.MethodPost, announcementAdmin, `{"text":"   "}`, admin, http.StatusUnprocessableEntity)
+	request(http.MethodPost, announcementAdmin, `{"text":"公告","href":"http://example.com/"}`, admin, http.StatusUnprocessableEntity)
+	request(http.MethodPost, announcementAdmin, `{"text":`, admin, http.StatusBadRequest)
 
-	first := adminRequest(http.MethodPut, `{"text":"  站点维护  ","href":" /welcome "}`)
-	if !first.Active || first.Revision == "" || first.Text != "站点维护" || first.Href != "/welcome" {
+	first := adminMutation(http.MethodPost, "", `{"text":"  站点维护  ","href":" /welcome "}`)
+	if !first.Active || first.ID == "" || first.Revision == "" || first.Text != "站点维护" || first.Href != "/welcome" {
 		t.Fatalf("unexpected first publish: %+v", first)
 	}
-	expectPublic(&first)
-	if got := adminRequest(http.MethodPut, `{"text":"站点维护","href":"/welcome"}`); got != first {
+	second := adminMutation(http.MethodPost, "", `{"text":"第二条公告"}`)
+	if !second.Active || second.ID == "" || second.ID == first.ID || second.Revision == first.Revision || second.Href != "" {
+		t.Fatalf("unexpected second publish: %+v", second)
+	}
+	expectPublic(second, first)
+	if got := adminList(); len(got) != 2 || got[0] != second || got[1] != first {
+		t.Fatalf("unexpected initial list: %+v", got)
+	}
+	if got := adminMutation(http.MethodPut, first.ID, `{"text":"站点维护","href":"/welcome"}`); got != first {
 		t.Fatalf("no-op save changed revision: %+v", got)
 	}
 
-	edited := adminRequest(http.MethodPut, `{"text":"站点维护（时间更新）","href":"/welcome"}`)
-	if !edited.Active || edited.Revision == first.Revision || edited.Text != "站点维护（时间更新）" {
+	edited := adminMutation(http.MethodPut, first.ID, `{"text":"站点维护（时间更新）","href":"/welcome"}`)
+	if !edited.Active || edited.ID != first.ID || edited.Revision == first.Revision || edited.Text != "站点维护（时间更新）" {
 		t.Fatalf("text edit failed to update revision: %+v", edited)
 	}
-	expectPublic(&edited)
-	linked := adminRequest(http.MethodPut, `{"text":"站点维护（时间更新）","href":"https://example.com/updates"}`)
-	if !linked.Active || linked.Revision == edited.Revision || linked.Text != edited.Text || linked.Href == edited.Href {
+	expectPublic(second, edited)
+	linked := adminMutation(http.MethodPut, first.ID, `{"text":"站点维护（时间更新）","href":"https://example.com/updates"}`)
+	if !linked.Active || linked.ID != first.ID || linked.Revision == edited.Revision || linked.Text != edited.Text || linked.Href == edited.Href {
 		t.Fatalf("link-only edit failed to update revision: %+v", linked)
 	}
-	expectPublic(&linked)
+	expectPublic(second, linked)
 
-	withdrawn := adminRequest(http.MethodDelete, "")
+	withdrawn := adminMutation(http.MethodDelete, first.ID, "")
 	linked.Active = false
 	if withdrawn != linked {
 		t.Fatalf("withdrawal did not preserve content: got %+v, want %+v", withdrawn, linked)
 	}
-	expectPublic(nil)
+	if got := adminMutation(http.MethodDelete, first.ID, ""); got != withdrawn {
+		t.Fatalf("repeated withdrawal changed record: %+v", got)
+	}
+	expectPublic(second)
+	if got := adminList(); len(got) != 2 || got[0] != second || got[1] != withdrawn {
+		t.Fatalf("admin list did not retain withdrawn entry: %+v", got)
+	}
 
-	republished := adminRequest(http.MethodPut, `{"text":"站点维护（时间更新）","href":"https://example.com/updates"}`)
-	if !republished.Active || republished.Revision == withdrawn.Revision || republished.Text != withdrawn.Text || republished.Href != withdrawn.Href {
+	republished := adminMutation(http.MethodPut, first.ID, `{"text":"站点维护（时间更新）","href":"https://example.com/updates"}`)
+	if !republished.Active || republished.ID != first.ID || republished.Revision == withdrawn.Revision || republished.Text != withdrawn.Text || republished.Href != withdrawn.Href {
 		t.Fatalf("republish did not create a revision: %+v", republished)
 	}
-	expectPublic(&republished)
+	expectPublic(republished, second)
+
+	// Each concurrent request has a distinct remote address so it exercises DB
+	// serialization, not the unrelated shared-per-client rate limiter.
+	t.Run("concurrent writes preserve other records", func(t *testing.T) {
+		type write struct {
+			method, id, body string
+		}
+		const count = 8
+		run := func(writes []write) {
+			t.Helper()
+			type result struct {
+				code int
+				body string
+			}
+			done := make(chan result, len(writes))
+			start := make(chan struct{})
+			for i, w := range writes {
+				go func() {
+					<-start
+					path := announcementAdmin
+					if w.id != "" {
+						path += "/" + w.id
+					}
+					req := httptest.NewRequest(w.method, path, strings.NewReader(w.body))
+					req.RemoteAddr = fmt.Sprintf("192.0.2.%d:20000", i+1)
+					req.Header.Set("Content-Type", "application/json")
+					req.Header.Set("Authorization", "Bearer "+admin)
+					resp := httptest.NewRecorder()
+					router.ServeHTTP(resp, req)
+					done <- result{resp.Code, resp.Body.String()}
+				}()
+			}
+			close(start)
+			for range writes {
+				if resp := <-done; resp.code != http.StatusOK {
+					t.Errorf("concurrent write failed (%d): %s", resp.code, resp.body)
+				}
+			}
+		}
+		creates := make([]write, count)
+		for i := range creates {
+			creates[i] = write{method: http.MethodPost, body: fmt.Sprintf(`{"text":"concurrent-%d"}`, i)}
+		}
+		run(creates)
+		rows := adminList()
+		if len(rows) != count+2 || rows[count] != republished || rows[count+1] != second {
+			t.Fatalf("concurrent writes lost records or changed order: %+v", rows)
+		}
+		edits := make([]write, count)
+		for i, row := range rows[:count] {
+			edits[i] = write{method: http.MethodPut, id: row.ID, body: fmt.Sprintf(`{"text":"edited-%d"}`, i)}
+		}
+		run(edits)
+		final := adminList()
+		if len(final) != len(rows) {
+			t.Fatalf("editing changed number of entries: %+v", final)
+		}
+		for i, row := range final[:count] {
+			if row.ID != rows[i].ID || row.Revision == rows[i].Revision || row.Text != fmt.Sprintf("edited-%d", i) {
+				t.Errorf("lost edit or changed creation order: %+v", row)
+			}
+		}
+	})
 }

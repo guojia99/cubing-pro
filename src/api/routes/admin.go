@@ -84,8 +84,9 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		systemResult.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
 
 		systemResult.GET("/site-announcement", siteannouncement.AdminGet(svc.DB))
-		systemResult.PUT("/site-announcement", siteannouncement.AdminPut(svc.DB))
-		systemResult.DELETE("/site-announcement", siteannouncement.AdminDelete(svc.DB))
+		systemResult.POST("/site-announcement", siteannouncement.AdminPublish(svc.DB))
+		systemResult.PUT("/site-announcement/:id", siteannouncement.AdminPublish(svc.DB))
+		systemResult.DELETE("/site-announcement/:id", siteannouncement.AdminDelete(svc.DB))
 
 		systemResult.GET("/advertisements", advertisements.Get(svc.DB, false))
 		systemResult.PUT("/advertisements", advertisements.Put(svc.DB))

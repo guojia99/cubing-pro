@@ -68,6 +68,7 @@ make gateway CONFIG=local/server_local_dev.yaml
 - [开发指南](docs/development.md)：启动链、构建条件和测试选择。
 - [配置说明](docs/configuration.md)：配置字段与本地设置。
 - [部署指南](docs/deployment.md)：网关、静态资源与服务部署。
+- [后端上线须知与材料清单](docs/production-go-live.md)：上线配置核对、材料清单、启动验收与回滚。
 - [源码导航](src/SOURCE_STRUCTURE.md)：模块职责和扩展位置。
 - [贡献指南](CONTRIBUTING.md)：PR 范围、第三方代码与验证要求。
 - [脚本说明](scripts/README.md)：条件迁移、数据导入与统计工具。

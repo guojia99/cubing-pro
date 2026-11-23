@@ -2,7 +2,7 @@
 # 所有相对文件路径以进程工作目录为基准，不以本 YAML 所在目录为基准。
 # 不支持 ${VAR} 环境变量插值。功能依赖与迁移说明见 docs/configuration.md。
 log:
-  path: "./logs"
+  path: "./logs" # 相对路径按进程 cwd 解析；生产环境请改用绝对路径，如 /var/log/cubing-pro
   maxSize: 100 # MB，日志文件名为 cubing-pro.log
 
 global:
@@ -61,9 +61,10 @@ gateway:
       placeholder: "/admin/organizers/__dynamic__/comp/__dynamic__/result/index.html"
   tNoodlePort: 20009 # 仅供额外 tNoodle 代理使用，与 global.scramble.endpoint 独立
   outsizeTNoodlePort: 0 # 不开启额外监听
+  # blddbPort: 3000 # 固定 Host blddb.cubing.pro 的上游端口；缺省 0 不会移除该 Host 分支
 
 api:
-  host: "localhost"
+  host: "localhost" # 同时作为网关 API 反代目标；生产建议回环地址
   port: 20000
   staticPath: "./local/static" # avatar/、advertisements/ 上传资源根目录
 

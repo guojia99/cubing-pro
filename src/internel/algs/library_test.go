@@ -12,7 +12,8 @@ import (
 
 func TestImportedLibrary(t *testing.T) {
 	root := filepath.Join("..", "..", "..", "build")
-	if err := Init(filepath.Join(root, "Alg-Trainers")); err != nil {
+	static, err := loadStatic(filepath.Join(root, "Alg-Trainers"))
+	if err != nil {
 		t.Fatal(err)
 	}
 	var catalog []struct {
@@ -79,7 +80,7 @@ func TestImportedLibrary(t *testing.T) {
 			}
 			want := fileAlgToAlgorithmClass(entry.Name, data)
 			var actual *AlgorithmClass
-			cube := GetAlgorithms()[entry.Cube]
+			cube := static[entry.Cube]
 			for i := range cube.ClassList {
 				if cube.ClassList[i].Name == entry.Name {
 					actual = &cube.ClassList[i]

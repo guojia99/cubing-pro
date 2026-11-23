@@ -1,16 +1,17 @@
 package public
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/exception"
 	"github.com/guojia99/cubing-pro/src/internel/algs"
 	"github.com/guojia99/cubing-pro/src/internel/svc"
-	"github.com/patrickmn/go-cache"
+	"gorm.io/gorm"
 )
 
 type outputClass struct {
@@ -20,64 +21,54 @@ type outputClass struct {
 	CaseCount int    `json:"caseCount"`
 }
 
-func countClassCases(class algs.AlgorithmClass) int {
-	n := 0
-	for _, set := range class.Sets {
-		for _, group := range set.AlgorithmGroups {
-			n += len(group.Algorithms)
-		}
-	}
-	return n
-}
-
 type AlgorithmGroupsResponse struct {
 	CubeKeys []string                 `json:"CubeKeys"`
 	ClassMap map[string][]outputClass `json:"ClassMap"`
 }
 
+const catalogOverviewCache = "formula-catalog-overview"
+
 func AlgorithmGroups(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		resp := &AlgorithmGroupsResponse{
-			CubeKeys: algs.CubeKeyList,
-			ClassMap: make(map[string][]outputClass), // key with cube
+		if resp, ok := svc.Cache.Get(catalogOverviewCache); ok {
+			ctx.JSON(http.StatusOK, resp)
+			return
 		}
-		for _, alg := range algs.GetAlgorithms() {
-			for _, k := range alg.ClassList {
-				o := outputClass{
-					Name:      k.Name,
-					Alg:       previewAlgorithm(k),
-					CaseCount: countClassCases(k),
-				}
-				resp.ClassMap[alg.Cube] = append(resp.ClassMap[alg.Cube], o)
-			}
+		var rows []struct {
+			Cube      string
+			Name      string
+			Alg       string
+			CaseCount int
+		}
+		// Choose a preview from the earliest non-empty case, preferring a
+		// rotation-free solution in that case. Count cases independently of their solutions.
+		err := svc.DB.WithContext(ctx.Request.Context()).Raw(`
+SELECT cl.cube, cl.name,
+  (SELECT COUNT(*) FROM formula_sets s
+    JOIN formula_groups g ON g.set_id = s.id
+    JOIN formula_cases c ON c.group_id = g.id WHERE s.class_id = cl.id) AS case_count,
+  COALESCE((SELECT sol.moves FROM formula_sets s
+    JOIN formula_groups g ON g.set_id = s.id
+    JOIN formula_cases c ON c.group_id = g.id
+    JOIN formula_solutions sol ON sol.case_id = c.id
+    WHERE s.class_id = cl.id AND TRIM(sol.moves) <> ''
+    ORDER BY s.position, g.position, c.position,
+      CASE WHEN LENGTH(sol.moves) = LENGTH(REPLACE(REPLACE(REPLACE(sol.moves,'x',''),'y',''),'z','')) THEN 0 ELSE 1 END,
+      sol.position LIMIT 1), '') AS alg
+FROM formula_classes cl ORDER BY cl.cube, cl.position`).Scan(&rows).Error
+		if err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
+			return
+		}
+		resp := AlgorithmGroupsResponse{CubeKeys: algs.CubeKeyList, ClassMap: make(map[string][]outputClass)}
+		for _, row := range rows {
+			resp.ClassMap[row.Cube] = append(resp.ClassMap[row.Cube], outputClass{Name: row.Name, Alg: row.Alg, CaseCount: row.CaseCount})
+		}
+		if len(rows) > 0 {
+			svc.Cache.Set(catalogOverviewCache, resp, time.Minute)
 		}
 		ctx.JSON(http.StatusOK, resp)
 	}
-}
-
-func previewAlgorithm(class algs.AlgorithmClass) string {
-	for _, set := range class.Sets {
-		for _, group := range set.AlgorithmGroups {
-			for _, algorithm := range group.Algorithms {
-				fallback := ""
-				for _, formula := range algorithm.Algs {
-					if strings.TrimSpace(formula) == "" {
-						continue
-					}
-					if fallback == "" {
-						fallback = formula
-					}
-					if !strings.ContainsAny(formula, "xyz") {
-						return formula
-					}
-				}
-				if fallback != "" {
-					return fallback
-				}
-			}
-		}
-	}
-	return ""
 }
 
 type AlgorithmGroupsWithCubeResponse struct {
@@ -85,42 +76,33 @@ type AlgorithmGroupsWithCubeResponse struct {
 }
 
 func AlgorithmGroupsWithCube(svc *svc.Svc) gin.HandlerFunc {
-	var cacheData = cache.New(120*time.Minute, 120*time.Minute)
 	return func(ctx *gin.Context) {
-		cubeID := ctx.Param("cubeID")
-		classID := ctx.Param("classID")
+		cubeID, classID := ctx.Param("cubeID"), ctx.Param("classID")
 		if cubeID == "" || classID == "" {
 			exception.ErrRequestBinding.ResponseWithError(ctx, fmt.Errorf("request error"))
 			return
 		}
-
-		key := fmt.Sprintf("%s-%s", cubeID, classID)
-		if data, ok := cacheData.Get(key); ok {
-			ctx.JSON(http.StatusOK, data)
+		key := "formula-catalog-class:" + cubeID + "/" + classID
+		if resp, ok := svc.Cache.Get(key); ok {
+			ctx.JSON(http.StatusOK, resp)
 			return
 		}
-		resp := AlgorithmGroupsWithCubeResponse{}
-
-		cube, ok := algs.GetAlgorithms()[cubeID]
-		if !ok {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, fmt.Errorf("not this cube"))
+		var class *algs.AlgorithmClass
+		err := svc.DB.WithContext(ctx.Request.Context()).Transaction(func(tx *gorm.DB) error {
+			var err error
+			class, err = algs.ReadClass(tx, cubeID, classID)
+			return err
+		}, &sql.TxOptions{ReadOnly: true})
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			exception.ErrResourceNotFound.ResponseWithError(ctx, err)
 			return
 		}
-
-		for _, v := range cube.ClassList {
-			if v.Name == classID {
-				resp = AlgorithmGroupsWithCubeResponse{
-					AlgorithmClass: v,
-				}
-				break
-			}
-		}
-		if resp.Name == "" {
-			exception.ErrResourceNotFound.ResponseWithError(ctx, fmt.Errorf("not this class"))
+		if err != nil {
+			exception.ErrDatabase.ResponseWithError(ctx, err)
 			return
 		}
-
-		cacheData.Set(key, resp, 120*time.Minute)
+		resp := AlgorithmGroupsWithCubeResponse{AlgorithmClass: *class}
+		svc.Cache.Set(key, resp, 120*time.Minute)
 		ctx.JSON(http.StatusOK, resp)
 	}
 }

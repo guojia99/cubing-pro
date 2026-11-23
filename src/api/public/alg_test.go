@@ -1,29 +1,52 @@
 package public
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"path/filepath"
+	"reflect"
 	"slices"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/internel/algs"
+	"github.com/guojia99/cubing-pro/src/internel/svc"
+	"github.com/patrickmn/go-cache"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func TestSyncedAlgorithmEndpoints(t *testing.T) {
-	if err := algs.Init(filepath.Join("..", "..", "..", "build", "Alg-Trainers")); err != nil {
+	db, err := gorm.Open(sqlite.Open(filepath.Join(t.TempDir(), "catalog.db")), &gorm.Config{})
+	if err != nil {
 		t.Fatal(err)
 	}
+	if err := algs.MigrateCatalog(db); err != nil {
+		t.Fatal(err)
+	}
+	service := &svc.Svc{DB: db, Cache: cache.New(cache.NoExpiration, 0)}
 	router := gin.New()
-	router.GET("/algorithm/", AlgorithmGroups(nil))
-	router.GET("/algorithm/:cubeID/:classID", AlgorithmGroupsWithCube(nil))
+	router.GET("/algorithm/", AlgorithmGroups(service))
+	router.GET("/algorithm/:cubeID/:classID", AlgorithmGroupsWithCube(service))
+	empty := httptest.NewRecorder()
+	router.ServeHTTP(empty, httptest.NewRequest(http.MethodGet, "/algorithm/", nil))
+	var initial AlgorithmGroupsResponse
+	if err := json.Unmarshal(empty.Body.Bytes(), &initial); err != nil || empty.Code != http.StatusOK || len(initial.ClassMap) != 0 {
+		t.Fatalf("expected empty initial overview: %d %s (%v)", empty.Code, empty.Body.String(), err)
+	}
+	if err := algs.InitCatalog(db, filepath.Join("..", "..", "..", "build", "Alg-Trainers")); err != nil {
+		t.Fatal(err)
+	}
 	response := httptest.NewRecorder()
 	router.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/algorithm/", nil))
 	if response.Code != http.StatusOK {
 		t.Fatalf("list status = %d", response.Code)
+	}
+	if got := response.Header().Get("Cache-Control"); got != "" {
+		t.Fatalf("unexpected list Cache-Control %q", got)
 	}
 	var list AlgorithmGroupsResponse
 	if err := json.Unmarshal(response.Body.Bytes(), &list); err != nil {
@@ -95,6 +118,9 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 			if response.Code != http.StatusOK {
 				t.Fatalf("detail status = %d", response.Code)
 			}
+			if got := response.Header().Get("Cache-Control"); got != "" {
+				t.Fatalf("unexpected detail Cache-Control %q", got)
+			}
 			var detail AlgorithmGroupsWithCubeResponse
 			if err := json.Unmarshal(response.Body.Bytes(), &detail); err != nil {
 				t.Fatal(err)
@@ -110,33 +136,138 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 			}
 		})
 	}
+	t.Run("solution rows retain IDs across reordering and detail cache hits", func(t *testing.T) {
+		detail := func(path string) algs.AlgorithmClass {
+			t.Helper()
+			resp := httptest.NewRecorder()
+			router.ServeHTTP(resp, httptest.NewRequest(http.MethodGet, path, nil))
+			if resp.Code != http.StatusOK {
+				t.Fatalf("GET %s: %s", path, resp.Body.String())
+			}
+			var class algs.AlgorithmClass
+			if err := json.Unmarshal(resp.Body.Bytes(), &class); err != nil {
+				t.Fatal(err)
+			}
+			return class
+		}
+		find := func(class algs.AlgorithmClass, name string, n int) algs.Algorithm {
+			t.Helper()
+			for _, set := range class.Sets {
+				for _, group := range set.AlgorithmGroups {
+					for _, c := range group.Algorithms {
+						if c.Name == name && len(c.Algs) == n {
+							if len(group.GroupID) != 16 || len(c.CaseID) != 16 || len(c.SolutionIDs) != n {
+								t.Fatalf("%s has incomplete identifiers", name)
+							}
+							return c
+						}
+					}
+				}
+			}
+			t.Fatalf("missing %s with %d slots", name, n)
+			return algs.Algorithm{}
+		}
+		oh := detail("/algorithm/333oh/ZBLL")
+		duplicate := find(oh, "ADN11", 3)
+		if duplicate.Algs[1] == "" || duplicate.Algs[1] != duplicate.Algs[2] || duplicate.SolutionIDs[1] == nil || duplicate.SolutionIDs[2] == nil || *duplicate.SolutionIDs[1] == *duplicate.SolutionIDs[2] {
+			t.Fatal("identical occurrences must have distinct solution IDs")
+		}
+		for _, id := range duplicate.SolutionIDs[1:] {
+			if _, err := hex.DecodeString(*id); err != nil || len(*id) != 16 {
+				t.Fatalf("invalid solution ID %q", *id)
+			}
+		}
+		blank := find(oh, "2GLL11", 3)
+		if blank.Algs[1] != "" || blank.SolutionIDs[1] != nil || blank.SolutionIDs[0] == nil || blank.SolutionIDs[2] == nil {
+			t.Fatal("the empty slot must preserve alignment with a null public ID")
+		}
+		var blankRows int64
+		if err := db.Table("formula_solutions").Where("case_id = ? AND position = 1 AND moves = ''", blank.CaseID).Count(&blankRows).Error; err != nil || blankRows != 1 {
+			t.Fatalf("empty rows at position 1 = %d, err = %v", blankRows, err)
+		}
+		if c := find(detail("/algorithm/333/F2L"), "A+", 13); len(c.Scrambles) != 1 {
+			t.Fatal("scrambles must remain case-level")
+		}
+		const oll = "/algorithm/333/OLL"
+		before := find(detail(oll), "OLL 45", 6)
+		if before.SolutionIDs[0] == nil {
+			t.Fatal("missing ID for first OLL 45 solution")
+		}
+		if err := db.Exec("UPDATE formula_solutions SET position = 6 WHERE id = ?", *before.SolutionIDs[0]).Error; err != nil {
+			t.Fatal(err)
+		}
+		if err := algs.InitCatalog(db, filepath.Join(t.TempDir(), "missing")); err != nil {
+			t.Fatalf("restarted database unexpectedly needs trainer files: %v", err)
+		}
+		if cached := find(detail(oll), "OLL 45", 6); !reflect.DeepEqual(cached, before) {
+			t.Fatal("expected the cached detail before invalidation")
+		}
+		service.Cache.Flush()
+		edited := find(detail(oll), "OLL 45", 6)
+		wantIDs := append(slices.Clone(before.SolutionIDs[1:]), before.SolutionIDs[0])
+		wantMoves := append(slices.Clone(before.Algs[1:]), before.Algs[0])
+		if edited.CaseID != before.CaseID || !reflect.DeepEqual(edited.SolutionIDs, wantIDs) || !slices.Equal(edited.Algs, wantMoves) {
+			t.Fatal("changing position must reorder moves and IDs together without changing their values")
+		}
+	})
+
+	t.Run("previews use the earliest playable case", func(t *testing.T) {
+		class, err := algs.ReadClass(db, "333", "F2L")
+		if err != nil {
+			t.Fatal(err)
+		}
+		first := class.Sets[0].AlgorithmGroups[0].Algorithms[0]
+		preview := func() string {
+			t.Helper()
+			resp := httptest.NewRecorder()
+			router.ServeHTTP(resp, httptest.NewRequest(http.MethodGet, "/algorithm/", nil))
+			if resp.Code != http.StatusOK {
+				t.Fatalf("overview status = %d", resp.Code)
+			}
+			var list AlgorithmGroupsResponse
+			if err := json.Unmarshal(resp.Body.Bytes(), &list); err != nil {
+				t.Fatal(err)
+			}
+			for _, cl := range list.ClassMap["333"] {
+				if cl.Name == "F2L" {
+					return cl.Alg
+				}
+			}
+			t.Fatal("missing F2L preview")
+			return ""
+		}
+		cached := preview()
+		if err := db.Exec("UPDATE formula_solutions SET moves = '' WHERE case_id = ?", first.CaseID).Error; err != nil {
+			t.Fatal(err)
+		}
+		for _, tt := range []struct{ first, second, want string }{
+			{" ", " ", "F R' F' R"},
+			{"y R U", "z F U", "y R U"},
+			{"y R U", "F U", "F U"},
+		} {
+			for i, moves := range []string{tt.first, tt.second} {
+				if err := db.Exec("UPDATE formula_solutions SET moves = ? WHERE id = ?", moves, *first.SolutionIDs[i]).Error; err != nil {
+					t.Fatal(err)
+				}
+			}
+			if got := preview(); got != cached {
+				t.Fatalf("cached preview = %q, want %q", got, cached)
+			}
+			service.Cache.Delete(catalogOverviewCache)
+			cached = preview()
+			if cached != tt.want {
+				t.Fatalf("refreshed preview = %q, want %q", cached, tt.want)
+			}
+		}
+	})
 }
 
-func TestPreviewAlgorithm(t *testing.T) {
-	tests := []struct {
-		name     string
-		formulas [][]string
-		want     string
-	}{
-		{"empty class", nil, ""},
-		{"solved case only", [][]string{nil}, ""},
-		{"skip solved and blank formulas", [][]string{nil, {" ", "R U R'"}}, "R U R'"},
-		{"prefer no rotations", [][]string{{"y R U R'", "R U R'"}}, "R U R'"},
-		{"rotation fallback", [][]string{{"y R U R'"}}, "y R U R'"},
+func countClassCases(class algs.AlgorithmClass) int {
+	n := 0
+	for _, set := range class.Sets {
+		for _, group := range set.AlgorithmGroups {
+			n += len(group.Algorithms)
+		}
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			class := algs.AlgorithmClass{}
-			if tt.formulas != nil {
-				group := algs.AlgorithmGroup{}
-				for _, formulas := range tt.formulas {
-					group.Algorithms = append(group.Algorithms, algs.Algorithm{Algs: formulas})
-				}
-				class.Sets = []algs.AlgorithmSet{{AlgorithmGroups: []algs.AlgorithmGroup{group}}}
-			}
-			if got := previewAlgorithm(class); got != tt.want {
-				t.Errorf("preview = %q, want %q", got, tt.want)
-			}
-		})
-	}
+	return n
 }

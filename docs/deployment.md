@@ -1,6 +1,6 @@
 # 部署说明
 
-本文说明仓库现有 systemd 文件和 Makefile 的真实行为，不修改其生产路径。先阅读 [配置参考](configuration.md) 和 [etc 目录说明](../etc/README.md)。公开 YAML 是本地开发示例，部署前必须制作私人配置并准备功能依赖。
+本文说明仓库现有 systemd 文件和 Makefile 的真实行为，不修改其生产路径。先阅读 [配置参考](configuration.md) 和 [etc 目录说明](../etc/README.md)。公开 YAML 是本地开发示例，部署前必须制作私人配置并准备功能依赖。生产上线前的配置核对、材料清单和验收步骤见[后端上线须知与材料清单](production-go-live.md)。
 
 ## 本地开发与构建
 

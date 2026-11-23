@@ -1,6 +1,6 @@
 # 配置参考
 
-本页按 `src/configs/` 中的 YAML 标签及实际消费者整理（加载器和公共配置在 `configs.go`，全局、网关、机器人结构分别在 `global.go`、`gateway.go`、`robot.go`）。公开的 [`etc/server.yaml`](../etc/server.yaml) 是本地开发示例；字段缺省值与示例值不同的地方在下文注明。它不提供完整离线环境，也不保证未配置依赖的功能可用。
+本页按 `src/configs/` 中的 YAML 标签及实际消费者整理（加载器和公共配置在 `configs.go`，全局、网关、机器人结构分别在 `global.go`、`gateway.go`、`robot.go`）。公开的 [`etc/server.yaml`](../etc/server.yaml) 是本地开发示例；字段缺省值与示例值不同的地方在下文注明。它不提供完整离线环境，也不保证未配置依赖的功能可用。生产上线前的配置核对、材料清单和验收步骤见[后端上线须知与材料清单](production-go-live.md)。
 
 ## 加载与路径
 
@@ -24,10 +24,10 @@ Makefile 的 `CONFIG ?= ./local/server_local_dev.yaml` 保留旧默认值，应�
 
 | 字段 | 行为 / 默认 |
 | --- | --- |
-| `path` | CLI 初始化服务后传给滚动日志器的目录；固定文件名 `cubing-pro.log`。示例 `./logs`，加载器不补默认目录。 |
+| `path` | CLI 初始化服务后传给滚动日志器的目录；固定文件名 `cubing-pro.log`。示例 `./logs`，加载器不补默认目录。生产环境应使用绝对路径，例如 `/var/log/cubing-pro`。 |
 | `maxSize` | 滚动日志大小，传入单位 MB；示例 `100`。加载器不补默认大小。 |
 
-须保证目录可写。配置只影响该滚动日志器，不能控制所有标准输出或 QQ webhook 的 `./logs` 日志。
+须保证目录可写。相对路径按进程 cwd 解析，不会以 YAML 所在目录为基准。配置只影响该滚动日志器，不能控制所有标准输出或 QQ webhook 的 `./logs` 日志。
 
 ## 全局 `global`
 
@@ -98,7 +98,7 @@ Makefile 的 `CONFIG ?= ./local/server_local_dev.yaml` 保留旧默认值，应�
 
 | 字段 | 行为 / 默认 |
 | --- | --- |
-| `host` | API 监听地址，同时是网关 API 反代的目标 host；示例保留 `localhost`。若设为通配地址，需确认反代目标在部署环境可达。 |
+| `host` | API 监听地址，同时是网关 API 反代的目标 host；示例保留 `localhost`。生产若只经网关访问，建议使用回环地址；若设为通配地址，需确认反代目标在部署环境可达，并限制直接访问。 |
 | `port` | API 监听端口及网关目标端口；示例保留 `20000`。没有加载器默认端口，`0` 会由监听器分配临时端口，不能作为稳定代理目标。 |
 | `staticPath` | 上传资源根目录，头像放在 `avatar/`，广告图放在 `advertisements/`；非空时 API 尝试创建根目录。空值使用 cwd 下的子目录。示例 `./local/static`，不是前端产物目录，也不会把整个目录自动挂载成网关静态站点。 |
 
@@ -216,6 +216,7 @@ QQ 启用后同时启动内置 webhook、向 QQ 获取 token，并连接配置�
 | `gateway.port` | 仅当 `httpPort` 为零时迁移为 HTTP 端口；非零 `httpPort` 优先。 |
 | `global.xStaticPath` | 无对应有效字段，移除。API 上传资源配置到 `api.staticPath`，前端资源使用 gateway 的静态字段；两者不能机械等价替换。 |
 | `global.xFilePath` | 不消费；如需 `/v3/x-file` 路由，迁移到 `gateway.xFile` 并核对路径与访问范围。 |
+| `global.algPath` | 无对应有效字段，移除。公式库位置只由 `global.algTrainersPath` 控制，且要求同级存在 `Algs/catalog.json` 及引用文件。 |
 | `global.wca_db.syncUrl` / `syncTime` | 不消费，不能简单改名延续旧行为。改用 `global.wcaDB` 的三项实际字段，下载来源 / 调度在实现中固定，开启同步仍需 `-w`。 |
 | QQ `group` / `appID` / `groupList` | 没有这些 YAML 标签；移除，ID 改为 `app_id`，其余配置按实际 QQ 字段补齐。没有等价的群白名单配置。 |
 | 生产 `/build`、`/https`、80/443 | 只属于部署环境约定。新版公开示例使用本地目录及 HTTP 8080，已有私有 / 生产副本需按实际环境保留或调整，不能直接整份替换。 |

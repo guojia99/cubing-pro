@@ -7,6 +7,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/acknowledgments"
 	"github.com/guojia99/cubing-pro/src/api/app/advertisements"
 	events2 "github.com/guojia99/cubing-pro/src/api/app/events"
+	"github.com/guojia99/cubing-pro/src/api/app/formulaforum"
 	notify3 "github.com/guojia99/cubing-pro/src/api/app/notify"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers"
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
@@ -27,6 +28,10 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		middleware.CheckAuthMiddlewareFunc(user2.AuthAdmin, user2.AuthSuperAdmin),
 		middleware.RateLimitMiddleware(60, time.Second),
 	)
+
+	forum := admin.Group("/formula-forum")
+	forum.GET("/comments", formulaforum.AdminComments(svc.DB))
+	forum.DELETE("/comments/:id", formulaforum.Delete(svc.DB))
 
 	superAdmin := router.Group(
 		"/admin",

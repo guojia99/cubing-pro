@@ -8,10 +8,10 @@ import (
 )
 
 func TestGetAlgorithms(t *testing.T) {
-	if err := Init(filepath.Join("..", "..", "..", "build", "Alg-Trainers")); err != nil {
+	data, err := loadStatic(filepath.Join("..", "..", "..", "build", "Alg-Trainers"))
+	if err != nil {
 		t.Fatal(err)
 	}
-	data := GetAlgorithms()
 	if !slices.Contains(CubeKeyList, "fto") {
 		t.Fatal("FTO is missing from the category list")
 	}
@@ -72,6 +72,9 @@ func TestInitRejectsBrokenLibrary(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			root := t.TempDir()
+			if err := os.Mkdir(filepath.Join(root, "Alg-Trainers"), 0755); err != nil {
+				t.Fatal(err)
+			}
 			if tt.catalog != "" {
 				if err := os.Mkdir(filepath.Join(root, "Algs"), 0755); err != nil {
 					t.Fatal(err)
@@ -80,14 +83,8 @@ func TestInitRejectsBrokenLibrary(t *testing.T) {
 					t.Fatal(err)
 				}
 			}
-			previous := baseAlgs
-			t.Cleanup(func() { baseAlgs = previous })
-			baseAlgs = map[string]CubeAlgorithms{"sentinel": {Cube: "sentinel"}}
-			if err := Init(filepath.Join(root, "Alg-Trainers")); err == nil {
+			if _, err := loadStatic(filepath.Join(root, "Alg-Trainers")); err == nil {
 				t.Fatal("broken library should fail initialization")
-			}
-			if _, ok := baseAlgs["sentinel"]; !ok {
-				t.Error("failed initialization replaced the active library")
 			}
 		})
 	}

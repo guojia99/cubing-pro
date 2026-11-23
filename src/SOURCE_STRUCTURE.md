@@ -47,6 +47,8 @@ src/
 
 ## `api/`
 
+[`cmd/api/api.go`](../cmd/api/api.go) 在启动 HTTP 服务前迁移 6 张公式目录表和 3 张论坛表。仅当 `server.yaml` 配置了 `global.algTrainersPath` 且数据库尚未完成首次导入时，`api` 才读取公式源文件；`gateway` 和 `robot` 均不执行这部分初始化。
+
 ### `api/api.go`
 
 | 文件 | 作用 |
@@ -115,6 +117,7 @@ src/
 | `auth/` | 注册、登录、验证码、找回/重置密码、头像、用户消息、资料更新、`wca.go`（WCA OAuth）、`WCA_AUTH_README.md`（说明文档）。 |
 | `comp/` | 用户侧：比赛详情、报名、退赛、成绩列表、报名进度与回调等。 |
 | `events/` | 赛事内「项目（Events）」的创建、删除、列表（组织者侧逻辑，与路由绑定一致）。 |
+| `formulaforum/` | 公式论坛计数、讨论、通知和管理接口。公开查询隐藏失效目标；管理列表及通知保留 `target.unavailable` 占位。`ratelimit.go` 对发评/回复按用户 ID 限制每个 API 进程每滚动 60 秒 10 次请求，超出返回 429。 |
 | `notify/` | 站内通知的增删改查与列表。 |
 | `organizers/` | 主办方：创建/更新/删除比赛、选手与成绩录入、预审、结束比赛、组织成员等；`org_mid/middleware.go` 为组织者相关中间件。 |
 | `other_link/` | 站点外链配置的读写与类型定义。 |
@@ -154,6 +157,7 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 | `competition/` | 比赛、报名、分组、讨论等。 |
 | `crawler/` | 爬虫侧发邮件等模型。 |
 | `event/` | 项目定义、路线、对外 DTO（`out.go`）。 |
+| `formulaforum/` | 讨论主题、评论与回复通知模型；`Migrate` 迁移这 3 张论坛表。 |
 | `pktimer/` | PK 计时相关表。 |
 | `post/` | 帖子、通知表单。 |
 | `result/` | 成绩、预成绩、记录、`results_utils` 与测试。 |
@@ -196,7 +200,9 @@ Trainer 算法集、表驱动与读取逻辑。
 
 | 文件 | 作用 |
 |------|------|
-| `algs.go` | 初始化与对外 API。 |
+| `algs.go` | 首次导入时读取 `Alg-Trainers` 与其同级 `Algs/catalog.json` 指定的公式数据，负责初始化与对外 API。 |
+| `catalog.go` | 公式目录表结构、16 位小写 hex 稳定 ID 与分类读取。`InitCatalog` 迁移目录表；首次导入在同一事务中写入目录数据与完成标记，后续启动保留库内修改。详见 [公式论坛运维说明](../docs/formula-forum.md)。 |
+| `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
 | `types.go` / `trainers_types.go` / `tables.go` | 类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
 

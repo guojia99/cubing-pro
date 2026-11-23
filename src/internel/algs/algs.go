@@ -2,15 +2,32 @@ package algs
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
 )
 
-var baseAlgs = make(map[string]CubeAlgorithms)
+func loadStatic(basePath string) (map[string]CubeAlgorithms, error) {
+	basePath, err := filepath.Abs(basePath)
+	if err != nil {
+		return nil, fmt.Errorf("resolve trainer directory: %w", err)
+	}
+	catalogPath := filepath.Join(filepath.Dir(basePath), "Algs", "catalog.json")
+	loaded, err := readCatalogFiles(basePath, catalogPath)
+	if err != nil {
+		return nil, fmt.Errorf("load formulas (trainers: %s, catalog: %s): %w", basePath, catalogPath, err)
+	}
+	return loaded, nil
+}
 
-func Init(basePath string) error {
-	libraryPath := filepath.Join(filepath.Dir(filepath.Clean(basePath)), "Algs")
+func readCatalogFiles(basePath, catalogPath string) (map[string]CubeAlgorithms, error) {
+	if info, err := os.Stat(basePath); err != nil {
+		return nil, fmt.Errorf("open trainer directory: %w", err)
+	} else if !info.IsDir() {
+		return nil, fmt.Errorf("trainer path is not a directory: %s", basePath)
+	}
+	libraryPath := filepath.Dir(catalogPath)
 	var catalog []struct {
 		Cube     string   `json:"cube"`
 		Name     string   `json:"name"`
@@ -18,11 +35,11 @@ func Init(basePath string) error {
 		Replaces []string `json:"replaces"`
 		Cases    int      `json:"cases"`
 	}
-	if err := writeJsonToObj(filepath.Join(libraryPath, "catalog.json"), &catalog); err != nil {
-		return fmt.Errorf("read formula catalog: %w", err)
+	if err := writeJsonToObj(catalogPath, &catalog); err != nil {
+		return nil, fmt.Errorf("read formula catalog: %w", err)
 	}
 	if len(catalog) == 0 {
-		return fmt.Errorf("formula catalog is empty")
+		return nil, fmt.Errorf("formula catalog is empty")
 	}
 	loaded := make(map[string]CubeAlgorithms)
 	replaced := make(map[string]map[string]bool)
@@ -33,19 +50,19 @@ func Init(basePath string) error {
 	for _, entry := range catalog {
 		cube, ok := loaded[entry.Cube]
 		if !ok || entry.Name == "" || !filepath.IsLocal(entry.Path) {
-			return fmt.Errorf("invalid formula catalog entry: %q/%q", entry.Cube, entry.Name)
+			return nil, fmt.Errorf("invalid formula catalog entry: %q/%q", entry.Cube, entry.Name)
 		}
 		for _, name := range cube.ClassKeys {
 			if name == entry.Name {
-				return fmt.Errorf("duplicate formula class: %s/%s", entry.Cube, entry.Name)
+				return nil, fmt.Errorf("duplicate formula class: %s/%s", entry.Cube, entry.Name)
 			}
 		}
 		data, err := ReadTrainerFiles(filepath.Join(libraryPath, entry.Path))
 		if err != nil {
-			return fmt.Errorf("read %s/%s: %w", entry.Cube, entry.Name, err)
+			return nil, fmt.Errorf("read %s/%s: %w", entry.Cube, entry.Name, err)
 		}
 		if len(data.AlgsInfo) != entry.Cases || len(data.SetKeys) == 0 {
-			return fmt.Errorf("incomplete formula set: %s/%s", entry.Cube, entry.Name)
+			return nil, fmt.Errorf("incomplete formula set: %s/%s", entry.Cube, entry.Name)
 		}
 		cube.ClassKeys = append(cube.ClassKeys, entry.Name)
 		cube.ClassList = append(cube.ClassList, *fileAlgToAlgorithmClass(entry.Name, data))
@@ -62,21 +79,21 @@ func Init(basePath string) error {
 			if replaced[key][name] {
 				continue
 			}
-			data, err := ReadTrainerFiles(filepath.Join(basePath, trainer))
-			if err != nil {
+			trainerPath := filepath.Join(basePath, trainer)
+			// The legacy configuration also lists trainers that were never shipped.
+			if _, err := os.Stat(trainerPath); os.IsNotExist(err) {
 				continue
+			}
+			data, err := ReadTrainerFiles(trainerPath)
+			if err != nil {
+				return nil, fmt.Errorf("read %s: %w", trainer, err)
 			}
 			cube.ClassKeys = append(cube.ClassKeys, name)
 			cube.ClassList = append(cube.ClassList, *fileAlgToAlgorithmClass(name, data))
 		}
 		loaded[key] = cube
 	}
-	baseAlgs = loaded
-	return nil
-}
-
-func GetAlgorithms() map[string]CubeAlgorithms {
-	return baseAlgs
+	return loaded, nil
 }
 
 func bestScrambles(in []string) []string {
@@ -125,6 +142,7 @@ func fileAlgToAlgorithmClass(name string, fileAlg *AlgorithmConfigWithTrainer) *
 					continue
 				}
 				algorithm := Algorithm{
+					sourceKey: algKey,
 					Name:      fmt.Sprintf("%+v", alg.Name),
 					Algs:      alg.Algs,
 					Scrambles: bestScrambles(fileAlg.Scrambles[algKey]),

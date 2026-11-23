@@ -1,6 +1,6 @@
 # 公开配置与部署文件
 
-`server.yaml` 是可公开贡献的本地开发示例，不是完整业务环境，也不是生产配置。字段和行为见 [配置参考](../docs/configuration.md)，systemd 安装见 [部署说明](../docs/deployment.md)。
+`server.yaml` 是可公开贡献的本地开发示例，不是完整业务环境，也不是生产配置。字段和行为见 [配置参考](../docs/configuration.md)，systemd 安装见 [部署说明](../docs/deployment.md)，生产上线前的核对与材料准备见[后端上线须知与材料清单](../docs/production-go-live.md)。
 
 在仓库根目录执行：
 
@@ -33,5 +33,5 @@ service 未设置 `User`/`Group`，系统服务默认以 root 运行。使用普
 
 - 修改字段前同时核对 `src/configs/` 的 YAML 标签和实际消费者，补充配置参考及示例；仅声明字段不代表已经生效。
 - 不提交 token、密码、私人域名或生产路径。`local/` 已被忽略，但自选的配置路径不一定被忽略，提交前检查暂存区。
-- 新示例去掉了无效的 `global.xStaticPath`、`global.xFilePath`、`global.wca_db` 及 QQ 的 `group`、`appID`、`groupList`。迁移时按配置参考逐项调整私人副本，不要直接覆盖现有生产配置。
+- 新示例去掉了无效的 `global.xStaticPath`、`global.xFilePath`、`global.wca_db` 及 QQ 的 `group`、`appID`、`groupList`。`global.algPath` 同样没有消费者，公式库位置只由 `global.algTrainersPath` 控制。迁移时按配置参考逐项调整私人副本，不要直接覆盖现有生产配置。
 - `make config-test` 仅运行配置包测试，不承诺完整配置校验或业务可用性；运行应用前确认外部依赖和后台行为。不要用全量测试代替本地配置检查，部分包可能联网或依赖外部资源。

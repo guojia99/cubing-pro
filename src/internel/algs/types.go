@@ -2,14 +2,18 @@ package algs
 
 // Algorithm 单个公式
 type Algorithm struct {
-	Name      string   `json:"name"`
-	Algs      []string `json:"algs"`
-	Image     string   `json:"image"` // svg
-	Scrambles []string `json:"scrambles"`
+	sourceKey   string
+	CaseID      string    `json:"caseId"`
+	SolutionIDs []*string `json:"solutionIds"`
+	Name        string    `json:"name"`
+	Algs        []string  `json:"algs"`
+	Image       string    `json:"image"` // svg
+	Scrambles   []string  `json:"scrambles"`
 }
 
 // AlgorithmGroup 一个大类里面的分组, 如EG1-H
 type AlgorithmGroup struct {
+	GroupID    string      `json:"groupId"`
 	Name       string      `json:"name"`
 	Algorithms []Algorithm `json:"algs"`
 }

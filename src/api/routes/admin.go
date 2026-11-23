@@ -12,6 +12,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/organizers/org_mid"
 	"github.com/guojia99/cubing-pro/src/api/app/other_link"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
+	"github.com/guojia99/cubing-pro/src/api/app/siteannouncement"
 	systemResults "github.com/guojia99/cubing-pro/src/api/app/systemResult"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
@@ -81,6 +82,10 @@ func AdminRouters(router *gin.RouterGroup, svc *svc.Svc) {
 
 		systemResult.PUT("/acknowledgments", acknowledgments.SetAcknowledgments(svc)) // 赞助列表设置
 		systemResult.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
+
+		systemResult.GET("/site-announcement", siteannouncement.AdminGet(svc.DB))
+		systemResult.PUT("/site-announcement", siteannouncement.AdminPut(svc.DB))
+		systemResult.DELETE("/site-announcement", siteannouncement.AdminDelete(svc.DB))
 
 		systemResult.GET("/advertisements", advertisements.Get(svc.DB, false))
 		systemResult.PUT("/advertisements", advertisements.Put(svc.DB))

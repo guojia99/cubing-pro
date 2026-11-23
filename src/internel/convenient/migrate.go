@@ -5,6 +5,7 @@ import (
 	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/formula"
+	"github.com/guojia99/cubing-pro/src/internel/database/model/notification"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
 	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
@@ -24,12 +25,13 @@ func migrate(db *gorm.DB) {
 	_ = db.AutoMigrate(&user.UserKV{})     // 用户业务数据表
 
 	// 讨论表和通知表
-	_ = db.AutoMigrate(&post.Forum{})        // 板块表
-	_ = db.AutoMigrate(&post.Topic{})        // 主题表
-	_ = db.AutoMigrate(&post.Posts{})        // 回复表
-	_ = db.AutoMigrate(&post.Notification{}) // 通知表
-	_ = db.AutoMigrate(&post.AssPostsLike{}) // post 点赞
-	_ = db.AutoMigrate(&post.AssTopicLike{}) // 主题点赞
+	_ = db.AutoMigrate(&post.Forum{})                        // 板块表
+	_ = db.AutoMigrate(&post.Topic{})                        // 主题表
+	_ = db.AutoMigrate(&post.Posts{})                        // 回复表
+	_ = db.AutoMigrate(&post.Notification{})                 // 通知表
+	_ = db.AutoMigrate(&notification.SiteAnnouncementRead{}) // 公告阅读记录
+	_ = db.AutoMigrate(&post.AssPostsLike{})                 // post 点赞
+	_ = db.AutoMigrate(&post.AssTopicLike{})                 // 主题点赞
 
 	// 公式目录、讨论和通知表
 	_ = db.AutoMigrate(&formula.FormulaCatalogImport{})

@@ -10,13 +10,13 @@ type FormulaDiscussion struct {
 }
 
 type FormulaComment struct {
-	ID           uint   `gorm:"primaryKey"`
-	DiscussionID uint   `gorm:"not null;index:idx_formula_thread"`
-	AuthorID     uint   `gorm:"not null"`
-	ParentID     *uint  `gorm:"index"`
-	Body         string `gorm:"size:400;not null"`
-	CreatedAt    time.Time
-	DeletedAt    *time.Time
+	ID           uint       `gorm:"primaryKey"`
+	DiscussionID uint       `gorm:"not null;index:idx_formula_thread"`
+	AuthorID     uint       `gorm:"not null;index:idx_formula_author_activity,priority:1"`
+	ParentID     *uint      `gorm:"index"`
+	Body         string     `gorm:"size:400;not null"`
+	CreatedAt    time.Time  `gorm:"index:idx_formula_author_activity,priority:3"`
+	DeletedAt    *time.Time `gorm:"index:idx_formula_author_activity,priority:2"`
 }
 
 type FormulaReplyNotification struct {

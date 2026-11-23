@@ -4,7 +4,7 @@
 
 ## API 启动与首次导入
 
-共享服务通过 `convenient` 统一迁移 6 张目录表和 3 张论坛表；只有 `api.NewAPI` 引导公式目录数据导入，`gateway` 和 `robot` 不读取公式源文件。
+共享服务通过 `convenient` 统一迁移目录、论坛和通知阅读表；只有 `api.NewAPI` 引导公式目录数据导入，`gateway` 和 `robot` 不读取公式源文件。
 
 首次导入时，在 `api` 使用的 `server.yaml` 中设置 `global.algTrainersPath`，建议使用绝对路径：
 
@@ -33,6 +33,7 @@ global:
   - `formula_discussions`：`set_id` / `group_id` / `solution_id`（`varchar(32)` 唯一索引），数据库 `CHECK` 约束 `chk_formula_discussion_scope` 强制三者恰有一个非空。
   - `formula_comments`：支持 `parent_id` 一层或多层回复、`deleted_at` 软删除（存在活跃直接子回复时前端保留“已删占位”）。
   - `formula_reply_notifications`：回复非本人评论时在同一事务内写入通知，删除对应回复时一并清理关联通知。
+  - `site_announcement_reads`：按用户和公告 ID 保存统一通知中心的公告已读时间，公告编辑、撤回后重新发布沿用原 ID 和阅读状态。
 - **目录目标失效**：集合、分组或解法被删除、解法动作被清空时，公开计数与最近讨论隐藏该目标，读帖和发帖返回 404。管理列表和回复通知保留原目标的 `kind`、`id`，并返回 `target.unavailable: true`；列表总数和未读数照常统计，仍可删评或标记通知已读。
 - HTTP 接口（均挂在 `/v3/cube-api` 下，分页默认 `size=20`，最大 `100`）：
 
@@ -42,7 +43,11 @@ global:
 | 公开 | GET | `/public/formula-forum/targets/:kind/:targetId/comments` | 读取集合/分组/解法讨论，支持 `commentId` 居中定位与越界 `page` 收敛。指定评论已删除且不再可见时，仍按收敛后的页码打开讨论 |
 | 公开 | GET | `/public/formula-forum/recent` | 最近活跃讨论列表，返回 `lastCommentId` 便于直达最新评论 |
 | 登录用户 | POST | `/user/formula-forum/targets/:kind/:targetId/comments` | 发评/回复（1–400 字，屏蔽词返回 422 `keyword_blocked`）。每个 API 进程按用户 ID 限制所有目标合计每滚动 60 秒 10 次请求，超出返回 429；同 IP 的其他用户不共用额度 |
+| 登录用户 | GET | `/user/formula-forum/discussions` | 当前用户参与过的公式讨论，按集合、分组或解法去重，返回发言总数和最新活动 |
+| 登录用户 | GET | `/user/formula-forum/comments` | 当前用户未删除的公式评论和回复，返回所属公式及回复对象 |
 | 登录用户 | GET | `/user/formula-forum/notifications` | 「回复我的」通知列表与未读数 |
 | 登录用户 | PUT | `/user/formula-forum/notifications/:id/read` | 标记通知已读 |
+| 登录用户 | GET | `/user/notifications?page&size&type` | 统一通知列表；`type` 为 `all`、`formula-reply` 或 `site-announcement`，返回当前分类 `total` 和全部通知未读数 `unread` |
+| 登录用户 | PUT | `/user/notifications/:id/read` | 标记统一通知已读；ID 形如 `formula-reply:<id>` 或 `site-announcement:<公告ID>`，操作幂等并校验收件人或公告有效状态 |
 | 管理员 | GET | `/admin/formula-forum/comments` | 按时间倒序查看活跃发言 |
 | 管理员 | DELETE | `/admin/formula-forum/comments/:id` | 软删发言并清理通知及失去活跃子回复的已删祖先 |

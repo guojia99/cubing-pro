@@ -26,7 +26,7 @@ type content struct {
 	Text  string `json:"text"`
 }
 
-type announcement struct {
+type Announcement struct {
 	ID          string    `json:"id"`
 	Revision    string    `json:"revision"`
 	PublishedAt time.Time `json:"publishedAt"`
@@ -35,7 +35,7 @@ type announcement struct {
 
 type state struct {
 	Active bool `json:"active"`
-	announcement
+	Announcement
 }
 
 func read(db *gorm.DB) ([]state, error) {
@@ -62,19 +62,24 @@ func (input *content) normalize() error {
 func PublicGet(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Header("Cache-Control", "no-store")
-		records, err := read(db.WithContext(c.Request.Context()))
+		active, err := Active(db.WithContext(c.Request.Context()))
 		if err != nil {
 			exception.ErrDatabase.ResponseWithError(c, "读取网站公告失败")
 			return
 		}
-		active := make([]announcement, 0, len(records))
-		for _, entry := range records {
-			if entry.Active {
-				active = append(active, entry.announcement)
-			}
-		}
 		exception.ResponseOK(c, active)
 	}
+}
+
+func Active(db *gorm.DB) ([]Announcement, error) {
+	records, err := read(db)
+	active := make([]Announcement, 0, len(records))
+	for _, entry := range records {
+		if entry.Active {
+			active = append(active, entry.Announcement)
+		}
+	}
+	return active, err
 }
 
 func AdminGet(db *gorm.DB) gin.HandlerFunc {
@@ -138,7 +143,7 @@ func change(db *gorm.DB, id string, input *content) (state, error) {
 			if err != nil {
 				return err
 			}
-			current = state{Active: true, announcement: announcement{
+			current = state{Active: true, Announcement: Announcement{
 				ID: newID.String(), Revision: revision.String(), content: *input,
 				PublishedAt: time.Now().UTC(),
 			}}

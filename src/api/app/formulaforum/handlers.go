@@ -254,9 +254,7 @@ func Notifications(db *gorm.DB) gin.HandlerFunc {
 		if !bound(ctx, ctx.ShouldBindQuery(&req)) {
 			return
 		}
-		q := withCatalogOptional(db.WithContext(ctx.Request.Context()).Table("formula_reply_notifications n").
-			Joins("JOIN formula_comments c ON c.id = n.comment_id").Joins("JOIN formula_discussions d ON d.id = c.discussion_id").
-			Where("n.recipient_id = ?", user.ID))
+		q := ReplyNotificationQuery(db.WithContext(ctx.Request.Context()), user.ID)
 		var stats struct {
 			Total  int64
 			Unread int64
@@ -265,19 +263,8 @@ func Notifications(db *gorm.DB) gin.HandlerFunc {
 		if !success(ctx, err) {
 			return
 		}
-		items := []struct {
-			ID         uint       `json:"id"`
-			CommentID  uint       `json:"commentId"`
-			Target     Target     `json:"target" gorm:"embedded;embeddedPrefix:target_"`
-			AuthorName string     `json:"authorName"`
-			Body       string     `json:"body"`
-			CreatedAt  time.Time  `json:"createdAt"`
-			ReadAt     *time.Time `json:"readAt"`
-		}{}
 		req.clamp(stats.Total)
-		err = req.window(q).Joins("LEFT JOIN users a ON a.id = c.author_id").
-			Select(optionalTargetColumns + ", n.id, n.comment_id, n.read_at, c.created_at, c.body, COALESCE(a.name,'') AS author_name").
-			Order("n.id DESC").Scan(&items).Error
+		items, err := ReplyNotifications(req.window(q).Order("n.id DESC"))
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{"items": items, "total": stats.Total, "unread": stats.Unread, "page": req.Page})
 		}
@@ -294,15 +281,7 @@ func MarkRead(db *gorm.DB) gin.HandlerFunc {
 		if !bound(ctx, ctx.ShouldBindUri(&req)) {
 			return
 		}
-		var n model.FormulaReplyNotification
-		query := db.WithContext(ctx.Request.Context())
-		err = query.Where("id = ? AND recipient_id = ?", req.ID, user.ID).Take(&n).Error
-		if !success(ctx, err) {
-			return
-		}
-		if n.ReadAt == nil {
-			err = query.Model(&n).Where("read_at IS NULL").Update("read_at", time.Now()).Error
-		}
+		err = MarkReplyRead(db.WithContext(ctx.Request.Context()), user.ID, req.ID)
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{})
 		}

@@ -209,7 +209,7 @@ func AdminComments(db *gorm.DB) gin.HandlerFunc {
 		if !bound(ctx, ctx.ShouldBindQuery(&req)) {
 			return
 		}
-		q := withCatalog(db.WithContext(ctx.Request.Context()).Table("formula_comments c").
+		q := withCatalogOptional(db.WithContext(ctx.Request.Context()).Table("formula_comments c").
 			Joins("JOIN formula_discussions d ON d.id = c.discussion_id").Where("c.deleted_at IS NULL"))
 		var total int64
 		if !success(ctx, q.Session(&gorm.Session{}).Count(&total).Error) {
@@ -220,7 +220,7 @@ func AdminComments(db *gorm.DB) gin.HandlerFunc {
 			Target Target `json:"target" gorm:"embedded;embeddedPrefix:target_"`
 		}{}
 		req.clamp(total)
-		err := req.window(withAuthors(q)).Select(commentColumns + ", " + targetColumns).Order("c.id DESC").Scan(&items).Error
+		err := req.window(withAuthors(q)).Select(commentColumns + ", " + optionalTargetColumns).Order("c.id DESC").Scan(&items).Error
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{"items": items, "total": total, "page": req.Page})
 		}
@@ -249,7 +249,7 @@ func Notifications(db *gorm.DB) gin.HandlerFunc {
 		if !bound(ctx, ctx.ShouldBindQuery(&req)) {
 			return
 		}
-		q := withCatalog(db.WithContext(ctx.Request.Context()).Table("formula_reply_notifications n").
+		q := withCatalogOptional(db.WithContext(ctx.Request.Context()).Table("formula_reply_notifications n").
 			Joins("JOIN formula_comments c ON c.id = n.comment_id").Joins("JOIN formula_discussions d ON d.id = c.discussion_id").
 			Where("n.recipient_id = ?", user.ID))
 		var stats struct {
@@ -271,7 +271,7 @@ func Notifications(db *gorm.DB) gin.HandlerFunc {
 		}{}
 		req.clamp(stats.Total)
 		err = req.window(q).Joins("LEFT JOIN users a ON a.id = c.author_id").
-			Select(targetColumns + ", n.id, n.comment_id, n.read_at, c.created_at, c.body, COALESCE(a.name,'') AS author_name").
+			Select(optionalTargetColumns + ", n.id, n.comment_id, n.read_at, c.created_at, c.body, COALESCE(a.name,'') AS author_name").
 			Order("n.id DESC").Scan(&items).Error
 		if success(ctx, err) {
 			exception.ResponseOK(ctx, gin.H{"items": items, "total": stats.Total, "unread": stats.Unread, "page": req.Page})

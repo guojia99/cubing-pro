@@ -57,7 +57,7 @@ func NewAPISvc(file string, job bool, syncWca bool, scr bool) (*Svc, error) {
 		)
 	}
 
-	if err = algs.InitCatalog(c.DB, cfg.GlobalConfig.AlgTrainersPath); err != nil {
+	if err = algs.MigrateCatalog(c.DB); err != nil {
 		return nil, err
 	}
 
@@ -91,6 +91,9 @@ func newDB(cfg configs.GlobalConfig) (*gorm.DB, error) {
 	switch cfg.DB.Driver {
 	case "sqlite":
 		db, err = gorm.Open(sqlite.Open(cfg.DB.DSN), &gorm.Config{Logger: dbLog})
+		if err == nil {
+			err = db.Exec("PRAGMA busy_timeout = 5000").Error
+		}
 	case "mysql":
 		db, err = gorm.Open(
 			mysql.New(mysql.Config{DSN: cfg.DB.DSN}), &gorm.Config{

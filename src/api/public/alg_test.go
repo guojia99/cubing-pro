@@ -24,13 +24,22 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := algs.InitCatalog(db, filepath.Join("..", "..", "..", "build", "Alg-Trainers")); err != nil {
+	if err := algs.MigrateCatalog(db); err != nil {
 		t.Fatal(err)
 	}
 	service := &svc.Svc{DB: db, Cache: cache.New(cache.NoExpiration, 0)}
 	router := gin.New()
 	router.GET("/algorithm/", AlgorithmGroups(service))
 	router.GET("/algorithm/:cubeID/:classID", AlgorithmGroupsWithCube(service))
+	empty := httptest.NewRecorder()
+	router.ServeHTTP(empty, httptest.NewRequest(http.MethodGet, "/algorithm/", nil))
+	var initial AlgorithmGroupsResponse
+	if err := json.Unmarshal(empty.Body.Bytes(), &initial); err != nil || empty.Code != http.StatusOK || len(initial.ClassMap) != 0 {
+		t.Fatalf("expected empty initial overview: %d %s (%v)", empty.Code, empty.Body.String(), err)
+	}
+	if err := algs.InitCatalog(db, filepath.Join("..", "..", "..", "build", "Alg-Trainers")); err != nil {
+		t.Fatal(err)
+	}
 	response := httptest.NewRecorder()
 	router.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/algorithm/", nil))
 	if response.Code != http.StatusOK {

@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/guojia99/cubing-pro/src/api/app/formulaforum"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
@@ -16,7 +18,7 @@ func UserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	)
 
 	forum := userGroup.Group("/formula-forum")
-	forum.POST("/targets/:kind/:targetId/comments", formulaforum.Create(svc.DB))
+	forum.POST("/targets/:kind/:targetId/comments", formulaforum.CommentRateLimit(10, time.Minute), formulaforum.Create(svc.DB))
 	forum.GET("/notifications", formulaforum.Notifications(svc.DB))
 	forum.PUT("/notifications/:id/read", formulaforum.MarkRead(svc.DB))
 

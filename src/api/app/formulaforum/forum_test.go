@@ -8,8 +8,11 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"testing/synctest"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	forumapi "github.com/guojia99/cubing-pro/src/api/app/formulaforum"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
 	"github.com/guojia99/cubing-pro/src/api/routes"
 	"github.com/guojia99/cubing-pro/src/internel/algs"
@@ -72,9 +75,11 @@ func TestDiscussionLifecycle(t *testing.T) {
 	routes.UserRouters(api, s)
 	routes.AdminRouters(api, s)
 
+	clientAddr := "192.0.2.1:1234"
 	request := func(method, path, token, body string, want int) map[string]any {
 		t.Helper()
 		req := httptest.NewRequest(method, path, strings.NewReader(body))
+		req.RemoteAddr = clientAddr
 		req.Header.Set("Content-Type", "application/json")
 		if token != "" {
 			req.Header.Set("Authorization", "Bearer "+token)
@@ -132,7 +137,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 	}
 	request("POST", "/user"+sol, "", `{"body":"test"}`, 401)
 	request("GET", mod, bob, "", 401)
-	first := post(sol, alice, "第一条", 0)
+	first := post(sol, alice, "第一条🧩", 0)
 	other := post(grp, alice, "分组", 0)
 	request("POST", "/user"+sol, bob, fmt.Sprintf(`{"body":"wrong target","parentId":%d}`, other), 404)
 	blocked := request("POST", "/user"+sol, bob, fmt.Sprintf(`{"body":"刷单返利","parentId":%d}`, first), 422)
@@ -140,7 +145,8 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(blocked)
 	}
 	request("POST", "/user"+sol, bob, fmt.Sprintf(`{"body":%q}`, strings.Repeat("字", 401)), 422)
-	reply := post(sol, bob, strings.Repeat("妙", 400), first)
+	replyBody := strings.Repeat("妙", 399) + "🧩"
+	reply := post(sol, bob, replyBody, first)
 	self := post(sol, bob, "补充", reply)
 
 	items := func(data map[string]any) []any { return data["items"].([]any) }
@@ -150,7 +156,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(counts)
 	}
 	page := request("GET", fmt.Sprintf("/public%s?commentId=%d&size=1&page=99", sol, reply), "", "", 200)
-	if page["page"] != 2.0 || top(page)["replyToName"] != "Alice" || top(page)["id"] != float64(reply) {
+	if page["page"] != 2.0 || top(page)["replyToName"] != "Alice" || top(page)["id"] != float64(reply) || top(page)["body"] != replyBody {
 		t.Fatal(page)
 	}
 	page = request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, reply), "", "", 200)
@@ -158,7 +164,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(page)
 	}
 	notify := request("GET", notices, alice, "", 200)
-	if notify["unread"] != 1.0 || top(notify)["commentId"] != float64(reply) {
+	if notify["unread"] != 1.0 || top(notify)["commentId"] != float64(reply) || top(notify)["body"] != replyBody {
 		t.Fatal(notify)
 	}
 	if request("GET", notices, bob, "", 200)["total"] != 0.0 {
@@ -238,10 +244,22 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(view)
 	}
 
-	var last int
-	for i := 0; i < 20; i++ {
-		last = post(grp, bob, "跟帖", 0)
+	var discussion formulaforum.FormulaDiscussion
+	if err := db.Where("group_id = ?", group).Take(&discussion).Error; err != nil {
+		t.Fatal(err)
 	}
+	var author user.User
+	if err := db.Where("login_id = ?", "Bob").Take(&author).Error; err != nil {
+		t.Fatal(err)
+	}
+	seed := make([]formulaforum.FormulaComment, 19)
+	for i := range seed {
+		seed[i] = formulaforum.FormulaComment{DiscussionID: discussion.ID, AuthorID: author.ID, Body: "跟帖"}
+	}
+	if err := db.Create(&seed).Error; err != nil {
+		t.Fatal(err)
+	}
+	last := post(grp, bob, "跟帖", 0)
 	focused := request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, last), "", "", 200)
 	if focused["page"] != 2.0 || len(items(focused)) != 1 || top(focused)["id"] != float64(last) {
 		t.Fatal(focused)
@@ -250,23 +268,102 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(view)
 	}
 
+	clientAddr = "192.0.2.2:1234"
 	root := post(sol, alice, "测试解法", 0)
-	post(sol, bob, "测试回复", root)
+	replyID := post(sol, bob, "测试回复", root)
+	request("POST", "/user"+grp, bob, `{"body":"超出限额"}`, 429)
+	checkUnavailable := func(wantCase string) string {
+		t.Helper()
+		request("GET", "/public"+sol, "", "", 404)
+		request("POST", "/user"+sol, alice, `{"body":"失效解法"}`, 404)
+		if view := request("GET", countsURL, "", "", 200); len(view["solutions"].(map[string]any)) != 0 {
+			t.Fatal(view)
+		}
+		if view := request("GET", recent, "", "", 200); view["total"] != 1.0 || len(items(view)) != 1 || top(view)["target"].(map[string]any)["id"] != group {
+			t.Fatal(view)
+		}
+		comments := request("GET", mod+"?size=100", admin, "", 200)
+		if comments["total"] != 23.0 || len(items(comments)) != 23 || top(comments)["id"] != float64(replyID) {
+			t.Fatal(comments)
+		}
+		notification := request("GET", notices, alice, "", 200)
+		if notification["total"] != 1.0 || notification["unread"] != 1.0 || len(items(notification)) != 1 || top(notification)["commentId"] != float64(replyID) {
+			t.Fatal(notification)
+		}
+		for _, view := range []map[string]any{comments, notification} {
+			target := top(view)["target"].(map[string]any)
+			if target["unavailable"] != true || target["kind"] != "solution" || target["id"] != solution || target["caseName"] != wantCase || target["moves"] != "" {
+				t.Fatalf("target: %#v", target)
+			}
+		}
+		return fmt.Sprintf("%s/%.0f/read", notices, top(notification)["id"])
+	}
 	if err = db.Table("formula_solutions").Where("id = ?", solution).Update("moves", "").Error; err != nil {
 		t.Fatal(err)
 	}
-	request("GET", "/public"+sol, "", "", 404)
-	request("POST", "/user"+sol, bob, `{"body":"空槽位"}`, 404)
-	if view := request("GET", countsURL, "", "", 200); len(view["solutions"].(map[string]any)) != 0 {
+	checkUnavailable("OLL 45")
+	if err = db.Exec("DELETE FROM formula_solutions WHERE id = ?", solution).Error; err != nil {
+		t.Fatal(err)
+	}
+	request("PUT", checkUnavailable(""), alice, "", 200)
+	if view := request("GET", notices, alice, "", 200); view["total"] != 1.0 || view["unread"] != 0.0 || top(view)["readAt"] == nil {
 		t.Fatal(view)
 	}
-	if view := request("GET", recent, "", "", 200); view["total"] != 1.0 || len(items(view)) != 1 || top(view)["target"].(map[string]any)["id"] != group {
-		t.Fatal(view)
-	}
-	if view := request("GET", mod+"?size=100", admin, "", 200); view["total"] != 21.0 || len(items(view)) != 21 {
+	del(replyID)
+	if view := request("GET", mod, admin, "", 200); view["total"] != 22.0 || top(view)["id"] != float64(root) {
 		t.Fatal(view)
 	}
 	if view := request("GET", notices, alice, "", 200); view["total"] != 0.0 || view["unread"] != 0.0 || len(items(view)) != 0 {
 		t.Fatal(view)
 	}
+}
+
+func TestCommentRateLimit(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		router := gin.New()
+		var account user.User
+		account.ID = 1
+		router.POST("/comments", func(ctx *gin.Context) {
+			ctx.Set("authUserKey", account)
+		}, forumapi.CommentRateLimit(10, time.Minute), func(ctx *gin.Context) {
+			ctx.Status(201)
+		})
+		send := func() *httptest.ResponseRecorder {
+			resp := httptest.NewRecorder()
+			router.ServeHTTP(resp, httptest.NewRequest("POST", "/comments", nil))
+			return resp
+		}
+		post := func(want int) {
+			t.Helper()
+			resp := send()
+			if resp.Code != want || (want == 429 && !strings.Contains(resp.Body.String(), "发言过于频繁，请稍后再试")) {
+				t.Fatalf("user %d: got %d %s, want %d", account.ID, resp.Code, resp.Body.String(), want)
+			}
+		}
+		post(201)
+		time.Sleep(30 * time.Second)
+		for range 9 {
+			post(201)
+		}
+		post(429)
+		account.ID = 2
+		post(201)
+		account.ID = 1
+		time.Sleep(30 * time.Second)
+		post(201)
+		post(429)
+		time.Sleep(time.Minute)
+		codes := make(chan int, 20)
+		for range cap(codes) {
+			go func() { codes <- send().Code }()
+		}
+		statuses := map[int]int{}
+		for range cap(codes) {
+			statuses[<-codes]++
+		}
+		if statuses[201] != 10 || statuses[429] != 10 {
+			t.Fatalf("concurrent requests after expiry: %v", statuses)
+		}
+		post(429)
+	})
 }

@@ -64,7 +64,9 @@ FROM formula_classes cl ORDER BY cl.cube, cl.position`).Scan(&rows).Error
 		for _, row := range rows {
 			resp.ClassMap[row.Cube] = append(resp.ClassMap[row.Cube], outputClass{Name: row.Name, Alg: row.Alg, CaseCount: row.CaseCount})
 		}
-		svc.Cache.Set(catalogOverviewCache, resp, time.Minute)
+		if len(rows) > 0 {
+			svc.Cache.Set(catalogOverviewCache, resp, time.Minute)
+		}
 		ctx.JSON(http.StatusOK, resp)
 	}
 }

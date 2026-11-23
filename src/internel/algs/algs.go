@@ -9,12 +9,25 @@ import (
 )
 
 func loadStatic(basePath string) (map[string]CubeAlgorithms, error) {
+	basePath, err := filepath.Abs(basePath)
+	if err != nil {
+		return nil, fmt.Errorf("resolve trainer directory: %w", err)
+	}
+	catalogPath := filepath.Join(filepath.Dir(basePath), "Algs", "catalog.json")
+	loaded, err := readCatalogFiles(basePath, catalogPath)
+	if err != nil {
+		return nil, fmt.Errorf("load formulas (trainers: %s, catalog: %s): %w", basePath, catalogPath, err)
+	}
+	return loaded, nil
+}
+
+func readCatalogFiles(basePath, catalogPath string) (map[string]CubeAlgorithms, error) {
 	if info, err := os.Stat(basePath); err != nil {
 		return nil, fmt.Errorf("open trainer directory: %w", err)
 	} else if !info.IsDir() {
 		return nil, fmt.Errorf("trainer path is not a directory: %s", basePath)
 	}
-	libraryPath := filepath.Join(filepath.Dir(filepath.Clean(basePath)), "Algs")
+	libraryPath := filepath.Dir(catalogPath)
 	var catalog []struct {
 		Cube     string   `json:"cube"`
 		Name     string   `json:"name"`
@@ -22,7 +35,7 @@ func loadStatic(basePath string) (map[string]CubeAlgorithms, error) {
 		Replaces []string `json:"replaces"`
 		Cases    int      `json:"cases"`
 	}
-	if err := writeJsonToObj(filepath.Join(libraryPath, "catalog.json"), &catalog); err != nil {
+	if err := writeJsonToObj(catalogPath, &catalog); err != nil {
 		return nil, fmt.Errorf("read formula catalog: %w", err)
 	}
 	if len(catalog) == 0 {

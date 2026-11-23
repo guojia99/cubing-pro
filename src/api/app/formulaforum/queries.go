@@ -9,14 +9,15 @@ import (
 )
 
 type Target struct {
-	Kind      string `json:"kind"`
-	ID        string `json:"id"`
-	Cube      string `json:"cube"`
-	ClassName string `json:"className"`
-	SetName   string `json:"setName"`
-	GroupName string `json:"groupName"`
-	CaseName  string `json:"caseName"`
-	Moves     string `json:"moves"`
+	Kind        string `json:"kind"`
+	ID          string `json:"id"`
+	Cube        string `json:"cube"`
+	ClassName   string `json:"className"`
+	SetName     string `json:"setName"`
+	GroupName   string `json:"groupName"`
+	CaseName    string `json:"caseName"`
+	Moves       string `json:"moves"`
+	Unavailable bool   `json:"unavailable,omitempty"`
 }
 
 type targetKey struct {
@@ -32,9 +33,12 @@ func (k targetKey) discussion() model.FormulaDiscussion {
 }
 
 const targetColumns = `CASE WHEN d.solution_id IS NULL THEN 'group' ELSE 'solution' END AS target_kind,
-	COALESCE(d.solution_id, d.group_id) AS target_id, cl.cube AS target_cube, cl.name AS target_class_name,
-	st.name AS target_set_name, g.name AS target_group_name, COALESCE(ca.name, '') AS target_case_name,
+	COALESCE(d.solution_id, d.group_id) AS target_id, COALESCE(cl.cube, '') AS target_cube, COALESCE(cl.name, '') AS target_class_name,
+	COALESCE(st.name, '') AS target_set_name, COALESCE(g.name, '') AS target_group_name, COALESCE(ca.name, '') AS target_case_name,
 	COALESCE(s.moves, '') AS target_moves`
+
+const optionalTargetColumns = targetColumns + `, CASE WHEN g.id IS NULL OR
+	(d.solution_id IS NOT NULL AND (s.id IS NULL OR LENGTH(s.moves) = 0)) THEN 1 ELSE 0 END AS target_unavailable`
 
 func withCatalog(q *gorm.DB) *gorm.DB {
 	return q.Joins("LEFT JOIN formula_solutions s ON s.id = d.solution_id AND LENGTH(s.moves) > 0").
@@ -42,6 +46,14 @@ func withCatalog(q *gorm.DB) *gorm.DB {
 		Joins("JOIN formula_groups g ON g.id = COALESCE(d.group_id, ca.group_id)").
 		Joins("JOIN formula_sets st ON st.id = g.set_id").
 		Joins("JOIN formula_classes cl ON cl.id = st.class_id")
+}
+
+func withCatalogOptional(q *gorm.DB) *gorm.DB {
+	return q.Joins("LEFT JOIN formula_solutions s ON s.id = d.solution_id").
+		Joins("LEFT JOIN formula_cases ca ON ca.id = s.case_id").
+		Joins("LEFT JOIN formula_groups g ON g.id = COALESCE(d.group_id, ca.group_id)").
+		Joins("LEFT JOIN formula_sets st ON st.id = g.set_id").
+		Joins("LEFT JOIN formula_classes cl ON cl.id = st.class_id")
 }
 
 type targetRow struct {

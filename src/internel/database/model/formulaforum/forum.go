@@ -32,6 +32,9 @@ type FormulaReplyNotification struct {
 
 func Migrate(db *gorm.DB) error {
 	return database.WithMigrationLock(db, "cubing_pro_forum_migrate", func(conn *gorm.DB) error {
+		if conn.Dialector.Name() == "mysql" {
+			conn = conn.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")
+		}
 		return conn.AutoMigrate(&FormulaDiscussion{}, &FormulaComment{}, &FormulaReplyNotification{})
 	})
 }

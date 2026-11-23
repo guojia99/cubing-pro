@@ -18,6 +18,11 @@ robot:
 build_root:
 	go build -v -o cubing-pro main.go
 
+.PHONY: init_formulas
+FORMULAS_CONFIG ?= ./etc/server.yaml
+init_formulas:
+	go run main.go init formulas --config "$(FORMULAS_CONFIG)" --path "$(CURDIR)/build/Alg-Trainers"
+
 admin:
 	go run -v main.go admin --config ./local/server_local_dev.yaml
 

@@ -42,9 +42,8 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 	player := public.Group("/player") //middleware.CacheMiddleware(time.Minute),
 
 	{
-		player.Any("/", users.Users(svc, 100))            // 玩家列表
-		player.GET("/:cubeId", users.UserBaseResult(svc)) // 玩家基础信息
-		//player.GET("/player/:playerId/report/", result.PlayerTimeReports(svc)) // 报表
+		player.Any("/", users.Users(svc, 100))                    // 玩家列表
+		player.GET("/:cubeId", users.UserBaseResult(svc))         // 玩家基础信息
 		player.GET("/:cubeId/results", result.PlayerResults(svc)) // 玩家成绩汇总
 		player.GET("/:cubeId/nemesis", result.PlayerNemesis(svc)) // 宿敌列表
 		player.GET("/:cubeId/records", result.PlayerRecords(svc)) // 玩家记录

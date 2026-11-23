@@ -98,9 +98,7 @@ src/
 | 文件 | 作用 |
 |------|------|
 | `alg.go` | 公开算法库/Trainer 相关接口。 |
-| `events.go` | 公开项目/赛事事件列表等。 |
 | `user.go` | 公开用户信息片段。 |
-| `wca.go` | 公开 WCA 查询封装。 |
 
 ### `api/utils/`
 
@@ -122,7 +120,7 @@ src/
 | `other_link/` | 站点外链配置的读写与类型定义。 |
 | `pktimer/` | PK 计时相关 HTTP 接口。 |
 | `post/` | 论坛：板块、主题、帖子、封禁主题等。 |
-| `result/` | 玩家成绩、预录入成绩、导出、宿敌、SOR、时间报表等。 |
+| `result/` | 玩家成绩、预录入成绩、宿敌、SOR 等。 |
 | `sports/` | 扩展运动项目：事件与成绩的增删查。 |
 | `statics/` | 静态图片等资源接口（如 `Image.go`）。 |
 | `statistics/` | 榜单与统计：`best`、`records`、`kinch`、`sor`、`diy_rankings` 等。 |
@@ -153,7 +151,6 @@ GORM 模型定义，按业务域分子包；`base/base_model.go` 为公共字段
 
 | 子目录 | 作用 |
 |--------|------|
-| `algdb/` | 算法库配置模型。 |
 | `competition/` | 比赛、报名、分组、讨论等。 |
 | `crawler/` | 爬虫侧发邮件等模型。 |
 | `event/` | 项目定义、路线、对外 DTO（`out.go`）。 |
@@ -200,7 +197,7 @@ Trainer 算法集、表驱动与读取逻辑。
 | 文件 | 作用 |
 |------|------|
 | `algs.go` | 初始化与对外 API。 |
-| `consts.go` / `types.go` / `trainers_types.go` / `tables.go` | 常量、类型、Trainer 元数据与表。 |
+| `types.go` / `trainers_types.go` / `tables.go` | 类型、Trainer 元数据与表。 |
 | `trainer_reader.go` | 从磁盘读取 Trainer 数据。 |
 
 ### `internel/wca_api/`
@@ -293,7 +290,7 @@ Trainer 算法集、表驱动与读取逻辑。
 
 ## 与其他仓库路径的关系
 
-- 可执行入口在仓库根目录 `cubing-pro/main.go`，通过 `cmd/` 子命令启动 `api`、`robot`、`gateway` 等；**不在 `src/` 内**，但与 `src` 紧密配合。
+- 可执行入口在仓库根目录 `cubing-pro/main.go`；`cmd/` 保留 `api`、`admin`、`robot`、`gateway`，以及暂留的 `initer`（`init` 命令）和 `syncer_wca`（`sync_wca` 命令）。入口**不在 `src/` 内**，但与 `src` 紧密配合。
 - 公开配置示例在 `etc/`；`local/` 为忽略的私人配置目录，可由 `make init-config` 非覆盖创建。见[配置说明](../docs/configuration.md)。
 - `build/Algs/`、`build/Alg-Trainers/` 是公式资源；`build/` 仍承载运行数据，不能因维护工具迁出而整体删除。原始导入快照位于忽略的 `test/`，不随公开克隆提供。见[脚本说明](../scripts/README.md)。
 - CPU 负载实验入口为 [`tools/loadtest/main.go`](../tools/loadtest/main.go)，使用边界见[工具说明](../tools/README.md)；禁止作为默认测试或生产服务。

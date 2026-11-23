@@ -4,7 +4,6 @@ import (
 	"github.com/donnie4w/go-logger/logger"
 	"github.com/guojia99/cubing-pro/cmd/admin"
 	"github.com/guojia99/cubing-pro/cmd/gateway"
-	"github.com/guojia99/cubing-pro/cmd/group"
 	"github.com/guojia99/cubing-pro/cmd/initer"
 	"github.com/guojia99/cubing-pro/cmd/robot"
 	"github.com/guojia99/cubing-pro/cmd/syncer_wca"
@@ -45,8 +44,6 @@ func NewRootCmd() *cobra.Command {
 		admin.NewCmd(&s),
 		initer.NewCmd(&s),
 		gateway.NewCmd(&s),
-		group.AddGroupNewCmd(&s),
-		group.UpdateQQGroups(&s),
 		syncer_wca.NewStaticWCACmd(&s),
 	)
 	return cmd

@@ -67,9 +67,6 @@ func CompWithOrgRouters(router *gin.RouterGroup, svc *svc.Svc) {
 			compId.GET("/players", organizers2.CompPlayers(svc))                          // 比赛选手列表 包含需审核
 			compId.POST("/players/approval/:reg_id", organizers2.CompPlayerApproval(svc)) // 审核报名选手
 
-			//compId.POST("/players", organizers2.AddCompPlayer(svc))                       // 添加比赛选手
-			//compId.DELETE("/players", organizers2.DeleteCompPlayer(svc))                  // 移除比赛选手
-
 			compId.GET("/result", organizers2.GetCompResult(svc))
 			compId.POST("/result", organizers2.AddCompResult(svc))                                        // 录入比赛成绩
 			compId.DELETE("/result/:result_id", organizers2.DeleteCompResult(svc))                        // 删除比赛成绩
@@ -101,10 +98,9 @@ func CompWithUserRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		"/register",
 	)
 	{
-		registers.GET("/comps", comp.RegisterComps(svc))                     // 报名比赛列表
-		registers.POST("/comps/:compId/", comp.RegisterComp(svc))            // 报名比赛
-		registers.GET("/comps/:compId/detail", comp.RegisterCompDetail(svc)) // 报名详情
-		//registers.GET("/comps/:compId/progress", comp.RegisterProgress(svc))   // 报名比赛支付进度查询
+		registers.GET("/comps", comp.RegisterComps(svc))                       // 报名比赛列表
+		registers.POST("/comps/:compId/", comp.RegisterComp(svc))              // 报名比赛
+		registers.GET("/comps/:compId/detail", comp.RegisterCompDetail(svc))   // 报名详情
 		registers.PUT("/comps/:compId/add_events", comp.RegisterAddEvent(svc)) // 添加比赛项目
 		registers.POST("/comps/:compId/retire", comp.RegisterRetire(svc))      // 退赛
 	}

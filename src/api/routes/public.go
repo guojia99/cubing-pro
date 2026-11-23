@@ -13,7 +13,6 @@ import (
 	"github.com/guojia99/cubing-pro/src/api/app/pktimer"
 	posts "github.com/guojia99/cubing-pro/src/api/app/post"
 	"github.com/guojia99/cubing-pro/src/api/app/result"
-	"github.com/guojia99/cubing-pro/src/api/app/siteannouncement"
 	"github.com/guojia99/cubing-pro/src/api/app/statistics"
 	"github.com/guojia99/cubing-pro/src/api/app/users"
 	"github.com/guojia99/cubing-pro/src/api/middleware"
@@ -38,7 +37,6 @@ func PublicRouters(router *gin.RouterGroup, svc *svc.Svc) {
 		public.GET("/acknowledgments", acknowledgments.GetAcknowledgments(svc)) // 赞助列表
 		public.GET("/advertisements", advertisements.Get(svc.DB, true))
 		public.GET("/otherLinks", other_link.GetOtherLinks(svc)) // 外链列表
-		public.GET("/site-announcement", siteannouncement.PublicGet(svc.DB))
 	}
 
 	player := public.Group("/player") //middleware.CacheMiddleware(time.Minute),

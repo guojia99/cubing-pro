@@ -2,25 +2,12 @@ package convenient
 
 import (
 	"context"
-	"slices"
-	"strings"
 	"time"
 
 	"github.com/guojia99/cubing-pro/src/configs"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/interface"
 	"github.com/guojia99/cubing-pro/src/internel/convenient/job"
 	basemodel "github.com/guojia99/cubing-pro/src/internel/database/model/base"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/competition"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/crawler"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/event"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/pktimer"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/post"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/result"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/sports"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/system"
-	"github.com/guojia99/cubing-pro/src/internel/database/model/user"
-	wca_model "github.com/guojia99/cubing-pro/src/internel/database/model/wca"
-	"github.com/guojia99/cubing-pro/src/robot/qq_bot/Better-Bot-Go/log"
 	cache2 "github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
@@ -36,102 +23,11 @@ func Models() []interface{} {
 }
 
 func NewConvenient(db *gorm.DB, runJob bool, config configs.Config) ConvenientI {
-	//wcaClient := wca.NewWCA(
-	//	config.GlobalConfig.WcaDB.MysqlUrl,
-	//	config.GlobalConfig.WcaDB.DbPath,
-	//	config.GlobalConfig.WcaDB.SyncPath,
-	//	false,
-	//)
-
-	_ = db.AutoMigrate()
-	_ = db.AutoMigrate(&user.User{})       // 用户表
-	_ = db.AutoMigrate(&user.OAuthState{}) // OAuth state 表（WCA 登录防 CSRF）
-	_ = db.AutoMigrate(&user.CheckCode{})  // check code表
-	_ = db.AutoMigrate(&user.Organizers{}) // 主办表
-	_ = db.AutoMigrate(&user.UserKV{})     // 用户业务数据表
-
-	// 讨论表和通知表
-	_ = db.AutoMigrate(&post.Forum{})        // 板块表
-	_ = db.AutoMigrate(&post.Topic{})        // 主题表
-	_ = db.AutoMigrate(&post.Posts{})        // 恢复表
-	_ = db.AutoMigrate(&post.Notification{}) // 通知表
-	_ = db.AutoMigrate(&post.AssPostsLike{}) // post 点赞
-	_ = db.AutoMigrate(&post.AssTopicLike{}) // 主题点赞
-
-	//资源表
-	_ = db.AutoMigrate(&event.Event{})       // 项目表
-	_ = db.AutoMigrate(&result.Results{})    // 成绩表
-	_ = db.AutoMigrate(&result.PreResults{}) // 预录入表
-	_ = db.AutoMigrate(&result.Record{})     // 记录表
-
-	//比赛表
-	_ = db.AutoMigrate(&competition.Competition{})                 // 比赛表
-	_ = db.AutoMigrate(&competition.Registration{})                // 比赛注册表
-	_ = db.AutoMigrate(&competition.AssCompetitionSponsorsUsers{}) // 比赛相关主办代表关联表
-	_ = db.AutoMigrate(&competition.CompetitionGroup{})            // 比赛群组表
-
-	// 爬虫表
-	_ = db.AutoMigrate(&crawler.SendEmail{})
-
-	// 运动表
-	_ = db.AutoMigrate(&sports.SportEvent{})
-	_ = db.AutoMigrate(&sports.SportResult{})
-
-	// 系统
-	_ = db.AutoMigrate(&system.KeyValue{}) // 系统数据表
-	_ = db.AutoMigrate(&system.Image{})    // 系统图片表
-
-	// wca
-	_ = db.AutoMigrate(&wca_model.WCAResult{}) // wca 信息缓存表
-
-	_ = db.AutoMigrate(&pktimer.PkTimerResult{}) // pk表
+	migrate(db)
 
 	cache := cache2.New(time.Minute*5, time.Minute*5)
 
-	var baseJobs = []job.Job{
-		{JobI: &job.RecordUpdateJob{DB: db}, Time: time.Minute * 30},
-		//{JobI: &job.UpdateDiyRankings{DB: db, Wca: wcaClient}, Time: time.Minute * 15},
-		{JobI: &job.UpdateCubingChinaComps{DB: db}, Time: time.Hour * 24},
-	}
-
-	var runJobs []job.Job
-	for _, jb := range baseJobs {
-		if slices.Contains(config.Job.UnRunJobs, jb.Name()) {
-			continue
-		}
-		runJobs = append(runJobs, jb)
-		log.Infof("will run job %s", jb.Name())
-	}
-
-	if runJob {
-		for _, site := range config.Gateway.StaticSites {
-			if !site.AutoUpdate {
-				continue
-			}
-			if strings.TrimSpace(site.Root) == "" {
-				log.Errorf("StaticSiteAutoUpdate: skip site %q, root is empty", site.StableID())
-				continue
-			}
-			interval := strings.TrimSpace(site.AutoUpdateInterval)
-			d := 5 * time.Minute
-			if interval != "" {
-				if parsed, err := time.ParseDuration(interval); err != nil {
-					log.Errorf("StaticSiteAutoUpdate[%s]: invalid autoUpdateInterval %q, using default 5m: %v", site.StableID(), interval, err)
-				} else if parsed > 0 {
-					d = parsed
-				}
-			}
-			jobName := (&job.StaticSiteAutoUpdateJob{Site: site}).Name()
-			if slices.Contains(config.Job.UnRunJobs, jobName) {
-				continue
-			}
-			runJobs = append(runJobs, job.Job{
-				JobI: &job.StaticSiteAutoUpdateJob{Site: site},
-				Time: d,
-			})
-			log.Infof("will run job %s every %s", jobName, d)
-		}
-	}
+	runJobs := newJobs(db, runJob, config)
 
 	out := &convenient{
 		CompetitionIter: _interface.CompetitionIter{DB: db},

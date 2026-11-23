@@ -8,6 +8,11 @@ log:
 global:
   baseHost: "http://127.0.0.1:8080"
   debug: true
+  # 配置此路径且数据库尚未完成首次导入时，api 启动会自动导入公式；Alg-Trainers 同级须有 Algs/catalog.json。
+  # 留空或数据库已完成导入时，跳过公式源文件，直接使用数据库。
+  # algTrainersPath: "/srv/cubing/Alg-Trainers"
+  xStaticPath: "/x-static" # 后端资源文件
+  xFilePath: "/x-file" # 其他资源文件
   db:
     driver: "sqlite"
     dsn: "./cubingPro.db"

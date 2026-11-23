@@ -1,6 +1,41 @@
-# Cubing Pro
+<p align="center">
+  <img src="docs/assets/readme-banner.svg" alt="Cubing Pro 后端项目" width="100%" />
+</p>
 
-魔方赛事平台 Go 后端，包含 Gin HTTP API、静态站点与 API 网关、QQ/CQHTTP 机器人，以及赛事、成绩、公式库和 WCA 数据相关功能。前端构建产物与 tNoodle 服务需另行准备。
+<p align="center"><strong>中文</strong> · <a href="README.en.md">English</a></p>
+
+<p align="center">
+  <a href="https://github.com/guojia99/cubing-pro/stargazers"><img src="https://img.shields.io/github/stars/guojia99/cubing-pro?style=flat&amp;color=0891b2" alt="GitHub Stars" /></a>
+  <a href="https://github.com/guojia99/cubing-pro/network/members"><img src="https://img.shields.io/github/forks/guojia99/cubing-pro?style=flat&amp;color=0891b2" alt="GitHub Forks" /></a>
+  <a href="https://github.com/guojia99/cubing-pro/graphs/contributors"><img src="https://img.shields.io/github/contributors/guojia99/cubing-pro?style=flat&amp;color=0891b2" alt="贡献者数量" /></a>
+  <a href="https://github.com/guojia99/cubing-pro/commits"><img src="https://img.shields.io/github/last-commit/guojia99/cubing-pro?style=flat&amp;color=0891b2" alt="最近提交" /></a>
+  <a href="go.mod"><img src="https://img.shields.io/badge/Go-1.25%2B-00ADD8?logo=go&amp;logoColor=white" alt="Go 1.25 及以上" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-334155" alt="GNU GPLv3" /></a>
+</p>
+
+<p align="center">
+  <a href="https://cubing.pro"><strong>访问网站 ↗</strong></a> ·
+  <a href="#本地开始">快速开始</a> ·
+  <a href="#目录与文档">开发文档</a> ·
+  <a href="#contributors">贡献者</a> ·
+  <a href="https://github.com/guojia99/cubing-pro/issues">问题反馈</a>
+</p>
+
+---
+
+## 项目介绍
+
+**Cubing Pro** 是 [cubing.pro](https://cubing.pro) 的 Go 后端，包含 Gin HTTP API、静态站点与 API 网关、QQ / CQHTTP 机器人。网站前端在独立的 [cubing.pro 仓库](https://github.com/guojia99/cubing.pro)中维护。
+
+| 能力 | 可以做什么 |
+| --- | --- |
+| 🏁 赛事与成绩 | 支持比赛、报名、成绩录入、群比赛、排名与纪录 |
+| 🧩 公式与交流 | 提供公式目录、Trainer 数据与公式讨论接口 |
+| 🌍 WCA 数据 | 接入选手与成绩查询、统计、数据同步及 OAuth 登录 |
+| 🤖 机器人 | 将比赛、成绩、公式查询等能力接入 QQ / CQHTTP |
+| ⚡ API 与网关 | 提供统一的 `/v3/cube-api` 路由、静态站点与 HTTP / TLS 网关 |
+
+**技术栈**：Go · Gin · GORM · MySQL · Cobra。前端构建产物、tNoodle 和其他可选服务需按功能另行准备。
 
 ## 环境要求
 
@@ -41,6 +76,9 @@ make gateway CONFIG=local/server_local_dev.yaml
 
 ## 按需准备的依赖
 
+<details>
+<summary><strong>展开查看各功能所需的外部服务与数据</strong></summary>
+
 | 功能 | 需要准备 |
 | --- | --- |
 | tNoodle 打乱 | 外部 HTTP 服务；`global.scramble.endpoint` 应与其接口匹配，Go API 不负责启动该服务 |
@@ -51,6 +89,8 @@ make gateway CONFIG=local/server_local_dev.yaml
 | 公式库 | 配置 `global.algTrainersPath` 时会读取相邻的 `Algs/catalog.json` 和 Trainer 数据；来源与导入条件见[脚本说明](scripts/README.md) |
 | 网关静态站点 | 单独准备前端构建目录；HTTPS 需证书和私钥，见[部署指南](docs/deployment.md) |
 | QQ / CQHTTP 机器人 | 对应账号、凭据或 CQHTTP 服务，并显式启用配置项 |
+
+</details>
 
 禁用定时任务与 WCA 同步不代表进程完全离线：部分导入包的 `init()` 仍可能联网并写入缓存。
 
@@ -74,6 +114,46 @@ make gateway CONFIG=local/server_local_dev.yaml
 - [脚本说明](scripts/README.md)：条件迁移、数据导入与统计工具。
 - [开发工具](tools/README.md)、[后续维护事项](docs/maintenance.md)：独立实验工具及尚需单独处理的初始化、凭据和资源问题。
 - [WCA 登录前端对接](docs/WCA_LOGIN_FRONTEND_GUIDE.md)、[群比赛 API](docs/group-competition-api.md)。
+- [公式论坛](docs/formula-forum.md)、[更新记录](CHANGELOG.md)、[README 图表维护](docs/readme-widgets.md)。
+
+## Contributors
+
+感谢每一位让 Cubing Pro 变得更好的开发者。代码、文档、翻译、问题反馈与功能建议，都是对社区的贡献。
+
+<p align="center">
+  <a href="https://github.com/guojia99/cubing-pro/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=guojia99/cubing-pro" alt="Cubing Pro 代码贡献者头像墙，点击查看完整贡献记录" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/guojia99/cubing-pro/graphs/contributors">全部贡献者</a> ·
+  <a href="CONTRIBUTING.md">参与开发</a> ·
+  <a href="https://github.com/guojia99/cubing-pro/issues/new">提交 Issue</a> ·
+  <a href="https://github.com/guojia99/cubing-pro/pulls">查看 Pull Requests</a>
+</p>
+
+提交前请阅读[贡献指南](CONTRIBUTING.md)，按改动范围验证，并在 PR 中说明实际运行的检查。文档改动可核对链接、命令和 `git diff --check`；业务测试的数据库与外部副作用边界见[开发指南](docs/development.md)。
+
+## 开发活跃度
+
+<a href="https://github.com/guojia99/cubing-pro/graphs/commit-activity">
+  <img src="docs/assets/activity.svg" alt="Cubing Pro 最近 26 周仓库提交活跃曲线，包含提交数、作者数和活跃周数" width="100%" />
+</a>
+
+曲线来自**本仓库最近 26 周的提交记录**，按 UTC 自然周统计，排除合并提交和 README 图表机器人的提交。作者数按 Git mailmap 归一后的邮箱去重，与 GitHub 贡献者数量的统计口径不同；当前周可能尚未结束。图表由 GitHub Actions 每周更新，也可手动触发，见[图表维护说明](docs/readme-widgets.md)。
+
+### Star History
+
+<a href="https://www.star-history.com/#guojia99/cubing-pro&amp;Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=guojia99/cubing-pro&amp;type=Date&amp;theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=guojia99/cubing-pro&amp;type=Date" />
+    <img src="https://api.star-history.com/svg?repos=guojia99/cubing-pro&amp;type=Date" alt="Cubing Pro GitHub Star 数量历史曲线" width="100%" />
+  </picture>
+</a>
+
+头像墙、徽章与 Star 曲线由第三方服务提供；加载失败时，可直接查看 [GitHub 贡献者](https://github.com/guojia99/cubing-pro/graphs/contributors)、[提交活跃度](https://github.com/guojia99/cubing-pro/graphs/commit-activity)与 [Stars](https://github.com/guojia99/cubing-pro/stargazers)。仓库内置活跃图可独立显示。
 
 ## 第三方来源
 

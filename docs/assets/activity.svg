@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="396" viewBox="0 0 1120 396" role="img" aria-labelledby="title desc">
+  <title id="title">Cubing Pro · Repository activity</title>
+  <desc id="desc">33 non-merge commits by 4 authors across 8 active weeks, 2026-06-01 through 2026-11-23 UTC. README chart bot excluded. Current week may be incomplete.</desc>
+  <defs>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#22d3ee" stop-opacity=".28" />
+      <stop offset="1" stop-color="#22d3ee" stop-opacity=".02" />
+    </linearGradient>
+  </defs>
+  <style>
+    .bg { fill: #0d192b; }
+    .text { fill: #f1f5f9; }
+    .muted { fill: #94a3b8; }
+    .grid { stroke: #94a3b8; stroke-opacity: .17; }
+    .line { stroke: #22d3ee; }
+    .point { fill: #22d3ee; }
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f4f9fc; }
+      .text { fill: #0f172a; }
+      .muted { fill: #475569; }
+      .line { stroke: #0891b2; }
+      .point { fill: #0891b2; }
+    }
+  </style>
+  <rect class="bg" x=".5" y=".5" width="1119" height="395" rx="18" stroke="#94a3b8" stroke-opacity=".2" />
+  <text class="text" x="40" y="42" font-size="18" font-weight="700">Repository activity</text>
+  <text class="muted" x="1080" y="42" font-size="12" text-anchor="end">26 WEEKS / WEEKLY COMMITS</text>
+  <text class="text" x="40" y="104" font-size="36" font-weight="700">33</text>
+  <text class="muted" x="40" y="129" font-size="11" letter-spacing="1.4">COMMITS</text>
+  <text class="text" x="340" y="104" font-size="36" font-weight="700">4</text>
+  <text class="muted" x="340" y="129" font-size="11" letter-spacing="1.4">AUTHORS</text>
+  <text class="text" x="640" y="104" font-size="36" font-weight="700">8</text>
+  <text class="muted" x="640" y="129" font-size="11" letter-spacing="1.4">ACTIVE WEEKS</text>
+  <path class="grid" d="M60,320.0 H1060" />
+  <text class="muted" x="44" y="324.0" text-anchor="end" font-size="10">0</text>
+  <path class="grid" d="M60,286.0 H1060" />
+  <text class="muted" x="44" y="290.0" text-anchor="end" font-size="10">3</text>
+  <path class="grid" d="M60,252.0 H1060" />
+  <text class="muted" x="44" y="256.0" text-anchor="end" font-size="10">6</text>
+  <path class="grid" d="M60,218.0 H1060" />
+  <text class="muted" x="44" y="222.0" text-anchor="end" font-size="10">9</text>
+  <path class="grid" d="M60,184.0 H1060" />
+  <text class="muted" x="44" y="188.0" text-anchor="end" font-size="10">12</text>
+  <path d="M60.0,297.3 L100.0,308.7 L140.0,320.0 L180.0,286.0 L220.0,286.0 L260.0,286.0 L300.0,320.0 L340.0,320.0 L380.0,320.0 L420.0,320.0 L460.0,320.0 L500.0,320.0 L540.0,320.0 L580.0,320.0 L620.0,320.0 L660.0,320.0 L700.0,320.0 L740.0,320.0 L780.0,320.0 L820.0,320.0 L860.0,320.0 L900.0,320.0 L940.0,320.0 L980.0,308.7 L1020.0,218.0 L1060.0,195.3 L1060,320 L60,320 Z" fill="url(#area)" />
+  <path class="line" d="M60.0,297.3 L100.0,308.7 L140.0,320.0 L180.0,286.0 L220.0,286.0 L260.0,286.0 L300.0,320.0 L340.0,320.0 L380.0,320.0 L420.0,320.0 L460.0,320.0 L500.0,320.0 L540.0,320.0 L580.0,320.0 L620.0,320.0 L660.0,320.0 L700.0,320.0 L740.0,320.0 L780.0,320.0 L820.0,320.0 L860.0,320.0 L900.0,320.0 L940.0,320.0 L980.0,308.7 L1020.0,218.0 L1060.0,195.3" fill="none" stroke-width="2.5" stroke-linejoin="round" />
+  <circle class="point" cx="60.0" cy="297.3" r="3"><title>Week of 2026-06-01: 2 commits</title></circle>
+  <text class="muted" x="60.0" y="344" text-anchor="middle" font-size="11">Jun 01</text>
+  <circle class="point" cx="100.0" cy="308.7" r="3"><title>Week of 2026-06-08: 1 commits</title></circle>
+  <circle class="point" cx="140.0" cy="320.0" r="3"><title>Week of 2026-06-15: 0 commits</title></circle>
+  <circle class="point" cx="180.0" cy="286.0" r="3"><title>Week of 2026-06-22: 3 commits</title></circle>
+  <circle class="point" cx="220.0" cy="286.0" r="3"><title>Week of 2026-06-29: 3 commits</title></circle>
+  <circle class="point" cx="260.0" cy="286.0" r="3"><title>Week of 2026-07-06: 3 commits</title></circle>
+  <text class="muted" x="260.0" y="344" text-anchor="middle" font-size="11">Jul 06</text>
+  <circle class="point" cx="300.0" cy="320.0" r="3"><title>Week of 2026-07-13: 0 commits</title></circle>
+  <circle class="point" cx="340.0" cy="320.0" r="3"><title>Week of 2026-07-20: 0 commits</title></circle>
+  <circle class="point" cx="380.0" cy="320.0" r="3"><title>Week of 2026-07-27: 0 commits</title></circle>
+  <circle class="point" cx="420.0" cy="320.0" r="3"><title>Week of 2026-08-03: 0 commits</title></circle>
+  <circle class="point" cx="460.0" cy="320.0" r="3"><title>Week of 2026-08-10: 0 commits</title></circle>
+  <text class="muted" x="460.0" y="344" text-anchor="middle" font-size="11">Aug 10</text>
+  <circle class="point" cx="500.0" cy="320.0" r="3"><title>Week of 2026-08-17: 0 commits</title></circle>
+  <circle class="point" cx="540.0" cy="320.0" r="3"><title>Week of 2026-08-24: 0 commits</title></circle>
+  <circle class="point" cx="580.0" cy="320.0" r="3"><title>Week of 2026-08-31: 0 commits</title></circle>
+  <circle class="point" cx="620.0" cy="320.0" r="3"><title>Week of 2026-09-07: 0 commits</title></circle>
+  <circle class="point" cx="660.0" cy="320.0" r="3"><title>Week of 2026-09-14: 0 commits</title></circle>
+  <text class="muted" x="660.0" y="344" text-anchor="middle" font-size="11">Sep 14</text>
+  <circle class="point" cx="700.0" cy="320.0" r="3"><title>Week of 2026-09-21: 0 commits</title></circle>
+  <circle class="point" cx="740.0" cy="320.0" r="3"><title>Week of 2026-09-28: 0 commits</title></circle>
+  <circle class="point" cx="780.0" cy="320.0" r="3"><title>Week of 2026-10-05: 0 commits</title></circle>
+  <circle class="point" cx="820.0" cy="320.0" r="3"><title>Week of 2026-10-12: 0 commits</title></circle>
+  <circle class="point" cx="860.0" cy="320.0" r="3"><title>Week of 2026-10-19: 0 commits</title></circle>
+  <text class="muted" x="860.0" y="344" text-anchor="middle" font-size="11">Oct 19</text>
+  <circle class="point" cx="900.0" cy="320.0" r="3"><title>Week of 2026-10-26: 0 commits</title></circle>
+  <circle class="point" cx="940.0" cy="320.0" r="3"><title>Week of 2026-11-02: 0 commits</title></circle>
+  <circle class="point" cx="980.0" cy="308.7" r="3"><title>Week of 2026-11-09: 1 commits</title></circle>
+  <circle class="point" cx="1020.0" cy="218.0" r="3"><title>Week of 2026-11-16: 9 commits</title></circle>
+  <circle class="point" cx="1060.0" cy="195.3" r="3"><title>Week of 2026-11-23: 11 commits</title></circle>
+  <text class="muted" x="1060.0" y="344" text-anchor="middle" font-size="11">Nov 23</text>
+  <text class="muted" x="40" y="378" font-size="11">Non-merge commits · chart bot excluded · UTC · current week incomplete</text>
+  <text class="muted" x="1080" y="378" font-size="11" text-anchor="end">Updated 2026-11-23</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="360" viewBox="0 0 1120 360" role="img" aria-labelledby="title desc">
+  <title id="title">Cubing Pro</title>
+  <desc id="desc">Cubing Pro Go backend, illustrated with a cyan, blue, and amber cube.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#0b1225" />
+      <stop offset="1" stop-color="#122c46" />
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#22d3ee" stop-opacity=".18" />
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#7dd3fc" opacity=".12" />
+    </pattern>
+    <pattern id="top" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="2" y="2" width="28" height="28" rx="4" fill="#67e8f9" />
+    </pattern>
+    <pattern id="left" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="2" y="2" width="28" height="28" rx="4" fill="#38bdf8" />
+    </pattern>
+    <pattern id="right" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="2" y="2" width="28" height="28" rx="4" fill="#fbbf24" />
+    </pattern>
+  </defs>
+  <rect width="1120" height="360" rx="20" fill="url(#background)" />
+  <rect width="1120" height="360" rx="20" fill="url(#dots)" />
+  <ellipse cx="891" cy="172" rx="260" ry="220" fill="url(#glow)" />
+  <path d="M0 359H1120" stroke="#22d3ee" stroke-opacity=".3" />
+  <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">
+    <rect x="56" y="48" width="213" height="28" rx="14" fill="#22d3ee" fill-opacity=".1" stroke="#22d3ee" stroke-opacity=".25" />
+    <circle cx="73" cy="62" r="3" fill="#67e8f9" />
+    <text x="86" y="66" font-size="10" font-weight="700" letter-spacing="1.8" fill="#a5f3fc">OPEN SOURCE · CUBING</text>
+    <text x="53" y="157" font-size="72" font-weight="750" letter-spacing="-3" fill="#f8fafc">Cubing<tspan dx="14" fill="#67e8f9">Pro</tspan></text>
+    <text x="56" y="201" font-size="22" fill="#cbd5e1">Go backend for cubing.pro</text>
+    <text x="56" y="239" font-size="14" letter-spacing=".5" fill="#94a3b8">COMPETITIONS / RESULTS / ALGORITHMS / WCA</text>
+    <path d="M56 272H620" stroke="#94a3b8" stroke-opacity=".2" />
+    <text x="56" y="305" font-size="12" letter-spacing="1.2" fill="#94a3b8">GO / GIN / MYSQL</text>
+    <text x="514" y="305" font-size="14" fill="#67e8f9">cubing.pro ↗</text>
+  </g>
+  <g stroke="#0b1225" stroke-width="2" stroke-linejoin="round">
+    <rect width="96" height="96" rx="3" transform="matrix(1.05 -.58 1.05 .58 751 130)" fill="#0b1225" />
+    <rect width="96" height="96" transform="matrix(1.05 -.58 1.05 .58 751 130)" fill="url(#top)" stroke="none" />
+    <rect width="96" height="96" rx="3" transform="matrix(1.05 .58 0 1.18 751 130)" fill="#0b1225" />
+    <rect width="96" height="96" transform="matrix(1.05 .58 0 1.18 751 130)" fill="url(#left)" stroke="none" />
+    <rect width="96" height="96" rx="3" transform="matrix(1.05 -.58 0 1.18 851.8 185.68)" fill="#0b1225" />
+    <rect width="96" height="96" transform="matrix(1.05 -.58 0 1.18 851.8 185.68)" fill="url(#right)" stroke="none" />
+  </g>
+  <path d="M730 294L851 330L989 264" fill="none" stroke="#67e8f9" stroke-opacity=".2" stroke-dasharray="4 7" />
+  <circle cx="1003" cy="84" r="5" fill="#fbbf24" />
+  <path d="M711 92H727M719 84V100" stroke="#67e8f9" stroke-width="2" />
+</svg>

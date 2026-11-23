@@ -1,0 +1,41 @@
+name: Update README activity
+
+on:
+  schedule:
+    # Mondays at 02:17 UTC (10:17 Asia/Shanghai).
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: readme-activity
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'guojia99/cubing-pro'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Render repository activity
+        run: python scripts/update_readme_activity.py
+      - name: Commit updated chart
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/assets/activity.svg; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/assets/activity.svg
+          git commit -m 'docs: refresh README activity [skip ci]'
+          git push

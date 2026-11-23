@@ -161,7 +161,8 @@ func TestDiscussionLifecycle(t *testing.T) {
 		request("POST", "/user/formula-forum/targets/solution/"+invalid+"/comments", alice, `{"body":"test"}`, 400)
 	}
 	initial := request("GET", "/public"+sol+"?page=2", "", "", 200)
-	if initial["count"] != 0.0 || initial["page"] != 1.0 || initial["target"].(map[string]any)["caseName"] != "OLL 45" {
+	target := initial["target"].(map[string]any)
+	if initial["count"] != 0.0 || initial["page"] != 1.0 || target["caseName"] != "OLL 45" || target["setId"] != set {
 		t.Fatalf("initial solution: %#v", initial)
 	}
 	request("POST", "/user"+sol, "", `{"body":"test"}`, 401)
@@ -189,7 +190,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(page)
 	}
 	page = request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, reply), "", "", 200)
-	if page["page"] != 1.0 || page["total"] != 1.0 || top(page)["id"] != float64(other) {
+	if page["page"] != 1.0 || page["total"] != 1.0 || top(page)["id"] != float64(other) || page["target"].(map[string]any)["setId"] != set {
 		t.Fatal(page)
 	}
 	notify := request("GET", notices, alice, "", 200)

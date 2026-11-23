@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
@@ -59,11 +60,13 @@ func testDiscussionUpgrade(t *testing.T, db *gorm.DB) {
 	}
 	group, solution := "0123456789abcdef", "fedcba9876543210"
 	parent := uint(85)
+	archived := time.Date(2026, 1, 2, 3, 4, 5, 0, time.UTC)
 	for _, row := range []any{
 		&legacyDiscussion{ID: 37, GroupID: &group}, &legacyDiscussion{ID: 63, SolutionID: &solution},
+		&FormulaComment{ID: 71, DiscussionID: 37, AuthorID: 3, Body: "old group comment", DeletedAt: &archived},
 		&FormulaComment{ID: parent, DiscussionID: 63, AuthorID: 2, Body: "parent"},
 		&FormulaComment{ID: 91, DiscussionID: 63, AuthorID: 3, Body: "reply", ParentID: &parent},
-		&FormulaReplyNotification{ID: 105, RecipientID: 2, CommentID: 91},
+		&FormulaReplyNotification{ID: 105, RecipientID: 2, CommentID: 91, ReadAt: &archived},
 	} {
 		if err := db.Create(row).Error; err != nil {
 			t.Fatal(err)
@@ -83,8 +86,8 @@ func testDiscussionUpgrade(t *testing.T, db *gorm.DB) {
 	if err := Migrate(db); err != nil {
 		t.Fatal(err)
 	}
-	class := "aaaaaaaaaaaaaaaa"
-	added := FormulaDiscussion{ClassID: &class}
+	set := "aaaaaaaaaaaaaaaa"
+	added := FormulaDiscussion{SetID: &set}
 	if err := db.Create(&added).Error; err != nil {
 		t.Fatal(err)
 	}
@@ -104,9 +107,13 @@ func testDiscussionUpgrade(t *testing.T, db *gorm.DB) {
 		}
 	}
 	var count int
+	if err := db.Raw(`SELECT COUNT(*) FROM formula_comments WHERE id = 71 AND discussion_id = 37
+		AND body = 'old group comment' AND deleted_at = ?`, archived).Scan(&count).Error; err != nil || count != 1 {
+		t.Fatalf("legacy group comment: count=%d, error=%v", count, err)
+	}
 	err := db.Raw(`SELECT COUNT(*) FROM formula_reply_notifications n JOIN formula_comments c ON c.id = n.comment_id
 		JOIN formula_comments p ON p.id = c.parent_id WHERE n.id = 105 AND n.recipient_id = 2 AND c.id = 91 AND c.body = 'reply'
-		AND c.discussion_id = 63 AND p.id = 85 AND p.discussion_id = 63 AND p.body = 'parent'`).Scan(&count).Error
+		AND c.discussion_id = 63 AND p.id = 85 AND p.discussion_id = 63 AND p.body = 'parent' AND n.read_at = ?`, archived).Scan(&count).Error
 	if err != nil || count != 1 {
 		t.Fatalf("legacy reply and notification: count=%d, error=%v", count, err)
 	}
@@ -114,7 +121,7 @@ func testDiscussionUpgrade(t *testing.T, db *gorm.DB) {
 
 func assertThreeScopes(t *testing.T, db *gorm.DB) {
 	t.Helper()
-	const insert = `INSERT INTO formula_discussions(class_id,group_id,solution_id) VALUES(?,?,?)`
+	const insert = `INSERT INTO formula_discussions(set_id,group_id,solution_id) VALUES(?,?,?)`
 	const id = "bbbbbbbbbbbbbbbb"
 	for _, values := range [][]any{{nil, nil, nil}, {id, id, nil}, {id, nil, id}, {nil, id, id}, {id, id, id}} {
 		if err := db.Exec(insert, values...).Error; err == nil {

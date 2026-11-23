@@ -25,22 +25,30 @@ func Migrate(db *gorm.DB) error {
 			return nil
 		})
 	}
+	if db.Dialector.Name() == "mysql" && db.Migrator().HasConstraint(&FormulaDiscussion{}, legacyCheck) {
+		if !db.Migrator().HasColumn(&FormulaDiscussion{}, "SetID") {
+			if err := db.Exec("ALTER TABLE formula_discussions ADD COLUMN set_id varchar(32)").Error; err != nil {
+				return err
+			}
+		}
+		if err := db.Exec(`ALTER TABLE formula_discussions DROP CHECK ` + legacyCheck + `,
+			ADD CONSTRAINT chk_formula_discussion_scope CHECK ((set_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1) ENFORCED`).Error; err != nil {
+			return err
+		}
+	}
 	if err := db.AutoMigrate(tables...); err != nil {
 		return err
 	}
 	if db.Dialector.Name() == "mysql" {
-		var checks struct{ ScopeCount, LegacyCount int64 }
-		err := db.Raw(`SELECT COUNT(CASE WHEN tc.constraint_name = 'chk_formula_discussion_scope' AND tc.enforced = 'YES' THEN 1 END) AS scope_count,
-			COUNT(CASE WHEN tc.constraint_name = ? THEN 1 END) AS legacy_count FROM information_schema.table_constraints tc
-			WHERE tc.table_schema = DATABASE() AND tc.table_name = 'formula_discussions' AND tc.constraint_type = 'CHECK'`, legacyCheck).Scan(&checks).Error
+		var enforced int64
+		err := db.Raw(`SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE()
+			AND table_name = 'formula_discussions' AND constraint_type = 'CHECK'
+			AND constraint_name = 'chk_formula_discussion_scope' AND enforced = 'YES'`).Scan(&enforced).Error
 		if err != nil {
 			return fmt.Errorf("checking formula discussion constraint (requires MySQL 8.0.16+): %w", err)
 		}
-		if checks.ScopeCount != 1 {
+		if enforced != 1 {
 			return fmt.Errorf("formula discussion scope CHECK is not enforced")
-		}
-		if checks.LegacyCount != 0 {
-			return db.Exec("ALTER TABLE formula_discussions DROP CHECK " + legacyCheck).Error
 		}
 	}
 	return nil
@@ -57,8 +65,8 @@ func upgradeSQLite(tx *gorm.DB) error {
 	if err := tx.Raw(`SELECT seq FROM sqlite_sequence WHERE name = 'formula_discussions'`).Scan(&sequence).Error; err != nil {
 		return err
 	}
-	if err := tx.Exec(`ALTER TABLE formula_discussions ADD COLUMN class_id varchar(32)
-		CONSTRAINT chk_formula_discussion_scope CHECK ((class_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1)`).Error; err != nil {
+	if err := tx.Exec(`ALTER TABLE formula_discussions ADD COLUMN set_id varchar(32)
+		CONSTRAINT chk_formula_discussion_scope CHECK ((set_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1)`).Error; err != nil {
 		return err
 	}
 	if err := tx.Migrator().DropConstraint(&FormulaDiscussion{}, legacyCheck); err != nil {
@@ -72,5 +80,5 @@ func upgradeSQLite(tx *gorm.DB) error {
 	if err := tx.Exec(`UPDATE sqlite_sequence SET seq = ? WHERE name = 'formula_discussions' AND seq < ?`, sequence, sequence).Error; err != nil {
 		return err
 	}
-	return tx.Migrator().CreateIndex(&FormulaDiscussion{}, "ClassID")
+	return tx.Migrator().CreateIndex(&FormulaDiscussion{}, "SetID")
 }

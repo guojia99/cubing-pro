@@ -4,7 +4,7 @@ import "time"
 
 type FormulaDiscussion struct {
 	ID         uint    `gorm:"primaryKey"`
-	ClassID    *string `gorm:"type:varchar(32);uniqueIndex;check:chk_formula_discussion_scope,(class_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1"`
+	SetID      *string `gorm:"type:varchar(32);uniqueIndex;check:chk_formula_discussion_scope,(set_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1"`
 	GroupID    *string `gorm:"type:varchar(32);uniqueIndex"`
 	SolutionID *string `gorm:"type:varchar(32);uniqueIndex"`
 }

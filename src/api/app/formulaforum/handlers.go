@@ -68,37 +68,31 @@ func Counts(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		query := db.WithContext(ctx.Request.Context())
-		var classID string
-		err := query.Table(forumClassCatalog).Where("cl.cube = ? AND cl.name = ?", req.Cube, req.Class).Pluck("cl.id", &classID).Error
-		if !success(ctx, err) {
-			return
-		}
 		var rows []struct {
-			ClassID    *string
+			SetID      *string
 			GroupID    *string
 			SolutionID *string
 			Count      int64
 		}
 		q := query.Table("formula_discussions d").
 			Joins("JOIN formula_comments c ON c.discussion_id = d.id AND c.deleted_at IS NULL")
-		err = withCatalog(q).Select("d.class_id, d.group_id, d.solution_id, COUNT(*) AS count").
-			Where("cl.id = ?", classID).Group("d.class_id, d.group_id, d.solution_id").Scan(&rows).Error
+		err := withCatalog(q).Select("d.set_id, d.group_id, d.solution_id, COUNT(*) AS count").
+			Where("cl.cube = ? AND cl.name = ?", req.Cube, req.Class).Group("d.set_id, d.group_id, d.solution_id").Scan(&rows).Error
 		if !success(ctx, err) {
 			return
 		}
-		groups, solutions := map[string]int64{}, map[string]int64{}
-		var classCount int64
+		sets, groups, solutions := map[string]int64{}, map[string]int64{}, map[string]int64{}
 		for _, row := range rows {
 			switch {
-			case row.ClassID != nil:
-				classCount = row.Count
+			case row.SetID != nil:
+				sets[*row.SetID] = row.Count
 			case row.GroupID != nil:
 				groups[*row.GroupID] = row.Count
 			default:
 				solutions[*row.SolutionID] = row.Count
 			}
 		}
-		exception.ResponseOK(ctx, gin.H{"classId": classID, "classCount": classCount, "groups": groups, "solutions": solutions})
+		exception.ResponseOK(ctx, gin.H{"sets": sets, "groups": groups, "solutions": solutions})
 	}
 }
 

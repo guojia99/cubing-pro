@@ -13,6 +13,7 @@ type Target struct {
 	ID          string `json:"id"`
 	Cube        string `json:"cube"`
 	ClassName   string `json:"className"`
+	SetID       string `json:"setId"`
 	SetName     string `json:"setName"`
 	GroupName   string `json:"groupName"`
 	CaseName    string `json:"caseName"`
@@ -21,14 +22,14 @@ type Target struct {
 }
 
 type targetKey struct {
-	Kind string `uri:"kind" binding:"required,oneof=class group solution"`
+	Kind string `uri:"kind" binding:"required,oneof=set group solution"`
 	ID   string `uri:"targetId" binding:"required,len=16,hexadecimal,lowercase"`
 }
 
 func (k targetKey) discussion() model.FormulaDiscussion {
 	switch k.Kind {
-	case "class":
-		return model.FormulaDiscussion{ClassID: &k.ID}
+	case "set":
+		return model.FormulaDiscussion{SetID: &k.ID}
 	case "group":
 		return model.FormulaDiscussion{GroupID: &k.ID}
 	default:
@@ -36,25 +37,13 @@ func (k targetKey) discussion() model.FormulaDiscussion {
 	}
 }
 
-// The 2×2 CLL / EG shelf groups several real classes in the frontend.
-// Give that single shelf a stable, namespaced discussion ID without importing
-// a fake formula class or conflating it with EG1 or EG2.
-const egShelfDiscussionID = "99002fe6d40485ce"
-
-const forumClassCatalog = `(SELECT fc.id, fc.cube, fc.name FROM formula_classes fc
- UNION ALL
- SELECT '` + egShelfDiscussionID + `' , '222', 'EG'
- WHERE (SELECT COUNT(*) FROM formula_classes eg_part
-  WHERE eg_part.cube = '222' AND eg_part.name IN ('EG1', 'EG2')) = 2
- AND NOT EXISTS (SELECT 1 FROM formula_classes existing
-  WHERE existing.cube = '222' AND existing.name = 'EG')) cl`
-
-const targetColumns = `CASE WHEN d.class_id IS NOT NULL THEN 'class' WHEN d.group_id IS NOT NULL THEN 'group' ELSE 'solution' END AS target_kind,
-	COALESCE(d.class_id, d.group_id, d.solution_id) AS target_id, COALESCE(cl.cube, '') AS target_cube, COALESCE(cl.name, '') AS target_class_name,
+const targetColumns = `CASE WHEN d.set_id IS NOT NULL THEN 'set' WHEN d.group_id IS NOT NULL THEN 'group' ELSE 'solution' END AS target_kind,
+	COALESCE(d.set_id, d.group_id, d.solution_id) AS target_id, COALESCE(cl.cube, '') AS target_cube, COALESCE(cl.name, '') AS target_class_name,
+	COALESCE(d.set_id, st.id, '') AS target_set_id,
 	COALESCE(st.name, '') AS target_set_name, COALESCE(g.name, '') AS target_group_name, COALESCE(ca.name, '') AS target_case_name,
 	COALESCE(s.moves, '') AS target_moves`
 
-const optionalTargetColumns = targetColumns + `, CASE WHEN (d.class_id IS NOT NULL AND cl.id IS NULL) OR (d.class_id IS NULL AND g.id IS NULL) OR
+const optionalTargetColumns = targetColumns + `, CASE WHEN cl.id IS NULL OR
 	(d.solution_id IS NOT NULL AND (s.id IS NULL OR LENGTH(s.moves) = 0)) THEN 1 ELSE 0 END AS target_unavailable`
 
 func withCatalog(q *gorm.DB) *gorm.DB {
@@ -65,8 +54,8 @@ func withCatalogOptional(q *gorm.DB) *gorm.DB {
 	return q.Joins("LEFT JOIN formula_solutions s ON s.id = d.solution_id").
 		Joins("LEFT JOIN formula_cases ca ON ca.id = s.case_id").
 		Joins("LEFT JOIN formula_groups g ON g.id = COALESCE(d.group_id, ca.group_id)").
-		Joins("LEFT JOIN formula_sets st ON st.id = g.set_id").
-		Joins("LEFT JOIN " + forumClassCatalog + " ON cl.id = COALESCE(d.class_id, st.class_id)")
+		Joins("LEFT JOIN formula_sets st ON st.id = COALESCE(d.set_id, g.set_id)").
+		Joins("LEFT JOIN formula_classes cl ON cl.id = st.class_id")
 }
 
 type targetRow struct {
@@ -75,7 +64,7 @@ type targetRow struct {
 
 func loadTarget(db *gorm.DB, key targetKey) (Target, error) {
 	d := key.discussion()
-	q := db.Table("(SELECT ? AS class_id, ? AS group_id, ? AS solution_id) AS d", d.ClassID, d.GroupID, d.SolutionID)
+	q := db.Table("(SELECT ? AS set_id, ? AS group_id, ? AS solution_id) AS d", d.SetID, d.GroupID, d.SolutionID)
 	var row targetRow
 	result := withCatalog(q).Select(targetColumns).Scan(&row)
 	if result.Error == nil && result.RowsAffected == 0 {

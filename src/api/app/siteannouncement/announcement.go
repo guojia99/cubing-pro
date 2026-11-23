@@ -3,9 +3,8 @@ package siteannouncement
 import (
 	"encoding/json"
 	"errors"
-	"net/url"
 	"strings"
-	"unicode"
+	"time"
 	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
@@ -23,13 +22,14 @@ const storageKey = "cubing-pro-site-announcements"
 var errUnknownAnnouncement = errors.New("公告不存在")
 
 type content struct {
-	Text string `json:"text"`
-	Href string `json:"href"`
+	Title string `json:"title"`
+	Text  string `json:"text"`
 }
 
 type announcement struct {
-	ID       string `json:"id"`
-	Revision string `json:"revision"`
+	ID          string    `json:"id"`
+	Revision    string    `json:"revision"`
+	PublishedAt time.Time `json:"publishedAt"`
 	content
 }
 
@@ -48,33 +48,15 @@ func read(db *gorm.DB) ([]state, error) {
 }
 
 func (input *content) normalize() error {
+	input.Title = strings.TrimSpace(input.Title)
 	input.Text = strings.TrimSpace(input.Text)
-	input.Href = strings.TrimSpace(input.Href)
-	if n := utf8.RuneCountInString(input.Text); n < 1 || n > 300 {
-		return errors.New("公告正文须为 1 至 300 个字符")
+	if n := utf8.RuneCountInString(input.Title); n < 1 || n > 80 {
+		return errors.New("公告标题须为 1 至 80 个字符")
 	}
-	if !validLink(input.Href) {
-		return errors.New("详情链接须为站内绝对路径或 HTTPS 链接")
+	if n := utf8.RuneCountInString(input.Text); n < 1 || n > 1500 {
+		return errors.New("公告正文须为 1 至 1500 个字符")
 	}
 	return nil
-}
-
-func validLink(value string) bool {
-	if value == "" {
-		return true
-	}
-	u, err := url.Parse(value)
-	if err != nil {
-		return false
-	}
-	// Browsers normalize backslashes and control characters when resolving links.
-	if strings.Contains(value, `\`) || strings.ContainsFunc(value, unicode.IsControl) {
-		return false
-	}
-	if strings.HasPrefix(value, "/") {
-		return !strings.HasPrefix(value, "//") && u.Host == "" && u.Scheme == ""
-	}
-	return u.Scheme == "https" && u.Hostname() != "" && u.User == nil
 }
 
 func PublicGet(db *gorm.DB) gin.HandlerFunc {
@@ -158,6 +140,7 @@ func change(db *gorm.DB, id string, input *content) (state, error) {
 			}
 			current = state{Active: true, announcement: announcement{
 				ID: newID.String(), Revision: revision.String(), content: *input,
+				PublishedAt: time.Now().UTC(),
 			}}
 			records = append([]state{current}, records...)
 		} else {
@@ -188,6 +171,7 @@ func change(db *gorm.DB, id string, input *content) (state, error) {
 				current.content = *input
 			}
 			if republish {
+				current.PublishedAt = time.Now().UTC()
 				copy(records[1:i+1], records[:i])
 				records[0] = current
 			} else {

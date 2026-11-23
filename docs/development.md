@@ -32,6 +32,8 @@ make robot CONFIG=local/server_local_dev.yaml
 
 ## 实际启动链
 
+当前保留 `api`、`admin`、`robot`、`gateway` 四个正式命令，以及暂留的 `init`、`sync_wca` 运维命令。旧迁移程序与 `add-group`、`update-qq-group` 临时群组命令已移除；群组管理使用现有管理 API。
+
 1. `main.go` 调用 `cmd.NewRootCmd().Execute()`。导入包的 `init()` 会在 `main()` 前执行。
 2. `cmd/root.go` 的 `PersistentPreRunE` 调用 `svc.NewAPISvc(config, runJob, syncWca, runScramble)`。`--job/-j`、`--sync-wca/-w` 默认均为 `false`；打乱组件的内部开关当前为 `true`，没有开放对应命令行标志。
 3. `src/internel/svc/svc.go` 加载 YAML、创建内存缓存，通过同包 `database.go` 的 `newDB` 连接业务 SQLite/MySQL，然后构造打乱组件。

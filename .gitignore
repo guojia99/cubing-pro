@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-./temp
+/temp/
 # Test binary, built with `go test -c`
 *.test
 
@@ -15,28 +15,33 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-vendor/
+/vendor/
 
 # Go workspace file
 go.work
 
 back.sql
 
-cubingPro.db
-cubing-pro
-.idea/
-static
-assets
+/cubingPro.db
+/cubingPro.db-shm
+/cubingPro.db-wal
+/cubing-pro
+/.idea/
+/static/
+/assets/
 
 ./etc/曹神/
 *曹神*
 
-local/server_local.yaml
-local
-logs
+/local/
+/logs/
 *.prun
 wca_seniors_cache.json
 
-log
-./build/Alg-Trainers
-test/
+/log/
+/test/
+
+# Python maintenance tools; keep runtime formula data in build/ tracked.
+__pycache__/
+*.pyc
+/wca_dbs/

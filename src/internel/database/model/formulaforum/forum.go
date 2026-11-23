@@ -1,14 +1,11 @@
 package formulaforum
 
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
+import "time"
 
 type FormulaDiscussion struct {
 	ID         uint    `gorm:"primaryKey"`
-	GroupID    *string `gorm:"type:varchar(32);uniqueIndex;check:chk_formula_discussion_target,(group_id IS NULL) <> (solution_id IS NULL)"`
+	SetID      *string `gorm:"type:varchar(32);uniqueIndex;check:chk_formula_discussion_scope,(set_id IS NOT NULL) + (group_id IS NOT NULL) + (solution_id IS NOT NULL) = 1"`
+	GroupID    *string `gorm:"type:varchar(32);uniqueIndex"`
 	SolutionID *string `gorm:"type:varchar(32);uniqueIndex"`
 }
 
@@ -27,8 +24,4 @@ type FormulaReplyNotification struct {
 	RecipientID uint `gorm:"not null;index"`
 	CommentID   uint `gorm:"not null;uniqueIndex"`
 	ReadAt      *time.Time
-}
-
-func Migrate(db *gorm.DB) error {
-	return db.AutoMigrate(&FormulaDiscussion{}, &FormulaComment{}, &FormulaReplyNotification{})
 }

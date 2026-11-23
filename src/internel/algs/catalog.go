@@ -118,6 +118,7 @@ func importClass(tx *gorm.DB, cube string, position int, class AlgorithmClass) e
 	var solutions []formulaSolution
 	for si, set := range class.Sets {
 		setID := catalogID(row.ID, set.Name)
+		class.Sets[si].SetID = setID
 		sets = append(sets, formulaSet{ID: setID, ClassID: row.ID, Name: set.Name, Position: si})
 		for gi := range set.AlgorithmGroups {
 			group := &set.AlgorithmGroups[gi]
@@ -210,7 +211,7 @@ func ReadClass(db *gorm.DB, cube, class string) (*AlgorithmClass, error) {
 	}
 	result := &AlgorithmClass{Name: row.Name, Sets: []AlgorithmSet{}, SetKeys: []string{}}
 	for _, set := range row.Sets {
-		s := AlgorithmSet{Name: set.Name, AlgorithmGroups: []AlgorithmGroup{}, GroupsKeys: []string{}}
+		s := AlgorithmSet{SetID: set.ID, Name: set.Name, AlgorithmGroups: []AlgorithmGroup{}, GroupsKeys: []string{}}
 		for _, group := range set.Groups {
 			g := AlgorithmGroup{GroupID: group.ID, Name: group.Name, Algorithms: []Algorithm{}}
 			for _, c := range group.Cases {

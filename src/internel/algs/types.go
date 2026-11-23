@@ -20,6 +20,7 @@ type AlgorithmGroup struct {
 
 // AlgorithmSet 一个汇总的大类 如EG1, LEG
 type AlgorithmSet struct {
+	SetID           string           `json:"setId"`
 	Name            string           `json:"name"`
 	AlgorithmGroups []AlgorithmGroup `json:"groups"`
 	GroupsKeys      []string         `json:"groups_keys"`

@@ -128,6 +128,14 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 			if detail.Name != tt.name || countClassCases(detail.AlgorithmClass) != tt.cases {
 				t.Errorf("unexpected detail name or case count for %s", tt.name)
 			}
+			setIDs := map[string]bool{}
+			for _, set := range detail.Sets {
+				raw, err := hex.DecodeString(set.SetID)
+				if err != nil || len(raw) != 8 || hex.EncodeToString(raw) != set.SetID || setIDs[set.SetID] {
+					t.Fatalf("invalid or duplicate setId %q in %s", set.SetID, tt.name)
+				}
+				setIDs[set.SetID] = true
+			}
 			if tt.cube == "sq1" && tt.name == "EP" {
 				first := detail.Sets[0].AlgorithmGroups[0].Algorithms[0]
 				if first.Name != "Solved / Solved" || len(first.Algs) != 0 {
@@ -136,6 +144,26 @@ func TestSyncedAlgorithmEndpoints(t *testing.T) {
 			}
 		})
 	}
+	t.Run("detail exposes imported set IDs", func(t *testing.T) {
+		var ids []string
+		err := db.Table("formula_sets st").Joins("JOIN formula_classes cl ON cl.id = st.class_id").
+			Where("cl.cube = ? AND cl.name = ?", "333oh", "ZBLL").Order("st.position").Pluck("st.id", &ids).Error
+		if err != nil || len(ids) < 2 {
+			t.Fatalf("imported ZBLL sets: %v, error: %v", ids, err)
+		}
+		response := httptest.NewRecorder()
+		router.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/algorithm/333oh/ZBLL", nil))
+		var detail struct{ Sets []map[string]json.RawMessage }
+		if err := json.Unmarshal(response.Body.Bytes(), &detail); err != nil || response.Code != http.StatusOK || len(detail.Sets) != len(ids) {
+			t.Fatalf("detail status=%d sets=%d error=%v", response.Code, len(detail.Sets), err)
+		}
+		for i, set := range detail.Sets {
+			var id string
+			if err := json.Unmarshal(set["setId"], &id); err != nil || id != ids[i] {
+				t.Fatalf("sets[%d].setId = %q, want %q, error: %v", i, id, ids[i], err)
+			}
+		}
+	})
 	t.Run("solution rows retain IDs across reordering and detail cache hits", func(t *testing.T) {
 		detail := func(path string) algs.AlgorithmClass {
 			t.Helper()

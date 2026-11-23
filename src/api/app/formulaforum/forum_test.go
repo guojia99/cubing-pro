@@ -23,12 +23,32 @@ import (
 	"gorm.io/gorm"
 )
 
-func TestDiscussionLifecycle(t *testing.T) {
-	t.Cleanup(func() {
-		if err := os.Remove("wca_seniors_cache.json"); err != nil && !os.IsNotExist(err) {
-			t.Error(err)
-		}
-	})
+const (
+	class    = "abcdef1234567890"
+	set      = "2222222222222222"
+	group    = "3333333333333333"
+	solution = "aaaaaaaaaaaaaaaa"
+	sol      = "/formula-forum/targets/solution/" + solution + "/comments"
+	grp      = "/formula-forum/targets/group/" + group + "/comments"
+	notices  = "/user/formula-forum/notifications"
+	mod      = "/admin/formula-forum/comments"
+	recent   = "/public/formula-forum/recent"
+)
+
+type forumFixture struct {
+	db                *gorm.DB
+	clientAddr        string
+	alice, bob, admin string
+	request           func(method, path, token, body string, want int) map[string]any
+	post              func(target, token, body string, parent int) int
+}
+
+// The production auth middleware initializes once per process. Keep a shared
+// service pointer, and replace its DB between these non-parallel route tests.
+var forumTestService svc.Svc
+
+func newForumFixture(t *testing.T, cube, className, setName, groupName, caseName string) *forumFixture {
+	t.Helper()
 	db, err := gorm.Open(sqlite.Open(filepath.Join(t.TempDir(), "forum.db")), &gorm.Config{})
 	if err != nil {
 		t.Fatal(err)
@@ -48,26 +68,27 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	class, set := strings.Repeat("1", 16), strings.Repeat("2", 16)
-	group, caseID, solution := strings.Repeat("3", 16), strings.Repeat("4", 16), strings.Repeat("a", 16)
+	const caseID = "4444444444444444"
 	for _, row := range []struct {
 		table  string
 		values map[string]any
 	}{
-		{"formula_classes", map[string]any{"id": class, "cube": "333", "name": "OLL", "position": 0}},
-		{"formula_sets", map[string]any{"id": set, "class_id": class, "name": "OLL", "position": 0}},
-		{"formula_groups", map[string]any{"id": group, "set_id": set, "name": "T [2]", "position": 0}},
-		{"formula_cases", map[string]any{"id": caseID, "group_id": group, "name": "OLL 45", "position": 0}},
+		{"formula_classes", map[string]any{"id": class, "cube": cube, "name": className, "position": 0}},
+		{"formula_sets", map[string]any{"id": set, "class_id": class, "name": setName, "position": 0}},
+		{"formula_groups", map[string]any{"id": group, "set_id": set, "name": groupName, "position": 0}},
+		{"formula_cases", map[string]any{"id": caseID, "group_id": group, "name": caseName, "position": 0}},
 		{"formula_solutions", map[string]any{"id": solution, "case_id": caseID, "position": 0, "moves": "F (R U R' U') F'"}},
 	} {
 		if err = db.Table(row.table).Create(row.values).Error; err != nil {
 			t.Fatal(err)
 		}
 	}
-	s := &svc.Svc{DB: db}
+	s := &forumTestService
+	s.DB = db
 	s.Cfg.GlobalConfig.Debug = true
 	middleware.InitJWT(s)
 	middleware.InitCheckAuth(s)
+	middleware.ClearCheckAuth()
 	router := gin.New()
 	api := router.Group("")
 	routes.AuthRouters(api, s)
@@ -75,11 +96,11 @@ func TestDiscussionLifecycle(t *testing.T) {
 	routes.UserRouters(api, s)
 	routes.AdminRouters(api, s)
 
-	clientAddr := "192.0.2.1:1234"
+	fixture := &forumFixture{db: db, clientAddr: "192.0.2.1:1234"}
 	request := func(method, path, token, body string, want int) map[string]any {
 		t.Helper()
 		req := httptest.NewRequest(method, path, strings.NewReader(body))
-		req.RemoteAddr = clientAddr
+		req.RemoteAddr = fixture.clientAddr
 		req.Header.Set("Content-Type", "application/json")
 		if token != "" {
 			req.Header.Set("Authorization", "Bearer "+token)
@@ -106,16 +127,11 @@ func TestDiscussionLifecycle(t *testing.T) {
 		}
 		return request("POST", "/auth/login", "", fmt.Sprintf(`{"loginID":%q,"password":"test-pass"}`, name), 200)["token"].(string)
 	}
-	alice := login("Alice", user.AuthPlayer)
-	bob := login("Bob", user.AuthPlayer)
-	admin := login("Mod", user.AuthAdmin|user.AuthPlayer)
-	sol := "/formula-forum/targets/solution/" + solution + "/comments"
-	grp := "/formula-forum/targets/group/" + group + "/comments"
-	countsURL := "/public/formula-forum/counts?cube=333&class=OLL"
-	notices := "/user/formula-forum/notifications"
-	mod := "/admin/formula-forum/comments"
-	recent := "/public/formula-forum/recent"
-	post := func(target, token, body string, parent int) int {
+	fixture.alice = login("Alice", user.AuthPlayer)
+	fixture.bob = login("Bob", user.AuthPlayer)
+	fixture.admin = login("Mod", user.AuthAdmin|user.AuthPlayer)
+	fixture.request = request
+	fixture.post = func(target, token, body string, parent int) int {
 		t.Helper()
 		args := map[string]any{"body": body}
 		if parent > 0 {
@@ -127,12 +143,26 @@ func TestDiscussionLifecycle(t *testing.T) {
 		}
 		return int(request("POST", "/user"+target, token, string(b), 200)["id"].(float64))
 	}
+	return fixture
+}
+
+func TestDiscussionLifecycle(t *testing.T) {
+	t.Cleanup(func() {
+		if err := os.Remove("wca_seniors_cache.json"); err != nil && !os.IsNotExist(err) {
+			t.Error(err)
+		}
+	})
+	forum := newForumFixture(t, "333", "OLL", "OLL", "T [2]", "OLL 45")
+	db, request, post := forum.db, forum.request, forum.post
+	alice, bob, admin := forum.alice, forum.bob, forum.admin
+	countsURL := "/public/formula-forum/counts?cube=333&class=OLL"
 
 	for _, invalid := range []string{strings.Repeat(solution, 4), strings.ToUpper(solution), "g" + solution[1:]} {
 		request("POST", "/user/formula-forum/targets/solution/"+invalid+"/comments", alice, `{"body":"test"}`, 400)
 	}
 	initial := request("GET", "/public"+sol+"?page=2", "", "", 200)
-	if initial["count"] != 0.0 || initial["page"] != 1.0 || initial["target"].(map[string]any)["caseName"] != "OLL 45" {
+	target := initial["target"].(map[string]any)
+	if initial["count"] != 0.0 || initial["page"] != 1.0 || target["caseName"] != "OLL 45" || target["setId"] != set {
 		t.Fatalf("initial solution: %#v", initial)
 	}
 	request("POST", "/user"+sol, "", `{"body":"test"}`, 401)
@@ -160,7 +190,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(page)
 	}
 	page = request("GET", fmt.Sprintf("/public%s?commentId=%d", grp, reply), "", "", 200)
-	if page["page"] != 1.0 || page["total"] != 1.0 || top(page)["id"] != float64(other) {
+	if page["page"] != 1.0 || page["total"] != 1.0 || top(page)["id"] != float64(other) || page["target"].(map[string]any)["setId"] != set {
 		t.Fatal(page)
 	}
 	notify := request("GET", notices, alice, "", 200)
@@ -268,7 +298,7 @@ func TestDiscussionLifecycle(t *testing.T) {
 		t.Fatal(view)
 	}
 
-	clientAddr = "192.0.2.2:1234"
+	forum.clientAddr = "192.0.2.2:1234"
 	root := post(sol, alice, "测试解法", 0)
 	replyID := post(sol, bob, "测试回复", root)
 	request("POST", "/user"+grp, bob, `{"body":"超出限额"}`, 429)
@@ -298,11 +328,11 @@ func TestDiscussionLifecycle(t *testing.T) {
 		}
 		return fmt.Sprintf("%s/%.0f/read", notices, top(notification)["id"])
 	}
-	if err = db.Table("formula_solutions").Where("id = ?", solution).Update("moves", "").Error; err != nil {
+	if err := db.Table("formula_solutions").Where("id = ?", solution).Update("moves", "").Error; err != nil {
 		t.Fatal(err)
 	}
 	checkUnavailable("OLL 45")
-	if err = db.Exec("DELETE FROM formula_solutions WHERE id = ?", solution).Error; err != nil {
+	if err := db.Exec("DELETE FROM formula_solutions WHERE id = ?", solution).Error; err != nil {
 		t.Fatal(err)
 	}
 	request("PUT", checkUnavailable(""), alice, "", 200)
